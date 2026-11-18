@@ -1,0 +1,2 @@
+# Optional: only for the Streamlit UI. The core system has no third-party deps.
+streamlit>=1.30

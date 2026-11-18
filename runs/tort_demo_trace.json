@@ -1,0 +1,955 @@
+{
+  "title": "tort_demo",
+  "meta": {
+    "corpus_version": "0c565df2aa6e5b36",
+    "llm": "mock",
+    "session": "demo-case-tort_demo-1795001193",
+    "today": "2026-11-18"
+  },
+  "turns": [
+    {
+      "turn": 1,
+      "status": "asked",
+      "reply": "已记录：事故发生日期＝2022-03-01；事故责任划分＝对方主要责任；伤情与伤残等级＝死亡。\n\n在判断责任和赔偿范围之前，我需要先确认几个会直接影响适用标准的事实。\n\n1. 受害人的户籍是城镇还是农村？事故前连续在城镇居住、工作满一年了吗？\n   （为什么问：2022-05-01前残疾/死亡赔偿金区分城乡标准，之后统一按城镇居民标准）\n\n您可以直接用大白话回答，不用管法律术语。",
+      "questions": [
+        {
+          "key": "residence",
+          "label": "户籍/经常居住地",
+          "question": "受害人的户籍是城镇还是农村？事故前连续在城镇居住、工作满一年了吗？",
+          "why": "2022-05-01前残疾/死亡赔偿金区分城乡标准，之后统一按城镇居民标准"
+        }
+      ],
+      "changed": [
+        "accident_date",
+        "responsibility",
+        "injury"
+      ],
+      "revision": 3,
+      "invalidated_cache": 1,
+      "tools": {},
+      "verification": {},
+      "analysis": {},
+      "memo": "",
+      "trace": [
+        {
+          "node": "input",
+          "text": "我父亲2022年3月1日出车祸去世了，对方主要责任，我们想起诉赔偿。"
+        },
+        {
+          "node": "session_load",
+          "revision": 0,
+          "facts": 0
+        },
+        {
+          "node": "fact_set",
+          "key": "accident_date",
+          "value": "2022-03-01",
+          "correction": false
+        },
+        {
+          "node": "fact_set",
+          "key": "responsibility",
+          "value": "对方主要责任",
+          "correction": false
+        },
+        {
+          "node": "fact_set",
+          "key": "injury",
+          "value": "死亡",
+          "correction": false
+        },
+        {
+          "node": "cache_invalidate",
+          "keys": [
+            "accident_date",
+            "responsibility",
+            "injury"
+          ],
+          "entries": 1,
+          "revision": 3
+        },
+        {
+          "node": "gate",
+          "decision": "ask",
+          "missing": [
+            "residence"
+          ],
+          "asked": [
+            "residence"
+          ]
+        }
+      ]
+    },
+    {
+      "turn": 2,
+      "status": "answered",
+      "reply": "已记录：户籍/经常居住地＝农村；保险情况＝交强险和商业险。\n\n根据目前记录的事实，初步判断如下：\n\n【先看时效】诉讼时效可能已于 2025-03-01 届满，对方可提时效抗辩；应先核查有无中断、中止事由。\n\n交通事故人身损害。事故发生于 2022-03-01，适用《人身损害赔偿解释（2020）》。残疾/死亡赔偿金仍区分城乡标准，农村户籍受害人可举证按城镇标准主张。具体赔偿金额需依据票据、误工证明和伤残鉴定意见计算。\n\n最关键的争点是「诉讼时效」：3年（民法典第188条），自 2022-03-01 起算，届满日 2025-03-01；已超过时效，需核查中止、中断事由。\n\n**风险提示**：诉讼时效\n\n**尚不能确定**：\n- 诉讼时效可能已过，需核实是否存在中断、中止事由。\n\n完整的备忘录（事实状态、争点依据、下一步材料清单）已生成。",
+      "questions": [],
+      "changed": [
+        "residence",
+        "insurance"
+      ],
+      "revision": 5,
+      "invalidated_cache": 0,
+      "tools": {
+        "executed": 13,
+        "cached": 0,
+        "total": 13,
+        "calls": [
+          {
+            "name": "analyse",
+            "args": {
+              "case_type": "tort_injury",
+              "facts": {
+                "accident_date": "2022-03-01",
+                "responsibility": "对方主要责任",
+                "injury": "死亡",
+                "residence": "农村",
+                "insurance": "交强险和商业险"
+              },
+              "today": "2026-11-18",
+              "revision": 5
+            },
+            "cached": false,
+            "ok": true,
+            "elapsed_ms": 0.04,
+            "evidence_ids": [
+              "civil_code_general@2021-01-01:第188条",
+              "civil_time_effect@2021-01-01:第1条",
+              "tort_interp_2020@2021-01-01:第12条",
+              "tort_interp_2020@2021-01-01:第15条",
+              "road_traffic@2004-05-01:第76条",
+              "civil_code_tort@2021-01-01:第1213条",
+              "civil_code_tort@2021-01-01:第1179条"
+            ],
+            "error": ""
+          },
+          {
+            "name": "search_statute",
+            "args": {
+              "query": "诉讼时效 3年（民法典第188条），自 2022-03-01 起算，届满日 2025-03",
+              "as_of": "2022-03-01",
+              "law_hints": [
+                "civil_code_tort",
+                "civil_code_general",
+                "road_traffic",
+                "tort_interp_2022",
+                "tort_interp_2020",
+                "tort_interp_2003",
+                "civil_time_effect"
+              ],
+              "k": 5
+            },
+            "cached": false,
+            "ok": true,
+            "elapsed_ms": 1.06,
+            "evidence_ids": [
+              "civil_code_general@2021-01-01:第192条",
+              "civil_code_general@2021-01-01:第189条",
+              "civil_code_general@2021-01-01:第199条",
+              "civil_code_general@2021-01-01:第106条",
+              "civil_time_effect@2021-01-01:第21条"
+            ],
+            "error": ""
+          },
+          {
+            "name": "search_statute",
+            "args": {
+              "query": "法律适用（时间效力） 事故发生于 2022-03-01，应适用《人身损害赔偿解释（2020）》（202",
+              "as_of": "2022-03-01",
+              "law_hints": [
+                "civil_code_tort",
+                "civil_code_general",
+                "road_traffic",
+                "tort_interp_2022",
+                "tort_interp_2020",
+                "tort_interp_2003",
+                "civil_time_effect"
+              ],
+              "k": 5
+            },
+            "cached": false,
+            "ok": true,
+            "elapsed_ms": 0.92,
+            "evidence_ids": [
+              "tort_interp_2020@2021-01-01:第23条",
+              "tort_interp_2020@2021-01-01:第9条",
+              "tort_interp_2020@2021-01-01:第21条",
+              "tort_interp_2020@2021-01-01:第24条",
+              "tort_interp_2020@2021-01-01:第16条"
+            ],
+            "error": ""
+          },
+          {
+            "name": "search_statute",
+            "args": {
+              "query": "残疾/死亡赔偿金标准 本案适用 2022 年修正前的解释，残疾/死亡赔偿金按城镇或农村标准区分；农村户",
+              "as_of": "2022-03-01",
+              "law_hints": [
+                "civil_code_tort",
+                "civil_code_general",
+                "road_traffic",
+                "tort_interp_2022",
+                "tort_interp_2020",
+                "tort_interp_2003",
+                "civil_time_effect"
+              ],
+              "k": 5
+            },
+            "cached": false,
+            "ok": true,
+            "elapsed_ms": 0.83,
+            "evidence_ids": [
+              "tort_interp_2020@2021-01-01:第15条",
+              "tort_interp_2020@2021-01-01:第22条",
+              "tort_interp_2020@2021-01-01:第18条",
+              "tort_interp_2020@2021-01-01:第12条",
+              "tort_interp_2020@2021-01-01:第17条"
+            ],
+            "error": ""
+          },
+          {
+            "name": "search_statute",
+            "args": {
+              "query": "责任划分与赔偿比例 事故责任认定为“对方主要责任”，赔偿通常先由保险赔付，不足部分按责任比例由侵权人",
+              "as_of": "2022-03-01",
+              "law_hints": [
+                "civil_code_tort",
+                "civil_code_general",
+                "road_traffic",
+                "tort_interp_2022",
+                "tort_interp_2020",
+                "tort_interp_2003",
+                "civil_time_effect"
+              ],
+              "k": 5
+            },
+            "cached": false,
+            "ok": true,
+            "elapsed_ms": 0.91,
+            "evidence_ids": [
+              "civil_code_tort@2021-01-01:第1213条",
+              "road_traffic@2004-05-01:第76条",
+              "civil_code_tort@2021-01-01:第1188条",
+              "civil_code_tort@2021-01-01:第1216条"
+            ],
+            "error": ""
+          },
+          {
+            "name": "search_statute",
+            "args": {
+              "query": "可主张的赔偿项目 可主张医疗费、护理费、交通费、营养费、住院伙食补助费、误工费；构成残疾的还可主张",
+              "as_of": "2022-03-01",
+              "law_hints": [
+                "civil_code_tort",
+                "civil_code_general",
+                "road_traffic",
+                "tort_interp_2022",
+                "tort_interp_2020",
+                "tort_interp_2003",
+                "civil_time_effect"
+              ],
+              "k": 5
+            },
+            "cached": false,
+            "ok": true,
+            "elapsed_ms": 0.81,
+            "evidence_ids": [
+              "civil_code_tort@2021-01-01:第1179条",
+              "tort_interp_2020@2021-01-01:第10条",
+              "tort_interp_2020@2021-01-01:第11条",
+              "tort_interp_2020@2021-01-01:第8条",
+              "tort_interp_2020@2021-01-01:第7条"
+            ],
+            "error": ""
+          },
+          {
+            "name": "get_article",
+            "args": {
+              "article_id": "civil_code_general@2021-01-01:第188条"
+            },
+            "cached": false,
+            "ok": true,
+            "elapsed_ms": 0.11,
+            "evidence_ids": [
+              "civil_code_general@2021-01-01:第188条"
+            ],
+            "error": ""
+          },
+          {
+            "name": "get_article",
+            "args": {
+              "article_id": "civil_time_effect@2021-01-01:第1条"
+            },
+            "cached": false,
+            "ok": true,
+            "elapsed_ms": 0.07,
+            "evidence_ids": [
+              "civil_time_effect@2021-01-01:第1条"
+            ],
+            "error": ""
+          },
+          {
+            "name": "get_article",
+            "args": {
+              "article_id": "tort_interp_2020@2021-01-01:第12条"
+            },
+            "cached": false,
+            "ok": true,
+            "elapsed_ms": 0.09,
+            "evidence_ids": [
+              "tort_interp_2020@2021-01-01:第12条"
+            ],
+            "error": ""
+          },
+          {
+            "name": "get_article",
+            "args": {
+              "article_id": "tort_interp_2020@2021-01-01:第15条"
+            },
+            "cached": false,
+            "ok": true,
+            "elapsed_ms": 0.07,
+            "evidence_ids": [
+              "tort_interp_2020@2021-01-01:第15条"
+            ],
+            "error": ""
+          },
+          {
+            "name": "get_article",
+            "args": {
+              "article_id": "road_traffic@2004-05-01:第76条"
+            },
+            "cached": false,
+            "ok": true,
+            "elapsed_ms": 0.09,
+            "evidence_ids": [
+              "road_traffic@2004-05-01:第76条"
+            ],
+            "error": ""
+          },
+          {
+            "name": "get_article",
+            "args": {
+              "article_id": "civil_code_tort@2021-01-01:第1213条"
+            },
+            "cached": false,
+            "ok": true,
+            "elapsed_ms": 0.05,
+            "evidence_ids": [
+              "civil_code_tort@2021-01-01:第1213条"
+            ],
+            "error": ""
+          },
+          {
+            "name": "get_article",
+            "args": {
+              "article_id": "civil_code_tort@2021-01-01:第1179条"
+            },
+            "cached": false,
+            "ok": true,
+            "elapsed_ms": 0.09,
+            "evidence_ids": [
+              "civil_code_tort@2021-01-01:第1179条"
+            ],
+            "error": ""
+          }
+        ]
+      },
+      "verification": {
+        "checked": 5,
+        "supported": 5,
+        "support_rate": 1.0,
+        "defects": []
+      },
+      "analysis": {
+        "case_type": "tort_injury",
+        "as_of": "2022-03-01",
+        "headline": "【先看时效】诉讼时效可能已于 2025-03-01 届满，对方可提时效抗辩；应先核查有无中断、中止事由。\n\n交通事故人身损害。事故发生于 2022-03-01，适用《人身损害赔偿解释（2020）》。残疾/死亡赔偿金仍区分城乡标准，农村户籍受害人可举证按城镇标准主张。具体赔偿金额需依据票据、误工证明和伤残鉴定意见计算。",
+        "findings": [
+          {
+            "id": "T_LIMITATION",
+            "issue": "诉讼时效",
+            "conclusion": "3年（民法典第188条），自 2022-03-01 起算，届满日 2025-03-01；已超过时效，需核查中止、中断事由。",
+            "reasoning": "民法典施行后适用三年诉讼时效。 人身损害案件的起算点可能为确诊、治疗终结或伤残鉴定之日，以事故发生日起算仅为简化假设。",
+            "cites": [
+              "civil_code_general@2021-01-01:第188条"
+            ],
+            "depends": [
+              "accident_date"
+            ],
+            "risk": "高",
+            "quote": "",
+            "assumptions": [
+              "以事故发生日起算（简化假设）"
+            ]
+          },
+          {
+            "id": "T_VERSION",
+            "issue": "法律适用（时间效力）",
+            "conclusion": "事故发生于 2022-03-01，应适用《人身损害赔偿解释（2020）》（2021-01-01 起施行）的赔偿标准。",
+            "reasoning": "侵权损害赔偿适用行为时有效的法律与司法解释；民法典施行前的法律事实原则上适用当时的法律、司法解释。",
+            "cites": [
+              "civil_time_effect@2021-01-01:第1条"
+            ],
+            "depends": [
+              "accident_date"
+            ],
+            "risk": "低",
+            "quote": "",
+            "assumptions": []
+          },
+          {
+            "id": "T_STANDARD",
+            "issue": "残疾/死亡赔偿金标准",
+            "conclusion": "本案适用 2022 年修正前的解释，残疾/死亡赔偿金按城镇或农村标准区分；农村户籍受害人若能证明在城镇连续居住、主要收入来源于城镇满一年，可按城镇标准主张。",
+            "reasoning": "2022-05-01 前的司法解释区分城镇居民人均可支配收入与农村居民人均纯收入。",
+            "cites": [
+              "tort_interp_2020@2021-01-01:第12条",
+              "tort_interp_2020@2021-01-01:第15条"
+            ],
+            "depends": [
+              "accident_date",
+              "residence"
+            ],
+            "risk": "中",
+            "quote": "",
+            "assumptions": []
+          },
+          {
+            "id": "T_LIABILITY",
+            "issue": "责任划分与赔偿比例",
+            "conclusion": "事故责任认定为“对方主要责任”，赔偿通常先由保险赔付，不足部分按责任比例由侵权人承担；具体比例由法院酌定。",
+            "reasoning": "机动车交通事故先由交强险赔付，不足部分按过错分担；商业三者险按合同赔付。",
+            "cites": [
+              "road_traffic@2004-05-01:第76条",
+              "civil_code_tort@2021-01-01:第1213条"
+            ],
+            "depends": [
+              "responsibility"
+            ],
+            "risk": "低",
+            "quote": "",
+            "assumptions": []
+          },
+          {
+            "id": "T_DAMAGES",
+            "issue": "可主张的赔偿项目",
+            "conclusion": "可主张医疗费、护理费、交通费、营养费、住院伙食补助费、误工费；构成残疾的还可主张辅助器具费与残疾赔偿金，死亡的还包括丧葬费与死亡赔偿金。",
+            "reasoning": "赔偿项目以实际损失与伤残情况为基础，需凭票据、病历、鉴定意见举证。",
+            "cites": [
+              "civil_code_tort@2021-01-01:第1179条"
+            ],
+            "depends": [
+              "injury"
+            ],
+            "risk": "低",
+            "quote": "",
+            "assumptions": []
+          }
+        ],
+        "gaps": [
+          "诉讼时效可能已过，需核实是否存在中断、中止事由。"
+        ],
+        "assumptions": [],
+        "metadata": {
+          "interp": "tort_interp_2020",
+          "limitation": {
+            "ok": true,
+            "kind": "诉讼时效",
+            "start": "2022-03-01",
+            "deadline": "2025-03-01",
+            "basis": "civil_code_general@2021-01-01:第188条",
+            "label": "3年（民法典第188条）",
+            "expired": true,
+            "days_left": -627,
+            "note": "民法典施行后适用三年诉讼时效。 人身损害案件的起算点可能为确诊、治疗终结或伤残鉴定之日，以事故发生日起算仅为简化假设。"
+          },
+          "state_revision": 5
+        }
+      },
+      "memo": "# 法律咨询备忘录（草稿）\n\n- 案由：侵权 · 交通事故人身损害\n- 案件基准日期：2022-03-01\n- 事实记录版本：v5（共 5 项事实）\n- 生成时间：2026-11-18 19:26\n\n> 本系统为 NLP 课程项目演示，输出不构成正式法律意见；引用条文请以国家法律法规数据库（flk.npc.gov.cn）现行文本为准。\n\n## 一、结论摘要\n\n【先看时效】诉讼时效可能已于 2025-03-01 届满，对方可提时效抗辩；应先核查有无中断、中止事由。\n\n交通事故人身损害。事故发生于 2022-03-01，适用《人身损害赔偿解释（2020）》。残疾/死亡赔偿金仍区分城乡标准，农村户籍受害人可举证按城镇标准主张。具体赔偿金额需依据票据、误工证明和伤残鉴定意见计算。\n\n## 二、事实状态\n\n| 事实 | 内容 | 状态 | 来源 | 版本 |\n|---|---|---|---|---|\n| insurance | 交强险和商业险 | 当事人陈述 | user | v5 |\n| residence | 农村 | 当事人陈述 | user | v4 |\n| injury | 死亡 | 当事人陈述 | user | v3 |\n| responsibility | 对方主要责任 | 当事人陈述 | user | v2 |\n| accident_date | 2022-03-01 | 当事人陈述 | user | v1 |\n\n## 三、争点分析\n\n### 1. 诉讼时效　`风险：高`\n\n**结论**：3年（民法典第188条），自 2022-03-01 起算，届满日 2025-03-01；已超过时效，需核查中止、中断事由。\n\n**理由**：民法典施行后适用三年诉讼时效。 人身损害案件的起算点可能为确诊、治疗终结或伤残鉴定之日，以事故发生日起算仅为简化假设。\n\n**依据**：《民法典》第188条\n\n**适用前提**：以事故发生日起算（简化假设）\n\n### 2. 法律适用（时间效力）　`风险：低`\n\n**结论**：事故发生于 2022-03-01，应适用《人身损害赔偿解释（2020）》（2021-01-01 起施行）的赔偿标准。\n\n**理由**：侵权损害赔偿适用行为时有效的法律与司法解释；民法典施行前的法律事实原则上适用当时的法律、司法解释。\n\n**依据**：《民法典时间效力规定》第1条\n\n### 3. 残疾/死亡赔偿金标准　`风险：中`\n\n**结论**：本案适用 2022 年修正前的解释，残疾/死亡赔偿金按城镇或农村标准区分；农村户籍受害人若能证明在城镇连续居住、主要收入来源于城镇满一年，可按城镇标准主张。\n\n**理由**：2022-05-01 前的司法解释区分城镇居民人均可支配收入与农村居民人均纯收入。\n\n**依据**：《人身损害赔偿解释（2020）》第12条；《人身损害赔偿解释（2020）》第15条\n\n### 4. 责任划分与赔偿比例　`风险：低`\n\n**结论**：事故责任认定为“对方主要责任”，赔偿通常先由保险赔付，不足部分按责任比例由侵权人承担；具体比例由法院酌定。\n\n**理由**：机动车交通事故先由交强险赔付，不足部分按过错分担；商业三者险按合同赔付。\n\n**依据**：《道路交通安全法》第76条；《民法典》第1213条\n\n### 5. 可主张的赔偿项目　`风险：低`\n\n**结论**：可主张医疗费、护理费、交通费、营养费、住院伙食补助费、误工费；构成残疾的还可主张辅助器具费与残疾赔偿金，死亡的还包括丧葬费与死亡赔偿金。\n\n**理由**：赔偿项目以实际损失与伤残情况为基础，需凭票据、病历、鉴定意见举证。\n\n**依据**：《民法典》第1179条\n\n## 四、信息缺口与不确定\n\n- 诉讼时效可能已过，需核实是否存在中断、中止事由。\n\n## 五、下一步与所需材料\n\n- 道路交通事故认定书（责任划分）\n- 病历、诊断证明、医疗费与护理费票据\n- 误工证明、工资流水、纳税记录\n- 伤残鉴定意见书（如已鉴定）\n- 交强险、商业三者险保单及理赔记录\n- 居住证、租房合同、社保记录（农村户籍主张城镇标准时）\n- 事故认定复核申请材料（如对责任认定有异议）\n\n## 六、引用与版本\n\n| 法条 | 生效期间 | 原文摘录 | 来源 |\n|---|---|---|---|\n| 《民法典·总则》第188条 | 2021-01-01 ~ 现行 | 向人民法院请求保护民事权利的诉讼时效期间为三年。法律另有规定的，依照其规定。  诉讼时效期间自权利人知道或者应当知道权利受到损害以及义务人之日起计算。法律另有规… | [源](https://github.com/LawRefBook/Laws/blob/master/民法典/总则.md) |\n| 《民法典时间效力规定》第1条 | 2021-01-01 ~ 现行 | 民法典施行后的法律事实引起的民事纠纷案件，适用民法典的规定。  民法典施行前的法律事实引起的民事纠纷案件，适用当时的法律、司法解释的规定，但是法律、司法解释另有… | [源](https://github.com/LawRefBook/Laws/blob/master/司法解释/最高人民法院关于适用《民法典》时间效力的若干规定(2020-12-29).md) |\n| 《人身损害赔偿解释（2020）》第12条 | 2021-01-01 ~ 2022-05-01 | 残疾赔偿金根据受害人丧失劳动能力程度或者伤残等级，按照受诉法院所在地上一年度城镇居民人均可支配收入或者农村居民人均纯收入标准，自定残之日起按二十年计算。但六十周… | [源](https://github.com/LawRefBook/Laws/blob/master/司法解释/最高人民法院关于审理人身损害赔偿案件适用法律若干问题的解释(2020-12-29).md) |\n| 《人身损害赔偿解释（2020）》第15条 | 2021-01-01 ~ 2022-05-01 | 死亡赔偿金按照受诉法院所在地上一年度城镇居民人均可支配收入或者农村居民人均纯收入标准，按二十年计算。但六十周岁以上的，年龄每增加一岁减少一年；七十五周岁以上的，… | [源](https://github.com/LawRefBook/Laws/blob/master/司法解释/最高人民法院关于审理人身损害赔偿案件适用法律若干问题的解释(2020-12-29).md) |\n| 《道路交通安全法》第76条 | 2004-05-01 ~ 现行 | 机动车发生交通事故造成人身伤亡、财产损失的，由保险公司在机动车第三者责任强制保险责任限额范围内予以赔偿；不足的部分，按照下列规定承担赔偿责任：  （一）机动车之… | [源](https://github.com/LawRefBook/Laws/blob/master/行政法/道路交通安全法(2021-04-29).md) |\n| 《民法典·侵权责任》第1213条 | 2021-01-01 ~ 现行 | 机动车发生交通事故造成损害，属于该机动车一方责任的，先由承保机动车强制保险的保险人在强制保险责任限额范围内予以赔偿；不足部分，由承保机动车商业保险的保险人按照保… | [源](https://github.com/LawRefBook/Laws/blob/master/民法典/侵权责任编.md) |\n| 《民法典·侵权责任》第1179条 | 2021-01-01 ~ 现行 | 侵害他人造成人身损害的，应当赔偿医疗费、护理费、交通费、营养费、住院伙食补助费等为治疗和康复支出的合理费用，以及因误工减少的收入。造成残疾的，还应当赔偿辅助器具… | [源](https://github.com/LawRefBook/Laws/blob/master/民法典/侵权责任编.md) |\n\n## 附：自动核验\n\n- 结论条目：5，通过核验：5（支持率 100%）\n- 未发现引用缺失、版本失效、引文不符或事实过期问题。\n- 说明：自动核验只能检查引用是否存在、是否有效、引文是否对得上、所依赖事实是否仍为最新；它不能证明法律论证本身正确。\n",
+      "trace": [
+        {
+          "node": "input",
+          "text": "我们户籍是农村的，对方车辆有交强险和商业三者险。"
+        },
+        {
+          "node": "session_load",
+          "revision": 3,
+          "facts": 3
+        },
+        {
+          "node": "fact_set",
+          "key": "residence",
+          "value": "农村",
+          "correction": false
+        },
+        {
+          "node": "fact_set",
+          "key": "insurance",
+          "value": "交强险和商业险",
+          "correction": false
+        },
+        {
+          "node": "cache_invalidate",
+          "keys": [
+            "residence",
+            "insurance"
+          ],
+          "entries": 0,
+          "revision": 5
+        },
+        {
+          "node": "gate",
+          "decision": "ready",
+          "missing": []
+        },
+        {
+          "node": "tool:analyse",
+          "cached": false,
+          "findings": 5
+        },
+        {
+          "node": "verify",
+          "support_rate": 1.0,
+          "defects": []
+        },
+        {
+          "node": "memo",
+          "chars": 3397
+        }
+      ]
+    },
+    {
+      "turn": 3,
+      "status": "answered",
+      "reply": "已记录：事故发生日期＝2024-11-01。\n\n根据目前记录的事实，初步判断如下：\n\n交通事故人身损害。事故发生于 2024-11-01，适用《人身损害赔偿解释（2022）》。赔偿标准已统一按城镇居民口径，不再区分城乡。具体赔偿金额需依据票据、误工证明和伤残鉴定意见计算。\n\n最关键的争点是「诉讼时效」：3年（民法典第188条），自 2024-11-01 起算，届满日 2027-11-01；尚未届满（剩余约 348 天）。\n\n完整的备忘录（事实状态、争点依据、下一步材料清单）已生成。",
+      "questions": [],
+      "changed": [
+        "accident_date"
+      ],
+      "revision": 6,
+      "invalidated_cache": 1,
+      "tools": {
+        "executed": 8,
+        "cached": 5,
+        "total": 13,
+        "calls": [
+          {
+            "name": "analyse",
+            "args": {
+              "case_type": "tort_injury",
+              "facts": {
+                "accident_date": "2024-11-01",
+                "responsibility": "对方主要责任",
+                "injury": "死亡",
+                "residence": "农村",
+                "insurance": "交强险和商业险"
+              },
+              "today": "2026-11-18",
+              "revision": 6
+            },
+            "cached": false,
+            "ok": true,
+            "elapsed_ms": 0.02,
+            "evidence_ids": [
+              "civil_code_general@2021-01-01:第188条",
+              "civil_time_effect@2021-01-01:第1条",
+              "tort_interp_2022@2022-05-01:第12条",
+              "tort_interp_2022@2022-05-01:第15条",
+              "road_traffic@2004-05-01:第76条",
+              "civil_code_tort@2021-01-01:第1213条",
+              "civil_code_tort@2021-01-01:第1179条"
+            ],
+            "error": ""
+          },
+          {
+            "name": "search_statute",
+            "args": {
+              "query": "诉讼时效 3年（民法典第188条），自 2024-11-01 起算，届满日 2027-11",
+              "as_of": "2024-11-01",
+              "law_hints": [
+                "civil_code_tort",
+                "civil_code_general",
+                "road_traffic",
+                "tort_interp_2022",
+                "tort_interp_2020",
+                "tort_interp_2003",
+                "civil_time_effect"
+              ],
+              "k": 5
+            },
+            "cached": false,
+            "ok": true,
+            "elapsed_ms": 0.73,
+            "evidence_ids": [
+              "civil_code_general@2021-01-01:第192条",
+              "civil_code_general@2021-01-01:第189条",
+              "civil_code_general@2021-01-01:第199条",
+              "civil_code_general@2021-01-01:第106条",
+              "civil_time_effect@2021-01-01:第21条"
+            ],
+            "error": ""
+          },
+          {
+            "name": "search_statute",
+            "args": {
+              "query": "法律适用（时间效力） 事故发生于 2024-11-01，应适用《人身损害赔偿解释（2022）》（202",
+              "as_of": "2024-11-01",
+              "law_hints": [
+                "civil_code_tort",
+                "civil_code_general",
+                "road_traffic",
+                "tort_interp_2022",
+                "tort_interp_2020",
+                "tort_interp_2003",
+                "civil_time_effect"
+              ],
+              "k": 5
+            },
+            "cached": false,
+            "ok": true,
+            "elapsed_ms": 0.85,
+            "evidence_ids": [
+              "tort_interp_2022@2022-05-01:第24条",
+              "tort_interp_2022@2022-05-01:第23条",
+              "tort_interp_2022@2022-05-01:第9条",
+              "tort_interp_2022@2022-05-01:第21条",
+              "tort_interp_2022@2022-05-01:第16条"
+            ],
+            "error": ""
+          },
+          {
+            "name": "search_statute",
+            "args": {
+              "query": "残疾/死亡赔偿金标准 2022-05-01 起残疾赔偿金、死亡赔偿金统一按城镇居民人均可支配收入计算，",
+              "as_of": "2024-11-01",
+              "law_hints": [
+                "civil_code_tort",
+                "civil_code_general",
+                "road_traffic",
+                "tort_interp_2022",
+                "tort_interp_2020",
+                "tort_interp_2003",
+                "civil_time_effect"
+              ],
+              "k": 5
+            },
+            "cached": false,
+            "ok": true,
+            "elapsed_ms": 0.76,
+            "evidence_ids": [
+              "tort_interp_2022@2022-05-01:第15条",
+              "tort_interp_2022@2022-05-01:第18条",
+              "tort_interp_2022@2022-05-01:第12条",
+              "tort_interp_2022@2022-05-01:第22条",
+              "tort_interp_2022@2022-05-01:第17条"
+            ],
+            "error": ""
+          },
+          {
+            "name": "search_statute",
+            "args": {
+              "query": "责任划分与赔偿比例 事故责任认定为“对方主要责任”，赔偿通常先由保险赔付，不足部分按责任比例由侵权人",
+              "as_of": "2024-11-01",
+              "law_hints": [
+                "civil_code_tort",
+                "civil_code_general",
+                "road_traffic",
+                "tort_interp_2022",
+                "tort_interp_2020",
+                "tort_interp_2003",
+                "civil_time_effect"
+              ],
+              "k": 5
+            },
+            "cached": false,
+            "ok": true,
+            "elapsed_ms": 0.91,
+            "evidence_ids": [
+              "civil_code_tort@2021-01-01:第1213条",
+              "road_traffic@2004-05-01:第76条",
+              "civil_code_tort@2021-01-01:第1188条",
+              "civil_code_tort@2021-01-01:第1216条"
+            ],
+            "error": ""
+          },
+          {
+            "name": "search_statute",
+            "args": {
+              "query": "可主张的赔偿项目 可主张医疗费、护理费、交通费、营养费、住院伙食补助费、误工费；构成残疾的还可主张",
+              "as_of": "2024-11-01",
+              "law_hints": [
+                "civil_code_tort",
+                "civil_code_general",
+                "road_traffic",
+                "tort_interp_2022",
+                "tort_interp_2020",
+                "tort_interp_2003",
+                "civil_time_effect"
+              ],
+              "k": 5
+            },
+            "cached": false,
+            "ok": true,
+            "elapsed_ms": 0.84,
+            "evidence_ids": [
+              "civil_code_tort@2021-01-01:第1179条",
+              "tort_interp_2022@2022-05-01:第10条",
+              "tort_interp_2022@2022-05-01:第11条",
+              "tort_interp_2022@2022-05-01:第8条",
+              "tort_interp_2022@2022-05-01:第7条"
+            ],
+            "error": ""
+          },
+          {
+            "name": "get_article",
+            "args": {
+              "article_id": "civil_code_general@2021-01-01:第188条"
+            },
+            "cached": true,
+            "ok": true,
+            "elapsed_ms": 0.0,
+            "evidence_ids": [
+              "civil_code_general@2021-01-01:第188条"
+            ],
+            "error": ""
+          },
+          {
+            "name": "get_article",
+            "args": {
+              "article_id": "civil_time_effect@2021-01-01:第1条"
+            },
+            "cached": true,
+            "ok": true,
+            "elapsed_ms": 0.0,
+            "evidence_ids": [
+              "civil_time_effect@2021-01-01:第1条"
+            ],
+            "error": ""
+          },
+          {
+            "name": "get_article",
+            "args": {
+              "article_id": "tort_interp_2022@2022-05-01:第12条"
+            },
+            "cached": false,
+            "ok": true,
+            "elapsed_ms": 0.07,
+            "evidence_ids": [
+              "tort_interp_2022@2022-05-01:第12条"
+            ],
+            "error": ""
+          },
+          {
+            "name": "get_article",
+            "args": {
+              "article_id": "tort_interp_2022@2022-05-01:第15条"
+            },
+            "cached": false,
+            "ok": true,
+            "elapsed_ms": 0.1,
+            "evidence_ids": [
+              "tort_interp_2022@2022-05-01:第15条"
+            ],
+            "error": ""
+          },
+          {
+            "name": "get_article",
+            "args": {
+              "article_id": "road_traffic@2004-05-01:第76条"
+            },
+            "cached": true,
+            "ok": true,
+            "elapsed_ms": 0.0,
+            "evidence_ids": [
+              "road_traffic@2004-05-01:第76条"
+            ],
+            "error": ""
+          },
+          {
+            "name": "get_article",
+            "args": {
+              "article_id": "civil_code_tort@2021-01-01:第1213条"
+            },
+            "cached": true,
+            "ok": true,
+            "elapsed_ms": 0.0,
+            "evidence_ids": [
+              "civil_code_tort@2021-01-01:第1213条"
+            ],
+            "error": ""
+          },
+          {
+            "name": "get_article",
+            "args": {
+              "article_id": "civil_code_tort@2021-01-01:第1179条"
+            },
+            "cached": true,
+            "ok": true,
+            "elapsed_ms": 0.0,
+            "evidence_ids": [
+              "civil_code_tort@2021-01-01:第1179条"
+            ],
+            "error": ""
+          }
+        ]
+      },
+      "verification": {
+        "checked": 5,
+        "supported": 5,
+        "support_rate": 1.0,
+        "defects": []
+      },
+      "analysis": {
+        "case_type": "tort_injury",
+        "as_of": "2024-11-01",
+        "headline": "交通事故人身损害。事故发生于 2024-11-01，适用《人身损害赔偿解释（2022）》。赔偿标准已统一按城镇居民口径，不再区分城乡。具体赔偿金额需依据票据、误工证明和伤残鉴定意见计算。",
+        "findings": [
+          {
+            "id": "T_LIMITATION",
+            "issue": "诉讼时效",
+            "conclusion": "3年（民法典第188条），自 2024-11-01 起算，届满日 2027-11-01；尚未届满（剩余约 348 天）。",
+            "reasoning": "民法典施行后适用三年诉讼时效。 人身损害案件的起算点可能为确诊、治疗终结或伤残鉴定之日，以事故发生日起算仅为简化假设。",
+            "cites": [
+              "civil_code_general@2021-01-01:第188条"
+            ],
+            "depends": [
+              "accident_date"
+            ],
+            "risk": "中",
+            "quote": "",
+            "assumptions": [
+              "以事故发生日起算（简化假设）"
+            ]
+          },
+          {
+            "id": "T_VERSION",
+            "issue": "法律适用（时间效力）",
+            "conclusion": "事故发生于 2024-11-01，应适用《人身损害赔偿解释（2022）》（2022-05-01 起施行）的赔偿标准。",
+            "reasoning": "侵权损害赔偿适用行为时有效的法律与司法解释；民法典施行前的法律事实原则上适用当时的法律、司法解释。",
+            "cites": [
+              "civil_time_effect@2021-01-01:第1条"
+            ],
+            "depends": [
+              "accident_date"
+            ],
+            "risk": "低",
+            "quote": "",
+            "assumptions": []
+          },
+          {
+            "id": "T_STANDARD",
+            "issue": "残疾/死亡赔偿金标准",
+            "conclusion": "2022-05-01 起残疾赔偿金、死亡赔偿金统一按城镇居民人均可支配收入计算，不再区分城乡；农村户籍受害人不再因户籍被压低标准。",
+            "reasoning": "2022年修正删去了“农村居民人均纯收入”的表述。",
+            "cites": [
+              "tort_interp_2022@2022-05-01:第12条",
+              "tort_interp_2022@2022-05-01:第15条"
+            ],
+            "depends": [
+              "accident_date"
+            ],
+            "risk": "低",
+            "quote": "",
+            "assumptions": []
+          },
+          {
+            "id": "T_LIABILITY",
+            "issue": "责任划分与赔偿比例",
+            "conclusion": "事故责任认定为“对方主要责任”，赔偿通常先由保险赔付，不足部分按责任比例由侵权人承担；具体比例由法院酌定。",
+            "reasoning": "机动车交通事故先由交强险赔付，不足部分按过错分担；商业三者险按合同赔付。",
+            "cites": [
+              "road_traffic@2004-05-01:第76条",
+              "civil_code_tort@2021-01-01:第1213条"
+            ],
+            "depends": [
+              "responsibility"
+            ],
+            "risk": "低",
+            "quote": "",
+            "assumptions": []
+          },
+          {
+            "id": "T_DAMAGES",
+            "issue": "可主张的赔偿项目",
+            "conclusion": "可主张医疗费、护理费、交通费、营养费、住院伙食补助费、误工费；构成残疾的还可主张辅助器具费与残疾赔偿金，死亡的还包括丧葬费与死亡赔偿金。",
+            "reasoning": "赔偿项目以实际损失与伤残情况为基础，需凭票据、病历、鉴定意见举证。",
+            "cites": [
+              "civil_code_tort@2021-01-01:第1179条"
+            ],
+            "depends": [
+              "injury"
+            ],
+            "risk": "低",
+            "quote": "",
+            "assumptions": []
+          }
+        ],
+        "gaps": [],
+        "assumptions": [],
+        "metadata": {
+          "interp": "tort_interp_2022",
+          "limitation": {
+            "ok": true,
+            "kind": "诉讼时效",
+            "start": "2024-11-01",
+            "deadline": "2027-11-01",
+            "basis": "civil_code_general@2021-01-01:第188条",
+            "label": "3年（民法典第188条）",
+            "expired": false,
+            "days_left": 348,
+            "note": "民法典施行后适用三年诉讼时效。 人身损害案件的起算点可能为确诊、治疗终结或伤残鉴定之日，以事故发生日起算仅为简化假设。"
+          },
+          "state_revision": 6
+        }
+      },
+      "memo": "# 法律咨询备忘录（草稿）\n\n- 案由：侵权 · 交通事故人身损害\n- 案件基准日期：2024-11-01\n- 事实记录版本：v6（共 5 项事实）\n- 生成时间：2026-11-18 19:26\n\n> 本系统为 NLP 课程项目演示，输出不构成正式法律意见；引用条文请以国家法律法规数据库（flk.npc.gov.cn）现行文本为准。\n\n## 一、结论摘要\n\n交通事故人身损害。事故发生于 2024-11-01，适用《人身损害赔偿解释（2022）》。赔偿标准已统一按城镇居民口径，不再区分城乡。具体赔偿金额需依据票据、误工证明和伤残鉴定意见计算。\n\n## 二、事实状态\n\n| 事实 | 内容 | 状态 | 来源 | 版本 |\n|---|---|---|---|---|\n| accident_date | 2024-11-01 | 当事人陈述 | user | v6 |\n| insurance | 交强险和商业险 | 当事人陈述 | user | v5 |\n| residence | 农村 | 当事人陈述 | user | v4 |\n| injury | 死亡 | 当事人陈述 | user | v3 |\n| responsibility | 对方主要责任 | 当事人陈述 | user | v2 |\n\n**已被更正的事实**（旧值不再作为结论依据）：\n- accident_date：~~2022-03-01~~ → v6\n\n## 三、争点分析\n\n### 1. 诉讼时效　`风险：中`\n\n**结论**：3年（民法典第188条），自 2024-11-01 起算，届满日 2027-11-01；尚未届满（剩余约 348 天）。\n\n**理由**：民法典施行后适用三年诉讼时效。 人身损害案件的起算点可能为确诊、治疗终结或伤残鉴定之日，以事故发生日起算仅为简化假设。\n\n**依据**：《民法典》第188条\n\n**适用前提**：以事故发生日起算（简化假设）\n\n### 2. 法律适用（时间效力）　`风险：低`\n\n**结论**：事故发生于 2024-11-01，应适用《人身损害赔偿解释（2022）》（2022-05-01 起施行）的赔偿标准。\n\n**理由**：侵权损害赔偿适用行为时有效的法律与司法解释；民法典施行前的法律事实原则上适用当时的法律、司法解释。\n\n**依据**：《民法典时间效力规定》第1条\n\n### 3. 残疾/死亡赔偿金标准　`风险：低`\n\n**结论**：2022-05-01 起残疾赔偿金、死亡赔偿金统一按城镇居民人均可支配收入计算，不再区分城乡；农村户籍受害人不再因户籍被压低标准。\n\n**理由**：2022年修正删去了“农村居民人均纯收入”的表述。\n\n**依据**：《人身损害赔偿解释（2022）》第12条；《人身损害赔偿解释（2022）》第15条\n\n### 4. 责任划分与赔偿比例　`风险：低`\n\n**结论**：事故责任认定为“对方主要责任”，赔偿通常先由保险赔付，不足部分按责任比例由侵权人承担；具体比例由法院酌定。\n\n**理由**：机动车交通事故先由交强险赔付，不足部分按过错分担；商业三者险按合同赔付。\n\n**依据**：《道路交通安全法》第76条；《民法典》第1213条\n\n### 5. 可主张的赔偿项目　`风险：低`\n\n**结论**：可主张医疗费、护理费、交通费、营养费、住院伙食补助费、误工费；构成残疾的还可主张辅助器具费与残疾赔偿金，死亡的还包括丧葬费与死亡赔偿金。\n\n**理由**：赔偿项目以实际损失与伤残情况为基础，需凭票据、病历、鉴定意见举证。\n\n**依据**：《民法典》第1179条\n\n## 四、信息缺口与不确定\n\n- 关键要件事实已基本齐备；仍可能存在证据真伪与证明力问题。\n\n## 五、下一步与所需材料\n\n- 道路交通事故认定书（责任划分）\n- 病历、诊断证明、医疗费与护理费票据\n- 误工证明、工资流水、纳税记录\n- 伤残鉴定意见书（如已鉴定）\n- 交强险、商业三者险保单及理赔记录\n- 居住证、租房合同、社保记录（农村户籍主张城镇标准时）\n- 事故认定复核申请材料（如对责任认定有异议）\n\n## 六、引用与版本\n\n| 法条 | 生效期间 | 原文摘录 | 来源 |\n|---|---|---|---|\n| 《民法典·总则》第188条 | 2021-01-01 ~ 现行 | 向人民法院请求保护民事权利的诉讼时效期间为三年。法律另有规定的，依照其规定。  诉讼时效期间自权利人知道或者应当知道权利受到损害以及义务人之日起计算。法律另有规… | [源](https://github.com/LawRefBook/Laws/blob/master/民法典/总则.md) |\n| 《民法典时间效力规定》第1条 | 2021-01-01 ~ 现行 | 民法典施行后的法律事实引起的民事纠纷案件，适用民法典的规定。  民法典施行前的法律事实引起的民事纠纷案件，适用当时的法律、司法解释的规定，但是法律、司法解释另有… | [源](https://github.com/LawRefBook/Laws/blob/master/司法解释/最高人民法院关于适用《民法典》时间效力的若干规定(2020-12-29).md) |\n| 《人身损害赔偿解释（2022）》第12条 | 2022-05-01 ~ 现行 | 残疾赔偿金根据受害人丧失劳动能力程度或者伤残等级，按照受诉法院所在地上一年度城镇居民人均可支配收入标准，自定残之日起按二十年计算。但六十周岁以上的，年龄每增加一… | [源](https://github.com/LawRefBook/Laws/blob/master/司法解释/最高人民法院关于审理人身损害赔偿案件适用法律若干问题的解释(2022-04-24).md) |\n| 《人身损害赔偿解释（2022）》第15条 | 2022-05-01 ~ 现行 | 死亡赔偿金按照受诉法院所在地上一年度城镇居民人均可支配收入标准，按二十年计算。但六十周岁以上的，年龄每增加一岁减少一年；七十五周岁以上的，按五年计算。… | [源](https://github.com/LawRefBook/Laws/blob/master/司法解释/最高人民法院关于审理人身损害赔偿案件适用法律若干问题的解释(2022-04-24).md) |\n| 《道路交通安全法》第76条 | 2004-05-01 ~ 现行 | 机动车发生交通事故造成人身伤亡、财产损失的，由保险公司在机动车第三者责任强制保险责任限额范围内予以赔偿；不足的部分，按照下列规定承担赔偿责任：  （一）机动车之… | [源](https://github.com/LawRefBook/Laws/blob/master/行政法/道路交通安全法(2021-04-29).md) |\n| 《民法典·侵权责任》第1213条 | 2021-01-01 ~ 现行 | 机动车发生交通事故造成损害，属于该机动车一方责任的，先由承保机动车强制保险的保险人在强制保险责任限额范围内予以赔偿；不足部分，由承保机动车商业保险的保险人按照保… | [源](https://github.com/LawRefBook/Laws/blob/master/民法典/侵权责任编.md) |\n| 《民法典·侵权责任》第1179条 | 2021-01-01 ~ 现行 | 侵害他人造成人身损害的，应当赔偿医疗费、护理费、交通费、营养费、住院伙食补助费等为治疗和康复支出的合理费用，以及因误工减少的收入。造成残疾的，还应当赔偿辅助器具… | [源](https://github.com/LawRefBook/Laws/blob/master/民法典/侵权责任编.md) |\n\n## 附：自动核验\n\n- 结论条目：5，通过核验：5（支持率 100%）\n- 未发现引用缺失、版本失效、引文不符或事实过期问题。\n- 说明：自动核验只能检查引用是否存在、是否有效、引文是否对得上、所依赖事实是否仍为最新；它不能证明法律论证本身正确。\n",
+      "trace": [
+        {
+          "node": "input",
+          "text": "更正一下：事故不是2022年3月，是2024年11月1日，我一直记错了。"
+        },
+        {
+          "node": "session_load",
+          "revision": 5,
+          "facts": 5
+        },
+        {
+          "node": "fact_set",
+          "key": "accident_date",
+          "value": "2024-11-01",
+          "correction": true
+        },
+        {
+          "node": "cache_invalidate",
+          "keys": [
+            "accident_date"
+          ],
+          "entries": 1,
+          "revision": 6
+        },
+        {
+          "node": "gate",
+          "decision": "ready",
+          "missing": []
+        },
+        {
+          "node": "tool:analyse",
+          "cached": false,
+          "findings": 5
+        },
+        {
+          "node": "verify",
+          "support_rate": 1.0,
+          "defects": []
+        },
+        {
+          "node": "memo",
+          "chars": 3346
+        }
+      ]
+    }
+  ]
+}

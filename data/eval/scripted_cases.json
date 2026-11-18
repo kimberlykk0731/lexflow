@@ -1,0 +1,390 @@
+{
+  "version": 1,
+  "note": "受控咨询脚本：每个案例有隐藏事实表（模拟当事人已知信息）、金标准结论与一个可选更正。gold 中的金额/期限由作者依据法条手工计算，不由系统规则生成；评测检验的是系统在信息不完整、事实被更正时能否触发正确规则并给出可核验引用。",
+  "today": "2026-11-18",
+  "cases": [
+    {
+      "id": "L01",
+      "case_type": "labor_dismissal",
+      "opening": "公司把我辞退了，理由是严重违纪，我想问能赔多少钱。",
+      "hidden": {
+        "dismiss_date": "2026年3月15日",
+        "who_initiated": "单位单方解除",
+        "stated_reason": "严重违纪",
+        "rule_exists": "有成文制度",
+        "rule_publicized": "没有公示告知",
+        "rule_democratic": "没有经过",
+        "misconduct_proof": "只有口头指认",
+        "union_notified": "没有通知",
+        "start_date": "2021年5月1日",
+        "monthly_wage": "一万五",
+        "claim_type": "要求赔偿金"
+      },
+      "gold": {
+        "illegal": true,
+        "amount": 150000,
+        "limitation_deadline": "2027-03-15",
+        "limitation_expired": false,
+        "critical": [
+          "dismiss_date",
+          "who_initiated",
+          "stated_reason",
+          "rule_publicized",
+          "rule_exists",
+          "misconduct_proof",
+          "rule_democratic",
+          "union_notified",
+          "start_date",
+          "monthly_wage",
+          "claim_type"
+        ]
+      },
+      "note": "典型严重违纪解除：制度未公示 + 未通知工会，违法解除风险高。"
+    },
+    {
+      "id": "L02",
+      "case_type": "labor_dismissal",
+      "opening": "我被公司以严重违纪开除了，但我觉得制度是公示过的，想确认公司是否合法。",
+      "hidden": {
+        "dismiss_date": "2026年1月10日",
+        "who_initiated": "单位单方解除",
+        "stated_reason": "严重违纪",
+        "rule_exists": "有成文制度",
+        "rule_publicized": "有签收或公示",
+        "rule_democratic": "经过了民主程序",
+        "misconduct_proof": "有书面证据",
+        "union_notified": "已通知工会",
+        "start_date": "2018年3月1日",
+        "monthly_wage": "一万二",
+        "claim_type": "要求赔偿金"
+      },
+      "gold": {
+        "illegal": false,
+        "amount": 0,
+        "limitation_deadline": "2027-01-10",
+        "limitation_expired": false,
+        "critical": [
+          "dismiss_date",
+          "who_initiated",
+          "stated_reason",
+          "rule_publicized",
+          "rule_exists",
+          "misconduct_proof",
+          "rule_democratic",
+          "union_notified",
+          "start_date",
+          "monthly_wage",
+          "claim_type"
+        ]
+      },
+      "note": "程序与证据齐全，第39条解除合法，无需支付经济补偿。"
+    },
+    {
+      "id": "L03",
+      "case_type": "labor_dismissal",
+      "opening": "公司说我不胜任工作，直接把我辞退了，没有培训也没有调岗。",
+      "hidden": {
+        "dismiss_date": "2026年4月20日",
+        "who_initiated": "单位单方解除",
+        "stated_reason": "不胜任工作",
+        "training_or_transfer": "没有",
+        "notice_30d": "都没有",
+        "union_notified": "没有通知",
+        "start_date": "2019年9月1日",
+        "monthly_wage": "两万",
+        "claim_type": "要求赔偿金"
+      },
+      "gold": {
+        "illegal": true,
+        "amount": 280000,
+        "limitation_deadline": "2027-04-20",
+        "limitation_expired": false,
+        "critical": [
+          "dismiss_date",
+          "who_initiated",
+          "stated_reason",
+          "training_or_transfer",
+          "notice_30d",
+          "union_notified",
+          "start_date",
+          "monthly_wage",
+          "claim_type"
+        ]
+      },
+      "note": "第40条前置条件缺失。"
+    },
+    {
+      "id": "L04",
+      "case_type": "labor_dismissal",
+      "opening": "公司说我不能胜任，培训过一次还是不行，提前三十天通知我解除。",
+      "hidden": {
+        "dismiss_date": "2026年5月10日",
+        "who_initiated": "单位单方解除",
+        "stated_reason": "不胜任工作",
+        "training_or_transfer": "有培训或调岗",
+        "notice_30d": "提前三十日通知",
+        "union_notified": "已通知工会",
+        "start_date": "2017年2月1日",
+        "monthly_wage": "一万八",
+        "claim_type": "要求赔偿金"
+      },
+      "gold": {
+        "illegal": false,
+        "amount": 171000,
+        "limitation_deadline": "2027-05-10",
+        "limitation_expired": false,
+        "critical": [
+          "dismiss_date",
+          "who_initiated",
+          "stated_reason",
+          "training_or_transfer",
+          "notice_30d",
+          "union_notified",
+          "start_date",
+          "monthly_wage",
+          "claim_type"
+        ]
+      },
+      "note": "程序合规，9年3个月按9.5个月计，支付 N 而非 2N。"
+    },
+    {
+      "id": "L05",
+      "case_type": "labor_dismissal",
+      "opening": "公司和我协商解除劳动合同，是公司先提出来的，签了协议。",
+      "hidden": {
+        "dismiss_date": "2026年6月30日",
+        "who_initiated": "协商一致解除",
+        "stated_reason": "其他或说不清",
+        "start_date": "2020年7月1日",
+        "monthly_wage": "两万五",
+        "claim_type": "要求赔偿金"
+      },
+      "gold": {
+        "illegal": false,
+        "amount": 150000,
+        "limitation_deadline": "2027-06-30",
+        "limitation_expired": false,
+        "critical": [
+          "dismiss_date",
+          "who_initiated",
+          "stated_reason",
+          "start_date",
+          "monthly_wage",
+          "claim_type"
+        ]
+      },
+      "note": "用人单位提出的协商解除应付 N。"
+    },
+    {
+      "id": "L06",
+      "case_type": "labor_dismissal",
+      "opening": "我2024年1月被公司以严重违纪辞退，制度没公示，现在还能申请仲裁吗？",
+      "hidden": {
+        "dismiss_date": "2024年1月5日",
+        "who_initiated": "单位单方解除",
+        "stated_reason": "严重违纪",
+        "rule_publicized": "没有公示告知",
+        "rule_exists": "有成文制度",
+        "misconduct_proof": "只有口头指认",
+        "union_notified": "没有通知",
+        "start_date": "2016年1月1日",
+        "monthly_wage": "一万四",
+        "claim_type": "要求赔偿金"
+      },
+      "gold": {
+        "illegal": true,
+        "amount": 224000,
+        "limitation_deadline": "2025-01-05",
+        "limitation_expired": true,
+        "critical": [
+          "dismiss_date",
+          "who_initiated",
+          "stated_reason",
+          "rule_publicized",
+          "rule_exists",
+          "misconduct_proof",
+          "union_notified",
+          "start_date",
+          "monthly_wage",
+          "claim_type"
+        ]
+      },
+      "note": "实体上违法，但时效已过；检验系统是否把时效放在结论之前。"
+    },
+    {
+      "id": "L07",
+      "case_type": "labor_dismissal",
+      "opening": "公司以严重违纪把我辞退了，员工手册从来没给我看过，也没签收。",
+      "hidden": {
+        "dismiss_date": "2025年8月1日",
+        "who_initiated": "单位单方解除",
+        "stated_reason": "严重违纪",
+        "rule_publicized": "没有公示告知",
+        "rule_exists": "有成文制度",
+        "misconduct_proof": "只有口头指认",
+        "union_notified": "没有通知",
+        "start_date": "2022年8月1日",
+        "monthly_wage": "一万六",
+        "claim_type": "要求赔偿金"
+      },
+      "correction": {
+        "after_question_turns": 2,
+        "text": "更正一下，我记错了，解除通知是2026年2月1日发的，不是2025年8月。",
+        "fact": "dismiss_date",
+        "old": "2025-08-01",
+        "new": "2026-02-01"
+      },
+      "gold": {
+        "illegal": true,
+        "amount": 128000,
+        "limitation_deadline": "2027-02-01",
+        "limitation_expired": false,
+        "critical": [
+          "dismiss_date",
+          "who_initiated",
+          "stated_reason",
+          "rule_publicized",
+          "rule_exists",
+          "misconduct_proof",
+          "union_notified",
+          "start_date",
+          "monthly_wage",
+          "claim_type"
+        ]
+      },
+      "note": "更正解除日期后，时效从已过变为未过；检验结论是否随事实更新。"
+    },
+    {
+      "id": "T01",
+      "case_type": "tort_injury",
+      "opening": "我父亲2024年6月20日出车祸去世了，对方全责，我们想起诉赔偿。",
+      "hidden": {
+        "accident_date": "2024年6月20日",
+        "responsibility": "对方全责",
+        "injury": "死亡",
+        "residence": "城镇",
+        "insurance": "交强险和商业险",
+        "employment": "执行工作任务"
+      },
+      "gold": {
+        "interp": "tort_interp_2022",
+        "unified_standard": true,
+        "limitation_deadline": "2027-06-20",
+        "limitation_expired": false,
+        "critical": [
+          "accident_date",
+          "responsibility",
+          "injury"
+        ]
+      },
+      "note": "2022-05-01 后，城乡标准统一。"
+    },
+    {
+      "id": "T02",
+      "case_type": "tort_injury",
+      "opening": "2020年6月我出车祸，鉴定为九级伤残，对方主要责任，我是农村户口。",
+      "hidden": {
+        "accident_date": "2020年6月1日",
+        "responsibility": "对方主要责任",
+        "injury": "已鉴定伤残等级",
+        "residence": "农村",
+        "insurance": "仅有交强险",
+        "employment": "个人事务"
+      },
+      "gold": {
+        "interp": "tort_interp_2003",
+        "unified_standard": false,
+        "limitation_deadline": "2023-06-01",
+        "limitation_expired": true,
+        "critical": [
+          "accident_date",
+          "responsibility",
+          "injury",
+          "residence"
+        ]
+      },
+      "note": "2021-01-01前适用2003年解释，区分城乡标准；且已过三年诉讼时效。"
+    },
+    {
+      "id": "T03",
+      "case_type": "tort_injury",
+      "opening": "2022年3月1日发生交通事故，我受伤构成伤残，还没做鉴定，农村户口，同等责任。",
+      "hidden": {
+        "accident_date": "2022年3月1日",
+        "responsibility": "同等责任",
+        "injury": "伤残但未鉴定",
+        "residence": "农村",
+        "insurance": "交强险和商业险"
+      },
+      "gold": {
+        "interp": "tort_interp_2020",
+        "unified_standard": false,
+        "limitation_deadline": "2025-03-01",
+        "limitation_expired": true,
+        "critical": [
+          "accident_date",
+          "responsibility",
+          "injury",
+          "residence"
+        ]
+      },
+      "note": "2022-05-01 前的法律事实仍适用旧解释。"
+    },
+    {
+      "id": "T04",
+      "case_type": "tort_injury",
+      "opening": "2022年6月1日车祸，对方主要责任，受害人死亡，城镇户口。",
+      "hidden": {
+        "accident_date": "2022年6月1日",
+        "responsibility": "对方主要责任",
+        "injury": "死亡",
+        "residence": "城镇",
+        "insurance": "交强险和商业险"
+      },
+      "gold": {
+        "interp": "tort_interp_2022",
+        "unified_standard": true,
+        "limitation_deadline": "2025-06-01",
+        "limitation_expired": true,
+        "critical": [
+          "accident_date",
+          "responsibility",
+          "injury"
+        ]
+      },
+      "note": "刚好跨过2022-05-01，适用新解释。"
+    },
+    {
+      "id": "T05",
+      "case_type": "tort_injury",
+      "opening": "2023年6月我家人出车祸受伤，对方全责，农村户口，评了伤残。",
+      "hidden": {
+        "accident_date": "2023年6月1日",
+        "responsibility": "对方全责",
+        "injury": "已鉴定伤残等级",
+        "residence": "农村",
+        "insurance": "交强险和商业险"
+      },
+      "correction": {
+        "after_question_turns": 2,
+        "text": "更正：事故不是2023年6月，是2022年3月1日，一直记错了。",
+        "fact": "accident_date",
+        "old": "2023-06-01",
+        "new": "2022-03-01"
+      },
+      "gold": {
+        "interp": "tort_interp_2020",
+        "unified_standard": false,
+        "limitation_deadline": "2025-03-01",
+        "limitation_expired": true,
+        "critical": [
+          "accident_date",
+          "responsibility",
+          "injury",
+          "residence"
+        ]
+      },
+      "note": "更正事故日期后跨越2022-05-01，应切换司法解释版本与城乡标准。"
+    }
+  ]
+}

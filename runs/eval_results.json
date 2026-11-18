@@ -1,0 +1,225 @@
+{
+  "llm_mode": "api",
+  "today": "2026-11-18",
+  "n_cases": 1,
+  "aggregate": {
+    "full": {
+      "n": 1,
+      "coverage": 1.0,
+      "inquiry_recall": 1.0,
+      "questions": 9.0,
+      "premature_rate": 0.0,
+      "citation_support": 1.0,
+      "illegal_acc": 1.0,
+      "amount_acc": 1.0,
+      "limitation_acc": 1.0,
+      "version_acc": null,
+      "stale_rate": null,
+      "latency_ms": 3584.47,
+      "prompt_tokens": 6012,
+      "completion_tokens": 309,
+      "llm_calls": 7,
+      "cost_rmb": 0.0066
+    }
+  },
+  "runs": [
+    {
+      "case_id": "L01",
+      "condition": "full",
+      "status": "answered",
+      "coverage": 1.0,
+      "inquiry_recall": 1.0,
+      "questions": 9,
+      "turns": 6,
+      "premature": false,
+      "support_rate": 1.0,
+      "illegal_ok": true,
+      "amount_ok": true,
+      "limitation_ok": true,
+      "version_ok": null,
+      "stale_after_correction": null,
+      "elapsed_ms": 3584.47,
+      "prompt_tokens": 6012,
+      "completion_tokens": 309,
+      "llm_calls": 7,
+      "cost_rmb": 0.00663,
+      "final": {
+        "analysis": {
+          "case_type": "labor_dismissal",
+          "as_of": "2026-03-15",
+          "headline": "现有事实更支持“违法解除”，可主张赔偿金（2N）或继续履行。按现有数据估算赔偿金约 150,000 元。",
+          "findings": [
+            {
+              "id": "F_LIMITATION",
+              "issue": "仲裁时效",
+              "conclusion": "1年（劳动争议调解仲裁法第27条），自 2026-03-15 起算，届满日为 2027-03-15；目前尚未届满（剩余约 117 天）。",
+              "reasoning": "期间自当事人知道或者应当知道权利被侵害之日起计算；以解除通知送达/解除之日为起算点属于常见但需核实的选择。",
+              "cites": [
+                "labor_dispute@2008-05-01:第27条"
+              ],
+              "depends": [
+                "dismiss_date"
+              ],
+              "risk": "中",
+              "quote": "",
+              "assumptions": [
+                "以解除日为时效起算点"
+              ]
+            },
+            {
+              "id": "F_RULE_PUBLICITY",
+              "issue": "规章制度的公示告知",
+              "conclusion": "若公司不能证明已向劳动者公示或告知规章制度，该制度原则上不能作为解除依据，解除被认定违法的风险高。",
+              "reasoning": "直接涉及劳动者切身利益的规章制度应当公示或者告知劳动者；经民主程序制定并已公示的制度才可作为审理依据。",
+              "cites": [
+                "labor_contract@2008-01-01:第4条",
+                "labor_js1@2021-01-01:第50条"
+              ],
+              "depends": [
+                "rule_publicized",
+                "stated_reason"
+              ],
+              "risk": "高",
+              "quote": "",
+              "assumptions": []
+            },
+            {
+              "id": "F_RULE_PROCEDURE",
+              "issue": "规章制度的制定程序",
+              "conclusion": "制度未经职工代表大会或全体职工讨论、协商，程序存在瑕疵，可作为抗辩点，但不必然导致解除违法。",
+              "reasoning": "第4条第2款要求民主程序；实践中程序瑕疵的后果需结合制度内容与公示情况判断。",
+              "cites": [
+                "labor_contract@2008-01-01:第4条"
+              ],
+              "depends": [
+                "rule_democratic"
+              ],
+              "risk": "中",
+              "quote": "",
+              "assumptions": []
+            },
+            {
+              "id": "F_MISCONDUCT_PROOF",
+              "issue": "违纪事实的举证",
+              "conclusion": "公司仅有口头指认，缺书面证据，举证不能的风险由用人单位承担。",
+              "reasoning": "因解除劳动合同发生的争议，用人单位负举证责任。",
+              "cites": [
+                "labor_js1@2021-01-01:第44条",
+                "labor_contract@2008-01-01:第39条"
+              ],
+              "depends": [
+                "misconduct_proof"
+              ],
+              "risk": "高",
+              "quote": "",
+              "assumptions": []
+            },
+            {
+              "id": "F_UNION",
+              "issue": "解除程序：通知工会",
+              "conclusion": "若公司已建立工会而解除前未通知，且未在起诉前补正，法院可支持违法解除赔偿金。",
+              "reasoning": "单方解除应事先将理由通知工会；未通知且未补正构成程序违法。该规则以用人单位已建立工会为前提。",
+              "cites": [
+                "labor_contract@2008-01-01:第43条",
+                "labor_js1@2021-01-01:第47条"
+              ],
+              "depends": [
+                "union_notified"
+              ],
+              "risk": "高",
+              "quote": "",
+              "assumptions": [
+                "以用人单位已建立工会组织为前提"
+              ]
+            },
+            {
+              "id": "F_COMPENSATION",
+              "issue": "赔偿金/经济补偿计算",
+              "conclusion": "按工作年限 4年10个月、基数 15,000 元/月计算，违法解除赔偿金（2N）约为 150,000 元。计算公式：15,000 元/月 × 5 个月 × 2（违法解除赔偿金）。",
+              "reasoning": "六个月以上不满一年按一年计算",
+              "cites": [
+                "labor_contract@2008-01-01:第47条",
+                "labor_contract@2008-01-01:第87条"
+              ],
+              "depends": [
+                "start_date",
+                "dismiss_date",
+                "monthly_wage"
+              ],
+              "risk": "中",
+              "quote": "",
+              "assumptions": [
+                "月工资按解除前十二个月平均应发工资计算，实践中的奖金、补贴是否计入存在争议。",
+                "若月工资高于用人单位所在设区的市级人民政府公布的上年度职工月平均工资三倍，则按三倍封顶且年限不超过十二年；本项目未接入当地社平工资数据，需人工核对。"
+              ]
+            },
+            {
+              "id": "F_REMEDY",
+              "issue": "救济路径",
+              "conclusion": "选择赔偿金路径，则不再主张继续履行；赔偿金为经济补偿标准的二倍。",
+              "reasoning": "第48条、第87条。",
+              "cites": [
+                "labor_contract@2008-01-01:第48条",
+                "labor_contract@2008-01-01:第87条"
+              ],
+              "depends": [
+                "claim_type"
+              ],
+              "risk": "低",
+              "quote": "",
+              "assumptions": []
+            }
+          ],
+          "gaps": [],
+          "assumptions": [
+            "月工资按解除前十二个月平均应发工资计算，实践中的奖金、补贴是否计入存在争议。",
+            "若月工资高于用人单位所在设区的市级人民政府公布的上年度职工月平均工资三倍，则按三倍封顶且年限不超过十二年；本项目未接入当地社平工资数据，需人工核对。"
+          ],
+          "metadata": {
+            "illegal": true,
+            "confidence": "较高",
+            "limitation": {
+              "ok": true,
+              "kind": "仲裁时效",
+              "start": "2026-03-15",
+              "deadline": "2027-03-15",
+              "basis": "labor_dispute@2008-05-01:第27条",
+              "label": "1年（劳动争议调解仲裁法第27条）",
+              "expired": false,
+              "days_left": 117,
+              "note": "期间自当事人知道或者应当知道权利被侵害之日起计算；以解除通知送达/解除之日为起算点属于常见但需核实的选择。"
+            },
+            "compensation": {
+              "ok": true,
+              "n": 5,
+              "months": 5,
+              "base": 15000.0,
+              "multiplier": 2,
+              "amount": 150000.0,
+              "formula": "15,000 元/月 × 5 个月 × 2（违法解除赔偿金）",
+              "work_years_label": "4年10个月",
+              "years_rule": "六个月以上不满一年按一年计算",
+              "cites": [
+                "labor_contract@2008-01-01:第47条",
+                "labor_contract@2008-01-01:第87条"
+              ],
+              "assumptions": [
+                "月工资按解除前十二个月平均应发工资计算，实践中的奖金、补贴是否计入存在争议。",
+                "若月工资高于用人单位所在设区的市级人民政府公布的上年度职工月平均工资三倍，则按三倍封顶且年限不超过十二年；本项目未接入当地社平工资数据，需人工核对。"
+              ]
+            },
+            "reason": "严重违纪",
+            "state_revision": 11
+          }
+        },
+        "verification": {
+          "checked": 7,
+          "supported": 7,
+          "support_rate": 1.0,
+          "defects": []
+        },
+        "memo_head": "# 法律咨询备忘录（草稿）\n\n- 案由：劳动争议 · 解除劳动合同\n- 案件基准日期：2026-03-15\n- 事实记录版本：v11（共 11 项事实）\n- 生成时间：2026-11-18 19:08\n\n> 本系统为 NLP 课程项目演示，输出不构成正式法律意见；引用条文请以国家法律法规数据库（flk.npc.gov.cn）现行文本为准。\n\n## 一、结论摘要\n\n现有事实更支持“违法解除”，可主张赔偿金（2N）或继续履行。按现有数据估算赔偿金约 150,000 元。\n\n**给当事人的说明**：根据目前掌握的情况，公司解除劳动合同更可能被认定为违法解除，您可以主张赔偿金（约15万元）或要求继续履行合同，但这两条路只能选一条。需要提醒您的是，申请仲裁的时效是1年，从2026年3月15日起算，到2027年3月15日届满，目前还没有过期，但剩余时间不多，建议尽早决定。\n\n## 二、事实状态\n\n| "
+      }
+    }
+  ]
+}

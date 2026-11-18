@@ -1,0 +1,18 @@
+{
+  "cache_on": {
+    "warm_executed": 0,
+    "warm_cached": 18
+  },
+  "cache_off": {
+    "warm_executed": 18,
+    "warm_cached": 0
+  },
+  "revision": {
+    "cache_entries_before": 18,
+    "invalidated": 1,
+    "cache_entries_after": 25,
+    "tools_executed": 8,
+    "tools_cached": 10,
+    "revision": 12
+  }
+}

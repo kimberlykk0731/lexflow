@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+  @page { size: 13.333in 7.5in; margin: 0; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+         color: #0f172a; background: white; }
+  .slide { width: 1280px; height: 720px; padding: 54px 64px 46px;
+           page-break-after: always; position: relative; overflow: hidden; }
+  .slide:last-child { page-break-after: auto; }
+  .kicker { font-size: 15px; letter-spacing: .12em; color: #2563eb;
+            font-weight: 700; text-transform: uppercase; }
+  h1 { font-size: 54px; line-height: 1.08; margin: 10px 0 14px; letter-spacing: -1px; }
+  h2 { font-size: 38px; line-height: 1.15; margin: 6px 0 22px; letter-spacing: -.5px; }
+  p  { font-size: 21px; line-height: 1.6; color: #334155; margin: 6px 0; }
+  .sub { font-size: 22px; color: #475569; }
+  .accent { color: #2563eb; }
+  .footer { position: absolute; bottom: 20px; left: 64px; right: 64px;
+            display: flex; justify-content: space-between; font-size: 13px;
+            color: #94a3b8; border-top: 1px solid #e2e8f0; padding-top: 8px; }
+  .cards { display: flex; gap: 18px; margin-top: 26px; }
+  .card { flex: 1; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 22px 22px;
+          background: #f8fafc; }
+  .card.red { background: #fef2f2; border-color: #fecaca; }
+  .card.blue { background: #eff6ff; border-color: #bfdbfe; }
+  .card.amber { background: #fffbeb; border-color: #fde68a; }
+  .card .tag { font-size: 14px; font-weight: 700; color: #64748b; }
+  .card .big { font-size: 40px; font-weight: 800; margin: 8px 0 6px; }
+  .card .small { font-size: 16px; color: #475569; line-height: 1.5; }
+  ul { margin: 10px 0 0 22px; }
+  li { font-size: 21px; line-height: 1.7; color: #334155; margin: 7px 0; }
+  .cols { display: flex; gap: 40px; align-items: flex-start; }
+  .col { flex: 1; }
+  img { max-width: 100%; display: block; }
+  table { border-collapse: collapse; width: 100%; font-size: 17px; margin-top: 12px; }
+  th { background: #f1f5f9; text-align: left; padding: 8px 10px; border-bottom: 2px solid #cbd5e1; }
+  td { padding: 8px 10px; border-bottom: 1px solid #e2e8f0; }
+  .num { font-weight: 800; font-size: 20px; }
+  .quote { font-size: 26px; line-height: 1.5; color: #0f172a; border-left: 5px solid #2563eb;
+           padding: 8px 0 8px 22px; margin: 22px 0; }
+  .muted { color: #64748b; font-size: 16px; }
+  .pill { display: inline-block; background: #eff6ff; color: #1d4ed8; font-size: 15px;
+          font-weight: 700; border-radius: 999px; padding: 6px 14px; margin-right: 8px; }
+</style>
+</head>
+<body>
+
+<section class="slide">
+  <div class="kicker">NLP Course Project</div>
+  <h1>LexFlow<br><span class="accent">先问再答</span>的法律咨询 Agent</h1>
+  <p class="sub">要件事实门控 · 法条时间效力 · 事实更正后的重算</p>
+  <div class="quote">大多数法律 RAG 回答“问题”。<br>我们先判断“这个问题现在能不能回答”。</div>
+  <p class="muted">课程项目 · 组号 ___ · 2026-11</p>
+  <div class="footer"><span>LexFlow</span><span>1 / 8</span></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">The problem</div>
+  <h2>同一句话，三种结论</h2>
+  <p>客户只说了一句：“公司把我辞退了。”</p>
+  <div class="cards">
+    <div class="card red">
+      <div class="tag">缺：制度是否公示</div>
+      <div class="big">2N</div>
+      <div class="small">制度未公示 → 不能作为解除依据 → 违法解除赔偿金</div>
+    </div>
+    <div class="card blue">
+      <div class="tag">齐：公示 + 证据 + 工会</div>
+      <div class="big">0</div>
+      <div class="small">第39条合法解除 → 无需支付经济补偿</div>
+    </div>
+    <div class="card amber">
+      <div class="tag">缺：解除日期</div>
+      <div class="big">时效</div>
+      <div class="small">超过一年 → 对方可提仲裁时效抗辩</div>
+    </div>
+  </div>
+  <p style="margin-top:26px;font-size:23px;">缺三个事实，结论从 15 万变成 0，或者变成“先解决时效”。</p>
+  <div class="footer"><span>LexFlow</span><span>2 / 8</span></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">What changed in 2026</div>
+  <h2>“咨询”已经被 benchmark 化了</h2>
+  <div class="cards">
+    <div class="card">
+      <div class="tag">LeCoDe · ACL 2026</div>
+      <div class="big">~36%</div>
+      <div class="small">强模型在给建议前只问到约 36% 的关键事实</div>
+    </div>
+    <div class="card">
+      <div class="tag">DLawBench · 2026</div>
+      <div class="big">0.562</div>
+      <div class="small">最强模型在咨询式法律推理上的得分；还暴露法律谄媚</div>
+    </div>
+    <div class="card">
+      <div class="tag">Harvey LAB-AA · 2026-10</div>
+      <div class="big">核验</div>
+      <div class="small">真实工作产物 + rubric + 幻觉检查成为门槛</div>
+    </div>
+  </div>
+  <p style="margin-top:28px;font-size:23px;">所以我们不把“会追问”当卖点，<span class="accent">把“事实改了会重算”当卖点。</span></p>
+  <div class="footer"><span>LexFlow</span><span>3 / 8</span></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">System</div>
+  <h2 style="margin-bottom:2px;">一个状态机，不是四个 agent</h2>
+  <img src="figures/architecture_diagram.png" style="width:98%;margin:0 auto;">
+  <p class="muted" style="margin-top:2px;font-size:15px;">模型只做抽取和白话解释；引用、金额、期限由确定性规则层完成。</p>
+  <div class="footer"><span>LexFlow</span><span>4 / 8</span></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">Three mechanisms</div>
+  <h2>每个机制都有对应的指标</h2>
+  <table>
+    <tr><th>机制</th><th>做法</th><th>指标</th></tr>
+    <tr><td><b>要件事实门控</b></td><td>关键事实缺失就追问，不硬答</td><td>覆盖率 · 过早结论率</td></tr>
+    <tr><td><b>法条时间效力</b></td><td>检索和引用限定在案发日有效的版本</td><td>版本 · 时效一致率</td></tr>
+    <tr><td><b>版本化记忆</b></td><td>更正后只重算受影响的部分</td><td>旧结论残留率 · 失效缓存数</td></tr>
+  </table>
+  <div class="quote" style="margin-top:34px;font-size:22px;">
+    2022-05-01 前，残疾赔偿金区分城乡；之后统一按城镇标准。<br>
+    同一起事故，日期不同，适用的司法解释不同。
+  </div>
+  <div class="footer"><span>LexFlow</span><span>5 / 8</span></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">Evaluation</div>
+  <h2>12 个受控案例 × 4 个配置</h2>
+  <div class="cards">
+    <div class="card blue">
+      <div class="tag">关键事实覆盖率</div>
+      <div class="big">57.5% → 100%</div>
+      <div class="small">answer_first → 任何带门控的配置</div>
+    </div>
+    <div class="card red">
+      <div class="tag">过早结论率</div>
+      <div class="big">58.3% → 0%</div>
+      <div class="small">事实没齐就出备忘录的比例</div>
+    </div>
+    <div class="card amber">
+      <div class="tag">旧结论残留</div>
+      <div class="big">100% → 0%</div>
+      <div class="small">full_no_revision → full；只改“是否复用旧分析”</div>
+    </div>
+  </div>
+  <p style="margin-top:30px;font-size:22px;">追问负责“问全”，版本化记忆负责“改对”。</p>
+  <p class="muted" style="margin-top:10px;font-size:16px;">
+    DeepSeek 官方 API；12 案例 × 4 配置共 149k 输入 + 11k 输出 tokens，约 0.17 元。<br>
+    金标准与规则层同源：法律结论的 100% 只说明管线一致，行为差异才是结果。
+  </p>
+  <div class="footer"><span>LexFlow</span><span>6 / 8</span></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">Error analysis</div>
+  <h2>一个真实的 bug：日期精度</h2>
+  <div class="quote">
+    客户说“2024 年 1 月”，模型归一成 2024-01-01，门控把它当成精确日，<br>
+    时效届满日算成 2025-01-01，而不是 2025-01-05。
+  </div>
+  <p style="font-size:24px;margin-top:16px;">修复：从原文恢复“月精度”，再追问具体哪一天。</p>
+  <p style="font-size:24px;margin-top:14px;">教训：<b>危险的不是错一句话，是一个错状态被后面当成确定事实。</b></p>
+  <div class="footer"><span>LexFlow</span><span>7 / 8</span></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">Limitations & takeaway</div>
+  <h2>我们没测什么</h2>
+  <ul>
+    <li>只有两个案由、12 个案例、脚本化当事人，不外推为通用法律能力。</li>
+    <li>时效起算、社平工资封顶、损害赔偿金额都做了简化。</li>
+    <li>核验器抓不到“法条选错但版本有效”“论证跳跃”。</li>
+    <li>金标准与规则层同源，法律结论靠人工盲审补。</li>
+  </ul>
+  <div class="quote" style="margin-top:34px;font-size:28px;">
+    我们没有让模型更懂法。<br>我们让 agent 更清楚自己<span class="accent">什么时候不该回答</span>。
+  </div>
+  <div class="footer"><span>LexFlow</span><span>8 / 8</span></div>
+</section>
+
+</body>
+</html>

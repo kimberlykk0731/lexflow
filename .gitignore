@@ -1,0 +1,29 @@
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# 运行产物 / 本地数据库
+runs/*.sqlite
+runs/*.sqlite-wal
+runs/*.sqlite-shm
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+
+# 本地配置（含密钥时不要提交）
+.streamlit/
+.env
+.env.*
+
+# 生成物
+_report.html
+.pytest_cache/
+.ipynb_checkpoints/
+
+# 系统 / 编辑器
+.DS_Store
+.idea/
+.vscode/
+*.log

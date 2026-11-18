@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640">
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b"/></marker></defs>
+<rect width="100%" height="100%" fill="white"/>
+<text x="40" y="46" font-family="Helvetica, Arial" font-size="26" font-weight="700" fill="#0f172a">LexFlow: ask before you answer</text>
+<text x="40" y="72" font-family="Helvetica, Arial" font-size="14" fill="#64748b">Deterministic control flow + LLM extraction, with a versioned case record</text>
+<rect x="30" y="120" width="160" height="84" rx="12" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+<text x="110.0" y="152.0" text-anchor="middle" font-family="Helvetica, Arial" font-size="17" font-weight="600" fill="#0f172a">Client</text>
+<text x="110.0" y="176.0" text-anchor="middle" font-family="Helvetica, Arial" font-size="13" fill="#475569">vague facts</text>
+<text x="110.0" y="194.0" text-anchor="middle" font-family="Helvetica, Arial" font-size="13" fill="#475569">corrections</text>
+<rect x="240" y="120" width="180" height="84" rx="12" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+<text x="330.0" y="152.0" text-anchor="middle" font-family="Helvetica, Arial" font-size="17" font-weight="600" fill="#0f172a">Intake</text>
+<text x="330.0" y="176.0" text-anchor="middle" font-family="Helvetica, Arial" font-size="13" fill="#475569">LLM extraction</text>
+<text x="330.0" y="194.0" text-anchor="middle" font-family="Helvetica, Arial" font-size="13" fill="#475569">provenance</text>
+<polygon points="560,96 660,162 560,228 460,162" fill="#eef2ff" stroke="#818cf8" stroke-width="2"/><text x="560" y="157" text-anchor="middle" font-family="Helvetica, Arial" font-size="16" font-weight="600" fill="#312e81">Sufficient?</text><text x="560" y="177" text-anchor="middle" font-family="Helvetica, Arial" font-size="12" fill="#4338ca">critical elements</text>
+<rect x="740" y="120" width="200" height="84" rx="12" fill="#f0fdf4" stroke="#86efac" stroke-width="2"/>
+<text x="840.0" y="152.0" text-anchor="middle" font-family="Helvetica, Arial" font-size="17" font-weight="600" fill="#0f172a">Research</text>
+<text x="840.0" y="176.0" text-anchor="middle" font-family="Helvetica, Arial" font-size="13" fill="#475569">versioned statutes</text>
+<text x="840.0" y="194.0" text-anchor="middle" font-family="Helvetica, Arial" font-size="13" fill="#475569">rules + arithmetic</text>
+<rect x="990" y="120" width="200" height="84" rx="12" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+<text x="1090.0" y="152.0" text-anchor="middle" font-family="Helvetica, Arial" font-size="17" font-weight="600" fill="#0f172a">Memo</text>
+<text x="1090.0" y="176.0" text-anchor="middle" font-family="Helvetica, Arial" font-size="13" fill="#475569">claims + citations</text>
+<text x="1090.0" y="194.0" text-anchor="middle" font-family="Helvetica, Arial" font-size="13" fill="#475569">gaps + assumptions</text>
+<rect x="30" y="320" width="180" height="90" rx="12" fill="#f5f3ff" stroke="#c4b5fd" stroke-width="2"/>
+<text x="120.0" y="355.0" text-anchor="middle" font-family="Helvetica, Arial" font-size="17" font-weight="600" fill="#0f172a">Case memory</text>
+<text x="120.0" y="379.0" text-anchor="middle" font-family="Helvetica, Arial" font-size="13" fill="#475569">facts · status · revision</text>
+<text x="120.0" y="397.0" text-anchor="middle" font-family="Helvetica, Arial" font-size="13" fill="#475569">supersession chain</text>
+<rect x="460" y="320" width="180" height="90" rx="12" fill="#fef2f2" stroke="#fca5a5" stroke-width="2"/>
+<text x="550.0" y="355.0" text-anchor="middle" font-family="Helvetica, Arial" font-size="17" font-weight="600" fill="#0f172a">Ask 1–2 questions</text>
+<text x="550.0" y="379.0" text-anchor="middle" font-family="Helvetica, Arial" font-size="13" fill="#475569">ordered by legal leverage</text>
+<rect x="740" y="320" width="200" height="90" rx="12" fill="#eff6ff" stroke="#93c5fd" stroke-width="2"/>
+<text x="840.0" y="355.0" text-anchor="middle" font-family="Helvetica, Arial" font-size="17" font-weight="600" fill="#0f172a">Statute corpus</text>
+<text x="840.0" y="379.0" text-anchor="middle" font-family="Helvetica, Arial" font-size="13" fill="#475569">1,340 articles · 15 instruments</text>
+<text x="840.0" y="397.0" text-anchor="middle" font-family="Helvetica, Arial" font-size="13" fill="#475569">valid_from / valid_to</text>
+<rect x="990" y="320" width="200" height="90" rx="12" fill="#fff7ed" stroke="#fdba74" stroke-width="2"/>
+<text x="1090.0" y="355.0" text-anchor="middle" font-family="Helvetica, Arial" font-size="17" font-weight="600" fill="#0f172a">Verifier</text>
+<text x="1090.0" y="379.0" text-anchor="middle" font-family="Helvetica, Arial" font-size="13" fill="#475569">existence · validity</text>
+<text x="1090.0" y="397.0" text-anchor="middle" font-family="Helvetica, Arial" font-size="13" fill="#475569">quote · number · stale</text>
+<rect x="990" y="460" width="200" height="78" rx="12" fill="#fff7ed" stroke="#fdba74" stroke-width="2"/>
+<text x="1090.0" y="489.0" text-anchor="middle" font-family="Helvetica, Arial" font-size="17" font-weight="600" fill="#0f172a">Repair (bounded)</text>
+<text x="1090.0" y="513.0" text-anchor="middle" font-family="Helvetica, Arial" font-size="13" fill="#475569">swap version · drop quote</text>
+<text x="1090.0" y="531.0" text-anchor="middle" font-family="Helvetica, Arial" font-size="13" fill="#475569">re-verify once</text>
+<line x1="190" y1="162" x2="240" y2="162" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="420" y1="162" x2="460" y2="162" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="660" y1="162" x2="740" y2="162" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/><text x="700.0" y="152" text-anchor="middle" font-family="Helvetica, Arial" font-size="13" fill="#475569">yes</text>
+<line x1="940" y1="162" x2="990" y2="162" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="560" y1="228" x2="560" y2="320" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/><text x="560.0" y="280" text-anchor="middle" font-family="Helvetica, Arial" font-size="13" fill="#475569">no</text>
+<polyline points="460,365 400,365 400,204" fill="none" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="120" y1="320" x2="120" y2="204" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/><text x="95" y="270" text-anchor="middle" font-family="Helvetica, Arial" font-size="13" fill="#475569">facts</text>
+<line x1="820" y1="204" x2="820" y2="320" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/><text x="800" y="270" text-anchor="middle" font-family="Helvetica, Arial" font-size="13" fill="#475569">query</text>
+<line x1="880" y1="320" x2="880" y2="204" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/><text x="905" y="270" text-anchor="middle" font-family="Helvetica, Arial" font-size="13" fill="#475569">evidence</text>
+<line x1="1090" y1="204" x2="1090" y2="320" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="1060" y1="410" x2="1060" y2="460" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/><text x="1032" y="440" text-anchor="middle" font-family="Helvetica, Arial" font-size="13" fill="#475569">defects</text>
+<line x1="1170" y1="460" x2="1170" y2="410" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/><text x="1198" y="440" text-anchor="middle" font-family="Helvetica, Arial" font-size="13" fill="#475569">re-check</text>
+<text x="1205" y="355" font-family="Helvetica, Arial" font-size="12" fill="#475569">pass →</text>
+<text x="1205" y="372" font-family="Helvetica, Arial" font-size="12" fill="#475569">memo</text>
+<text x="40" y="590" font-family="Helvetica, Arial" font-size="13" fill="#475569">fact change → revision++ → invalidate only dependent cache entries → recompute limitation / compensation / applicable version</text>
+</svg>

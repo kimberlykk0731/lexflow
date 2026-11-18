@@ -1,0 +1,315 @@
+{
+  "summary": {
+    "UNKNOWN_SOURCE": {
+      "n": 12,
+      "detected": 12,
+      "rate": 1.0
+    },
+    "VERSION_NOT_IN_FORCE": {
+      "n": 12,
+      "detected": 12,
+      "rate": 1.0
+    },
+    "QUOTE_MISMATCH": {
+      "n": 12,
+      "detected": 12,
+      "rate": 1.0
+    },
+    "SUPERSEDED_FACT": {
+      "n": 12,
+      "detected": 12,
+      "rate": 1.0
+    },
+    "UNVERIFIED_NUMBER": {
+      "n": 7,
+      "detected": 7,
+      "rate": 1.0
+    },
+    "clean_false_positive": {
+      "n": 12,
+      "defects": 0
+    }
+  },
+  "detail": {
+    "UNKNOWN_SOURCE": [
+      {
+        "case": "L01",
+        "detected": true
+      },
+      {
+        "case": "L02",
+        "detected": true
+      },
+      {
+        "case": "L03",
+        "detected": true
+      },
+      {
+        "case": "L04",
+        "detected": true
+      },
+      {
+        "case": "L05",
+        "detected": true
+      },
+      {
+        "case": "L06",
+        "detected": true
+      },
+      {
+        "case": "L07",
+        "detected": true
+      },
+      {
+        "case": "T01",
+        "detected": true
+      },
+      {
+        "case": "T02",
+        "detected": true
+      },
+      {
+        "case": "T03",
+        "detected": true
+      },
+      {
+        "case": "T04",
+        "detected": true
+      },
+      {
+        "case": "T05",
+        "detected": true
+      }
+    ],
+    "VERSION_NOT_IN_FORCE": [
+      {
+        "case": "L01",
+        "detected": true
+      },
+      {
+        "case": "L02",
+        "detected": true
+      },
+      {
+        "case": "L03",
+        "detected": true
+      },
+      {
+        "case": "L04",
+        "detected": true
+      },
+      {
+        "case": "L05",
+        "detected": true
+      },
+      {
+        "case": "L06",
+        "detected": true
+      },
+      {
+        "case": "L07",
+        "detected": true
+      },
+      {
+        "case": "T01",
+        "detected": true
+      },
+      {
+        "case": "T02",
+        "detected": true
+      },
+      {
+        "case": "T03",
+        "detected": true
+      },
+      {
+        "case": "T04",
+        "detected": true
+      },
+      {
+        "case": "T05",
+        "detected": true
+      }
+    ],
+    "QUOTE_MISMATCH": [
+      {
+        "case": "L01",
+        "detected": true
+      },
+      {
+        "case": "L02",
+        "detected": true
+      },
+      {
+        "case": "L03",
+        "detected": true
+      },
+      {
+        "case": "L04",
+        "detected": true
+      },
+      {
+        "case": "L05",
+        "detected": true
+      },
+      {
+        "case": "L06",
+        "detected": true
+      },
+      {
+        "case": "L07",
+        "detected": true
+      },
+      {
+        "case": "T01",
+        "detected": true
+      },
+      {
+        "case": "T02",
+        "detected": true
+      },
+      {
+        "case": "T03",
+        "detected": true
+      },
+      {
+        "case": "T04",
+        "detected": true
+      },
+      {
+        "case": "T05",
+        "detected": true
+      }
+    ],
+    "SUPERSEDED_FACT": [
+      {
+        "case": "L01",
+        "detected": true
+      },
+      {
+        "case": "L02",
+        "detected": true
+      },
+      {
+        "case": "L03",
+        "detected": true
+      },
+      {
+        "case": "L04",
+        "detected": true
+      },
+      {
+        "case": "L05",
+        "detected": true
+      },
+      {
+        "case": "L06",
+        "detected": true
+      },
+      {
+        "case": "L07",
+        "detected": true
+      },
+      {
+        "case": "T01",
+        "detected": true
+      },
+      {
+        "case": "T02",
+        "detected": true
+      },
+      {
+        "case": "T03",
+        "detected": true
+      },
+      {
+        "case": "T04",
+        "detected": true
+      },
+      {
+        "case": "T05",
+        "detected": true
+      }
+    ],
+    "UNVERIFIED_NUMBER": [
+      {
+        "case": "L01",
+        "detected": true
+      },
+      {
+        "case": "L02",
+        "detected": true
+      },
+      {
+        "case": "L03",
+        "detected": true
+      },
+      {
+        "case": "L04",
+        "detected": true
+      },
+      {
+        "case": "L05",
+        "detected": true
+      },
+      {
+        "case": "L06",
+        "detected": true
+      },
+      {
+        "case": "L07",
+        "detected": true
+      }
+    ],
+    "clean_false_positive": [
+      {
+        "case": "L01",
+        "count": 0
+      },
+      {
+        "case": "L02",
+        "count": 0
+      },
+      {
+        "case": "L03",
+        "count": 0
+      },
+      {
+        "case": "L04",
+        "count": 0
+      },
+      {
+        "case": "L05",
+        "count": 0
+      },
+      {
+        "case": "L06",
+        "count": 0
+      },
+      {
+        "case": "L07",
+        "count": 0
+      },
+      {
+        "case": "T01",
+        "count": 0
+      },
+      {
+        "case": "T02",
+        "count": 0
+      },
+      {
+        "case": "T03",
+        "count": 0
+      },
+      {
+        "case": "T04",
+        "count": 0
+      },
+      {
+        "case": "T05",
+        "count": 0
+      }
+    ]
+  }
+}

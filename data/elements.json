@@ -1,0 +1,270 @@
+{
+  "version": 1,
+  "note": "要件事实（element-of-claim）schema。每个字段对应一个会影响结论的事实；critical 字段缺失时 agent 必须先追问，不得直接下结论。critical_if 表示仅在满足条件时才成为关键事实。",
+  "case_types": {
+    "labor_dismissal": {
+      "label": "劳动争议 · 解除劳动合同",
+      "aliases": ["辞退", "开除", "解除劳动合同", "被公司炒", "裁员", "劳动关系", "经济补偿", "赔偿金", "N+1", "2N"],
+      "law_hints": ["labor_contract", "labor_dispute", "labor_js1", "labor_law", "labor_contract_regs"],
+      "default_as_of": "today",
+      "fields": [
+        {
+          "key": "dismiss_date",
+          "label": "解除日期",
+          "question": "公司是哪一天通知您解除劳动合同的？如果有书面通知，通知上写的日期是哪天？",
+          "type": "date",
+          "critical": true,
+          "priority": 96,
+          "why": "决定仲裁时效起算点，以及应适用哪一版本的法条",
+          "basis": ["labor_dispute@2008-05-01:第27条"]
+        },
+        {
+          "key": "who_initiated",
+          "label": "解除主体",
+          "question": "这次是公司单方面通知解除，还是您自己提出辞职，或者双方协商一致？",
+          "type": "enum",
+          "options": ["单位单方解除", "劳动者辞职", "协商一致解除", "说不清"],
+          "critical": true,
+          "priority": 94,
+          "why": "决定适用第三十九条/四十条/三十六条，以及是否有经济补偿",
+          "basis": ["labor_contract@2008-01-01:第39条", "labor_contract@2008-01-01:第40条", "labor_contract@2008-01-01:第46条"]
+        },
+        {
+          "key": "stated_reason",
+          "label": "解除理由",
+          "question": "解除通知或公司口头说明的理由是什么？例如严重违纪、不能胜任工作、客观情况变化、经济性裁员。",
+          "type": "enum",
+          "options": ["严重违纪", "不胜任工作", "客观情况重大变化", "经济性裁员", "试用期不符合录用条件", "其他或说不清"],
+          "critical": true,
+          "priority": 92,
+          "why": "不同法定解除事由对应不同的举证与程序要求",
+          "basis": ["labor_contract@2008-01-01:第39条", "labor_contract@2008-01-01:第40条", "labor_contract@2008-01-01:第41条"]
+        },
+        {
+          "key": "rule_publicized",
+          "label": "规章制度是否公示或告知",
+          "question": "公司据以解除的员工手册或规章制度，有没有向您公示、送达或组织学习过？您有没有签收记录？",
+          "type": "enum",
+          "options": ["有签收或公示", "没有公示告知", "记不清"],
+          "critical_if": [{"stated_reason": "严重违纪"}],
+          "priority": 84,
+          "why": "规章制度未经公示或告知，不能作为解除依据（劳动合同法第4条第4款）",
+          "basis": ["labor_contract@2008-01-01:第4条", "labor_js1@2021-01-01:第50条"]
+        },
+        {
+          "key": "rule_exists",
+          "label": "规章制度是否存在",
+          "question": "公司有没有成文的员工手册或违纪处理制度？您手上有没有这份文件的副本？",
+          "type": "enum",
+          "options": ["有成文制度", "没有成文制度", "不清楚"],
+          "critical_if": [{"stated_reason": "严重违纪"}],
+          "priority": 80,
+          "why": "无规章制度时，严重违纪解除缺少规范依据",
+          "basis": ["labor_contract@2008-01-01:第4条", "labor_contract@2008-01-01:第39条"]
+        },
+        {
+          "key": "misconduct_proof",
+          "label": "违纪事实的证据",
+          "question": "公司说您违纪，具体指什么事？他们手上有哪些证据，比如监控、书面检讨、证人或者您签字的记录？",
+          "type": "enum",
+          "options": ["有书面证据", "只有口头指认", "有证人但无书面材料", "不清楚"],
+          "critical_if": [{"stated_reason": "严重违纪"}],
+          "priority": 78,
+          "why": "用人单位对解除决定的合法性负举证责任",
+          "basis": ["labor_js1@2021-01-01:第44条"]
+        },
+        {
+          "key": "rule_democratic",
+          "label": "规章制度制定程序",
+          "question": "这份制度制定或修改时，有没有经过职工代表大会或全体职工讨论，并和工会或职工代表协商？",
+          "type": "enum",
+          "options": ["经过了民主程序", "没有经过", "不清楚"],
+          "critical_if": [{"stated_reason": "严重违纪"}],
+          "priority": 66,
+          "why": "直接涉及劳动者切身利益的规章制度须经民主程序制定",
+          "basis": ["labor_contract@2008-01-01:第4条"]
+        },
+        {
+          "key": "training_or_transfer",
+          "label": "是否培训或调岗",
+          "question": "公司说您不能胜任工作，在解除前有没有给您培训，或者调整过工作岗位？",
+          "type": "enum",
+          "options": ["有培训或调岗", "没有", "不清楚"],
+          "critical_if": [{"stated_reason": "不胜任工作"}],
+          "priority": 76,
+          "why": "不胜任解除须先经培训或调岗，仍不能胜任才可解除",
+          "basis": ["labor_contract@2008-01-01:第40条"]
+        },
+        {
+          "key": "notice_30d",
+          "label": "是否提前三十日通知",
+          "question": "公司有没有提前三十天书面通知您，或者额外支付一个月工资作为代通知金？",
+          "type": "enum",
+          "options": ["提前三十日通知", "支付了代通知金", "都没有"],
+          "critical_if": [{"stated_reason": "不胜任工作"}, {"stated_reason": "客观情况重大变化"}],
+          "priority": 64,
+          "why": "无过失性辞退须提前三十日通知或支付代通知金",
+          "basis": ["labor_contract@2008-01-01:第40条"]
+        },
+        {
+          "key": "union_notified",
+          "label": "是否通知工会",
+          "question": "公司解除前有没有把理由通知工会？公司里有没有建立工会？",
+          "type": "enum",
+          "options": ["已通知工会", "没有通知", "公司没有工会", "不清楚"],
+          "critical_if": [{"stated_reason": "严重违纪"}, {"stated_reason": "不胜任工作"}, {"stated_reason": "客观情况重大变化"}, {"stated_reason": "经济性裁员"}],
+          "priority": 60,
+          "why": "单方解除应事先通知工会；未通知且未补正的，可能构成违法解除",
+          "basis": ["labor_contract@2008-01-01:第43条", "labor_js1@2021-01-01:第47条"]
+        },
+        {
+          "key": "start_date",
+          "label": "入职日期",
+          "question": "您是哪一年哪一月入职的？中间有没有断过、换过关联公司？",
+          "type": "date",
+          "critical": true,
+          "priority": 58,
+          "why": "用于计算工作年限和经济补偿/赔偿金基数",
+          "basis": ["labor_contract@2008-01-01:第47条"]
+        },
+        {
+          "key": "monthly_wage",
+          "label": "月平均工资",
+          "question": "解除前十二个月，您平均每月应发工资大约是多少？可以给一个大概数。",
+          "type": "number",
+          "critical": true,
+          "priority": 56,
+          "why": "经济补偿/赔偿金的计算基数；高于当地社平工资三倍时另有封顶规则",
+          "basis": ["labor_contract@2008-01-01:第47条"]
+        },
+        {
+          "key": "claim_type",
+          "label": "诉求",
+          "question": "您现在更希望继续回去上班，还是要求公司支付赔偿金？",
+          "type": "enum",
+          "options": ["要求赔偿金", "要求继续履行", "还没想好"],
+          "critical": true,
+          "priority": 50,
+          "why": "继续履行与赔偿金是不同的救济路径",
+          "basis": ["labor_contract@2008-01-01:第48条", "labor_contract@2008-01-01:第87条"]
+        },
+        {
+          "key": "arbitration_filed",
+          "label": "是否已申请仲裁",
+          "question": "您已经向劳动人事争议仲裁委员会申请仲裁了吗？如果申请了，是哪一天？",
+          "type": "enum",
+          "options": ["已申请", "没有申请", "不清楚"],
+          "critical": false,
+          "priority": 44,
+          "why": "影响时效是否已经中断，以及后续程序建议",
+          "basis": ["labor_dispute@2008-05-01:第27条"]
+        },
+        {
+          "key": "employer",
+          "label": "用人单位",
+          "question": "和您签劳动合同的公司全称是什么？实际给您发工资、交社保的是同一家公司吗？",
+          "type": "text",
+          "critical": false,
+          "priority": 36,
+          "why": "确定被申请人主体，关联公司混同用工时尤其重要",
+          "basis": []
+        }
+      ]
+    },
+    "tort_injury": {
+      "label": "侵权 · 交通事故人身损害",
+      "aliases": ["交通事故", "车祸", "撞伤", "人身损害", "伤残", "赔偿", "保险公司", "交通事故认定书"],
+      "law_hints": ["civil_code_tort", "civil_code_general", "road_traffic", "tort_interp_2022", "tort_interp_2020", "tort_interp_2003", "civil_time_effect"],
+      "default_as_of": "accident_date",
+      "fields": [
+        {
+          "key": "accident_date",
+          "label": "事故发生日期",
+          "question": "交通事故发生的具体日期是哪一天？",
+          "type": "date",
+          "critical": true,
+          "priority": 98,
+          "why": "决定适用哪一版本的人身损害赔偿司法解释，以及三年诉讼时效的起算",
+          "basis": ["civil_code_general@2021-01-01:第188条", "civil_time_effect@2021-01-01:第1条"]
+        },
+        {
+          "key": "responsibility",
+          "label": "事故责任划分",
+          "question": "交警出具的事故认定书是怎么划分责任的？对方和您分别是什么责任？",
+          "type": "enum",
+          "options": ["对方全责", "对方主要责任", "同等责任", "对方次要责任", "己方全责", "尚未认定"],
+          "critical": true,
+          "priority": 92,
+          "why": "责任比例直接影响赔偿范围和数额",
+          "basis": ["road_traffic@2004-05-01:第76条", "civil_code_tort@2021-01-01:第1165条"]
+        },
+        {
+          "key": "injury",
+          "label": "伤情与伤残等级",
+          "question": "伤情现在是什么情况？有没有做过伤残等级鉴定，是几级？",
+          "type": "enum",
+          "options": ["死亡", "已鉴定伤残等级", "伤残但未鉴定", "重伤", "一般伤害"],
+          "critical": true,
+          "priority": 88,
+          "why": "决定可主张的赔偿项目（残疾赔偿金/死亡赔偿金等）",
+          "basis": ["civil_code_tort@2021-01-01:第1179条"]
+        },
+        {
+          "key": "residence",
+          "label": "户籍/经常居住地",
+          "question": "受害人的户籍是城镇还是农村？事故前连续在城镇居住、工作满一年了吗？",
+          "type": "enum",
+          "options": ["城镇", "农村", "农村户籍但城镇居住满一年"],
+          "critical_if": [{"injury": "已鉴定伤残等级"}, {"injury": "伤残但未鉴定"}, {"injury": "死亡"}],
+          "critical_if_date_before": "2022-05-01",
+          "priority": 72,
+          "why": "2022-05-01前残疾/死亡赔偿金区分城乡标准，之后统一按城镇居民标准",
+          "basis": ["tort_interp_2020@2021-01-01:第12条", "tort_interp_2022@2022-05-01:第12条"]
+        },
+        {
+          "key": "insurance",
+          "label": "保险情况",
+          "question": "肇事车辆投保了哪些保险？交强险和商业三者险分别有没有？",
+          "type": "enum",
+          "options": ["交强险和商业险", "仅有交强险", "没有保险", "不清楚"],
+          "critical": false,
+          "priority": 62,
+          "why": "赔偿顺序是先交强险、再商业险、不足部分由侵权人承担",
+          "basis": ["civil_code_tort@2021-01-01:第1213条", "road_traffic@2004-05-01:第76条"]
+        },
+        {
+          "key": "employment",
+          "label": "是否执行工作任务",
+          "question": "事故发生时，驾驶人是不是正在执行工作任务，比如送货、接送客户或者开公司车办公事？",
+          "type": "enum",
+          "options": ["执行工作任务", "个人事务", "不清楚"],
+          "critical": false,
+          "priority": 56,
+          "why": "执行工作任务造成他人损害的，由用人单位承担侵权责任",
+          "basis": ["civil_code_tort@2021-01-01:第1191条"]
+        },
+        {
+          "key": "treatment_cost",
+          "label": "已发生医疗费",
+          "question": "目前医疗费大概花了多少？有没有保留发票和病历？",
+          "type": "number",
+          "critical": false,
+          "priority": 48,
+          "why": "医疗费、护理费、误工费等需凭票据主张",
+          "basis": ["civil_code_tort@2021-01-01:第1179条"]
+        },
+        {
+          "key": "claim_filed",
+          "label": "是否已起诉或索赔",
+          "question": "目前有没有向保险公司报案理赔，或者已经向法院起诉？",
+          "type": "enum",
+          "options": ["已起诉", "已向保险公司索赔", "都没有"],
+          "critical": false,
+          "priority": 40,
+          "why": "影响诉讼时效中断与程序建议",
+          "basis": ["civil_code_general@2021-01-01:第188条"]
+        }
+      ]
+    }
+  }
+}
