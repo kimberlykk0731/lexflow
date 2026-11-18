@@ -17,6 +17,9 @@ runs/*.sqlite-shm
 .env
 .env.*
 
+# 只留本地、不进公开仓库的内部材料（分工、评分预期、个人建议等）
+_local/
+
 # 生成物
 _report.html
 .pytest_cache/
@@ -27,3 +30,4 @@ _report.html
 .idea/
 .vscode/
 *.log
+!.env.example

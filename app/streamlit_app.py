@@ -6,6 +6,7 @@ Run from the project root:
 from __future__ import annotations
 
 import json
+import os
 import sys
 import time
 from pathlib import Path
@@ -24,6 +25,15 @@ from lexflow.llm import build_llm  # noqa: E402
 from lexflow.memory import MemoryStore  # noqa: E402
 
 st.set_page_config(page_title="LexFlow · 法律咨询 Agent", layout="wide")
+
+# Streamlit Community Cloud passes secrets via st.secrets, not the shell env.
+# Copy the four keys we understand into os.environ before LLMConfig is built.
+try:
+    for _key in ("LLM_API_KEY", "LLM_BASE_URL", "LLM_MODEL", "LEXFLOW_LLM"):
+        if _key not in os.environ and _key in st.secrets:
+            os.environ[_key] = str(st.secrets[_key])
+except Exception:
+    pass
 st.markdown(
     """
     <style>

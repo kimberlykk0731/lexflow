@@ -21,7 +21,11 @@ demo:
 	PYTHONPATH=$(PYTHONPATH) python3 -m lexflow.cli demo --with-tort
 
 ui:
-	PYTHONPATH=$(PYTHONPATH) python3 -m streamlit run app/streamlit_app.py --server.port 8502
+	@if [ -x .venv/bin/streamlit ]; then \
+		PYTHONPATH=src .venv/bin/streamlit run app/streamlit_app.py --server.port 8502; \
+	else \
+		PYTHONPATH=src python3 -m streamlit run app/streamlit_app.py --server.port 8502; \
+	fi
 
 report:
 	.venv/bin/python report/make_figures.py

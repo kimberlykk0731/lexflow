@@ -25,7 +25,7 @@ NLP 课程项目。一个面向**法律咨询**（而不是法律检索）的 Ag
 ## 2. 快速开始（无需 API Key）
 
 ```bash
-cd lexflow
+# 在仓库根目录执行
 PYTHONPATH=src python3 -m lexflow.cli demo          # 6 轮劳动争议演示 + 备忘录
 PYTHONPATH=src python3 eval/run_evals.py            # 12 个脚本案例 × 4 配置消融
 PYTHONPATH=src python3 eval/verify_probe.py         # 给核验器注入 5 类错误
@@ -62,6 +62,11 @@ PYTHONPATH=src streamlit run app/streamlit_app.py
 
 ```
 lexflow/
+├── README.md                     # 本文件
+├── QUICKSTART.md                 # 三种打开方式：看报告 / 本地跑 / 部署
+├── Makefile                      # demo / ui / report / test 快捷命令
+├── requirements.txt
+├── .env.example                  # 真实模型配置样例（不含密钥）
 ├── data/
 │   ├── corpus/manifest.json      # 15 部法律法规/司法解释的版本与生效期
 │   ├── corpus/statutes.jsonl     # 1340 条法条（生成物，已提交）
@@ -86,7 +91,11 @@ lexflow/
 │   └── cache_bench.py            # 缓存实验
 ├── app/streamlit_app.py
 ├── tools/build_corpus.py         # 从 LawRefBook 重新生成语料
-└── tests/
+├── tests/
+├── docs/                         # 评测设计、盲审表、2026 法律 AI 调研
+│   └── proposal/                 # 英文 proposal 源稿
+├── report/                       # 报告与幻灯片（PDF + 源稿）、图、演示脚本
+└── runs/                         # 评测输出、截图、SUMMARY
 ```
 
 ---
@@ -157,7 +166,7 @@ lexflow/
 
 ---
 
-## 交付物（可直接提交）
+## 6. 交付物
 
 - [报告 PDF（7 页）](report/LexFlow_Report.pdf) ｜ [Markdown 源稿](report/LexFlow_Report.md)
 - [幻灯片 PDF（8 页）](report/LexFlow_Slides.pdf) ｜ [大纲](report/slides_outline.md)
@@ -167,7 +176,7 @@ lexflow/
 
 ---
 
-## 6. 已知局限（写报告时要写进去）
+## 7. 已知局限
 
 1. **覆盖案由少**：只有劳动争议解除、交通事故人身损害两个 schema，不能外推为通用法律 AI。
 2. **已用真实 API 跑过，但样本小**：12 案例 × 4 配置，DeepSeek 官方 API，约 0.17 元；mock 只保留作离线兜底。
@@ -176,21 +185,6 @@ lexflow/
 5. **脚本化当事人过于配合**：真实当事人会答非所问、情绪化、隐瞒；DLawBench 的四种人格可作下一阶段扩展。
 6. **没有类案检索**：语料只有法条与司法解释，没有裁判文书；避免用虚构类案冒充真实裁判。
 7. **时效起算点简化**：以解除日/事故发生日起算，实际可能是送达日、确诊日、鉴定日。
-
----
-
-## 7. 一周分工
-
-只做一周，12 案例不变，目标 60 分。完整按天计划见 [`docs/one_week_plan.md`](docs/one_week_plan.md)。
-
-| Owner | 一周只做这一件事 | 周五交付 |
-|---|---|---|
-| 你（法律/PM） | 核对 4 条 gold、补追问话术、盲审 6–10 份 | 盲审汇总 + 报告法律部分 |
-| A（Agent/后端） | 真实 API 跑通 12 案例、修抽取 bug | `runs/api/eval_table.md` |
-| B（前端/演示） | UI、截图、5 分钟录屏、架构图 | 视频 + 3 张图 |
-| C（报告/数据） | 跑表、画图、method/eval 初稿、统稿 | 6 页 report |
-
-3 人就合并 B+C；周末只修 bug，不加功能。
 
 ---
 

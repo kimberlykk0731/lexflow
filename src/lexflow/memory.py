@@ -131,6 +131,8 @@ class MemoryStore:
         self.path = str(path)
         self.use_cache = cache
         self.use_memory = memory
+        if self.path != ":memory:":
+            Path(self.path).expanduser().parent.mkdir(parents=True, exist_ok=True)
         self.db = sqlite3.connect(self.path, check_same_thread=False)
         self.db.execute("PRAGMA journal_mode=WAL")
         self._schema()
