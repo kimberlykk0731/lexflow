@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-24T15:21:45+08:00",
+  "generated_at": "2026-11-24T15:50:52+08:00",
   "command": "D:\\Python\\Python3.14\\python.exe external\\dlawbench\\run.py --n-cases 30 --bootstrap 5000",
   "argv": [
     "external\\dlawbench\\run.py",
@@ -8,7 +8,7 @@
     "--bootstrap",
     "5000"
   ],
-  "elapsed_seconds": 10.9,
+  "elapsed_seconds": 6.1,
   "n_cases": 30,
   "case_ids": [
     "case_cn_0001",
@@ -81,7 +81,7 @@
     "vendored_files": 28
   },
   "lexflow": {
-    "commit": "184405bc74f8de7477d173894f909271a9e557aa",
+    "commit": "e54ec605ffc6aeb058a090034521297a6f796b6e",
     "dirty": false,
     "python": "3.14.2",
     "platform": "win32"
@@ -118,14 +118,14 @@
         "hi": 0.0329
       },
       "issue_resolution": {
-        "mean": 0.264,
-        "lo": 0.1623,
-        "hi": 0.3783
+        "mean": 0.295,
+        "lo": 0.1834,
+        "hi": 0.4172
       },
       "resolution": {
-        "mean": 0.1398,
-        "lo": 0.0887,
-        "hi": 0.1976
+        "mean": 0.1554,
+        "lo": 0.0986,
+        "hi": 0.2176
       },
       "fidelity": {
         "mean": 1.0,
@@ -155,14 +155,14 @@
         "hi": 0.7045
       },
       "issue_resolution": {
-        "mean": 0.339,
-        "lo": 0.2334,
-        "hi": 0.4556
+        "mean": 0.3784,
+        "lo": 0.2683,
+        "hi": 0.4976
       },
       "resolution": {
-        "mean": 0.4767,
-        "lo": 0.4033,
-        "hi": 0.5494
+        "mean": 0.4964,
+        "lo": 0.42,
+        "hi": 0.5727
       },
       "fidelity": {
         "mean": 1.0,
@@ -192,14 +192,14 @@
         "hi": 0.767
       },
       "issue_resolution": {
-        "mean": 0.3595,
-        "lo": 0.2539,
-        "hi": 0.4733
+        "mean": 0.3989,
+        "lo": 0.29,
+        "hi": 0.5155
       },
       "resolution": {
-        "mean": 0.5211,
-        "lo": 0.447,
-        "hi": 0.5953
+        "mean": 0.5407,
+        "lo": 0.4636,
+        "hi": 0.6184
       },
       "fidelity": {
         "mean": 1.0,

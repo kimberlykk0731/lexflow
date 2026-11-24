@@ -5,9 +5,9 @@
 > DLawBench rubric text, metric formulas and denominators are used unchanged, but
 > absolute scores are not comparable to the DLawBench leaderboard.
 
-- Generated: `2026-11-24T15:21:45+08:00`
+- Generated: `2026-11-24T15:50:52+08:00`
 - DLawBench: `https://github.com/SKYLENAGE-AI/DLawBench` @ `9f6325f29f07b296fac110a6e1880bdd5d9ca538` (MIT code / CC BY 4.0 data)
-- LexFlow: `184405bc74f8de7477d173894f909271a9e557aa`
+- LexFlow: `e54ec605ffc6aeb058a090034521297a6f796b6e`
 - Cases: 30 Chinese-law cases from `cases_cn.jsonl` (case_cn_0001, case_cn_0002, case_cn_0003…)
 - Persona(s): P_WD · max turns: 10
 - Sessions: 90 (3 policies × 30 cases)
@@ -19,9 +19,9 @@
 
 | Policy | n | Fact Coverage | Inquiry | Elicitation | Fact Resolution | Issue Resolution | Resolution | Fidelity |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| answer_first | 30 | 0.016 [0.002, 0.033] | 0.000 [0.000, 0.000] | 0.008 [0.001, 0.017] | 0.016 [0.002, 0.033] | 0.264 [0.162, 0.378] | 0.140 [0.089, 0.198] | 1.000 [1.000, 1.000] |
-| gate_only | 30 | 0.628 [0.531, 0.717] | 0.216 [0.142, 0.300] | 0.422 [0.356, 0.486] | 0.614 [0.518, 0.705] | 0.339 [0.233, 0.456] | 0.477 [0.403, 0.549] | 1.000 [1.000, 1.000] |
-| full | 30 | 0.696 [0.605, 0.780] | 0.228 [0.153, 0.313] | 0.462 [0.401, 0.525] | 0.683 [0.593, 0.767] | 0.359 [0.254, 0.473] | 0.521 [0.447, 0.595] | 1.000 [1.000, 1.000] |
+| answer_first | 30 | 0.016 [0.002, 0.033] | 0.000 [0.000, 0.000] | 0.008 [0.001, 0.017] | 0.016 [0.002, 0.033] | 0.295 [0.183, 0.417] | 0.155 [0.099, 0.218] | 1.000 [1.000, 1.000] |
+| gate_only | 30 | 0.628 [0.531, 0.717] | 0.216 [0.142, 0.300] | 0.422 [0.356, 0.486] | 0.614 [0.518, 0.705] | 0.378 [0.268, 0.498] | 0.496 [0.420, 0.573] | 1.000 [1.000, 1.000] |
+| full | 30 | 0.696 [0.605, 0.780] | 0.228 [0.153, 0.313] | 0.462 [0.401, 0.525] | 0.683 [0.593, 0.767] | 0.399 [0.290, 0.515] | 0.541 [0.464, 0.618] | 1.000 [1.000, 1.000] |
 
 Each cell is `mean [95% CI]`. The CI resamples cases (clusters), not sessions,
 so the three policies are evaluated on the same resampled case set.
