@@ -118,7 +118,13 @@ def main() -> int:
     # 6. caveat is visible ------------------------------------------------
     ok &= check("Adapted run, not an official leaderboard entry" in summary,
                 "summary states it is an adapted run, not an official leaderboard")
-    ok &= check("deterministic" in summary.lower(), "summary discloses the deterministic judge")
+    judge = manifest.get("judge", {})
+    judge_kind = str(judge.get("kind", ""))
+    if "deterministic" in judge_kind.lower():
+        ok &= check("deterministic" in summary.lower(), "summary discloses the deterministic judge")
+    else:
+        ok &= check(str(judge.get("model", "")) in summary,
+                    "summary names the external judge model")
 
     print("\n" + ("ALL CHECKS PASSED" if ok else "SOME CHECKS FAILED"))
     return 0 if ok else 1
