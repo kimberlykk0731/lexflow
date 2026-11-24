@@ -111,7 +111,8 @@ actual_situation / cases_cn / case_backgrounds` 是否出现在 shim 代码里�
   600 sessions；legacy 12 案没有混进主表。
 - `answer_first` 的 Issue Resolution 并非 0：它的 memo 仍会套用领域级法律问题清单；
   这正是“不追问也能写出一份通用分析”的基线，不代表它掌握了本案事实。
-- 复核方式：`python external/dlawbench/verify.py`（18 项检查全过）。
+- 复核方式：`python external/dlawbench/verify.py`（主表 18 项）与
+  `python external/dlawbench/verify.py runs/external/pcd`（P_CD 18 项）全过。
 
 ## 8. 产物
 

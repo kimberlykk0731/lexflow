@@ -42,6 +42,7 @@ external-eval:
 
 external-check:
 	python3 external/dlawbench/verify.py
+	python3 external/dlawbench/verify.py runs/external/pcd
 	python3 -m unittest discover -s external/dlawbench/tests -v
 
 clean:
