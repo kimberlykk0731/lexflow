@@ -131,3 +131,19 @@ runs/external/leaderboard.md        # 按 Elicitation 排序的 mini leaderboard
 runs/external/run_manifest.json     # commit / license / n / hashes / command
 runs/external/pcd/                  # 可选 P_CD 扩展（90 sessions，独立 summary/manifest）
 ```
+
+## 9. 交付状态（对照 handoff）
+
+| 项 | 状态 |
+|---|---|
+| `server.py` / `run.py` / `<policy>/session_*.json` | ✅ |
+| D1 3×10=30 sessions；D2 3×30=90；P_CD 扩展 90（共 180） | ✅ |
+| 7 指标同表 + 按 case 聚类 95% CI | ✅ |
+| 官方 rubric / 公式 / 分母未改（sha256 校验） | ✅ |
+| commit + license + n 记录 | ✅ |
+| shim 不读 rubric / hidden facts（静态扫描） | ✅ |
+| 报告写明 adapted run, not official leaderboard | ✅ |
+| 官方 LLM judge | ⚠️ 用确定性 judge 替身；需 API key 才能跑真 judge |
+| A0 `trace_diff.html` | ⬜ 可选，未做（D2 PM 选择了 P_CD 扩展） |
+| 课程正式报告 / PDF 合并 | ⬜ 如课程要求，需要把本文并入 `report/` 并重生成 PDF |
+| push / 打包提交 | ⬜ 当前只有本地 commit |
