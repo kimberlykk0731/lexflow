@@ -156,7 +156,8 @@ def _windows(text: str) -> list[str]:
         paragraph = paragraph.strip()
         if not paragraph or paragraph.startswith("#"):
             continue
-        paragraph = re.sub(r"^[-\d.、\s]+", "", paragraph)
+        paragraph = re.sub(r"^[-•]\s*", "", paragraph)
+        paragraph = re.sub(r"^\d+[.、]\s+", "", paragraph)
         if len(paragraph) >= 4:
             out.append(paragraph)
         for sentence in sentences(paragraph):

@@ -104,6 +104,7 @@ def _read_cases(limit: int, wanted: list[str]) -> list[dict]:
     if wanted:
         wanted_set = set(wanted)
         records = [r for r in records if r[1].get("id") in wanted_set]
+        return [{"line": line_no, "raw": raw} for line_no, raw in records]
     return [{"line": line_no, "raw": raw} for line_no, raw in records[:limit]]
 
 
