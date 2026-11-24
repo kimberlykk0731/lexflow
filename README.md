@@ -164,6 +164,22 @@ lexflow/
 
 详见 [`docs/eval_design.md`](docs/eval_design.md)。
 
+### 5.1 外部基准：DLawBench（adapted run）
+
+仓库另带一套**外部**评测：把 LexFlow 的三个消融策略接到
+[DLawBench](https://github.com/SKYLENAGE-AI/DLawBench) 的多轮咨询协议上，
+用官方 rubric/公式（pinned commit）跑 30 个中国法 case × P_WD。
+
+```bash
+python external/dlawbench/run.py --n-cases 30   # 90 sessions
+python external/dlawbench/verify.py             # 验收自检
+```
+
+结果在 [`runs/external/summary.md`](runs/external/summary.md)，方法与 caveat 见
+[`docs/EXTERNAL_EVAL.md`](docs/EXTERNAL_EVAL.md)。**这是 adapted run，不是官方
+leaderboard**：judge/client 是离线确定性替身，绝对分数不可与官方榜单比较，也不能
+和上面 12 案的主表混成一张表。
+
 ---
 
 ## 6. 交付物
