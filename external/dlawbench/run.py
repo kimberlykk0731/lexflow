@@ -293,6 +293,7 @@ def _write_outputs(out_dir, args, policies, personas, cases, sessions,
         for policy, persona, session, path in sessions:
             evaluation = session.get("evaluation") or {}
             scores = evaluation.get("scores") or {}
+            dag_scores = (evaluation.get("fact_evaluation") or {}).get("scores") or {}
             row = metrics.session_metrics(path, session, session.get("jurisdiction") or "CN") \
                 if scores else {}
             record = {
@@ -309,6 +310,10 @@ def _write_outputs(out_dir, args, policies, personas, cases, sessions,
                         "absolute_accuracy", "grounding_rate", "n_facts", "n_covered",
                         "n_claims_total", "n_claims_ungrounded"):
                 record[key] = scores.get(key)
+            for key in ("n_facts", "n_covered", "n_claims_total", "n_claims_ungrounded",
+                        "accuracy_rate"):
+                if record[key] is None:
+                    record[key] = dag_scores.get(key)
             writer.writerow(record)
 
     # summary.md ------------------------------------------------------------
