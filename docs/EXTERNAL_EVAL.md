@@ -27,9 +27,9 @@ python external/dlawbench/verify.py
 |---|---|
 | 数据集 | DLawBench `data/case_backgrounds/cases_cn.jsonl`，30 个 CN case（全量） |
 | 上游 commit | `9f6325f29f07b296fac110a6e1880bdd5d9ca538`（MIT code / CC BY 4.0 data） |
-| Persona | `P_WD`（理性合作者），max turns = 10 |
+| Persona | `P_WD`（理性合作者，主表）；`P_CD`（控制对抗者，可选扩展）；max turns = 10 |
 | Policies | `answer_first` / `gate_only` / `full` |
-| Sessions | 90（3 × 30） |
+| Sessions | 90（主表 3 × 30 P_WD）+ 90（P_CD 扩展）= 180 |
 | Judge | `lexflow-rubric-judge`：确定性词面 rubric matcher，官方 prompt 的离线替身 |
 | CI | case 聚类 bootstrap，5000 次，95% percentile，seed 20261124 |
 
@@ -44,6 +44,20 @@ python external/dlawbench/verify.py
 每个数字是 `mean [95% CI]`；CI 重采样 case（不是 session），三个 policy 共用同一批
 重采样 case。`answer_first` 不追问，memo 只基于开场白；`gate_only` 先问 6 轮再写 memo；
 `full` 问 9 轮并附事实来源/核验段。
+
+### 3.1 P_CD 扩展（可选，总计 180 sessions）
+
+`runs/external/pcd/` 是同一矩阵换 `P_CD`（控制对抗者）的 90 个 session，主表不混入。
+
+| Policy | n | Fact Coverage | Inquiry | Elicitation | Fact Resolution | Issue Resolution | Resolution | Fidelity |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| answer_first | 30 | 0.016 [0.002, 0.033] | 0.000 [0.000, 0.000] | 0.008 [0.001, 0.017] | 0.016 [0.002, 0.033] | 0.295 [0.183, 0.417] | 0.155 [0.099, 0.218] | 1.000 [1.000, 1.000] |
+| gate_only | 30 | 0.457 [0.379, 0.536] | 0.216 [0.142, 0.300] | 0.336 [0.280, 0.393] | 0.446 [0.369, 0.526] | 0.378 [0.268, 0.497] | 0.412 [0.342, 0.483] | 1.000 [1.000, 1.000] |
+| full | 30 | 0.583 [0.501, 0.661] | 0.228 [0.153, 0.313] | 0.405 [0.349, 0.461] | 0.567 [0.487, 0.646] | 0.380 [0.265, 0.500] | 0.473 [0.399, 0.549] | 1.000 [1.000, 1.000] |
+
+P_CD 的差异来自确定性 client 的“开放阈值”更低：同样的问题更少透露事实，因此
+Fact Coverage / Elicitation 低于 P_WD。这不是官方 LLM persona 模拟，只用于证明矩阵
+可以扩到第二个人格。
 
 ## 4. 七个指标（官方定义，未改）
 
@@ -91,7 +105,8 @@ actual_situation / cases_cn / case_backgrounds` 是否出现在 shim 代码里�
 
 ## 7. Caveat / 未做
 
-- **不是官方 leaderboard**：judge、client 均为离线替身；30/264 CN cases；只跑 P_WD。
+- **不是官方 leaderboard**：judge、client 均为离线替身；30/264 CN cases；主表 P_WD，
+  P_CD 仅作可选扩展。
 - 没有 gold、没有人工盲审、没有 LeCoDe、没有完整 provenance DAG、没有 4 personas ×
   600 sessions；legacy 12 案没有混进主表。
 - `answer_first` 的 Issue Resolution 并非 0：它的 memo 仍会套用领域级法律问题清单；
@@ -109,8 +124,9 @@ external/dlawbench/judge.py         # 官方 prompt 的确定性 judge（替身�
 external/dlawbench/verify.py        # 验收自检
 external/dlawbench/upstream/        # DLawBench pinned subset + VENDORED.json
 runs/external/<policy>/session_*.json
-runs/external/summary.md            # 3×7 表 + 95% CI
+runs/external/summary.md            # 3×7 表 + 95% CI（P_WD）
 runs/external/scores.csv            # 逐 session
 runs/external/leaderboard.md        # 按 Elicitation 排序的 mini leaderboard
 runs/external/run_manifest.json     # commit / license / n / hashes / command
+runs/external/pcd/                  # 可选 P_CD 扩展（90 sessions，独立 summary/manifest）
 ```

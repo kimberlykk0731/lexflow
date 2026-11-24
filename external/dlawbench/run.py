@@ -114,8 +114,8 @@ def _session_path(out_dir: Path, policy: str, case_id: str, persona: str) -> Pat
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--n-cases", type=int, default=10,
-                        help="Number of Chinese cases (default 10 for the D1 matrix)")
+    parser.add_argument("--n-cases", type=int, default=30,
+                        help="Number of Chinese cases (default 30 = D2 matrix; use 10 for D1)")
     parser.add_argument("--case-ids", default="",
                         help="Comma-separated case ids (overrides the first-N selection)")
     parser.add_argument("--personas", default="P_WD",

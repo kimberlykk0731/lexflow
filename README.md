@@ -176,9 +176,10 @@ python external/dlawbench/verify.py             # 验收自检
 ```
 
 结果在 [`runs/external/summary.md`](runs/external/summary.md)，方法与 caveat 见
-[`docs/EXTERNAL_EVAL.md`](docs/EXTERNAL_EVAL.md)。**这是 adapted run，不是官方
-leaderboard**：judge/client 是离线确定性替身，绝对分数不可与官方榜单比较，也不能
-和上面 12 案的主表混成一张表。
+[`docs/EXTERNAL_EVAL.md`](docs/EXTERNAL_EVAL.md)。可选 P_CD 扩展在
+[`runs/external/pcd/`](runs/external/pcd/)（再加 90 sessions，共 180）。**这是
+adapted run，不是官方 leaderboard**：judge/client 是离线确定性替身，绝对分数不可与
+官方榜单比较，也不能和上面 12 案的主表混成一张表。
 
 ---
 

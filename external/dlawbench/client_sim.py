@@ -42,6 +42,11 @@ FALLBACK = {
     "P_CD": "这我不清楚，你问点有用的。",
 }
 
+# Persona behaviour beyond wording: how many facts one answer may contain and
+# how strongly the question must match before the client opens up.
+MAX_FACTS = {"P_WD": 2, "P_WS": 1, "P_CS": 1, "P_CD": 1}
+REVEAL_THRESHOLD = {"P_WD": 0.35, "P_WS": 0.55, "P_CS": 0.90, "P_CD": 0.70}
+
 
 def client_model(persona: str = "P_WD") -> str:
     return "lexflow-client-" + persona.lower().replace("_", "-")
@@ -95,15 +100,17 @@ class ClientSimulator:
         scored.sort(reverse=True)
 
         best_score, best, best_shared = scored[0]
-        if best_shared == 0 and best_score < 0.35:
+        if best_shared == 0 and best_score < REVEAL_THRESHOLD[self.persona]:
             return FALLBACK[self.persona]
-        if self.persona == "P_CS" and best_score < 0.8:
+        if self.persona == "P_CS" and best_score < REVEAL_THRESHOLD["P_CS"]:
             return "记不清了。"
+        if self.persona == "P_CD" and best_score < REVEAL_THRESHOLD["P_CD"]:
+            return "这跟我的事有关系吗？你直接说重点。"
 
         chosen = [best]
-        # A cooperative client can add one closely related fact in the same answer.
+        # Only the cooperative persona volunteers a closely related second fact.
         for score, fact, shared in scored[1:]:
-            if len(chosen) >= 2:
+            if len(chosen) >= MAX_FACTS[self.persona]:
                 break
             if shared == 0:
                 continue
