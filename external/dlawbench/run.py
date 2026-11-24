@@ -125,6 +125,10 @@ def main() -> int:
     parser.add_argument("--max-turns", type=int, default=10)
     parser.add_argument("--bootstrap", type=int, default=5000)
     parser.add_argument("--seed", type=int, default=20261124)
+    parser.add_argument("--judge-model", default=JUDGE_MODEL,
+                        help=("Judge model. Defaults to the offline deterministic stand-in; "
+                              "pass an OpenAI-compatible model plus OPENAI_BASE_URL/"
+                              "OPENAI_API_KEY to use a real LLM judge."))
     parser.add_argument("--output-dir", default=str(RUNS_DIR))
     parser.add_argument("--resume", action="store_true",
                         help="Reuse finished dialogue sessions in output-dir")
@@ -158,7 +162,8 @@ def main() -> int:
     api_utils = dl["api_utils"]
     local_names = [policy_model(p) for p in policies]
     local_names += [client_model(p) for p in personas]
-    local_names += [JUDGE_MODEL]
+    if args.judge_model == JUDGE_MODEL:
+        local_names += [JUDGE_MODEL]
     api_utils.LOCALHOST_MODELS[:] = list(dict.fromkeys(local_names + api_utils.LOCALHOST_MODELS))
 
     print(f"[shim] {server.base_url}")
@@ -225,7 +230,7 @@ def main() -> int:
                     dl["make_jsonl_ref"](str(CASE_FILE), session.get("case_line"),
                                          session.get("case_id"))
                 )
-                evaluation = dl["evaluate_session"](session, case, JUDGE_MODEL)
+                evaluation = dl["evaluate_session"](session, case, args.judge_model)
                 session["evaluation"] = evaluation
                 with path.open("w", encoding="utf-8") as handle:
                     json.dump(session, handle, ensure_ascii=False, indent=2)
@@ -265,7 +270,6 @@ def main() -> int:
     _write_outputs(out_dir, args, policies, personas, cases, sessions,
                    rows_by_policy, ci, raw_scores, status_counts, failures, elapsed, dl,
                    lexflow_commit, lexflow_dirty)
-
     print(f"\n[done] {sum(len(v) for v in rows_by_policy.values())} evaluated sessions "
           f"in {elapsed:.1f}s")
     print(f"[out] {out_dir / 'summary.md'}")
@@ -327,6 +331,9 @@ def _write_outputs(out_dir, args, policies, personas, cases, sessions,
     upstream = json.loads((UPSTREAM / "VENDORED.json").read_text(encoding="utf-8"))
     dirty = lexflow_dirty
     generated = datetime.now(timezone.utc).astimezone().isoformat(timespec="seconds")
+    judge_model = args.judge_model
+    judge_kind = ("deterministic lexical rubric matcher" if judge_model == JUDGE_MODEL
+                  else "external OpenAI-compatible LLM judge")
 
     lines = [
         "# LexFlow × DLawBench — adapted external evaluation",
@@ -347,8 +354,9 @@ def _write_outputs(out_dir, args, policies, personas, cases, sessions,
         f"({len(policies)} policies × {n} cases)",
         f"- Status: {', '.join(f'{k}={v}' for k, v in sorted(status_counts.items()))}"
         + (f", eval_failures={failures}" if failures else ""),
-        f"- Judge: `{JUDGE_MODEL}` — deterministic lexical rubric matcher, "
-        "stand-in for the official LLM judge",
+        f"- Judge: `{judge_model}` — {judge_kind}, "
+        "stand-in for the official LLM judge" if judge_model == JUDGE_MODEL else
+        f"- Judge: `{judge_model}` — {judge_kind}",
         f"- CI: {args.bootstrap} cluster-bootstrap resamples by case, 95% percentile, seed {args.seed}",
         "",
         "## 3 × 7 table",
@@ -454,8 +462,8 @@ def _write_outputs(out_dir, args, policies, personas, cases, sessions,
         "bootstrap": {"resamples": args.bootstrap, "seed": args.seed, "cluster": "case_id",
                       "confidence": 0.95},
         "judge": {
-            "model": JUDGE_MODEL,
-            "kind": "deterministic lexical rubric matcher",
+            "model": judge_model,
+            "kind": judge_kind,
             "official_prompt": True,
             "official_formulas": True,
         },

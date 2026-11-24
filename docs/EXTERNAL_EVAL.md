@@ -72,9 +72,13 @@ rubric 匹配，返回官方 JSON schema；`evaluate.py` 的公式与分母不�
 - **绝对分数不可与官方榜单比较**，只能看同一 judge 下三个 policy 的相对差异；
 - `Fidelity` 在本轮饱和为 1.000：三份 memo 的事实句全部来自对话原文，规则层没有
   生成新的日期/金额，这个指标在本设置下不具区分度，保留是为了七项齐全；
-- 若要跑官方 judge，设置 `LOCALHOST_BASE_URL`/`LOCALHOST_API_KEY` 指向任意
-  OpenAI-compatible judge，并把 `run.py` 的 `--eval-model` 接上即可（当前默认
-  `lexflow-rubric-judge`）。
+- 若要跑真实 LLM judge，设置 `OPENAI_BASE_URL`/`OPENAI_API_KEY` 后加
+  `--judge-model <model>` 即可（默认仍是 `lexflow-rubric-judge`）：
+
+```bash
+OPENAI_BASE_URL=https://api.deepseek.com/v1 OPENAI_API_KEY=sk-... \
+python external/dlawbench/run.py --n-cases 30 --judge-model deepseek-chat
+```
 
 ## 6. shim 边界（没读 rubric）
 
