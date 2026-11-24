@@ -28,10 +28,11 @@ FORBIDDEN = ["evaluation_criteria", "expected_inquiries", "memo_expectations",
 
 
 def sha256(path: Path) -> str:
+    """Hash with line endings normalised (matches vendor_upstream.py)."""
     digest = hashlib.sha256()
     with path.open("rb") as handle:
         for chunk in iter(lambda: handle.read(1 << 20), b""):
-            digest.update(chunk)
+            digest.update(chunk.replace(b"\r\n", b"\n"))
     return digest.hexdigest()
 
 

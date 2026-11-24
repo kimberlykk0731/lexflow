@@ -53,10 +53,11 @@ FILES = [
 
 
 def sha256(path: Path) -> str:
+    """Hash with line endings normalised so Windows/macOS/Linux agree."""
     h = hashlib.sha256()
     with path.open("rb") as fh:
         for chunk in iter(lambda: fh.read(1 << 20), b""):
-            h.update(chunk)
+            h.update(chunk.replace(b"\r\n", b"\n"))
     return h.hexdigest()
 
 
