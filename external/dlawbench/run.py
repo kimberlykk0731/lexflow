@@ -148,6 +148,8 @@ def main() -> int:
         raise SystemExit("no cases selected")
 
     started = time.time()
+    lexflow_commit = _git("rev-parse", "HEAD") or "unknown"
+    lexflow_dirty = bool(_git("status", "--porcelain"))
     server = ShimServer(verbose=False).start()
     os.environ["LOCALHOST_BASE_URL"] = server.base_url
 
@@ -260,7 +262,8 @@ def main() -> int:
 
     elapsed = time.time() - started
     _write_outputs(out_dir, args, policies, personas, cases, sessions,
-                   rows_by_policy, ci, raw_scores, status_counts, failures, elapsed, dl)
+                   rows_by_policy, ci, raw_scores, status_counts, failures, elapsed, dl,
+                   lexflow_commit, lexflow_dirty)
 
     print(f"\n[done] {sum(len(v) for v in rows_by_policy.values())} evaluated sessions "
           f"in {elapsed:.1f}s")
@@ -272,7 +275,7 @@ def main() -> int:
 
 def _write_outputs(out_dir, args, policies, personas, cases, sessions,
                    rows_by_policy, ci, raw_scores, status_counts, failures,
-                   elapsed, dl) -> None:
+                   elapsed, dl, lexflow_commit, lexflow_dirty) -> None:
     metrics = dl["metrics"]
     metric_keys = list(metrics.METRIC_KEYS)
     display = metrics.DISPLAY_NAMES
@@ -316,8 +319,7 @@ def _write_outputs(out_dir, args, policies, personas, cases, sessions,
     n_by_policy = {policy: len(rows_by_policy.get(policy, [])) for policy in policies}
     n = max(n_by_policy.values()) if n_by_policy else 0
     upstream = json.loads((UPSTREAM / "VENDORED.json").read_text(encoding="utf-8"))
-    lexflow_commit = _git("rev-parse", "HEAD") or "unknown"
-    dirty = bool(_git("status", "--porcelain"))
+    dirty = lexflow_dirty
     generated = datetime.now(timezone.utc).astimezone().isoformat(timespec="seconds")
 
     lines = [

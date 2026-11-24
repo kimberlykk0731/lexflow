@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-24T15:11:37+08:00",
+  "generated_at": "2026-11-24T15:11:54+08:00",
   "command": "D:\\Python\\Python3.14\\python.exe external\\dlawbench\\run.py --n-cases 30 --bootstrap 5000",
   "argv": [
     "external\\dlawbench\\run.py",
@@ -8,7 +8,7 @@
     "--bootstrap",
     "5000"
   ],
-  "elapsed_seconds": 7.6,
+  "elapsed_seconds": 8.0,
   "n_cases": 30,
   "case_ids": [
     "case_cn_0001",
@@ -81,7 +81,7 @@
     "vendored_files": 28
   },
   "lexflow": {
-    "commit": "3292b4af04e82d81c08c77f27047777935c0ac7a",
+    "commit": "99111d97dcf5eb7af42556aeb0d6bf32a9c82298",
     "dirty": true,
     "python": "3.14.2",
     "platform": "win32"
