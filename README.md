@@ -186,6 +186,7 @@ adapted run，不是官方 leaderboard**：judge/client 是离线确定性替身
 ## 6. 交付物
 
 - [报告 PDF（7 页）](report/LexFlow_Report.pdf) ｜ [Markdown 源稿](report/LexFlow_Report.md)
+- [外部评测附录 PDF（DLawBench，adapted run）](report/External_Eval_Report.pdf) ｜ [HTML 源稿](report/External_Eval_Report.html)
 - [幻灯片 PDF（8 页）](report/LexFlow_Slides.pdf) ｜ [大纲](report/slides_outline.md)
 - [5 分钟演示脚本](report/demo_script.md)
 - [运行汇总（API 主结果 + mock 附录）](runs/SUMMARY.md)

@@ -130,6 +130,8 @@ runs/external/scores.csv            # 逐 session
 runs/external/leaderboard.md        # 按 Elicitation 排序的 mini leaderboard
 runs/external/run_manifest.json     # commit / license / n / hashes / command
 runs/external/pcd/                  # 可选 P_CD 扩展（90 sessions，独立 summary/manifest）
+report/External_Eval_Report.pdf     # 3 页附录，页脚 8/10–10/10，可与主报告拼接
+report/External_Eval_Report.html    # 附录源稿（与主报告同一套 CSS）
 ```
 
 ## 9. 交付状态（对照 handoff）

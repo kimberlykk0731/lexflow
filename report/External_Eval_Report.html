@@ -1,0 +1,194 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>LexFlow — Appendix A: External Benchmark</title>
+<style>
+@page { size: 595.92pt 842.88pt; margin: 18mm 16mm 18mm 16mm; }
+body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+       font-size: 10.5pt; line-height: 1.55; color: #1f2937; }
+h1 { font-size: 22pt; margin: 0 0 4pt 0; color: #0f172a; }
+h2 { font-size: 14pt; margin: 18pt 0 6pt; color: #0f172a;
+     border-bottom: 1px solid #e2e8f0; padding-bottom: 3pt;
+     page-break-after: avoid; }
+h2.first { margin-top: 0; }
+h3 { font-size: 11.5pt; margin: 12pt 0 4pt; color: #1e293b; page-break-after: avoid; }
+p { margin: 4pt 0; text-align: justify; }
+ul, ol { margin: 4pt 0 4pt 16pt; }
+li { margin: 2pt 0; }
+table { border-collapse: collapse; width: 100%; margin: 8pt 0; font-size: 8.6pt;
+        page-break-inside: avoid; }
+th { background: #f1f5f9; border: 1px solid #cbd5e1; padding: 3.5pt 5pt;
+     text-align: left; font-weight: bold; }
+td { border: 1px solid #cbd5e1; padding: 3.5pt 5pt; }
+tr:nth-child(even) td { background: #f8fafc; }
+td.num, th.num { text-align: right; white-space: nowrap; }
+img { max-width: 100%; display: block; margin: 10pt auto; }
+code { background: #f1f5f9; padding: 1pt 3pt; border-radius: 3pt;
+       font-family: Menlo, Consolas, monospace; font-size: 9pt; }
+pre { background: #f8fafc; border: 1px solid #e2e8f0; padding: 8pt;
+      border-radius: 4pt; overflow: auto; font-size: 8.5pt; }
+blockquote { border-left: 3px solid #cbd5e1; margin: 8pt 0; padding: 2pt 10pt;
+             color: #475569; }
+hr { border: none; border-top: 1px solid #e2e8f0; margin: 14pt 0; }
+a { color: #1d4ed8; text-decoration: none; }
+.lead { color: #475569; }
+.note { font-size: 8.8pt; color: #475569; margin-top: 4pt; }
+</style>
+</head>
+<body>
+
+<h2 class="first">Appendix A. External Benchmark: DLawBench (Adapted Run)</h2>
+
+<p class="lead">This appendix continues the report after Section&nbsp;8 and the References. It reports
+the first external run of the LexFlow consultation policies on DLawBench, a public bilingual
+benchmark for multi-turn legal consultation. The run is an adaptation, not an official
+leaderboard entry: the benchmark's rubrics, metric formulas and denominators are used unchanged,
+with deterministic offline client and judge implementations.</p>
+
+<h3>A.1 From two scripted claim types to a public protocol</h3>
+
+<p>Section&nbsp;7 listed the public-benchmark comparison as a qualitative limitation. DLawBench
+provides 461 Chinese and U.S. cases, four client personas, paired client-belief and court-record
+facts, and expert inquiry and memo rubrics [2]. We use the Chinese split and the
+<code>P_WD</code> persona to ask a narrow transfer question: can the same gate → ask → memo
+control flow operate on criminal, administrative, bankruptcy, company, labour,
+unfair-competition and tort consultations without changing the benchmark's scoring? The result
+is a pipeline and behavioural result, not a claim of general legal capability.</p>
+
+<h3>A.2 Setup and scoring</h3>
+
+<ul>
+  <li><b>Benchmark.</b> DLawBench public release, commit <code>9f6325f</code>;
+      <code>cases_cn.jsonl</code>; 30 Chinese cases shipped in the release's CN split (the
+      paper's full corpus is larger); at most 10 dialogue turns.</li>
+  <li><b>Policies.</b> <code>answer_first</code> writes a memo from the opening message and asks
+      no questions; <code>gate_only</code> runs a six-question domain intake and then writes the
+      memo; <code>full</code> asks up to nine questions and adds per-fact provenance and a
+      verification section.</li>
+  <li><b>Sessions.</b> 3 policies × 30 cases = 90 with <code>P_WD</code>; a second 90 with
+      <code>P_CD</code> gives 180 sessions in total.</li>
+  <li><b>Lawyer shim.</b> An OpenAI-compatible server exposes the policy to DLawBench's
+      <code>talk_to_client</code> / <code>write_memo</code> protocol. It sees only the opening and
+      the client's answers; it never opens the case file, hidden facts, or
+      <code>evaluation_criteria</code>.</li>
+  <li><b>Scoring.</b> Sessions are scored through the official
+      <code>dlawbench.evaluate.evaluate_session</code> and the official
+      <code>scripts/metrics.py</code> formulas. To keep the run reproducible offline, the
+      judge is a deterministic lexical rubric matcher that answers the same official prompts;
+      the rubric, formulas and denominators remain those of the benchmark.</li>
+  <li><b>Aggregation.</b> Each cell is a mean with a 95% percentile interval from 5,000
+      case-cluster bootstrap resamples (seed 20261124). Cases, not sessions, are resampled, so
+      the three policies share the same resampled case set.</li>
+</ul>
+
+<h3>A.3 The seven metrics</h3>
+
+<p>The benchmark reports seven consultation-quality metrics. Fact Coverage is
+<code>discovery_rate</code> (covered facts / all facts); Inquiry is <code>EAS</code> (mean
+expected-action rubric score); Elicitation is their mean. Fact Resolution is
+<code>absolute_accuracy</code> (correctly analysed facts / all facts); Issue Resolution is
+<code>MES</code> (mean memo-expectation rubric score); Resolution is their mean. Fidelity is
+<code>grounding_rate</code> (grounded claims / total factual claims). The required-section
+score (FFS) is a format filter and is not a ranking metric.</p>
+
+<h3>A.4 Results</h3>
+
+<p>Table&nbsp;A1 reports the main <code>P_WD</code> matrix. Gating is the dominant effect:
+Fact Coverage rises from 0.016 to 0.628 and Inquiry from 0.000 to 0.216; Elicitation rises from
+0.008 to 0.422. The <code>full</code> policy adds three turns and reaches 0.696, 0.228 and
+0.462 respectively. Issue Resolution moves less (0.295 → 0.378 / 0.399) because all three
+policies share the same domain-level issue library; the gain comes from selecting issues with
+elicited facts, not from new legal knowledge.</p>
+
+<table>
+<thead>
+<tr>
+  <th style="width:23%">Metric</th>
+  <th class="num" style="width:25.6%">answer_first (n=30)</th>
+  <th class="num" style="width:25.6%">gate_only (n=30)</th>
+  <th class="num" style="width:25.6%">full (n=30)</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>Fact Coverage</td><td class="num">0.016 [0.002, 0.033]</td><td class="num">0.628 [0.531, 0.717]</td><td class="num">0.696 [0.605, 0.780]</td></tr>
+<tr><td>Inquiry</td><td class="num">0.000 [0.000, 0.000]</td><td class="num">0.216 [0.142, 0.300]</td><td class="num">0.228 [0.153, 0.313]</td></tr>
+<tr><td>Elicitation</td><td class="num">0.008 [0.001, 0.017]</td><td class="num">0.422 [0.356, 0.486]</td><td class="num">0.462 [0.401, 0.525]</td></tr>
+<tr><td>Fact Resolution</td><td class="num">0.016 [0.002, 0.033]</td><td class="num">0.614 [0.518, 0.705]</td><td class="num">0.683 [0.593, 0.767]</td></tr>
+<tr><td>Issue Resolution</td><td class="num">0.295 [0.183, 0.417]</td><td class="num">0.378 [0.268, 0.498]</td><td class="num">0.399 [0.290, 0.515]</td></tr>
+<tr><td>Resolution</td><td class="num">0.155 [0.099, 0.218]</td><td class="num">0.496 [0.420, 0.573]</td><td class="num">0.541 [0.464, 0.618]</td></tr>
+<tr><td>Fidelity</td><td class="num">1.000 [1.000, 1.000]</td><td class="num">1.000 [1.000, 1.000]</td><td class="num">1.000 [1.000, 1.000]</td></tr>
+</tbody>
+</table>
+<p class="note">Table A1. Main adapted run, 30 Chinese cases × <code>P_WD</code>, 10-turn budget.
+Cells are mean [95% CI], case-cluster bootstrap. Fidelity is 1.000 because every factual
+sentence in the memo is a quoted client statement: the memo stays anchored to the dialogue.</p>
+
+<p>Table&nbsp;A2 repeats the run with the <code>P_CD</code> controlling-resister persona. The
+deterministic client requires a stronger question match before it discloses, so Fact Coverage
+and Elicitation fall while Inquiry is unchanged (the questions are policy-driven). The pattern is
+consistent with the benchmark's persona finding, and the deterministic client makes the effect
+reproducible across reruns.</p>
+
+<table>
+<thead>
+<tr>
+  <th style="width:23%">Metric</th>
+  <th class="num" style="width:25.6%">answer_first (n=30)</th>
+  <th class="num" style="width:25.6%">gate_only (n=30)</th>
+  <th class="num" style="width:25.6%">full (n=30)</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>Fact Coverage</td><td class="num">0.016 [0.002, 0.033]</td><td class="num">0.457 [0.379, 0.536]</td><td class="num">0.583 [0.501, 0.661]</td></tr>
+<tr><td>Inquiry</td><td class="num">0.000 [0.000, 0.000]</td><td class="num">0.216 [0.142, 0.300]</td><td class="num">0.228 [0.153, 0.313]</td></tr>
+<tr><td>Elicitation</td><td class="num">0.008 [0.001, 0.017]</td><td class="num">0.336 [0.280, 0.393]</td><td class="num">0.405 [0.349, 0.461]</td></tr>
+<tr><td>Resolution</td><td class="num">0.155 [0.099, 0.218]</td><td class="num">0.412 [0.342, 0.483]</td><td class="num">0.473 [0.399, 0.549]</td></tr>
+<tr><td>Fidelity</td><td class="num">1.000 [1.000, 1.000]</td><td class="num">1.000 [1.000, 1.000]</td><td class="num">1.000 [1.000, 1.000]</td></tr>
+</tbody>
+</table>
+<p class="note">Table A2. <code>P_CD</code> extension (90 sessions). The full 3 × 7 table is in
+<code>runs/external/pcd/summary.md</code>.</p>
+
+<h3>A.5 What the run establishes</h3>
+
+<p>The adapted run establishes three results. First, the full gate → ask → memo control flow
+runs end-to-end on a public multi-turn protocol with 30 unseen Chinese cases: all 180 sessions
+completed with a memo, and every session was scored by the benchmark's own evaluator. Second,
+gating moves the behavioural metrics by a large margin — Fact Coverage from 0.016 to 0.628
+(<code>gate_only</code>) and 0.696 (<code>full</code>), Elicitation from 0.008 to 0.422 and
+0.462, and Resolution from 0.155 to 0.496 and 0.541. The persona extension moves in the same
+direction: <code>P_CD</code> lowers Fact Coverage to 0.457 / 0.583 while Inquiry stays unchanged,
+showing that disclosure difficulty affects what the lawyer can learn. Third, the result is
+reproducible from one command, with seven metrics, case-cluster confidence intervals, and a
+hash-checked vendored scorer.</p>
+
+<p><b>Scope.</b> The evaluation uses the public CN split and a fixed 10-turn budget. The
+reported quantities are the policy deltas on that split, computed with the benchmark's own
+seven metrics and case-cluster confidence intervals.</p>
+
+<h3>A.6 Reproducibility</h3>
+
+<pre>python external/dlawbench/run.py --n-cases 30 --bootstrap 5000
+python external/dlawbench/run.py --n-cases 30 --personas P_CD \
+    --output-dir runs/external/pcd --bootstrap 5000
+python external/dlawbench/verify.py
+python external/dlawbench/verify.py runs/external/pcd</pre>
+
+<p>The run writes <code>summary.md</code>, <code>scores.csv</code>,
+<code>leaderboard.md</code> and <code>run_manifest.json</code> under
+<code>runs/external/</code> (and <code>runs/external/pcd/</code>). The manifest records the
+DLawBench commit, the LexFlow commit, the MIT / CC&nbsp;BY&nbsp;4.0 licences, the case-file
+hash, n, and the exact command. Vendored DLawBench files are hash-checked against the pinned
+commit; <code>verify.py</code> also scans the shim for any reference to rubric or hidden-case
+fields. A one-page method note is in <code>docs/EXTERNAL_EVAL.md</code>.</p>
+
+<h3>A.7 Takeaway</h3>
+
+<p>Taken together, the appendix converts the report's qualitative public-benchmark comparison
+into a measured, reproducible pipeline result. The mechanism that travels is the gate; the next
+evaluation step is an official LLM judge and the full case split. The adapted run is therefore
+best read as an existence proof and a reusable harness for the next evaluation round.</p>
+
+</body>
+</html>
