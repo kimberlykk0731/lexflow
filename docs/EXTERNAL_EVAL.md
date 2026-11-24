@@ -58,8 +58,9 @@ python external/dlawbench/verify.py
 | Fidelity | `grounding_rate` | grounded claims / total claims |
 
 实现路径：`external/dlawbench/upstream/src/dlawbench/evaluate.py` +
-`external/dlawbench/upstream/scripts/metrics.py`，均为 pinned commit 的字节级拷贝
-（`VENDORED.json` 有 sha256，`verify.py` 会重算）。`FFS` 只作格式过滤，不进主表。
+`external/dlawbench/upstream/scripts/metrics.py`，内容与 pinned commit 一致
+（`VENDORED.json` 有 sha256，`verify.py` 会按行尾归一化后重算）。`FFS` 只作格式过滤，
+不进主表。
 
 ## 5. 为什么 judge 是确定性的
 
