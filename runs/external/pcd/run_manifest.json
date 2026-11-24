@@ -1,0 +1,221 @@
+{
+  "generated_at": "2026-11-24T16:03:45+08:00",
+  "command": "D:\\Python\\Python3.14\\python.exe external\\dlawbench\\run.py --n-cases 30 --personas P_CD --output-dir runs\\external\\pcd --bootstrap 5000",
+  "argv": [
+    "external\\dlawbench\\run.py",
+    "--n-cases",
+    "30",
+    "--personas",
+    "P_CD",
+    "--output-dir",
+    "runs\\external\\pcd",
+    "--bootstrap",
+    "5000"
+  ],
+  "elapsed_seconds": 6.8,
+  "n_cases": 30,
+  "case_ids": [
+    "case_cn_0001",
+    "case_cn_0002",
+    "case_cn_0003",
+    "case_cn_0004",
+    "case_cn_0005",
+    "case_cn_0006",
+    "case_cn_0007",
+    "case_cn_0008",
+    "case_cn_0009",
+    "case_cn_0010",
+    "case_cn_0011",
+    "case_cn_0012",
+    "case_cn_0013",
+    "case_cn_0014",
+    "case_cn_0015",
+    "case_cn_0016",
+    "case_cn_0017",
+    "case_cn_0018",
+    "case_cn_0019",
+    "case_cn_0020",
+    "case_cn_0021",
+    "case_cn_0022",
+    "case_cn_0023",
+    "case_cn_0024",
+    "case_cn_0025",
+    "case_cn_0026",
+    "case_cn_0027",
+    "case_cn_0028",
+    "case_cn_0029",
+    "case_cn_0030"
+  ],
+  "personas": [
+    "P_CD"
+  ],
+  "policies": [
+    "answer_first",
+    "gate_only",
+    "full"
+  ],
+  "max_turns": 10,
+  "sessions_expected": 90,
+  "sessions_evaluated": 90,
+  "status_counts": {
+    "memo_submitted": 90
+  },
+  "eval_failures": 0,
+  "bootstrap": {
+    "resamples": 5000,
+    "seed": 20261124,
+    "cluster": "case_id",
+    "confidence": 0.95
+  },
+  "judge": {
+    "model": "lexflow-rubric-judge",
+    "kind": "deterministic lexical rubric matcher",
+    "official_prompt": true,
+    "official_formulas": true
+  },
+  "dlawbench": {
+    "repo": "https://github.com/SKYLENAGE-AI/DLawBench",
+    "commit": "9f6325f29f07b296fac110a6e1880bdd5d9ca538",
+    "license": {
+      "code": "MIT (upstream LICENSE)",
+      "data": "CC BY 4.0 (upstream data/LICENSE)"
+    },
+    "case_file": "cases_cn.jsonl",
+    "case_file_sha256": "341184ab2b783a41d0ae62380299ba55fdf8b20b135cdfb5547e948a94d6b8b5",
+    "vendored_files": 28
+  },
+  "lexflow": {
+    "commit": "4da5eceaacb048205d84f7ce23a29572225efde3",
+    "dirty": true,
+    "python": "3.14.2",
+    "platform": "win32"
+  },
+  "metrics": [
+    "fact_coverage",
+    "inquiry",
+    "elicitation",
+    "fact_resolution",
+    "issue_resolution",
+    "resolution",
+    "fidelity"
+  ],
+  "ci": {
+    "answer_first": {
+      "fact_coverage": {
+        "mean": 0.0157,
+        "lo": 0.0022,
+        "hi": 0.0329
+      },
+      "inquiry": {
+        "mean": 0.0,
+        "lo": 0.0,
+        "hi": 0.0
+      },
+      "elicitation": {
+        "mean": 0.0078,
+        "lo": 0.0011,
+        "hi": 0.0165
+      },
+      "fact_resolution": {
+        "mean": 0.0157,
+        "lo": 0.0022,
+        "hi": 0.0329
+      },
+      "issue_resolution": {
+        "mean": 0.295,
+        "lo": 0.1834,
+        "hi": 0.4172
+      },
+      "resolution": {
+        "mean": 0.1554,
+        "lo": 0.0986,
+        "hi": 0.2176
+      },
+      "fidelity": {
+        "mean": 1.0,
+        "lo": 1.0,
+        "hi": 1.0
+      }
+    },
+    "gate_only": {
+      "fact_coverage": {
+        "mean": 0.4567,
+        "lo": 0.3792,
+        "hi": 0.5358
+      },
+      "inquiry": {
+        "mean": 0.216,
+        "lo": 0.1425,
+        "hi": 0.3003
+      },
+      "elicitation": {
+        "mean": 0.3363,
+        "lo": 0.2804,
+        "hi": 0.3932
+      },
+      "fact_resolution": {
+        "mean": 0.4464,
+        "lo": 0.3691,
+        "hi": 0.5257
+      },
+      "issue_resolution": {
+        "mean": 0.3784,
+        "lo": 0.2677,
+        "hi": 0.4973
+      },
+      "resolution": {
+        "mean": 0.4124,
+        "lo": 0.3423,
+        "hi": 0.4827
+      },
+      "fidelity": {
+        "mean": 1.0,
+        "lo": 1.0,
+        "hi": 1.0
+      }
+    },
+    "full": {
+      "fact_coverage": {
+        "mean": 0.5829,
+        "lo": 0.5014,
+        "hi": 0.6615
+      },
+      "inquiry": {
+        "mean": 0.2277,
+        "lo": 0.1528,
+        "hi": 0.3126
+      },
+      "elicitation": {
+        "mean": 0.4053,
+        "lo": 0.3494,
+        "hi": 0.4608
+      },
+      "fact_resolution": {
+        "mean": 0.5668,
+        "lo": 0.4866,
+        "hi": 0.6459
+      },
+      "issue_resolution": {
+        "mean": 0.3795,
+        "lo": 0.265,
+        "hi": 0.5005
+      },
+      "resolution": {
+        "mean": 0.4731,
+        "lo": 0.3987,
+        "hi": 0.5486
+      },
+      "fidelity": {
+        "mean": 1.0,
+        "lo": 1.0,
+        "hi": 1.0
+      }
+    }
+  },
+  "files": [
+    "summary.md",
+    "scores.csv",
+    "leaderboard.md",
+    "run_manifest.json"
+  ]
+}

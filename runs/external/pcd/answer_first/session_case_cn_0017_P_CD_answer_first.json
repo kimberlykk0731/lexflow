@@ -1,0 +1,132 @@
+{
+  "case_id": "case_cn_0017",
+  "persona": "控制对抗者",
+  "lawyer_model": "lexflow-answer-first",
+  "client_model": "lexflow-client-p-cd",
+  "turns_used": 0,
+  "max_turns": 10,
+  "status": "memo_submitted",
+  "memo": "# 法律咨询备忘录\n\n- 咨询类型：公司、股东与股权纠纷\n- 事实来源：客户开场陈述与咨询中的客户回答（共 0 轮）\n\n## 案情概要\n\n律师你好，我是张某，之前电话里跟您说过，关于我投资的公司惹上官司连累股东的事，想请您帮我看看。\n\n## 关键事实\n\n- 律师你好，我是张某，之前电话里跟您说过，关于我投资的公司惹上官司连累股东的事，想请您帮我看看。\n\n## 法律问题\n\n### 1. 违法减资的责任\n\n减资应编制资产负债表、通知已知债权人并公告；未依法通知的，股东在减资范围内对公司债务承担补充赔偿责任。\n\n### 2. 抽逃出资的认定\n\n抽逃出资包括虚构债权债务转出、关联交易转出、验资后转回等；债权人可以要求抽逃股东在抽逃本息范围内，对公司债务不能清偿部分承担补充赔偿责任。\n\n### 3. 股东出资加速到期\n\n股东在认缴期限内享有期限利益，但公司不能清偿到期债务且具备破产原因而不申请破产的，债权人可以主张未届出资期限的股东在未出资范围内承担补充赔偿责任。\n\n### 4. 诉讼策略与财产保全\n\n应先固定债权，再审查公司资产与股东出资、转让、减资轨迹；必要时同时提起股东损害债权人利益之诉，并申请财产保全。\n\n### 5. 人格混同与连带责任\n\n认定人格混同需审查财产、业务、人员、财务是否混同，是否严重损害债权人利益；一人公司股东不能证明公司财产独立于自己财产的，对公司债务承担连带责任。\n\n### 6. 未届期股权转让的责任\n\n未届出资期限的股权转让，受让人承担缴纳出资义务；转让人对受让人未按期缴纳的出资承担补充责任。以逃避债务为目的的恶意转让，可以追加原股东。\n\n### 7. 责任性质与执行追加\n\n原股东与继任股东之间的责任通常是补充赔偿责任，而非当然的共同债务；执行程序中追加被执行人需符合法定情形，并给予被追加人听证、复议救济。\n\n## 风险评估\n\n- 公司已无财产，股东出资期限未届满\n- 股权转让被认定为正常商业行为，难以追加原股东\n- 减资程序瑕疵的证据不足\n- 以上判断基于客户单方陈述，关键事实尚未经过证据核验；对方可能提出相反证据或者不同版本的事实。\n- 目前仍缺少以下信息：章程与出资、出资凭证、股权转让、债权形成，可能影响结论的完整性。\n\n## 下一步建议\n\n- 收集并核对：公司章程、出资协议、验资报告、出资证明书\n- 收集并核对：股权转让协议、工商变更档案、股东会决议\n- 收集并核对：公司年报、审计报告、财务报表\n- 收集并核对：减资公告、债权人通知凭证\n- 收集并核对：合同、对账单、催款函、生效判决\n- 收集并核对：执行裁定、财产查询反馈、追加被执行人申请\n- 先固定时间线与关键书证，再决定协商、投诉、仲裁或者诉讼路径。\n- 对不确定的事实，建议以书面清单向客户二次确认，避免把客户认知直接当作事实。\n",
+  "log": [
+    {
+      "type": "memo",
+      "content_length": 1177,
+      "timestamp": "2026-11-24T08:03:38.400061+00:00"
+    }
+  ],
+  "elapsed_seconds": 0.0,
+  "timestamp": "2026-11-24T08:03:38.400079+00:00",
+  "case_file": "cases_cn.jsonl",
+  "case_line": 17,
+  "jurisdiction": "CN",
+  "policy": "answer_first",
+  "persona_key": "P_CD",
+  "evaluation": {
+    "case_id": "case_cn_0017",
+    "process": {
+      "total_turns": 0,
+      "memo_submitted": true
+    },
+    "format": {
+      "score": 1.0,
+      "present": [
+        "案情概要",
+        "关键事实",
+        "法律问题",
+        "风险评估",
+        "下一步建议"
+      ],
+      "missing": []
+    },
+    "memo_quality": {
+      "memo_expectation_scores": [
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "expected_action_scores": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "overall_quality": "Fail",
+      "analysis": "deterministic lexical rubric matcher (offline stand-in)",
+      "memo_expectation_score": 0.2,
+      "expected_action_score": 0.0
+    },
+    "fact_evaluation": {
+      "discovery": {
+        "covered": [
+          "F4"
+        ],
+        "missed": [
+          "F1",
+          "F2",
+          "F3",
+          "F5",
+          "F6",
+          "F7",
+          "F8",
+          "F9",
+          "F10",
+          "F11",
+          "F12"
+        ]
+      },
+      "accuracy": {
+        "correct": [
+          "F4"
+        ],
+        "incorrect": []
+      },
+      "grounding": {
+        "total_claims": 1,
+        "grounded_claims": [
+          {
+            "claim": "律师你好，我是张某，之前电话里跟您说过，关于我投资的公司惹上官司连累股东的事，想请您帮我看看",
+            "basis": "对话记录或案件事实"
+          }
+        ],
+        "ungrounded_claims": []
+      },
+      "scores": {
+        "discovery_rate": 0.0833,
+        "accuracy_rate": 1.0,
+        "absolute_accuracy": 0.0833,
+        "grounding_rate": 1.0,
+        "n_facts": 12,
+        "n_covered": 1,
+        "n_missed": 11,
+        "n_correct": 1,
+        "n_incorrect": 0,
+        "n_claims_total": 1,
+        "n_claims_ungrounded": 0,
+        "by_gap_type": {
+          "disputed": {
+            "n": 8,
+            "discovery_rate": 0.0,
+            "accuracy_rate": null
+          },
+          "undisputed": {
+            "n": 4,
+            "discovery_rate": 0.25,
+            "accuracy_rate": 1.0
+          }
+        }
+      }
+    },
+    "scores": {
+      "FFS": 1.0,
+      "MES": 0.2,
+      "EAS": 0.0,
+      "discovery_rate": 0.0833,
+      "accuracy_rate": 1.0,
+      "absolute_accuracy": 0.0833,
+      "grounding_rate": 1.0
+    }
+  }
+}
