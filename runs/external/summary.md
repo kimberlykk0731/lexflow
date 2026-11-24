@@ -5,9 +5,9 @@
 > DLawBench rubric text, metric formulas and denominators are used unchanged, but
 > absolute scores are not comparable to the DLawBench leaderboard.
 
-- Generated: `2026-11-24T15:12:22+08:00`
+- Generated: `2026-11-24T15:19:23+08:00`
 - DLawBench: `https://github.com/SKYLENAGE-AI/DLawBench` @ `9f6325f29f07b296fac110a6e1880bdd5d9ca538` (MIT code / CC BY 4.0 data)
-- LexFlow: `9430e1f365e3208b83e27c5cf5c6b841244c2a5c`
+- LexFlow: `964179fce781b153635af7dec60795b3884ea193`
 - Cases: 30 Chinese-law cases from `cases_cn.jsonl` (case_cn_0001, case_cn_0002, case_cn_0003…)
 - Persona(s): P_WD · max turns: 10
 - Sessions: 90 (3 policies × 30 cases)
