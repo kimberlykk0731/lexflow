@@ -16,6 +16,7 @@ from client_sim import ClientSimulator  # noqa: E402
 from judge import judge_reply  # noqa: E402
 from policy import LawyerPolicy, model_name, policy_from_model  # noqa: E402
 from server import ShimServer  # noqa: E402
+from verify import library_leakage  # noqa: E402
 
 
 SYSTEM = """你是一名拥有丰富诉讼经验的执业律师。一位客户来找你进行法律咨询。
@@ -125,6 +126,12 @@ class BootstrapTests(unittest.TestCase):
         mean, lo, hi = out["p"]["x"]
         self.assertLessEqual(lo, mean)
         self.assertLessEqual(mean, hi)
+
+
+class LibraryTests(unittest.TestCase):
+    def test_issue_library_has_no_case_fingerprints(self):
+        """The hand-written issue library must not carry case-specific content."""
+        self.assertEqual(library_leakage(), [])
 
 
 class ServerTests(unittest.TestCase):

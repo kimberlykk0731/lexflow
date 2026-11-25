@@ -16,7 +16,8 @@ Model names route to components:
     lexflow-rubric-judge                                      offline judge stand-in
 
 The shim only reads the messages DLawBench sends.  It does not open the case
-file, hidden facts, or the evaluation rubric.
+file, hidden facts, or the evaluation rubric; the fixed question/issue library
+it uses is hand-curated and shipped with the adapter (legal_library.py).
 """
 from __future__ import annotations
 

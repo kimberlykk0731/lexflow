@@ -85,6 +85,24 @@ def _sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+CODE_FILES = ("policy.py", "legal_library.py", "textutil.py", "client_sim.py",
+              "agent_policy.py", "judge.py")
+
+
+def code_fingerprint() -> dict[str, str]:
+    """Hashes of the adapter files that determine memo content.
+
+    Recorded in every session so ``--resume`` cannot silently reuse a memo
+    produced by a different question/issue library.
+    """
+    return {name: _sha256(HERE / name) for name in CODE_FILES if (HERE / name).is_file()}
+
+
+def fingerprint_id(fingerprint: dict[str, str]) -> str:
+    joined = "\n".join(f"{key}:{value}" for key, value in sorted(fingerprint.items()))
+    return hashlib.sha256(joined.encode("utf-8")).hexdigest()[:16]
+
+
 def _git(*args: str) -> str:
     try:
         out = subprocess.run(
@@ -93,6 +111,18 @@ def _git(*args: str) -> str:
         return out.stdout.strip()
     except Exception:
         return ""
+
+
+def _source_dirty() -> bool:
+    """True when tracked *source* files differ from HEAD.
+
+    Run outputs live under ``runs/`` and are rewritten by this script, so they
+    are excluded: the flag is about whether the code that produced a session
+    matches the recorded commit, not about output churn.
+    """
+    out = _git("status", "--porcelain", "--untracked-files=no", "--", ".",
+               ":(exclude)runs")
+    return bool(out)
 
 
 def _read_cases(limit: int, wanted: list[str]) -> list[dict]:
@@ -160,7 +190,9 @@ def main() -> int:
 
     started = time.time()
     lexflow_commit = _git("rev-parse", "HEAD") or "unknown"
-    lexflow_dirty = bool(_git("status", "--porcelain"))
+    lexflow_dirty = _source_dirty()
+    fingerprint = code_fingerprint()
+    fingerprint_digest = fingerprint_id(fingerprint)
     server = ShimServer(verbose=False).start()
     os.environ["LOCALHOST_BASE_URL"] = server.base_url
 
@@ -195,10 +227,14 @@ def main() -> int:
                         try:
                             with path.open("r", encoding="utf-8") as handle:
                                 session = json.load(handle)
-                            if session.get("status") in ("memo_submitted", "max_turns_reached"):
+                            if (session.get("status") in ("memo_submitted", "max_turns_reached")
+                                    and session.get("code_fingerprint") == fingerprint_digest):
                                 sessions.append((policy, persona, session, path))
                                 print(f"[resume] {policy:12s} {case_id} {persona}")
                                 continue
+                            if session.get("code_fingerprint") != fingerprint_digest:
+                                print(f"[stale]  {policy:12s} {case_id} {persona} "
+                                      "code changed since this session; re-running")
                         except (OSError, json.JSONDecodeError):
                             pass
 
@@ -217,6 +253,7 @@ def main() -> int:
                     session["jurisdiction"] = case.get("jurisdiction")
                     session["policy"] = policy
                     session["persona_key"] = persona
+                    session["code_fingerprint"] = fingerprint_digest
 
                     path.parent.mkdir(parents=True, exist_ok=True)
                     with path.open("w", encoding="utf-8") as handle:
@@ -277,7 +314,7 @@ def main() -> int:
     elapsed = time.time() - started
     _write_outputs(out_dir, args, policies, personas, cases, sessions,
                    rows_by_policy, ci, raw_scores, status_counts, failures, elapsed, dl,
-                   lexflow_commit, lexflow_dirty)
+                   lexflow_commit, lexflow_dirty, fingerprint, fingerprint_digest)
     print(f"\n[done] {sum(len(v) for v in rows_by_policy.values())} evaluated sessions "
           f"in {elapsed:.1f}s")
     print(f"[out] {out_dir / 'summary.md'}")
@@ -288,7 +325,8 @@ def main() -> int:
 
 def _write_outputs(out_dir, args, policies, personas, cases, sessions,
                    rows_by_policy, ci, raw_scores, status_counts, failures,
-                   elapsed, dl, lexflow_commit, lexflow_dirty) -> None:
+                   elapsed, dl, lexflow_commit, lexflow_dirty,
+                   fingerprint, fingerprint_digest) -> None:
     metrics = dl["metrics"]
     metric_keys = list(metrics.METRIC_KEYS)
     display = metrics.DISPLAY_NAMES
@@ -367,7 +405,9 @@ def _write_outputs(out_dir, args, policies, personas, cases, sessions,
         f"({', '.join(c['raw']['id'] for c in cases[:3])}{'…' if len(cases) > 3 else ''})",
         f"- Persona(s): {', '.join(personas)} · max turns: {args.max_turns}",
         f"- Sessions: {sum(n_by_policy.values())} "
-        f"({len(policies)} policies × {n} cases)",
+        f"({len(policies)} policies × {n} cases"
+        + ("" if len(set(n_by_policy.values())) <= 1 else f"; per policy: {n_by_policy}")
+        + ")",
         f"- Status: {', '.join(f'{k}={v}' for k, v in sorted(status_counts.items()))}"
         + (f", eval_failures={failures}" if failures else ""),
         f"- Judge: `{judge_model}` — {judge_kind}, "
@@ -511,6 +551,18 @@ def _write_outputs(out_dir, args, policies, personas, cases, sessions,
             "dirty": dirty,
             "python": sys.version.split()[0],
             "platform": sys.platform,
+        },
+        "code": {
+            "fingerprint": fingerprint_digest,
+            "files": fingerprint,
+        },
+        "llm": {
+            "mode": os.getenv("LEXFLOW_LLM", "mock"),
+            "enabled": (os.getenv("LEXFLOW_LLM", "mock").lower()
+                        in {"api", "openai", "deepseek", "qwen"}
+                        and bool(os.getenv("LLM_API_KEY"))),
+            "model": os.getenv("LLM_MODEL", "deepseek-chat"),
+            "used_by": "agent" if args.lawyer_mode == "agent" else "none (simulation)",
         },
         "metrics": metric_keys,
         "ci": {

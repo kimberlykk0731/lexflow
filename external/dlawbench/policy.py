@@ -8,8 +8,11 @@ one JSON tool call per turn:
 
 This module turns LexFlow's "gate first, answer second" control flow into that
 protocol.  It is deliberately stateless: every call reconstructs the facts from
-the visible conversation, which is exactly what the benchmark sends.  It never
-sees the case file, the hidden facts, or the evaluation rubric.
+the visible conversation, which is exactly what the benchmark sends.  At run
+time it reads only the benchmark messages; its question and issue library is a
+fixed, hand-curated checklist (legal_library.py), not case data loaded at run
+time.  The library was refined by the authors, so Issue Resolution / Resolution
+measure the checklist rather than model knowledge (see docs/EXTERNAL_EVAL.md).
 """
 from __future__ import annotations
 
@@ -367,8 +370,8 @@ class LawyerPolicy:
 
         The opening-only policy therefore sees the generic issues, while the
         inquiry policies surface the issues that the client's answers made
-        salient.  The library itself is fixed and domain-level, never
-        case-specific.
+        salient.  The library is fixed and domain-level; it is curated by the
+        authors rather than derived from the benchmark at run time.
         """
         issues = lib.domain_issues(domain)
         text_terms = terms(text)
