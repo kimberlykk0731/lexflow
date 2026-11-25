@@ -129,8 +129,10 @@ def main() -> int:
     table_rows = [line for line in summary.splitlines()
                   if line.startswith("| ") and "[" in line]
     cells = re.findall(r"\d+\.\d+\s*\[\d+\.\d+,\s*\d+\.\d+\]", "\n".join(table_rows))
-    ok &= check(len(table_rows) >= 3 and len(cells) >= 21,
-                "summary table has mean [95% CI] cells", f"rows={len(table_rows)} cells={len(cells)}")
+    n_policies = len(manifest.get("policies") or []) or 3
+    ok &= check(len(table_rows) >= n_policies and len(cells) >= 7 * n_policies,
+                "summary table has mean [95% CI] cells",
+                f"rows={len(table_rows)} cells={len(cells)} policies={n_policies}")
 
     with csv_path.open("r", encoding="utf-8", newline="") as handle:
         header = next(csv.reader(handle))
