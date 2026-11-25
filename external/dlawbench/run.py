@@ -339,7 +339,7 @@ def _write_outputs(out_dir, args, policies, personas, cases, sessions,
         fieldnames += ["FFS", "MES", "EAS", "discovery_rate", "accuracy_rate",
                        "absolute_accuracy", "grounding_rate", "n_facts", "n_covered",
                        "n_claims_total", "n_claims_ungrounded"]
-        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        writer = csv.DictWriter(handle, fieldnames=fieldnames, lineterminator="\n")
         writer.writeheader()
         for policy, persona, session, path in sessions:
             evaluation = session.get("evaluation") or {}

@@ -138,7 +138,7 @@ def main() -> None:
     cases = load_cases()
     domains = domain_table(cases)
     with (RUNS / "domain_breakdown.csv").open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=list(domains[0].keys()))
+        writer = csv.DictWriter(handle, fieldnames=list(domains[0].keys()), lineterminator="\n")
         writer.writeheader()
         writer.writerows(domains)
     lines = [
@@ -176,7 +176,8 @@ def main() -> None:
                     "n_cases": n,
                 })
     with (RUNS / "paired_deltas.csv").open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=["comparison", "metric", "mean", "lo", "hi", "n_cases"])
+        writer = csv.DictWriter(handle, fieldnames=["comparison", "metric", "mean", "lo", "hi", "n_cases"],
+                               lineterminator="\n")
         writer.writeheader()
         writer.writerows(delta_rows)
     lines = [
