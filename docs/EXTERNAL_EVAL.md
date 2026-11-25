@@ -90,7 +90,7 @@ provenance/verification。
 标签，客户端只能回“这个我手上没有材料”。也就是说 Fact Coverage 存在一个与律师策略无关的
 上限，这是离线 client 替身的限制，不是问卷设计的问题。
 
-## 6. 真 agent case study（3 个 in-schema case）
+## 6. 真 agent case study（3 个 labor/tort case，1 个在 schema 内）
 
 | Policy | FFS | Fact Coverage | Inquiry | Issue Resolution | Fidelity |
 |---|---:|---:|---:|---:|---:|
@@ -107,7 +107,7 @@ provenance/verification。
   对不上，这个指标在 agent 模式下基本失效。
 - `case_cn_0025` 的备忘录还有三处事实错误：把“社保缴至 2023 年 3 月”变成解除日 `2023-03-01`、
   `monthly_wage` 被抽成 202（补偿金算成 1,616 元）、把“我据此辞职”记成“单位单方解除”。
-  这是 mock LLM 下的事实抽取问题，不是 schema 问题，已列入报告的 error analysis。
+  这是 mock LLM 下的事实抽取问题，不是 schema 问题（附录 A.8 已写明）。
 
 ## 7. 七个指标与 judge caveat
 
