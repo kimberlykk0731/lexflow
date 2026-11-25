@@ -11,11 +11,11 @@
     {
       "type": "memo",
       "content_length": 1248,
-      "timestamp": "2026-11-25T14:12:48.557146+00:00"
+      "timestamp": "2026-11-25T14:17:48.534353+00:00"
     }
   ],
   "elapsed_seconds": 0.0,
-  "timestamp": "2026-11-25T14:12:48.557150+00:00",
+  "timestamp": "2026-11-25T14:17:48.534358+00:00",
   "case_file": "cases_cn.jsonl",
   "case_line": 11,
   "jurisdiction": "CN",

@@ -3,9 +3,9 @@
 > **Adapted run, not an official leaderboard entry.**  The lawyer is the real `ConsultationAgent`, restricted to the in-schema cases; the client and judge are deterministic offline stand-ins. Official DLawBench rubric text, metric formulas and denominators are used unchanged, but absolute scores are not comparable to the DLawBench leaderboard.
 
 - Lawyer mode: `agent`
-- Generated: `2026-11-25T22:12:51+08:00`
+- Generated: `2026-11-25T22:17:51+08:00`
 - DLawBench: `https://github.com/SKYLENAGE-AI/DLawBench` @ `9f6325f29f07b296fac110a6e1880bdd5d9ca538` (MIT code / CC BY 4.0 data)
-- LexFlow: `4aeec32a0fd0bc3102cf063d9c03941586f40dcd`
+- LexFlow: `562546a6163ea65c8d6e4ea6b4ec34c64c40c8fe`
 - Cases: 3 Chinese-law cases from `cases_cn.jsonl` (case_cn_0006, case_cn_0024, case_cn_0025)
 - Persona(s): P_WD · max turns: 10
 - Sessions: 9 (3 policies × 3 cases)

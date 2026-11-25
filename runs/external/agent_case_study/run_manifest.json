@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-25T22:12:51+08:00",
+  "generated_at": "2026-11-25T22:17:51+08:00",
   "command": "/Library/Frameworks/Python.framework/Versions/3.13/bin/python3 external/dlawbench/run.py --n-cases 3 --case-ids case_cn_0024,case_cn_0025,case_cn_0006 --lawyer-mode agent --output-dir runs/external/agent_case_study",
   "argv": [
     "external/dlawbench/run.py",
@@ -58,7 +58,7 @@
     "vendored_files": 28
   },
   "lexflow": {
-    "commit": "4aeec32a0fd0bc3102cf063d9c03941586f40dcd",
+    "commit": "562546a6163ea65c8d6e4ea6b4ec34c64c40c8fe",
     "dirty": false,
     "python": "3.13.5",
     "platform": "darwin"
