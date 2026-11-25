@@ -3,9 +3,9 @@
 > **Adapted run, not an official leaderboard entry.**  The lawyer is a fixed-domain questionnaire simulation, not the LexFlow element-schema gate; the client and judge are deterministic offline stand-ins. Official DLawBench rubric text, metric formulas and denominators are used unchanged, but absolute scores are not comparable to the DLawBench leaderboard.
 
 - Lawyer mode: `simulation`
-- Generated: `2026-11-25T18:04:57+08:00`
+- Generated: `2026-11-25T22:12:50+08:00`
 - DLawBench: `https://github.com/SKYLENAGE-AI/DLawBench` @ `9f6325f29f07b296fac110a6e1880bdd5d9ca538` (MIT code / CC BY 4.0 data)
-- LexFlow: `057f74f310dec0467e747a5f911961b88d6de760` (dirty working tree)
+- LexFlow: `4aeec32a0fd0bc3102cf063d9c03941586f40dcd`
 - Cases: 30 Chinese-law cases from `cases_cn.jsonl` (case_cn_0001, case_cn_0002, case_cn_0003…)
 - Persona(s): P_CD · max turns: 10
 - Sessions: 90 (3 policies × 30 cases)
@@ -17,9 +17,9 @@
 
 | Policy | n | Fact Coverage | Inquiry | Elicitation | Fact Resolution | Issue Resolution | Resolution | Fidelity |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| answer_first | 30 | 0.016 [0.002, 0.033] | 0.000 [0.000, 0.000] | 0.008 [0.001, 0.017] | 0.016 [0.002, 0.033] | 0.295 [0.183, 0.417] | 0.155 [0.099, 0.218] | 1.000 [1.000, 1.000] |
-| gate_only | 30 | 0.457 [0.379, 0.536] | 0.216 [0.142, 0.300] | 0.336 [0.280, 0.393] | 0.446 [0.369, 0.526] | 0.378 [0.268, 0.497] | 0.412 [0.342, 0.483] | 1.000 [1.000, 1.000] |
-| full | 30 | 0.583 [0.501, 0.661] | 0.228 [0.153, 0.313] | 0.405 [0.349, 0.461] | 0.567 [0.487, 0.646] | 0.380 [0.265, 0.500] | 0.473 [0.399, 0.549] | 1.000 [1.000, 1.000] |
+| answer_first | 30 | 0.016 [0.002, 0.033] | 0.000 [0.000, 0.000] | 0.008 [0.001, 0.017] | 0.016 [0.002, 0.033] | 0.289 [0.177, 0.414] | 0.152 [0.095, 0.216] | 1.000 [1.000, 1.000] |
+| gate_only | 30 | 0.457 [0.379, 0.536] | 0.216 [0.142, 0.300] | 0.336 [0.280, 0.393] | 0.446 [0.369, 0.526] | 0.372 [0.259, 0.493] | 0.409 [0.339, 0.480] | 1.000 [1.000, 1.000] |
+| full | 30 | 0.583 [0.501, 0.661] | 0.228 [0.153, 0.313] | 0.405 [0.349, 0.461] | 0.567 [0.487, 0.646] | 0.373 [0.257, 0.495] | 0.470 [0.395, 0.547] | 1.000 [1.000, 1.000] |
 
 Each cell is `mean [95% CI]`. The CI resamples cases (clusters), not sessions,
 so the 3 policies are evaluated on the same resampled case set.

@@ -11,16 +11,17 @@
     {
       "type": "memo",
       "content_length": 1511,
-      "timestamp": "2026-11-24T07:50:46.900699+00:00"
+      "timestamp": "2026-11-25T14:12:45.061640+00:00"
     }
   ],
   "elapsed_seconds": 0.0,
-  "timestamp": "2026-11-24T07:50:46.900725+00:00",
+  "timestamp": "2026-11-25T14:12:45.061653+00:00",
   "case_file": "cases_cn.jsonl",
   "case_line": 1,
   "jurisdiction": "CN",
   "policy": "answer_first",
   "persona_key": "P_WD",
+  "code_fingerprint": "5dcb4e146a2853b6",
   "evaluation": {
     "case_id": "case_cn_0001",
     "process": {

@@ -3,9 +3,9 @@
 > **Adapted run, not an official leaderboard entry.**  The lawyer is a fixed-domain questionnaire simulation, not the LexFlow element-schema gate; the client and judge are deterministic offline stand-ins. Official DLawBench rubric text, metric formulas and denominators are used unchanged, but absolute scores are not comparable to the DLawBench leaderboard.
 
 - Lawyer mode: `simulation`
-- Generated: `2026-11-25T18:04:58+08:00`
+- Generated: `2026-11-25T22:12:48+08:00`
 - DLawBench: `https://github.com/SKYLENAGE-AI/DLawBench` @ `9f6325f29f07b296fac110a6e1880bdd5d9ca538` (MIT code / CC BY 4.0 data)
-- LexFlow: `057f74f310dec0467e747a5f911961b88d6de760` (dirty working tree)
+- LexFlow: `4aeec32a0fd0bc3102cf063d9c03941586f40dcd`
 - Cases: 30 Chinese-law cases from `cases_cn.jsonl` (case_cn_0001, case_cn_0002, case_cn_0003…)
 - Persona(s): P_WD · max turns: 10
 - Sessions: 30 (1 policies × 30 cases)
@@ -17,7 +17,7 @@
 
 | Policy | n | Fact Coverage | Inquiry | Elicitation | Fact Resolution | Issue Resolution | Resolution | Fidelity |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| checklist_9 | 30 | 0.687 [0.594, 0.773] | 0.228 [0.153, 0.313] | 0.457 [0.394, 0.522] | 0.673 [0.581, 0.760] | 0.384 [0.272, 0.504] | 0.529 [0.452, 0.608] | 1.000 [1.000, 1.000] |
+| checklist_9 | 30 | 0.687 [0.594, 0.773] | 0.228 [0.153, 0.313] | 0.457 [0.394, 0.522] | 0.673 [0.581, 0.760] | 0.378 [0.263, 0.499] | 0.526 [0.448, 0.605] | 1.000 [1.000, 1.000] |
 
 Each cell is `mean [95% CI]`. The CI resamples cases (clusters), not sessions,
 so the 1 policies are evaluated on the same resampled case set.

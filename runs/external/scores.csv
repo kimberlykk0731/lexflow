@@ -18,7 +18,7 @@ answer_first,case_cn_0016,P_WD,session_case_cn_0016_P_WD_answer_first.json,0,mem
 answer_first,case_cn_0017,P_WD,session_case_cn_0017_P_WD_answer_first.json,0,memo_submitted,0.0833,0.0,0.04165,0.0833,0.2,0.14165,1.0,1.0,0.2,0.0,0.0833,1.0,0.0833,1.0,12,1,1,0
 answer_first,case_cn_0018,P_WD,session_case_cn_0018_P_WD_answer_first.json,0,memo_submitted,0.0,0.0,0.0,0.0,0.25,0.125,1.0,1.0,0.25,0.0,0.0,,0.0,1.0,10,0,1,0
 answer_first,case_cn_0019,P_WD,session_case_cn_0019_P_WD_answer_first.json,0,memo_submitted,0.0,0.0,0.0,0.0,0.0,0.0,1.0,1.0,0.0,0.0,0.0,,0.0,1.0,11,0,1,0
-answer_first,case_cn_0020,P_WD,session_case_cn_0020_P_WD_answer_first.json,0,memo_submitted,0.0,0.0,0.0,0.0,0.1818,0.0909,1.0,1.0,0.1818,0.0,0.0,,0.0,1.0,14,0,6,0
+answer_first,case_cn_0020,P_WD,session_case_cn_0020_P_WD_answer_first.json,0,memo_submitted,0.0,0.0,0.0,0.0,0.0,0.0,1.0,1.0,0.0,0.0,0.0,,0.0,1.0,14,0,6,0
 answer_first,case_cn_0021,P_WD,session_case_cn_0021_P_WD_answer_first.json,0,memo_submitted,0.0,0.0,0.0,0.0,0.0,0.0,1.0,1.0,0.0,0.0,0.0,,0.0,1.0,5,0,1,0
 answer_first,case_cn_0022,P_WD,session_case_cn_0022_P_WD_answer_first.json,0,memo_submitted,0.0,0.0,0.0,0.0,0.0,0.0,1.0,1.0,0.0,0.0,0.0,,0.0,1.0,12,0,9,0
 answer_first,case_cn_0023,P_WD,session_case_cn_0023_P_WD_answer_first.json,0,memo_submitted,0.1538,0.0,0.0769,0.1538,0.0,0.0769,1.0,1.0,0.0,0.0,0.1538,1.0,0.1538,1.0,13,2,8,0
@@ -48,7 +48,7 @@ gate_only,case_cn_0016,P_WD,session_case_cn_0016_P_WD_gate_only.json,6,memo_subm
 gate_only,case_cn_0017,P_WD,session_case_cn_0017_P_WD_gate_only.json,6,memo_submitted,0.9167,1.0,0.95835,0.9167,0.2,0.55835,1.0,1.0,0.2,1.0,0.9167,1.0,0.9167,1.0,12,11,12,0
 gate_only,case_cn_0018,P_WD,session_case_cn_0018_P_WD_gate_only.json,6,memo_submitted,0.9,0.25,0.575,0.9,0.25,0.575,1.0,1.0,0.25,0.25,0.9,1.0,0.9,1.0,10,9,10,0
 gate_only,case_cn_0019,P_WD,session_case_cn_0019_P_WD_gate_only.json,6,memo_submitted,0.8182,0.25,0.5341,0.7273,0.75,0.73865,1.0,1.0,0.75,0.25,0.8182,0.8889,0.7273,1.0,11,9,10,0
-gate_only,case_cn_0020,P_WD,session_case_cn_0020_P_WD_gate_only.json,6,memo_submitted,0.7143,0.3636,0.53895,0.7143,0.1818,0.44805,1.0,1.0,0.1818,0.3636,0.7143,1.0,0.7143,1.0,14,10,21,0
+gate_only,case_cn_0020,P_WD,session_case_cn_0020_P_WD_gate_only.json,6,memo_submitted,0.7143,0.3636,0.53895,0.7143,0.0,0.35715,1.0,1.0,0.0,0.3636,0.7143,1.0,0.7143,1.0,14,10,21,0
 gate_only,case_cn_0021,P_WD,session_case_cn_0021_P_WD_gate_only.json,6,memo_submitted,1.0,0.0,0.5,1.0,0.0,0.5,1.0,1.0,0.0,0.0,1.0,1.0,1.0,1.0,5,5,6,0
 gate_only,case_cn_0022,P_WD,session_case_cn_0022_P_WD_gate_only.json,6,memo_submitted,0.75,0.1667,0.45835,0.75,0.0,0.375,1.0,1.0,0.0,0.1667,0.75,1.0,0.75,1.0,12,9,21,0
 gate_only,case_cn_0023,P_WD,session_case_cn_0023_P_WD_gate_only.json,6,memo_submitted,0.8462,0.25,0.5481,0.8462,0.1667,0.50645,1.0,1.0,0.1667,0.25,0.8462,1.0,0.8462,1.0,13,11,22,0
@@ -78,7 +78,7 @@ full,case_cn_0016,P_WD,session_case_cn_0016_P_WD_full.json,9,memo_submitted,0.86
 full,case_cn_0017,P_WD,session_case_cn_0017_P_WD_full.json,9,memo_submitted,1.0,1.0,1.0,1.0,0.4,0.7,1.0,1.0,0.4,1.0,1.0,1.0,1.0,1.0,12,12,14,0
 full,case_cn_0018,P_WD,session_case_cn_0018_P_WD_full.json,9,memo_submitted,0.9,0.25,0.575,0.9,0.25,0.575,1.0,1.0,0.25,0.25,0.9,1.0,0.9,1.0,10,9,11,0
 full,case_cn_0019,P_WD,session_case_cn_0019_P_WD_full.json,9,memo_submitted,0.9091,0.25,0.57955,0.8182,0.75,0.7841,1.0,1.0,0.75,0.25,0.9091,0.9,0.8182,1.0,11,10,12,0
-full,case_cn_0020,P_WD,session_case_cn_0020_P_WD_full.json,9,memo_submitted,0.7143,0.3636,0.53895,0.7143,0.1818,0.44805,1.0,1.0,0.1818,0.3636,0.7143,1.0,0.7143,1.0,14,10,22,0
+full,case_cn_0020,P_WD,session_case_cn_0020_P_WD_full.json,9,memo_submitted,0.7143,0.3636,0.53895,0.7143,0.0,0.35715,1.0,1.0,0.0,0.3636,0.7143,1.0,0.7143,1.0,14,10,22,0
 full,case_cn_0021,P_WD,session_case_cn_0021_P_WD_full.json,9,memo_submitted,1.0,0.0,0.5,1.0,0.0,0.5,1.0,1.0,0.0,0.0,1.0,1.0,1.0,1.0,5,5,7,0
 full,case_cn_0022,P_WD,session_case_cn_0022_P_WD_full.json,9,memo_submitted,0.75,0.1667,0.45835,0.75,0.0,0.375,1.0,1.0,0.0,0.1667,0.75,1.0,0.75,1.0,12,9,22,0
 full,case_cn_0023,P_WD,session_case_cn_0023_P_WD_full.json,9,memo_submitted,0.8462,0.25,0.5481,0.8462,0.1667,0.50645,1.0,1.0,0.1667,0.25,0.8462,1.0,0.8462,1.0,13,11,23,0

@@ -13,56 +13,57 @@
       "turn": 1,
       "lawyer_message": "您收到的具体文书是什么：处罚决定书、处理决定、复议决定还是行政协议？内容和送达时间是什么？",
       "client_response": "我既可以对原行政行为提起诉讼，也可以对驳回复议申请的决定提起诉讼。你听我说，这事没那么复杂。",
-      "timestamp": "2026-11-24T08:04:26.784609+00:00"
+      "timestamp": "2026-11-25T14:12:48.634052+00:00"
     },
     {
       "type": "talk",
       "turn": 2,
       "lawyer_message": "执法或者处理当天发生了什么：谁到场、出示了什么证件和文书、说了什么、您怎么回应？",
       "client_response": "我跟你说，我依法申请行政复议，A部门驳回我的复议申请，这侵害了我的复议权利。我知道的就这些。",
-      "timestamp": "2026-11-24T08:04:26.787671+00:00"
+      "timestamp": "2026-11-25T14:12:48.634919+00:00"
     },
     {
       "type": "talk",
       "turn": 3,
       "lawyer_message": "有没有收到权利义务告知书、听证告知或者送达回证？您签过字吗？",
       "client_response": "A部门驳回复议申请的决定属于程序轻微违法，应该确认违法。你听我说，这事没那么复杂。",
-      "timestamp": "2026-11-24T08:04:26.816900+00:00"
+      "timestamp": "2026-11-25T14:12:48.635762+00:00"
     },
     {
       "type": "talk",
       "turn": 4,
       "lawyer_message": "有没有申请行政复议或者提起行政诉讼？什么时候提交的，期限到哪天？",
       "client_response": "这我不清楚，你问点有用的。",
-      "timestamp": "2026-11-24T08:04:26.820007+00:00"
+      "timestamp": "2026-11-25T14:12:48.636622+00:00"
     },
     {
       "type": "talk",
       "turn": 5,
       "lawyer_message": "您的损失有哪些：占地、房屋、树木、经营损失？有没有票据、评估报告或者现场照片？",
       "client_response": "这我不清楚，你问点有用的。",
-      "timestamp": "2026-11-24T08:04:26.822019+00:00"
+      "timestamp": "2026-11-25T14:12:48.637532+00:00"
     },
     {
       "type": "talk",
       "turn": 6,
       "lawyer_message": "现场照片、录音录像、证人、书面申请材料这些证据还在吗？",
       "client_response": "这我不清楚，你问点有用的。",
-      "timestamp": "2026-11-24T08:04:26.823899+00:00"
+      "timestamp": "2026-11-25T14:12:48.638397+00:00"
     },
     {
       "type": "memo",
       "content_length": 1373,
-      "timestamp": "2026-11-24T08:04:26.826006+00:00"
+      "timestamp": "2026-11-25T14:12:48.639631+00:00"
     }
   ],
-  "elapsed_seconds": 0.1,
-  "timestamp": "2026-11-24T08:04:26.826022+00:00",
+  "elapsed_seconds": 0.0,
+  "timestamp": "2026-11-25T14:12:48.639637+00:00",
   "case_file": "cases_cn.jsonl",
   "case_line": 10,
   "jurisdiction": "CN",
   "policy": "gate_only",
   "persona_key": "P_CD",
+  "code_fingerprint": "5dcb4e146a2853b6",
   "evaluation": {
     "case_id": "case_cn_0010",
     "process": {

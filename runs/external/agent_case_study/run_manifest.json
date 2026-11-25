@@ -1,19 +1,18 @@
 {
-  "generated_at": "2026-11-25T18:05:00+08:00",
-  "command": "D:\\Python\\Python3.14\\python.exe external\\dlawbench\\run.py --n-cases 3 --case-ids case_cn_0024,case_cn_0025,case_cn_0006 --lawyer-mode agent --resume --output-dir runs\\external\\agent_case_study",
+  "generated_at": "2026-11-25T22:12:51+08:00",
+  "command": "/Library/Frameworks/Python.framework/Versions/3.13/bin/python3 external/dlawbench/run.py --n-cases 3 --case-ids case_cn_0024,case_cn_0025,case_cn_0006 --lawyer-mode agent --output-dir runs/external/agent_case_study",
   "argv": [
-    "external\\dlawbench\\run.py",
+    "external/dlawbench/run.py",
     "--n-cases",
     "3",
     "--case-ids",
     "case_cn_0024,case_cn_0025,case_cn_0006",
     "--lawyer-mode",
     "agent",
-    "--resume",
     "--output-dir",
-    "runs\\external\\agent_case_study"
+    "runs/external/agent_case_study"
   ],
-  "elapsed_seconds": 1.0,
+  "elapsed_seconds": 0.9,
   "n_cases": 3,
   "case_ids": [
     "case_cn_0006",
@@ -55,14 +54,31 @@
       "data": "CC BY 4.0 (upstream data/LICENSE)"
     },
     "case_file": "cases_cn.jsonl",
-    "case_file_sha256": "341184ab2b783a41d0ae62380299ba55fdf8b20b135cdfb5547e948a94d6b8b5",
+    "case_file_sha256": "11e16b7d0bf68f8ddab706cda2c5ecdcd4cb4e8937bb8ba1f9f5148626571528",
     "vendored_files": 28
   },
   "lexflow": {
-    "commit": "057f74f310dec0467e747a5f911961b88d6de760",
-    "dirty": true,
-    "python": "3.14.2",
-    "platform": "win32"
+    "commit": "4aeec32a0fd0bc3102cf063d9c03941586f40dcd",
+    "dirty": false,
+    "python": "3.13.5",
+    "platform": "darwin"
+  },
+  "code": {
+    "fingerprint": "5dcb4e146a2853b6",
+    "files": {
+      "policy.py": "d9bc1e9012c65943b65d9fc01db51478df504b374d809aea224b57515cdca74d",
+      "legal_library.py": "55d39284f125ae5522e259428344e0999be99018919e913f8f00a3c80930832c",
+      "textutil.py": "704f9da37033ed67b7410c2a16dea794c12ed7db83ea4957e6904eca082772d2",
+      "client_sim.py": "01abe471f6c589e41d52e42b3189ac4a0c1415c210bd924220e68dcaa5fecd9d",
+      "agent_policy.py": "88d3ad1909fb7e1f3608c17462b4527baf00a9cd69bcbc96ad1eadfdbdf990a2",
+      "judge.py": "50f7b16b2f22a72d11295cdb7aad96dfd146f0136b58cea8fed139e67a051a8b"
+    }
+  },
+  "llm": {
+    "mode": "mock",
+    "enabled": false,
+    "model": "deepseek-chat",
+    "used_by": "agent"
   },
   "metrics": [
     "fact_coverage",

@@ -13,56 +13,57 @@
       "turn": 1,
       "lawyer_message": "您的商标注册证核定使用的类别是什么？有没有独占许可或者著作权、专利证书？",
       "client_response": "这我不清楚，你问点有用的。",
-      "timestamp": "2026-11-24T08:04:26.988975+00:00"
+      "timestamp": "2026-11-25T14:12:48.671412+00:00"
     },
     {
       "type": "talk",
       "turn": 2,
       "lawyer_message": "品牌使用多久了？广告投入、媒体报道、门店数量、市场份额有数据吗？",
       "client_response": "平台这种行为就是恶意竞争，故意在我请网红直播当天搞低价打压我。你按这个思路办就行。",
-      "timestamp": "2026-11-24T08:04:27.017146+00:00"
+      "timestamp": "2026-11-25T14:12:48.672337+00:00"
     },
     {
       "type": "talk",
       "turn": 3,
       "lawyer_message": "对方具体怎么用您的品牌词？搜索结果页面、标题、落地页截图有吗？",
       "client_response": "我跟你说，平台应该遵守品牌方的价格管控要求，不能随便打折。我知道的就这些。",
-      "timestamp": "2026-11-24T08:04:27.031094+00:00"
+      "timestamp": "2026-11-25T14:12:48.673301+00:00"
     },
     {
       "type": "talk",
       "turn": 4,
       "lawyer_message": "消费者有没有实际混淆的证据：咨询记录、投诉、订单流失？",
       "client_response": "这我不清楚，你问点有用的。",
-      "timestamp": "2026-11-24T08:04:27.048598+00:00"
+      "timestamp": "2026-11-25T14:12:48.674318+00:00"
     },
     {
       "type": "talk",
       "turn": 5,
       "lawyer_message": "您向平台投诉过吗？平台怎么处理？有没有申请品牌词保护？",
       "client_response": "这我不清楚，你问点有用的。",
-      "timestamp": "2026-11-24T08:04:27.050451+00:00"
+      "timestamp": "2026-11-25T14:12:48.675294+00:00"
     },
     {
       "type": "talk",
       "turn": 6,
       "lawyer_message": "您的损失或者对方获利怎么计算？有没有审计、推广后台数据？",
       "client_response": "我跟你说，我因为平台乱价损失了150多万，它必须赔我这笔钱。我知道的就这些。",
-      "timestamp": "2026-11-24T08:04:27.052929+00:00"
+      "timestamp": "2026-11-25T14:12:48.676327+00:00"
     },
     {
       "type": "memo",
       "content_length": 1369,
-      "timestamp": "2026-11-24T08:04:27.055265+00:00"
+      "timestamp": "2026-11-25T14:12:48.677601+00:00"
     }
   ],
-  "elapsed_seconds": 0.1,
-  "timestamp": "2026-11-24T08:04:27.055282+00:00",
+  "elapsed_seconds": 0.0,
+  "timestamp": "2026-11-25T14:12:48.677606+00:00",
   "case_file": "cases_cn.jsonl",
   "case_line": 15,
   "jurisdiction": "CN",
   "policy": "gate_only",
   "persona_key": "P_CD",
+  "code_fingerprint": "5dcb4e146a2853b6",
   "evaluation": {
     "case_id": "case_cn_0015",
     "process": {
