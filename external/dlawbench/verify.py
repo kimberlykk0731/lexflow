@@ -107,7 +107,8 @@ def main() -> int:
 
     # 5. shim does not read rubric / case data ---------------------------
     forbidden_hits = []
-    for name in ("server.py", "policy.py", "client_sim.py", "legal_library.py", "textutil.py"):
+    for name in ("server.py", "policy.py", "agent_policy.py", "client_sim.py",
+                 "legal_library.py", "textutil.py"):
         text = (HERE / name).read_text(encoding="utf-8")
         for token in FORBIDDEN:
             if token in text:

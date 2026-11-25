@@ -164,22 +164,24 @@ lexflow/
 
 详见 [`docs/eval_design.md`](docs/eval_design.md)。
 
-### 5.1 外部基准：DLawBench（adapted run）
+### 5.1 外部基准：DLawBench ask-first 模拟（adapted run）
 
-仓库另带一套**外部**评测：把 LexFlow 的三个消融策略接到
-[DLawBench](https://github.com/SKYLENAGE-AI/DLawBench) 的多轮咨询协议上，
-用官方 rubric/公式（pinned commit）跑 30 个中国法 case × P_WD。
+仓库另带一套**外部**评测：在 DLawBench 的多轮咨询协议上，比较 0 题 / 6 题 / 9 题
+固定问卷的 question-budget 效应，并附带 3 个 in-schema case 的真 `ConsultationAgent`
+case study。
 
 ```bash
-python external/dlawbench/run.py --n-cases 30   # 90 sessions
+python external/dlawbench/run.py --n-cases 30   # 90 sessions 主表
+python external/dlawbench/run.py --n-cases 30 --policies checklist_9 \
+    --output-dir runs/external/checklist9       # 等题量控制
 python external/dlawbench/verify.py             # 验收自检
 ```
 
 结果在 [`runs/external/summary.md`](runs/external/summary.md)，方法与 caveat 见
-[`docs/EXTERNAL_EVAL.md`](docs/EXTERNAL_EVAL.md)。可选 P_CD 扩展在
-[`runs/external/pcd/`](runs/external/pcd/)（再加 90 sessions，共 180）。**这是
-adapted run，不是官方 leaderboard**：judge/client 是离线确定性替身，绝对分数不可与
-官方榜单比较，也不能和上面 12 案的主表混成一张表。
+[`docs/EXTERNAL_EVAL.md`](docs/EXTERNAL_EVAL.md)。**这是 adapted run，不是官方
+leaderboard**：被测对象是固定问卷，不是 LexFlow 的 element-schema gate；30 个 CN case
+里只有 3 个在 LexFlow 两个 schema 内，真 agent 只能做 case study。绝对分数不可与官方
+榜单比较，也不能和上面 12 案的主表混成一张表。
 
 ---
 

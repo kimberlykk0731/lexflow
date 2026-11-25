@@ -1,13 +1,11 @@
-# LexFlow × DLawBench — adapted external evaluation
+# LexFlow × DLawBench — fixed-checklist protocol simulation
 
-> **Adapted run, not an official leaderboard entry.**  The lawyer is the LexFlow
-> policy shim; the client and judge are deterministic offline stand-ins. Official
-> DLawBench rubric text, metric formulas and denominators are used unchanged, but
-> absolute scores are not comparable to the DLawBench leaderboard.
+> **Adapted run, not an official leaderboard entry.**  The lawyer is a fixed-domain questionnaire simulation, not the LexFlow element-schema gate; the client and judge are deterministic offline stand-ins. Official DLawBench rubric text, metric formulas and denominators are used unchanged, but absolute scores are not comparable to the DLawBench leaderboard.
 
-- Generated: `2026-11-24T15:50:52+08:00`
+- Lawyer mode: `simulation`
+- Generated: `2026-11-25T18:00:24+08:00`
 - DLawBench: `https://github.com/SKYLENAGE-AI/DLawBench` @ `9f6325f29f07b296fac110a6e1880bdd5d9ca538` (MIT code / CC BY 4.0 data)
-- LexFlow: `e54ec605ffc6aeb058a090034521297a6f796b6e`
+- LexFlow: `7cb291102495ce3a975c85415c94b41bb35f4fce` (dirty working tree)
 - Cases: 30 Chinese-law cases from `cases_cn.jsonl` (case_cn_0001, case_cn_0002, case_cn_0003…)
 - Persona(s): P_WD · max turns: 10
 - Sessions: 90 (3 policies × 30 cases)
@@ -24,7 +22,7 @@
 | full | 30 | 0.696 [0.605, 0.780] | 0.228 [0.153, 0.313] | 0.462 [0.401, 0.525] | 0.683 [0.593, 0.767] | 0.399 [0.290, 0.515] | 0.541 [0.464, 0.618] | 1.000 [1.000, 1.000] |
 
 Each cell is `mean [95% CI]`. The CI resamples cases (clusters), not sessions,
-so the three policies are evaluated on the same resampled case set.
+so the 3 policies are evaluated on the same resampled case set.
 
 ## Official definitions (unchanged)
 
@@ -45,10 +43,10 @@ Source: `external/dlawbench/upstream/scripts/metrics.py` and
 ## How to read this
 
 - `answer_first` never asks a question: memo from the opening message only.
-- `gate_only` runs LexFlow's sufficiency gate, asks the domain intake checklist,
-  then writes the memo without provenance/verification sections.
-- `full` adds per-fact provenance and an explicit verification section, and
-  marks unresolved information gaps.
+- `gate_only` runs a fixed six-question domain checklist, not LexFlow's
+  element-schema gate.
+- `checklist_9` adds three questions without provenance/verification; `full` adds
+  provenance and an explicit verification section.
 - The shim only sees the DLawBench messages. It never opens the case file,
   the hidden facts, or `evaluation_criteria`.
 - The deterministic client reveals a `client_belief` only when the lawyer asks

@@ -1,39 +1,48 @@
-# 外部评测：LexFlow × DLawBench（adapted run）
+# 外部评测：DLawBench ask-first 模拟（adapted run）
 
-> **这是 adapted run，不是 DLawBench 官方榜单。** 律师端是 LexFlow 的 policy shim，
-> 客户与 judge 都是离线确定性替身；官方 rubric 文本、指标公式、分母未改，但绝对分数
-> 不能与 DLawBench leaderboard 直接比较。
+> **这是 adapted run，不是 DLawBench 官方榜单。** 律师端是固定领域问卷的确定性模拟，
+> 不是 LexFlow 的 element-schema gate；客户与 judge 也是离线确定性替身。官方 rubric 文本、
+> 指标公式、分母未改，但绝对分数不能与 DLawBench leaderboard 直接比较。
 
 ## 1. 一条命令
 
 ```bash
-# D1 最小矩阵：3 policies × 10 CN × P_WD = 30 sessions
-python external/dlawbench/run.py --n-cases 10
-
-# D2 扩展：3 policies × 30 CN × P_WD = 90 sessions（仓库内已交付这一版）
+# 主表：3 个 question-budget policy × 30 CN × P_WD = 90 sessions
 python external/dlawbench/run.py --n-cases 30 --bootstrap 5000
 
-# 验收自检
-python external/dlawbench/verify.py
-```
+# 等题量控制：checklist_9（9 题，无 provenance/verification）
+python external/dlawbench/run.py --n-cases 30 --policies checklist_9 \
+    --output-dir runs/external/checklist9
 
-脚本依次完成：启动 shim → 跑 dialogue → 调官方 `dlawbench.evaluate.evaluate_session`
-评分 → 调官方 `metrics.py` 公式 → 按 case 聚类 bootstrap → 写
-`runs/external/{summary.md,scores.csv,leaderboard.md,run_manifest.json}`。
+# 可选 P_CD 扩展
+python external/dlawbench/run.py --n-cases 30 --personas P_CD \
+    --output-dir runs/external/pcd
+
+# 3 个 in-schema case 的真 ConsultationAgent case study
+python external/dlawbench/run.py --n-cases 3 \
+    --case-ids case_cn_0024,case_cn_0025,case_cn_0006 \
+    --lawyer-mode agent --output-dir runs/external/agent_case_study
+
+# 验收 / 领域分析 / 配对差值
+python external/dlawbench/verify.py
+python external/dlawbench/verify.py runs/external/pcd
+python external/dlawbench/analyze.py
+```
 
 ## 2. 矩阵与 n
 
 | 项 | 值 |
 |---|---|
-| 数据集 | DLawBench `data/case_backgrounds/cases_cn.jsonl`，30 个 CN case（全量） |
-| 上游 commit | `9f6325f29f07b296fac110a6e1880bdd5d9ca538`（MIT code / CC BY 4.0 data） |
-| Persona | `P_WD`（理性合作者，主表）；`P_CD`（控制对抗者，可选扩展）；max turns = 10 |
-| Policies | `answer_first` / `gate_only` / `full` |
-| Sessions | 90（主表 3 × 30 P_WD）+ 90（P_CD 扩展）= 180 |
-| Judge | `lexflow-rubric-judge`：确定性词面 rubric matcher，官方 prompt 的离线替身 |
+| 数据集 | DLawBench `cases_cn.jsonl`，30 个 CN case |
+| 上游 commit | `9f6325f`（MIT code / CC BY 4.0 data） |
+| 主表 persona | `P_WD`，10 turns |
+| 主表 policies | `answer_first`（0 题）/ `gate_only`（固定 6 题）/ `full`（9 题 + provenance/verification） |
+| 主表 sessions | 90 |
+| 控制 / 扩展 | `checklist_9` 30；`P_CD` 90；真 agent case study 9 |
+| Judge | `lexflow-rubric-judge`：官方 prompt 的确定性词面替身 |
 | CI | case 聚类 bootstrap，5000 次，95% percentile，seed 20261124 |
 
-## 3. 结果（2026-11-24，n=30 / policy）
+## 3. 主结果（P_WD，n=30）
 
 | Policy | n | Fact Coverage | Inquiry | Elicitation | Fact Resolution | Issue Resolution | Resolution | Fidelity |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -41,29 +50,58 @@ python external/dlawbench/verify.py
 | gate_only | 30 | 0.628 [0.531, 0.717] | 0.216 [0.142, 0.300] | 0.422 [0.356, 0.486] | 0.614 [0.518, 0.705] | 0.378 [0.268, 0.498] | 0.496 [0.420, 0.573] | 1.000 [1.000, 1.000] |
 | full | 30 | 0.696 [0.605, 0.780] | 0.228 [0.153, 0.313] | 0.462 [0.401, 0.525] | 0.683 [0.593, 0.767] | 0.399 [0.290, 0.515] | 0.541 [0.464, 0.618] | 1.000 [1.000, 1.000] |
 
-每个数字是 `mean [95% CI]`；CI 重采样 case（不是 session），三个 policy 共用同一批
-重采样 case。`answer_first` 不追问，memo 只基于开场白；`gate_only` 先问 6 轮再写 memo；
-`full` 问 9 轮并附事实来源/核验段。
+## 4. 等题量控制：题量 vs provenance
 
-### 3.1 P_CD 扩展（可选，总计 180 sessions）
+`checklist_9` 与 `gate_only` 用同一张固定清单，只多 3 题；`full` 在 9 题之上再加
+provenance/verification。
 
-`runs/external/pcd/` 是同一矩阵换 `P_CD`（控制对抗者）的 90 个 session，主表不混入。
+| Condition | Questions | Fact Coverage | Elicitation |
+|---|---:|---:|---:|
+| answer_first | 0 | 0.016 | 0.008 |
+| gate_only | 6 | 0.628 | 0.422 |
+| checklist_9 | 9 | 0.687 | 0.457 |
+| full | 9 + provenance | 0.696 | 0.462 |
 
-| Policy | n | Fact Coverage | Inquiry | Elicitation | Fact Resolution | Issue Resolution | Resolution | Fidelity |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| answer_first | 30 | 0.016 [0.002, 0.033] | 0.000 [0.000, 0.000] | 0.008 [0.001, 0.017] | 0.016 [0.002, 0.033] | 0.295 [0.183, 0.417] | 0.155 [0.099, 0.218] | 1.000 [1.000, 1.000] |
-| gate_only | 30 | 0.457 [0.379, 0.536] | 0.216 [0.142, 0.300] | 0.336 [0.280, 0.393] | 0.446 [0.369, 0.526] | 0.378 [0.268, 0.497] | 0.412 [0.342, 0.483] | 1.000 [1.000, 1.000] |
-| full | 30 | 0.583 [0.501, 0.661] | 0.228 [0.153, 0.313] | 0.405 [0.349, 0.461] | 0.567 [0.487, 0.646] | 0.380 [0.265, 0.500] | 0.473 [0.399, 0.549] | 1.000 [1.000, 1.000] |
+按 case 配对 bootstrap：
 
-P_CD 的差异来自确定性 client 的“开放阈值”更低：同样的问题更少透露事实，因此
-Fact Coverage / Elicitation 低于 P_WD。这不是官方 LLM persona 模拟，只用于证明矩阵
-可以扩到第二个人格。
+- `checklist_9 − gate_only` Fact Coverage **+0.059 [0.034, 0.088]**
+- `full − checklist_9` Fact Coverage **+0.009 [0.000, 0.021]**
 
-## 4. 七个指标（官方定义，未改）
+也就是说，6→9 题带来大部分提升；provenance/verification 只多约 1 个百分点。
+
+## 5. 分领域覆盖（full，P_WD，n=30）
+
+| Domain | n | Fact Coverage | Missed facts |
+|---|---:|---:|---:|
+| 行政 | 7 | 0.758 | 14 |
+| 不正当竞争 | 7 | 0.387 | 51 |
+| 公司/股东 | 5 | 0.935 | 4 |
+| 破产 | 3 | 0.770 | 9 |
+| 刑事/经济 | 5 | 0.593 | 24 |
+| 劳动 + 侵权 | 3 | 0.970 | 1 |
+
+完整逐 case 的 missed facts 在 `runs/external/domain_breakdown.md`；最大的缺口是
+不正当竞争（51）和行政（14），不是随机噪声，而是固定清单缺少平台/消费者与行政程序类问题。
+
+## 6. 真 agent case study（3 个 in-schema case）
+
+| Policy | FFS | Fact Coverage | Inquiry | Issue Resolution |
+|---|---:|---:|---:|---:|
+| answer_first | 1.000 | 0.000 | 0.000 | 0.000 |
+| gate_only | 1.000 | 0.000 | 0.133 | 0.094 |
+| full | 1.000 | 0.000 | 0.133 | 0.094 |
+
+- `case_cn_0024`（工伤）、`case_cn_0025`（降薪）、`case_cn_0006`（交通事故侵权），共 9 sessions。
+- adapter 能跑通，memo 章节映射后 FFS=1.000；但 Fact Coverage 为 0。
+- 原因：LexFlow 只有 `labor_dismissal` / `tort_injury` 两个 schema，这 3 个 case 的事实
+  与 schema 字段并不匹配（例如工伤案会打开“解除劳动合同”问卷）。这是 schema 边界，不是
+  scoring bug。
+
+## 7. 七个指标与 judge caveat
 
 | 指标 | 官方字段 | 口径 |
 |---|---|---|
-| Fact Coverage | `discovery_rate` | 被 memo 覆盖的 case facts / 全部 facts |
+| Fact Coverage | `discovery_rate` | 被 memo 覆盖的 facts / 全部 facts |
 | Inquiry | `EAS` | expected-action rubric 的 0/1 均值 |
 | Elicitation | derived | (Fact Coverage + Inquiry) / 2 |
 | Fact Resolution | `absolute_accuracy` | 方向正确的 facts / 全部 facts |
@@ -71,81 +109,36 @@ Fact Coverage / Elicitation 低于 P_WD。这不是官方 LLM persona 模拟，�
 | Resolution | derived | (Fact Resolution + Issue Resolution) / 2 |
 | Fidelity | `grounding_rate` | grounded claims / total claims |
 
-实现路径：`external/dlawbench/upstream/src/dlawbench/evaluate.py` +
-`external/dlawbench/upstream/scripts/metrics.py`，内容与 pinned commit 一致
-（`VENDORED.json` 有 sha256，`verify.py` 会按行尾归一化后重算）。`FFS` 只作格式过滤，
-不进主表。
+实现路径：官方 `evaluate.py` + `metrics.py`，vendored 文件 sha256 校验。judge 是词面
+matcher：180 个 simulation sessions 中 **712/728 covered facts 判 correct（97.8%）**，
+**0/1197 claims ungrounded**。它主要只抓日期/金额矛盾，所以 Fact Resolution 基本跟随
+Fact Coverage，Fidelity 是构造性 1.000；这两个指标保留是为了七项齐全，不作为独立的
+accuracy / hallucination 结论。
 
-## 5. 为什么 judge 是确定性的
+## 8. Scope / caveat
 
-本机没有配置任何 LLM API key，无法调用 DLawBench 官方 LLM judge。为了先证明
-pipeline 通，`judge.py` 用同一份官方 prompt（rubric 文本、对话记录、memo）做词面
-rubric 匹配，返回官方 JSON schema；`evaluate.py` 的公式与分母不变。
+- 被测对象是**固定领域问卷**，不是 `ConsultationAgent` 的 sufficiency gate；没有测 LLM
+  extraction、version-aware corpus、rules、verifier、memory revision。
+- 30 个 CN case 里只有 3 个在 LexFlow 两个 schema 内；30-case 表是 protocol simulation，
+  3-case 表是 real-agent case study，两者不能混成一张“LexFlow 在 DLawBench 上”的表。
+- 没有官方 LLM judge（需要 API key）；没有 gold / 人工盲审 / LeCoDe / 完整 DAG / A0。
+- P_CD 是手写披露阈值，不是官方 persona 模拟，只作扩展。
 
-因此：
-
-- **绝对分数不可与官方榜单比较**，只能看同一 judge 下三个 policy 的相对差异；
-- `Fidelity` 在本轮饱和为 1.000：三份 memo 的事实句全部来自对话原文，规则层没有
-  生成新的日期/金额，这个指标在本设置下不具区分度，保留是为了七项齐全；
-- 若要跑真实 LLM judge，设置 `OPENAI_BASE_URL`/`OPENAI_API_KEY` 后加
-  `--judge-model <model>` 即可（默认仍是 `lexflow-rubric-judge`）：
-
-```bash
-OPENAI_BASE_URL=https://api.deepseek.com/v1 OPENAI_API_KEY=sk-... \
-python external/dlawbench/run.py --n-cases 30 --judge-model deepseek-chat
-```
-
-## 6. shim 边界（没读 rubric）
-
-`server.py` 只接收 DLawBench 发来的 OpenAI messages；`policy.py` 只用开场白和客户
-回答做追问与 memo；`client_sim.py` 只读官方 client prompt 里的 `client_belief`；
-`legal_library.py` 是领域级问题清单，不含任何 case 数据。`verify.py` 会静态扫描
-`evaluation_criteria / expected_inquiries / memo_expectations / court_record /
-actual_situation / cases_cn / case_backgrounds` 是否出现在 shim 代码里。
-
-## 7. Caveat / 未做
-
-- **不是官方 leaderboard**：judge、client 均为离线替身；30/264 CN cases；主表 P_WD，
-  P_CD 仅作可选扩展。
-- 没有 gold、没有人工盲审、没有 LeCoDe、没有完整 provenance DAG、没有 4 personas ×
-  600 sessions；legacy 12 案没有混进主表。
-- `answer_first` 的 Issue Resolution 并非 0：它的 memo 仍会套用领域级法律问题清单；
-  这正是“不追问也能写出一份通用分析”的基线，不代表它掌握了本案事实。
-- 复核方式：`python external/dlawbench/verify.py`（主表 18 项）与
-  `python external/dlawbench/verify.py runs/external/pcd`（P_CD 18 项）全过。
-
-## 8. 产物
+## 9. 产物
 
 ```
-external/dlawbench/server.py        # OpenAI-compatible shim
-external/dlawbench/run.py           # 3 policies 顺序跑 + 官方评分 + CSV + CI
-external/dlawbench/policy.py        # answer_first / gate_only / full
-external/dlawbench/client_sim.py    # 确定性 P_WD client（替身）
-external/dlawbench/judge.py         # 官方 prompt 的确定性 judge（替身）
-external/dlawbench/verify.py        # 验收自检
-external/dlawbench/upstream/        # DLawBench pinned subset + VENDORED.json
-runs/external/<policy>/session_*.json
-runs/external/summary.md            # 3×7 表 + 95% CI（P_WD）
-runs/external/scores.csv            # 逐 session
-runs/external/leaderboard.md        # 按 Elicitation 排序的 mini leaderboard
-runs/external/run_manifest.json     # commit / license / n / hashes / command
-runs/external/pcd/                  # 可选 P_CD 扩展（90 sessions，独立 summary/manifest）
-report/External_Eval_Report.pdf     # 3 页附录，页脚 8/10–10/10，可与主报告拼接
-report/External_Eval_Report.html    # 附录源稿（与主报告同一套 CSS）
+external/dlawbench/server.py              # OpenAI-compatible shim（simulation + agent）
+external/dlawbench/run.py                 # 跑批 / 评分 / CSV / CI
+external/dlawbench/policy.py              # 固定问卷 simulation
+external/dlawbench/agent_policy.py        # 真 ConsultationAgent adapter
+external/dlawbench/analyze.py             # domain breakdown + paired deltas
+runs/external/summary.md                  # 3×7 主表 + CI
+runs/external/scores.csv                  # 逐 session
+runs/external/checklist9/                 # 等题量控制（30 sessions）
+runs/external/pcd/                        # P_CD 扩展（90 sessions）
+runs/external/agent_case_study/           # 真 agent case study（9 sessions）
+runs/external/domain_breakdown.md         # 分领域 missed facts
+runs/external/paired_deltas.md            # 配对 bootstrap 差值
+report/External_Eval_Report.pdf           # 3 页附录，页脚 8/10–10/10
+report/External_Eval_Report.html          # 附录源稿
 ```
-
-## 9. 交付状态（对照 handoff）
-
-| 项 | 状态 |
-|---|---|
-| `server.py` / `run.py` / `<policy>/session_*.json` | ✅ |
-| D1 3×10=30 sessions；D2 3×30=90；P_CD 扩展 90（共 180） | ✅ |
-| 7 指标同表 + 按 case 聚类 95% CI | ✅ |
-| 官方 rubric / 公式 / 分母未改（sha256 校验） | ✅ |
-| commit + license + n 记录 | ✅ |
-| shim 不读 rubric / hidden facts（静态扫描） | ✅ |
-| 报告写明 adapted run, not official leaderboard | ✅ |
-| 官方 LLM judge | ⚠️ 用确定性 judge 替身；需 API key 才能跑真 judge |
-| A0 `trace_diff.html` | ⬜ 可选，未做（D2 PM 选择了 P_CD 扩展） |
-| 课程正式报告 / PDF 合并 | ⬜ 如课程要求，需要把本文并入 `report/` 并重生成 PDF |
-| push / 打包提交 | ⬜ 当前只有本地 commit |

@@ -1,0 +1,130 @@
+{
+  "case_id": "case_cn_0006",
+  "persona": "理性合作者",
+  "lawyer_model": "lexflow-agent-answer-first",
+  "client_model": "lexflow-client-p-wd",
+  "turns_used": 0,
+  "max_turns": 10,
+  "status": "memo_submitted",
+  "memo": "# 法律咨询备忘录\n\n## 案情概要\n\n交通事故人身损害。具体赔偿金额需依据票据、误工证明和伤残鉴定意见计算。\n\n## 关键事实\n\n| 事实 | 内容 | 状态 | 来源 | 版本 |\n|---|---|---|---|---|\n\n## 法律问题\n\n（暂无可分析的争点，需补充事实。）\n\n## 风险评估\n\n- 以下关键事实尚未取得，结论只能在有限范围内成立：事故发生日期、事故责任划分、伤情与伤残等级\n\n- 结论条目：0，通过核验：0（支持率 0%）\n- 未发现引用缺失、版本失效、引文不符或事实过期问题。\n- 说明：自动核验只能检查引用是否存在、是否有效、引文是否对得上、所依赖事实是否仍为最新；它不能证明法律论证本身正确。\n\n## 下一步建议\n\n- 道路交通事故认定书（责任划分）\n- 病历、诊断证明、医疗费与护理费票据\n- 误工证明、工资流水、纳税记录\n- 伤残鉴定意见书（如已鉴定）\n- 交强险、商业三者险保单及理赔记录\n- 居住证、租房合同、社保记录（农村户籍主张城镇标准时）\n- 事故认定复核申请材料（如对责任认定有异议）\n\n## 引用与版本\n\n| 法条 | 生效期间 | 原文摘录 | 来源 |\n|---|---|---|---|\n",
+  "log": [
+    {
+      "type": "memo",
+      "content_length": 523,
+      "timestamp": "2026-11-25T09:58:06.204713+00:00"
+    }
+  ],
+  "elapsed_seconds": 0.1,
+  "timestamp": "2026-11-25T09:58:06.204777+00:00",
+  "case_file": "cases_cn.jsonl",
+  "case_line": 6,
+  "jurisdiction": "CN",
+  "policy": "answer_first",
+  "persona_key": "P_WD",
+  "evaluation": {
+    "case_id": "case_cn_0006",
+    "process": {
+      "total_turns": 0,
+      "memo_submitted": true
+    },
+    "format": {
+      "score": 1.0,
+      "present": [
+        "案情概要",
+        "关键事实",
+        "法律问题",
+        "风险评估",
+        "下一步建议"
+      ],
+      "missing": []
+    },
+    "memo_quality": {
+      "memo_expectation_scores": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "expected_action_scores": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "overall_quality": "Fail",
+      "analysis": "deterministic lexical rubric matcher (offline stand-in)",
+      "memo_expectation_score": 0.0,
+      "expected_action_score": 0.0
+    },
+    "fact_evaluation": {
+      "discovery": {
+        "covered": [],
+        "missed": [
+          "F1",
+          "F2",
+          "F3",
+          "F4",
+          "F5"
+        ]
+      },
+      "accuracy": {
+        "correct": [],
+        "incorrect": []
+      },
+      "grounding": {
+        "total_claims": 3,
+        "grounded_claims": [],
+        "ungrounded_claims": [
+          {
+            "claim": "| 事实 | 内容 | 状态 | 来源 | 版本 |",
+            "reason": "在案件事实和对话记录中无直接来源"
+          },
+          {
+            "claim": "|---|---|---|---|---|",
+            "reason": "在案件事实和对话记录中无直接来源"
+          },
+          {
+            "claim": "结论条目：0，通过核验：0（支持率 0%）",
+            "reason": "在案件事实和对话记录中无直接来源"
+          }
+        ]
+      },
+      "scores": {
+        "discovery_rate": 0.0,
+        "accuracy_rate": null,
+        "absolute_accuracy": 0.0,
+        "grounding_rate": 0.0,
+        "n_facts": 5,
+        "n_covered": 0,
+        "n_missed": 5,
+        "n_correct": 0,
+        "n_incorrect": 0,
+        "n_claims_total": 3,
+        "n_claims_ungrounded": 3,
+        "by_gap_type": {
+          "disputed": {
+            "n": 4,
+            "discovery_rate": 0.0,
+            "accuracy_rate": null
+          },
+          "undisputed": {
+            "n": 1,
+            "discovery_rate": 0.0,
+            "accuracy_rate": null
+          }
+        }
+      }
+    },
+    "scores": {
+      "FFS": 1.0,
+      "MES": 0.0,
+      "EAS": 0.0,
+      "discovery_rate": 0.0,
+      "accuracy_rate": null,
+      "absolute_accuracy": 0.0,
+      "grounding_rate": 0.0
+    }
+  }
+}

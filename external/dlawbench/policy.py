@@ -27,7 +27,7 @@ OPENING_RE = re.compile(r'客户的开场白是：\s*\n?"(.*?)"\s*\n\s*\n【你�
 MAX_TURNS_RE = re.compile(r"共\s*(\d+)\s*轮")
 TURN_RE = re.compile(r"当前第\s*(\d+)\s*/\s*(\d+)\s*轮")
 
-POLICIES = ("answer_first", "gate_only", "full")
+POLICIES = ("answer_first", "gate_only", "full", "checklist_9")
 
 FACT_PREFIXES = (
     "我想确认一下，", "按我的理解，", "这个……", "我不太确定，不过",
@@ -188,7 +188,7 @@ class LawyerPolicy:
         if remaining <= 1 or state["turn"] >= state["max_turns"]:
             return {"tool": "write_memo", "content": self._memo(state)}
 
-        target = 9 if self.policy == "full" else 6
+        target = 9 if self.policy in ("full", "checklist_9") else 6
         if len(state["talks"]) >= target:
             return {"tool": "write_memo", "content": self._memo(state)}
 

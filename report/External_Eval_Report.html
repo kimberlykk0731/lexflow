@@ -38,23 +38,22 @@ a { color: #1d4ed8; text-decoration: none; }
 </head>
 <body>
 
-<h2 class="first">Appendix A. External Benchmark: DLawBench (Adapted Run)</h2>
+<h2 class="first">Appendix A. Ask-First Policy Simulation on DLawBench</h2>
 
-<p class="lead">This appendix continues the report after Section&nbsp;8 and the References. It reports
-the first external run of the LexFlow consultation policies on DLawBench, a public bilingual
-benchmark for multi-turn legal consultation. The run is an adaptation, not an official
-leaderboard entry: the benchmark's rubrics, metric formulas and denominators are used unchanged,
-with deterministic offline client and judge implementations.</p>
+<p class="lead">This appendix continues the report after Section&nbsp;8 and the References. It reports a
+controlled simulation of three ask-first question-budget policies on DLawBench's multi-turn
+consultation protocol. The run is an adaptation, not an official leaderboard entry: the
+benchmark's rubrics, metric formulas and denominators are used unchanged, with deterministic
+offline client and judge implementations.</p>
 
 <h3>A.1 From two scripted claim types to a public protocol</h3>
 
 <p>Section&nbsp;7 listed the public-benchmark comparison as a qualitative limitation. DLawBench
 provides 461 Chinese and U.S. cases, four client personas, paired client-belief and court-record
 facts, and expert inquiry and memo rubrics [2]. We use the Chinese split and the
-<code>P_WD</code> persona to ask a narrow transfer question: can the same gate → ask → memo
-control flow operate on criminal, administrative, bankruptcy, company, labour,
-unfair-competition and tort consultations without changing the benchmark's scoring? The result
-is a pipeline and behavioural result, not a claim of general legal capability.</p>
+<code>P_WD</code> persona to ask how far a fixed ask-first checklist travels across criminal,
+administrative, bankruptcy, company, labour, unfair-competition and tort consultations. The
+result is a protocol feasibility study, not a test of LexFlow's element-schema gate.</p>
 
 <h3>A.2 Setup and scoring</h3>
 
@@ -63,14 +62,18 @@ is a pipeline and behavioural result, not a claim of general legal capability.</
       <code>cases_cn.jsonl</code>; 30 Chinese cases shipped in the release's CN split (the
       paper's full corpus is larger); at most 10 dialogue turns.</li>
   <li><b>Policies.</b> <code>answer_first</code> writes a memo from the opening message and asks
-      no questions; <code>gate_only</code> runs a six-question domain intake and then writes the
-      memo; <code>full</code> asks up to nine questions and adds per-fact provenance and a
-      verification section.</li>
-  <li><b>Sessions.</b> 3 policies × 30 cases = 90 with <code>P_WD</code>; a second 90 with
-      <code>P_CD</code> gives 180 sessions in total.</li>
-  <li><b>Lawyer shim.</b> An OpenAI-compatible server exposes the policy to DLawBench's
-      <code>talk_to_client</code> / <code>write_memo</code> protocol. It sees only the opening and
-      the client's answers; it never opens the case file, hidden facts, or
+      no questions; <code>gate_only</code> runs a fixed six-question domain checklist;
+      <code>checklist_9</code> runs the same checklist with nine questions and no provenance;
+      <code>full</code> asks nine questions and adds per-fact provenance and a verification
+      section. The <code>gate_only</code> / <code>full</code> labels are inherited from LexFlow's
+      ablation; here they are fixed checklists, not <code>ConsultationAgent</code>'s
+      sufficiency gate.</li>
+  <li><b>Sessions.</b> 3 main policies × 30 cases = 90 with <code>P_WD</code>; a second 90 with
+      <code>P_CD</code>; 30 <code>checklist_9</code> control sessions; 9 real-agent case-study
+      sessions.</li>
+  <li><b>Lawyer shim.</b> An OpenAI-compatible server exposes the simulation policy to
+      DLawBench's <code>talk_to_client</code> / <code>write_memo</code> protocol. It sees only the
+      opening and the client's answers; it never opens the case file, hidden facts, or
       <code>evaluation_criteria</code>.</li>
   <li><b>Scoring.</b> Sessions are scored through the official
       <code>dlawbench.evaluate.evaluate_session</code> and the official
@@ -94,12 +97,13 @@ score (FFS) is a format filter and is not a ranking metric.</p>
 
 <h3>A.4 Results</h3>
 
-<p>Table&nbsp;A1 reports the main <code>P_WD</code> matrix. Gating is the dominant effect:
+<p>Table&nbsp;A1 reports the main <code>P_WD</code> matrix. Question budget is the dominant effect:
 Fact Coverage rises from 0.016 to 0.628 and Inquiry from 0.000 to 0.216; Elicitation rises from
 0.008 to 0.422. The <code>full</code> policy adds three turns and reaches 0.696, 0.228 and
-0.462 respectively. Issue Resolution moves less (0.295 → 0.378 / 0.399) because all three
-policies share the same domain-level issue library; the gain comes from selecting issues with
-elicited facts, not from new legal knowledge.</p>
+0.462 respectively; A.7 shows that most of this gain comes from the extra questions, not from
+provenance or verification. Issue Resolution moves less (0.295 → 0.378 / 0.399) because all
+three policies share the same domain-level issue library; the gain comes from selecting issues
+with elicited facts, not from new legal knowledge.</p>
 
 <table>
 <thead>
@@ -122,73 +126,98 @@ elicited facts, not from new legal knowledge.</p>
 </table>
 <p class="note">Table A1. Main adapted run, 30 Chinese cases × <code>P_WD</code>, 10-turn budget.
 Cells are mean [95% CI], case-cluster bootstrap. Fidelity is 1.000 because every factual
-sentence in the memo is a quoted client statement: the memo stays anchored to the dialogue.</p>
+sentence in the memo is a quoted client statement: the memo stays anchored to the dialogue.
+Fact Resolution tracks coverage (712/728 covered facts, 97.8%, were judged correct) because the
+lexical judge only flags date/amount contradictions; both are kept for metric completeness.</p>
 
-<p>Table&nbsp;A2 repeats the run with the <code>P_CD</code> controlling-resister persona. The
-deterministic client requires a stronger question match before it discloses, so Fact Coverage
-and Elicitation fall while Inquiry is unchanged (the questions are policy-driven). The pattern is
-consistent with the benchmark's persona finding, and the deterministic client makes the effect
-reproducible across reruns.</p>
+<p>The <code>P_CD</code> controlling-resister extension (90 sessions) lowers Fact Coverage to
+0.457 / 0.583 while Inquiry is unchanged, consistent with a harder disclosure threshold; its
+full table is in <code>runs/external/pcd/summary.md</code>.</p>
+
+<h3>A.5 What the simulation establishes</h3>
+
+<p>The simulation establishes three results. First, the ask-first protocol runs end-to-end on
+30 unseen Chinese cases: 180 simulation sessions completed with a memo, and every session was
+scored by the benchmark's own evaluator. Second, question budget drives the behavioural metrics
+by a large margin: zero to six questions raises Fact Coverage from 0.016 to 0.628 and Elicitation
+from 0.008 to 0.422; three more questions raise them to 0.687 and 0.457; the full policy reaches
+0.696 and 0.462. Third, the result is reproducible from one command, with seven metrics,
+case-cluster confidence intervals, and a hash-checked vendored scorer.</p>
+
+<p><b>Scope.</b> The reported quantities are question-budget deltas on the public CN split under
+a fixed 10-turn budget. They do <i>not</i> measure LexFlow's element-schema gate, LLM fact
+extraction, version-aware corpus, verifier, or memory revision; the real-agent case study in A.8
+shows why the schema boundary matters.</p>
+
+<h3>A.6 Where the fixed checklist fails</h3>
 
 <table>
 <thead>
-<tr>
-  <th style="width:23%">Metric</th>
-  <th class="num" style="width:25.6%">answer_first (n=30)</th>
-  <th class="num" style="width:25.6%">gate_only (n=30)</th>
-  <th class="num" style="width:25.6%">full (n=30)</th>
-</tr>
+<tr><th style="width:38%">Domain</th><th class="num" style="width:12%">n</th>
+    <th class="num" style="width:25%">Fact Coverage</th>
+    <th class="num" style="width:25%">Missed facts</th></tr>
 </thead>
 <tbody>
-<tr><td>Fact Coverage</td><td class="num">0.016 [0.002, 0.033]</td><td class="num">0.457 [0.379, 0.536]</td><td class="num">0.583 [0.501, 0.661]</td></tr>
-<tr><td>Inquiry</td><td class="num">0.000 [0.000, 0.000]</td><td class="num">0.216 [0.142, 0.300]</td><td class="num">0.228 [0.153, 0.313]</td></tr>
-<tr><td>Elicitation</td><td class="num">0.008 [0.001, 0.017]</td><td class="num">0.336 [0.280, 0.393]</td><td class="num">0.405 [0.349, 0.461]</td></tr>
-<tr><td>Resolution</td><td class="num">0.155 [0.099, 0.218]</td><td class="num">0.412 [0.342, 0.483]</td><td class="num">0.473 [0.399, 0.549]</td></tr>
-<tr><td>Fidelity</td><td class="num">1.000 [1.000, 1.000]</td><td class="num">1.000 [1.000, 1.000]</td><td class="num">1.000 [1.000, 1.000]</td></tr>
+<tr><td>Administrative</td><td class="num">7</td><td class="num">0.758</td><td class="num">14</td></tr>
+<tr><td>Unfair competition</td><td class="num">7</td><td class="num">0.387</td><td class="num">51</td></tr>
+<tr><td>Company / shareholder</td><td class="num">5</td><td class="num">0.935</td><td class="num">4</td></tr>
+<tr><td>Bankruptcy</td><td class="num">3</td><td class="num">0.770</td><td class="num">9</td></tr>
+<tr><td>Criminal / economic</td><td class="num">5</td><td class="num">0.593</td><td class="num">24</td></tr>
+<tr><td>Labour + tort</td><td class="num">3</td><td class="num">0.970</td><td class="num">1</td></tr>
 </tbody>
 </table>
-<p class="note">Table A2. <code>P_CD</code> extension (90 sessions). The full 3 × 7 table is in
-<code>runs/external/pcd/summary.md</code>.</p>
+<p class="note">Table A3. Per-domain coverage, <code>full</code> policy, <code>P_WD</code>;
+missed facts are the benchmark's own <code>discovery.missed</code> list.</p>
 
-<h3>A.5 What the run establishes</h3>
+<p>The checklist is not uniformly weak: company, labour and tort coverage is close to the
+ceiling, while unfair competition loses 51 facts and administrative law loses 14. The two largest
+gaps are topical, not random: the fixed checklist does not contain the platform/consumer and
+administrative-procedure probes that these cases need.</p>
 
-<p>The adapted run establishes three results. First, the full gate → ask → memo control flow
-runs end-to-end on a public multi-turn protocol with 30 unseen Chinese cases: all 180 sessions
-completed with a memo, and every session was scored by the benchmark's own evaluator. Second,
-gating moves the behavioural metrics by a large margin — Fact Coverage from 0.016 to 0.628
-(<code>gate_only</code>) and 0.696 (<code>full</code>), Elicitation from 0.008 to 0.422 and
-0.462, and Resolution from 0.155 to 0.496 and 0.541. The persona extension moves in the same
-direction: <code>P_CD</code> lowers Fact Coverage to 0.457 / 0.583 while Inquiry stays unchanged,
-showing that disclosure difficulty affects what the lawyer can learn. Third, the result is
-reproducible from one command, with seven metrics, case-cluster confidence intervals, and a
-hash-checked vendored scorer.</p>
+<h3>A.7 Question budget vs provenance</h3>
 
-<p><b>Scope.</b> The evaluation uses the public CN split and a fixed 10-turn budget. The
-reported quantities are the policy deltas on that split, computed with the benchmark's own
-seven metrics and case-cluster confidence intervals.</p>
+<table>
+<thead>
+<tr><th style="width:36%">Condition</th><th class="num" style="width:16%">Questions</th>
+    <th class="num" style="width:24%">Fact Coverage</th>
+    <th class="num" style="width:24%">Elicitation</th></tr>
+</thead>
+<tbody>
+<tr><td>answer_first</td><td class="num">0</td><td class="num">0.016</td><td class="num">0.008</td></tr>
+<tr><td>gate_only</td><td class="num">6</td><td class="num">0.628</td><td class="num">0.422</td></tr>
+<tr><td>checklist_9</td><td class="num">9</td><td class="num">0.687</td><td class="num">0.457</td></tr>
+<tr><td>full</td><td class="num">9 + provenance</td><td class="num">0.696</td><td class="num">0.462</td></tr>
+</tbody>
+</table>
+<p class="note">Table A4. Equal-question control: <code>checklist_9</code> adds three questions
+without provenance/verification. Paired case-level deltas: checklist_9 − gate_only = +0.059
+[0.034, 0.088] Fact Coverage; full − checklist_9 = +0.009 [0.000, 0.021].</p>
 
-<h3>A.6 Reproducibility</h3>
+<p>Most of the gain from six to nine questions is question budget; provenance adds about one
+coverage point, so the appendix reports question-budget deltas rather than a gate effect.</p>
 
-<pre>python external/dlawbench/run.py --n-cases 30 --bootstrap 5000
-python external/dlawbench/run.py --n-cases 30 --personas P_CD \
-    --output-dir runs/external/pcd --bootstrap 5000
-python external/dlawbench/verify.py
-python external/dlawbench/verify.py runs/external/pcd</pre>
+<h3>A.8 Real-agent case study</h3>
 
-<p>The run writes <code>summary.md</code>, <code>scores.csv</code>,
-<code>leaderboard.md</code> and <code>run_manifest.json</code> under
-<code>runs/external/</code> (and <code>runs/external/pcd/</code>). The manifest records the
-DLawBench commit, the LexFlow commit, the MIT / CC&nbsp;BY&nbsp;4.0 licences, the case-file
-hash, n, and the exact command. Vendored DLawBench files are hash-checked against the pinned
-commit; <code>verify.py</code> also scans the shim for any reference to rubric or hidden-case
-fields. A one-page method note is in <code>docs/EXTERNAL_EVAL.md</code>.</p>
+<table>
+<thead>
+<tr><th style="width:28%">Policy</th><th class="num" style="width:15%">FFS</th>
+    <th class="num" style="width:19%">Fact Coverage</th>
+    <th class="num" style="width:19%">Inquiry</th>
+    <th class="num" style="width:19%">Issue Resolution</th></tr>
+</thead>
+<tbody>
+<tr><td>answer_first</td><td class="num">1.000</td><td class="num">0.000</td><td class="num">0.000</td><td class="num">0.000</td></tr>
+<tr><td>gate_only</td><td class="num">1.000</td><td class="num">0.000</td><td class="num">0.133</td><td class="num">0.094</td></tr>
+<tr><td>full</td><td class="num">1.000</td><td class="num">0.000</td><td class="num">0.133</td><td class="num">0.094</td></tr>
+</tbody>
+</table>
+<p class="note">Table A5. Real agent, 3 in-schema cases, 9 sessions.</p>
 
-<h3>A.7 Takeaway</h3>
-
-<p>Taken together, the appendix converts the report's qualitative public-benchmark comparison
-into a measured, reproducible pipeline result. The mechanism that travels is the gate; the next
-evaluation step is an official LLM judge and the full case split. The adapted run is therefore
-best read as an existence proof and a reusable harness for the next evaluation round.</p>
+<p>The adapter runs end-to-end (FFS 1.000 after memo mapping), but Fact Coverage is zero:
+LexFlow's labour/tort schemas ask for fields these cases do not contain. Case_cn_0024 is a
+work-injury case, but the agent opens a dismissal questionnaire. This is the schema boundary;
+the 30-case table is a simulation. Commands/manifests are in <code>runs/external/</code>;
+<code>verify.py</code> checks metrics, hashes, provenance and the no-rubric boundary.</p>
 
 </body>
 </html>

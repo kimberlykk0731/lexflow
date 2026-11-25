@@ -29,10 +29,12 @@ import uuid
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 try:  # package import
+    from .agent_policy import get_agent_policy, policy_from_agent_model
     from .client_sim import ClientSimulator, persona_from_model
     from .judge import judge_reply, JUDGE_MODEL
     from .policy import LawyerPolicy, policy_from_model
 except ImportError:  # script import
+    from agent_policy import get_agent_policy, policy_from_agent_model
     from client_sim import ClientSimulator, persona_from_model
     from judge import judge_reply, JUDGE_MODEL
     from policy import LawyerPolicy, policy_from_model
@@ -42,6 +44,10 @@ def dispatch(model: str, messages: list[dict]) -> str:
     policy = policy_from_model(model)
     if policy:
         return LawyerPolicy(policy).respond(messages)
+
+    agent_policy = policy_from_agent_model(model)
+    if agent_policy:
+        return get_agent_policy(agent_policy).respond(messages)
 
     if (model or "").strip().lower().startswith("lexflow-client"):
         return ClientSimulator(persona_from_model(model)).respond(messages)
@@ -116,6 +122,10 @@ def _models() -> list[str]:
         "lexflow-answer-first",
         "lexflow-gate-only",
         "lexflow-full",
+        "lexflow-checklist-9",
+        "lexflow-agent-answer-first",
+        "lexflow-agent-gate-only",
+        "lexflow-agent-full",
         "lexflow-client-p-wd",
         "lexflow-client-p-ws",
         "lexflow-client-p-cs",

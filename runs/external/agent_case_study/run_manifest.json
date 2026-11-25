@@ -1,0 +1,195 @@
+{
+  "generated_at": "2026-11-25T18:00:31+08:00",
+  "command": "D:\\Python\\Python3.14\\python.exe external\\dlawbench\\run.py --n-cases 3 --case-ids case_cn_0024,case_cn_0025,case_cn_0006 --lawyer-mode agent --resume --output-dir runs\\external\\agent_case_study",
+  "argv": [
+    "external\\dlawbench\\run.py",
+    "--n-cases",
+    "3",
+    "--case-ids",
+    "case_cn_0024,case_cn_0025,case_cn_0006",
+    "--lawyer-mode",
+    "agent",
+    "--resume",
+    "--output-dir",
+    "runs\\external\\agent_case_study"
+  ],
+  "elapsed_seconds": 1.0,
+  "n_cases": 3,
+  "case_ids": [
+    "case_cn_0006",
+    "case_cn_0024",
+    "case_cn_0025"
+  ],
+  "personas": [
+    "P_WD"
+  ],
+  "policies": [
+    "answer_first",
+    "gate_only",
+    "full"
+  ],
+  "max_turns": 10,
+  "sessions_expected": 9,
+  "sessions_evaluated": 9,
+  "status_counts": {
+    "memo_submitted": 9
+  },
+  "eval_failures": 0,
+  "bootstrap": {
+    "resamples": 5000,
+    "seed": 20261124,
+    "cluster": "case_id",
+    "confidence": 0.95
+  },
+  "judge": {
+    "model": "lexflow-rubric-judge",
+    "kind": "deterministic lexical rubric matcher",
+    "official_prompt": true,
+    "official_formulas": true
+  },
+  "dlawbench": {
+    "repo": "https://github.com/SKYLENAGE-AI/DLawBench",
+    "commit": "9f6325f29f07b296fac110a6e1880bdd5d9ca538",
+    "license": {
+      "code": "MIT (upstream LICENSE)",
+      "data": "CC BY 4.0 (upstream data/LICENSE)"
+    },
+    "case_file": "cases_cn.jsonl",
+    "case_file_sha256": "341184ab2b783a41d0ae62380299ba55fdf8b20b135cdfb5547e948a94d6b8b5",
+    "vendored_files": 28
+  },
+  "lexflow": {
+    "commit": "7cb291102495ce3a975c85415c94b41bb35f4fce",
+    "dirty": true,
+    "python": "3.14.2",
+    "platform": "win32"
+  },
+  "metrics": [
+    "fact_coverage",
+    "inquiry",
+    "elicitation",
+    "fact_resolution",
+    "issue_resolution",
+    "resolution",
+    "fidelity"
+  ],
+  "ci": {
+    "answer_first": {
+      "fact_coverage": {
+        "mean": 0.0,
+        "lo": 0.0,
+        "hi": 0.0
+      },
+      "inquiry": {
+        "mean": 0.0,
+        "lo": 0.0,
+        "hi": 0.0
+      },
+      "elicitation": {
+        "mean": 0.0,
+        "lo": 0.0,
+        "hi": 0.0
+      },
+      "fact_resolution": {
+        "mean": 0.0,
+        "lo": 0.0,
+        "hi": 0.0
+      },
+      "issue_resolution": {
+        "mean": 0.0,
+        "lo": 0.0,
+        "hi": 0.0
+      },
+      "resolution": {
+        "mean": 0.0,
+        "lo": 0.0,
+        "hi": 0.0
+      },
+      "fidelity": {
+        "mean": 0.0,
+        "lo": 0.0,
+        "hi": 0.0
+      }
+    },
+    "gate_only": {
+      "fact_coverage": {
+        "mean": 0.0,
+        "lo": 0.0,
+        "hi": 0.0
+      },
+      "inquiry": {
+        "mean": 0.1333,
+        "lo": 0.0,
+        "hi": 0.4
+      },
+      "elicitation": {
+        "mean": 0.0667,
+        "lo": 0.0,
+        "hi": 0.2
+      },
+      "fact_resolution": {
+        "mean": 0.0,
+        "lo": 0.0,
+        "hi": 0.0
+      },
+      "issue_resolution": {
+        "mean": 0.0944,
+        "lo": 0.0,
+        "hi": 0.2
+      },
+      "resolution": {
+        "mean": 0.0472,
+        "lo": 0.0,
+        "hi": 0.1
+      },
+      "fidelity": {
+        "mean": 0.1429,
+        "lo": 0.0,
+        "hi": 0.4286
+      }
+    },
+    "full": {
+      "fact_coverage": {
+        "mean": 0.0,
+        "lo": 0.0,
+        "hi": 0.0
+      },
+      "inquiry": {
+        "mean": 0.1333,
+        "lo": 0.0,
+        "hi": 0.4
+      },
+      "elicitation": {
+        "mean": 0.0667,
+        "lo": 0.0,
+        "hi": 0.2
+      },
+      "fact_resolution": {
+        "mean": 0.0,
+        "lo": 0.0,
+        "hi": 0.0
+      },
+      "issue_resolution": {
+        "mean": 0.0944,
+        "lo": 0.0,
+        "hi": 0.2
+      },
+      "resolution": {
+        "mean": 0.0472,
+        "lo": 0.0,
+        "hi": 0.1
+      },
+      "fidelity": {
+        "mean": 0.1429,
+        "lo": 0.0,
+        "hi": 0.4286
+      }
+    }
+  },
+  "files": [
+    "summary.md",
+    "scores.csv",
+    "leaderboard.md",
+    "run_manifest.json"
+  ]
+}

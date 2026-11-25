@@ -1,14 +1,15 @@
 {
-  "generated_at": "2026-11-24T15:50:52+08:00",
-  "command": "D:\\Python\\Python3.14\\python.exe external\\dlawbench\\run.py --n-cases 30 --bootstrap 5000",
+  "generated_at": "2026-11-25T18:00:24+08:00",
+  "command": "D:\\Python\\Python3.14\\python.exe external\\dlawbench\\run.py --n-cases 30 --resume --output-dir runs\\external",
   "argv": [
     "external\\dlawbench\\run.py",
     "--n-cases",
     "30",
-    "--bootstrap",
-    "5000"
+    "--resume",
+    "--output-dir",
+    "runs\\external"
   ],
-  "elapsed_seconds": 6.1,
+  "elapsed_seconds": 3.3,
   "n_cases": 30,
   "case_ids": [
     "case_cn_0001",
@@ -81,8 +82,8 @@
     "vendored_files": 28
   },
   "lexflow": {
-    "commit": "e54ec605ffc6aeb058a090034521297a6f796b6e",
-    "dirty": false,
+    "commit": "7cb291102495ce3a975c85415c94b41bb35f4fce",
+    "dirty": true,
     "python": "3.14.2",
     "platform": "win32"
   },

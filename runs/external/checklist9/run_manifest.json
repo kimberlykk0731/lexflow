@@ -1,0 +1,144 @@
+{
+  "generated_at": "2026-11-25T18:00:30+08:00",
+  "command": "D:\\Python\\Python3.14\\python.exe external\\dlawbench\\run.py --n-cases 30 --policies checklist_9 --resume --output-dir runs\\external\\checklist9",
+  "argv": [
+    "external\\dlawbench\\run.py",
+    "--n-cases",
+    "30",
+    "--policies",
+    "checklist_9",
+    "--resume",
+    "--output-dir",
+    "runs\\external\\checklist9"
+  ],
+  "elapsed_seconds": 1.7,
+  "n_cases": 30,
+  "case_ids": [
+    "case_cn_0001",
+    "case_cn_0002",
+    "case_cn_0003",
+    "case_cn_0004",
+    "case_cn_0005",
+    "case_cn_0006",
+    "case_cn_0007",
+    "case_cn_0008",
+    "case_cn_0009",
+    "case_cn_0010",
+    "case_cn_0011",
+    "case_cn_0012",
+    "case_cn_0013",
+    "case_cn_0014",
+    "case_cn_0015",
+    "case_cn_0016",
+    "case_cn_0017",
+    "case_cn_0018",
+    "case_cn_0019",
+    "case_cn_0020",
+    "case_cn_0021",
+    "case_cn_0022",
+    "case_cn_0023",
+    "case_cn_0024",
+    "case_cn_0025",
+    "case_cn_0026",
+    "case_cn_0027",
+    "case_cn_0028",
+    "case_cn_0029",
+    "case_cn_0030"
+  ],
+  "personas": [
+    "P_WD"
+  ],
+  "policies": [
+    "checklist_9"
+  ],
+  "max_turns": 10,
+  "sessions_expected": 30,
+  "sessions_evaluated": 30,
+  "status_counts": {
+    "memo_submitted": 30
+  },
+  "eval_failures": 0,
+  "bootstrap": {
+    "resamples": 5000,
+    "seed": 20261124,
+    "cluster": "case_id",
+    "confidence": 0.95
+  },
+  "judge": {
+    "model": "lexflow-rubric-judge",
+    "kind": "deterministic lexical rubric matcher",
+    "official_prompt": true,
+    "official_formulas": true
+  },
+  "dlawbench": {
+    "repo": "https://github.com/SKYLENAGE-AI/DLawBench",
+    "commit": "9f6325f29f07b296fac110a6e1880bdd5d9ca538",
+    "license": {
+      "code": "MIT (upstream LICENSE)",
+      "data": "CC BY 4.0 (upstream data/LICENSE)"
+    },
+    "case_file": "cases_cn.jsonl",
+    "case_file_sha256": "341184ab2b783a41d0ae62380299ba55fdf8b20b135cdfb5547e948a94d6b8b5",
+    "vendored_files": 28
+  },
+  "lexflow": {
+    "commit": "7cb291102495ce3a975c85415c94b41bb35f4fce",
+    "dirty": true,
+    "python": "3.14.2",
+    "platform": "win32"
+  },
+  "metrics": [
+    "fact_coverage",
+    "inquiry",
+    "elicitation",
+    "fact_resolution",
+    "issue_resolution",
+    "resolution",
+    "fidelity"
+  ],
+  "ci": {
+    "checklist_9": {
+      "fact_coverage": {
+        "mean": 0.6867,
+        "lo": 0.5944,
+        "hi": 0.7729
+      },
+      "inquiry": {
+        "mean": 0.2277,
+        "lo": 0.1528,
+        "hi": 0.3126
+      },
+      "elicitation": {
+        "mean": 0.4572,
+        "lo": 0.394,
+        "hi": 0.5218
+      },
+      "fact_resolution": {
+        "mean": 0.6734,
+        "lo": 0.5812,
+        "hi": 0.7601
+      },
+      "issue_resolution": {
+        "mean": 0.3839,
+        "lo": 0.2722,
+        "hi": 0.5039
+      },
+      "resolution": {
+        "mean": 0.5287,
+        "lo": 0.4516,
+        "hi": 0.6078
+      },
+      "fidelity": {
+        "mean": 1.0,
+        "lo": 1.0,
+        "hi": 1.0
+      }
+    }
+  },
+  "files": [
+    "summary.md",
+    "scores.csv",
+    "leaderboard.md",
+    "run_manifest.json"
+  ]
+}

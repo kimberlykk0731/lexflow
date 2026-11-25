@@ -40,12 +40,14 @@ sys.path.insert(0, str(UPSTREAM / "scripts"))
 sys.path.insert(0, str(HERE))
 
 try:
+    from .agent_policy import AGENT_POLICIES, agent_model
     from .bootstrap import cluster_bootstrap
     from .client_sim import client_model, PERSONAS
     from .judge import JUDGE_MODEL
     from .policy import POLICIES, model_name as policy_model
     from .server import ShimServer
 except ImportError:  # script execution
+    from agent_policy import AGENT_POLICIES, agent_model
     from bootstrap import cluster_bootstrap
     from client_sim import client_model, PERSONAS
     from judge import JUDGE_MODEL
@@ -120,8 +122,11 @@ def main() -> int:
                         help="Comma-separated case ids (overrides the first-N selection)")
     parser.add_argument("--personas", default="P_WD",
                         help="Comma-separated persona keys (default P_WD)")
-    parser.add_argument("--policies", default=",".join(POLICIES),
-                        help="Comma-separated policies (default all three)")
+    parser.add_argument("--policies", default="answer_first,gate_only,full",
+                        help="Comma-separated policies (default: the three main-table policies)")
+    parser.add_argument("--lawyer-mode", choices=("simulation", "agent"), default="simulation",
+                        help=("simulation = fixed domain checklist (default); "
+                              "agent = real ConsultationAgent.handle, for in-schema case studies"))
     parser.add_argument("--max-turns", type=int, default=10)
     parser.add_argument("--bootstrap", type=int, default=5000)
     parser.add_argument("--seed", type=int, default=20261124)
@@ -137,9 +142,10 @@ def main() -> int:
     args = parser.parse_args()
 
     policies = [p.strip() for p in args.policies.split(",") if p.strip()]
+    allowed = AGENT_POLICIES if args.lawyer_mode == "agent" else POLICIES
     for policy in policies:
-        if policy not in POLICIES:
-            raise SystemExit(f"unknown policy: {policy} (choose from {POLICIES})")
+        if policy not in allowed:
+            raise SystemExit(f"unknown policy for {args.lawyer_mode}: {policy} (choose from {allowed})")
     personas = [p.strip() for p in args.personas.split(",") if p.strip()]
     for persona in personas:
         if persona not in PERSONAS:
@@ -160,7 +166,8 @@ def main() -> int:
 
     dl = _import_dlawbench()
     api_utils = dl["api_utils"]
-    local_names = [policy_model(p) for p in policies]
+    local_names = [(agent_model(p) if args.lawyer_mode == "agent" else policy_model(p))
+                   for p in policies]
     local_names += [client_model(p) for p in personas]
     if args.judge_model == JUDGE_MODEL:
         local_names += [JUDGE_MODEL]
@@ -176,7 +183,8 @@ def main() -> int:
         for persona in personas:
             persona_obj = dl["load_persona"](persona)
             for policy in policies:
-                lawyer_model = policy_model(policy)
+                lawyer_model = (agent_model(policy) if args.lawyer_mode == "agent"
+                                else policy_model(policy))
                 for item in cases:
                     raw = item["raw"]
                     case = dl["normalize_case"](raw)
@@ -336,13 +344,21 @@ def _write_outputs(out_dir, args, policies, personas, cases, sessions,
                   else "external OpenAI-compatible LLM judge")
 
     lines = [
-        "# LexFlow × DLawBench — adapted external evaluation",
+        ("# LexFlow × DLawBench — real-agent case study" if args.lawyer_mode == "agent"
+         else "# LexFlow × DLawBench — fixed-checklist protocol simulation"),
         "",
-        "> **Adapted run, not an official leaderboard entry.**  The lawyer is the LexFlow",
-        "> policy shim; the client and judge are deterministic offline stand-ins. Official",
-        "> DLawBench rubric text, metric formulas and denominators are used unchanged, but",
-        "> absolute scores are not comparable to the DLawBench leaderboard.",
+        ("> **Adapted run, not an official leaderboard entry.**  The lawyer is the real "
+         "`ConsultationAgent`, restricted to the in-schema cases; the client and judge are "
+         "deterministic offline stand-ins. Official DLawBench rubric text, metric formulas and "
+         "denominators are used unchanged, but absolute scores are not comparable to the "
+         "DLawBench leaderboard." if args.lawyer_mode == "agent" else
+         "> **Adapted run, not an official leaderboard entry.**  The lawyer is a fixed-domain "
+         "questionnaire simulation, not the LexFlow element-schema gate; the client and judge "
+         "are deterministic offline stand-ins. Official DLawBench rubric text, metric formulas "
+         "and denominators are used unchanged, but absolute scores are not comparable to the "
+         "DLawBench leaderboard."),
         "",
+        f"- Lawyer mode: `{args.lawyer_mode}`",
         f"- Generated: `{generated}`",
         f"- DLawBench: `{upstream['repo']}` @ `{upstream['commit']}` "
         f"(MIT code / CC BY 4.0 data)",
@@ -374,7 +390,7 @@ def _write_outputs(out_dir, args, policies, personas, cases, sessions,
     lines += [
         "",
         "Each cell is `mean [95% CI]`. The CI resamples cases (clusters), not sessions,",
-        "so the three policies are evaluated on the same resampled case set.",
+        f"so the {len(policies)} policies are evaluated on the same resampled case set.",
         "",
         "## Official definitions (unchanged)",
         "",
@@ -394,22 +410,37 @@ def _write_outputs(out_dir, args, policies, personas, cases, sessions,
         "",
         "## How to read this",
         "",
-        "- `answer_first` never asks a question: memo from the opening message only.",
-        "- `gate_only` runs LexFlow's sufficiency gate, asks the domain intake checklist,",
-        "  then writes the memo without provenance/verification sections.",
-        "- `full` adds per-fact provenance and an explicit verification section, and",
-        "  marks unresolved information gaps.",
-        "- The shim only sees the DLawBench messages. It never opens the case file,",
-        "  the hidden facts, or `evaluation_criteria`.",
-        "- The deterministic client reveals a `client_belief` only when the lawyer asks",
-        "  about the same topic; it is not the official LLM client.",
-        "- Because the judge is lexical, treat **within-run policy deltas** as the signal",
-        "  and absolute values as pipeline diagnostics only.",
+    ]
+    if args.lawyer_mode == "agent":
+        lines += [
+            "- This is a real `ConsultationAgent` case study, not the 30-case simulation.",
+            "- `answer_first` disables the gate; `gate_only` enables it without verification;",
+            "  `full` enables gate, verification and repair.",
+            "- The case study is limited to the 3 cases that fall inside LexFlow's labour/tort",
+            "  schemas; Fact Coverage is near zero because the benchmark facts do not match the",
+            "  schema fields. Treat this as a schema-boundary result, not a capability score.",
+        ]
+    else:
+        lines += [
+            "- `answer_first` never asks a question: memo from the opening message only.",
+            "- `gate_only` runs a fixed six-question domain checklist, not LexFlow's",
+            "  element-schema gate.",
+            "- `checklist_9` adds three questions without provenance/verification; `full` adds",
+            "  provenance and an explicit verification section.",
+            "- The shim only sees the DLawBench messages. It never opens the case file,",
+            "  the hidden facts, or `evaluation_criteria`.",
+            "- The deterministic client reveals a `client_belief` only when the lawyer asks",
+            "  about the same topic; it is not the official LLM client.",
+            "- Because the judge is lexical, treat **within-run policy deltas** as the signal",
+            "  and absolute values as pipeline diagnostics only.",
+        ]
+    lines += [
         "",
         "## Reproduce",
         "",
         "```bash",
-        f"python external/dlawbench/run.py --n-cases {len(cases)} --personas {','.join(personas)}",
+        f"python external/dlawbench/run.py --n-cases {len(cases)} --personas {','.join(personas)}"
+        + (" --lawyer-mode agent" if args.lawyer_mode == "agent" else ""),
         "```",
         "",
         "## Files",

@@ -14,7 +14,7 @@ sys.path.insert(0, str(HERE / "upstream" / "src"))
 from bootstrap import cluster_bootstrap  # noqa: E402
 from client_sim import ClientSimulator  # noqa: E402
 from judge import judge_reply  # noqa: E402
-from policy import LawyerPolicy  # noqa: E402
+from policy import LawyerPolicy, model_name, policy_from_model  # noqa: E402
 from server import ShimServer  # noqa: E402
 
 
@@ -58,6 +58,10 @@ class PolicyTests(unittest.TestCase):
         messages[-1]["content"] = "[系统] 当前第 10/10 轮，剩余 0 轮。"
         reply = json.loads(LawyerPolicy("full").respond(messages))
         self.assertEqual(reply["tool"], "write_memo")
+
+    def test_checklist_9_model_name(self):
+        self.assertEqual(model_name("checklist_9"), "lexflow-checklist-9")
+        self.assertEqual(policy_from_model("lexflow-checklist-9"), "checklist_9")
 
 
 class ClientTests(unittest.TestCase):
