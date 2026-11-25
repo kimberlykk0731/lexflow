@@ -38,22 +38,23 @@ a { color: #1d4ed8; text-decoration: none; }
 </head>
 <body>
 
-<h2 class="first">Appendix A. Ask-First Policy Simulation on DLawBench</h2>
+<h2 class="first">Appendix A. External Check: Ask-First Policy on DLawBench</h2>
 
-<p class="lead">This appendix continues the report after Section&nbsp;8 and the References. It reports a
-controlled simulation of three ask-first question-budget policies on DLawBench's multi-turn
-consultation protocol. The run is an adaptation, not an official leaderboard entry: the
-benchmark's rubrics, metric formulas and denominators are used unchanged, with deterministic
-offline client and judge implementations.</p>
+<p class="lead">This appendix continues the report after Section&nbsp;8 and the References. It extends
+the main report's gate test to an external protocol: a controlled simulation of three ask-first
+question-budget policies on DLawBench's multi-turn consultation protocol. The run is an adaptation,
+not an official leaderboard entry: the benchmark's rubrics, metric formulas and denominators are
+used unchanged, with deterministic offline client and judge implementations.</p>
 
-<h3>A.1 From two scripted claim types to a public protocol</h3>
+<h3>A.1 From the 12-case gate test to a public protocol</h3>
 
-<p>Section&nbsp;7 listed the public-benchmark comparison as a qualitative limitation. DLawBench
-provides 461 Chinese and U.S. cases, four client personas, paired client-belief and court-record
-facts, and expert inquiry and memo rubrics [2]. We use the Chinese split and the
-<code>P_WD</code> persona to ask how far a fixed ask-first checklist travels across criminal,
-administrative, bankruptcy, company, labour, unfair-competition and tort consultations. The
-result is a protocol feasibility study, not a test of LexFlow's element-schema gate.</p>
+<p>The main report's controlled 12-case protocol already tests the gate itself: critical-fact
+coverage rises from 57.5% to 100% and premature advice falls from 58.3% to 0% (Section&nbsp;5.1).
+This appendix asks the next question: how far does the same ask-first policy travel on a public
+protocol, and where does the two-schema boundary stop it? DLawBench provides 461 Chinese and U.S.
+cases, four personas, paired client-belief and court-record facts, and expert inquiry and memo
+rubrics [2]. We use its Chinese split and <code>P_WD</code>; the result is an external protocol
+check, not a second test of the element-schema gate.</p>
 
 <h3>A.2 Setup and scoring</h3>
 
@@ -145,9 +146,9 @@ from 0.008 to 0.422; three more questions raise them to 0.687 and 0.457; the ful
 case-cluster confidence intervals, and a hash-checked vendored scorer.</p>
 
 <p><b>Scope.</b> The reported quantities are question-budget deltas on the public CN split under
-a fixed 10-turn budget. They do <i>not</i> measure LexFlow's element-schema gate, LLM fact
-extraction, version-aware corpus, verifier, or memory revision; the real-agent case study in A.8
-shows why the schema boundary matters.</p>
+a fixed 10-turn budget. The gate itself is tested in Section&nbsp;5.1; this appendix does
+<i>not</i> re-test the element-schema gate, LLM fact extraction, version-aware corpus, verifier, or
+memory revision. The real-agent case study in A.8 shows why the schema boundary matters.</p>
 
 <h3>A.6 Where the fixed checklist fails</h3>
 

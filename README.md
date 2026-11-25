@@ -164,11 +164,12 @@ lexflow/
 
 详见 [`docs/eval_design.md`](docs/eval_design.md)。
 
-### 5.1 外部基准：DLawBench ask-first 模拟（adapted run）
+### 5.1 外部检查：DLawBench ask-first 策略（adapted run）
 
-仓库另带一套**外部**评测：在 DLawBench 的多轮咨询协议上，比较 0 题 / 6 题 / 9 题
-固定问卷的 question-budget 效应，并附带 3 个 in-schema case 的真 `ConsultationAgent`
-case study。
+主报告的 12-case controlled protocol 已经测了 gate 本体（critical-fact coverage
+57.5%→100%，premature advice 58.3%→0%）。这一节把同一套 ask-first 策略接到
+DLawBench 的公开协议上，测的是**外部协议迁移 + 两个 schema 的边界**，不是第二次 gate
+测试。
 
 ```bash
 python external/dlawbench/run.py --n-cases 30   # 90 sessions 主表

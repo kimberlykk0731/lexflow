@@ -1,8 +1,10 @@
-# 外部评测：DLawBench ask-first 模拟（adapted run）
+# 外部检查：DLawBench ask-first 外部检查（adapted run）
 
-> **这是 adapted run，不是 DLawBench 官方榜单。** 律师端是固定领域问卷的确定性模拟，
-> 不是 LexFlow 的 element-schema gate；客户与 judge 也是离线确定性替身。官方 rubric 文本、
-> 指标公式、分母未改，但绝对分数不能与 DLawBench leaderboard 直接比较。
+> **这是 adapted run，不是 DLawBench 官方榜单。** 主报告的 12-case controlled protocol
+> 已经测试了 gate 本体（coverage 57.5%→100%，premature advice 58.3%→0%）；本附录把同一套
+> ask-first 策略接到 DLawBench 的公开协议上，测的是“外部协议迁移 + 两个 schema 的边界”，
+> 不是第二次 gate 测试。律师端是固定领域问卷的确定性模拟，客户与 judge 也是离线替身。
+> 官方 rubric 文本、指标公式、分母未改，但绝对分数不能与 DLawBench leaderboard 直接比较。
 
 ## 1. 一条命令
 
