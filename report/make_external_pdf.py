@@ -2,14 +2,16 @@
 """Render the external-evaluation appendix to PDF.
 
 The appendix is authored as HTML with the same CSS as the main report, printed
-with a Chromium-based browser, then given continuous page numbers (the main
-report has 7 pages, so the appendix starts at 8/10).
+with a Chromium-based browser, then given its own page numbering
+(``Appendix A · 1/3``).  The main report keeps ``n / 7``, so the two PDFs can be
+concatenated without either one showing a second, conflicting denominator.
 
 Usage:
+    pip install pymupdf          # page-number overlay
     python report/make_external_pdf.py
 
-Requires a Chromium-based browser. Page-number overlay uses PyMuPDF when it is
-available; otherwise the PDF is still produced, just without footer numbers.
+Requires a Chromium-based browser and PyMuPDF.  Without PyMuPDF the script
+exits instead of silently writing a PDF with no footer.
 """
 from __future__ import annotations
 
@@ -77,24 +79,18 @@ def add_page_numbers(raw: Path, out: Path) -> None:
         try:
             import pymupdf  # type: ignore
         except ImportError:
-            shutil.copyfile(raw, out)
-            print("PyMuPDF not available; wrote PDF without footer page numbers")
-            return
-
-    main = REPORT / "LexFlow_Report.pdf"
-    offset = 7
-    if main.is_file():
-        with pymupdf.open(main) as original:
-            offset = original.page_count
+            raise SystemExit(
+                "PyMuPDF is required for the appendix page numbers: pip install pymupdf"
+            ) from None
 
     font_path = Path(r"C:\Windows\Fonts\arial.ttf")
     font = pymupdf.Font(fontfile=str(font_path)) if font_path.is_file() else pymupdf.Font("helv")
     grey = (80 / 255, 88 / 255, 100 / 255)
 
     doc = pymupdf.open(raw)
-    total = offset + doc.page_count
+    total = doc.page_count
     for index, page in enumerate(doc):
-        text = f"{offset + index + 1} / {total}"
+        text = f"Appendix A · {index + 1} / {total}"
         width = font.text_length(text, fontsize=6.0)
         x = (page.rect.width - width) / 2
         if font_path.is_file():

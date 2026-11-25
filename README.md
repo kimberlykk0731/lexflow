@@ -181,8 +181,10 @@ python external/dlawbench/verify.py             # 验收自检
 结果在 [`runs/external/summary.md`](runs/external/summary.md)，方法与 caveat 见
 [`docs/EXTERNAL_EVAL.md`](docs/EXTERNAL_EVAL.md)。**这是 adapted run，不是官方
 leaderboard**：被测对象是固定问卷，不是 LexFlow 的 element-schema gate；30 个 CN case
-里只有 3 个在 LexFlow 两个 schema 内，真 agent 只能做 case study。绝对分数不可与官方
-榜单比较，也不能和上面 12 案的主表混成一张表。
+里只有 1 个（交通侵权）真正落在 schema 内，另外 2 个（工伤、降薪）是 schema 边界，真 agent
+只能做 case study。题库是人工整理、并在首轮跑分后扩充过的，所以 Issue Resolution /
+Resolution 只作诊断，不作能力分。绝对分数不可与官方榜单比较，也不能和上面 12 案的主表
+混成一张表。
 
 ---
 

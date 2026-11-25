@@ -75,7 +75,9 @@ check, not a second test of the element-schema gate.</p>
   <li><b>Lawyer shim.</b> An OpenAI-compatible server exposes the simulation policy to
       DLawBench's <code>talk_to_client</code> / <code>write_memo</code> protocol. It sees only the
       opening and the client's answers; it never opens the case file, hidden facts, or
-      <code>evaluation_criteria</code>.</li>
+      <code>evaluation_criteria</code>. The question and issue library it draws on is a fixed,
+      hand-curated checklist, not a held-out resource; Issue Resolution is read as a
+      diagnostic of that checklist.</li>
   <li><b>Scoring.</b> Sessions are scored through the official
       <code>dlawbench.evaluate.evaluate_session</code> and the official
       <code>scripts/metrics.py</code> formulas. To keep the run reproducible offline, the
@@ -102,9 +104,10 @@ score (FFS) is a format filter and is not a ranking metric.</p>
 Fact Coverage rises from 0.016 to 0.628 and Inquiry from 0.000 to 0.216; Elicitation rises from
 0.008 to 0.422. The <code>full</code> policy adds three turns and reaches 0.696, 0.228 and
 0.462 respectively; A.7 shows that most of this gain comes from the extra questions, not from
-provenance or verification. Issue Resolution moves less (0.295 → 0.378 / 0.399) because all
-three policies share the same domain-level issue library; the gain comes from selecting issues
-with elicited facts, not from new legal knowledge.</p>
+provenance or verification. Issue Resolution moves less (0.289 → 0.372 / 0.393) because the
+issue library is held fixed across the ablation; the difference is which issues the elicited
+facts make salient. The library itself is hand-curated, so Issue Resolution is a diagnostic of
+the checklist, not a held-out capability score.</p>
 
 <table>
 <thead>
@@ -120,30 +123,35 @@ with elicited facts, not from new legal knowledge.</p>
 <tr><td>Inquiry</td><td class="num">0.000 [0.000, 0.000]</td><td class="num">0.216 [0.142, 0.300]</td><td class="num">0.228 [0.153, 0.313]</td></tr>
 <tr><td>Elicitation</td><td class="num">0.008 [0.001, 0.017]</td><td class="num">0.422 [0.356, 0.486]</td><td class="num">0.462 [0.401, 0.525]</td></tr>
 <tr><td>Fact Resolution</td><td class="num">0.016 [0.002, 0.033]</td><td class="num">0.614 [0.518, 0.705]</td><td class="num">0.683 [0.593, 0.767]</td></tr>
-<tr><td>Issue Resolution</td><td class="num">0.295 [0.183, 0.417]</td><td class="num">0.378 [0.268, 0.498]</td><td class="num">0.399 [0.290, 0.515]</td></tr>
-<tr><td>Resolution</td><td class="num">0.155 [0.099, 0.218]</td><td class="num">0.496 [0.420, 0.573]</td><td class="num">0.541 [0.464, 0.618]</td></tr>
+<tr><td>Issue Resolution</td><td class="num">0.289 [0.177, 0.414]</td><td class="num">0.372 [0.259, 0.494]</td><td class="num">0.393 [0.282, 0.512]</td></tr>
+<tr><td>Resolution</td><td class="num">0.152 [0.095, 0.216]</td><td class="num">0.493 [0.416, 0.570]</td><td class="num">0.538 [0.461, 0.616]</td></tr>
 <tr><td>Fidelity</td><td class="num">1.000 [1.000, 1.000]</td><td class="num">1.000 [1.000, 1.000]</td><td class="num">1.000 [1.000, 1.000]</td></tr>
 </tbody>
 </table>
 <p class="note">Table A1. Main adapted run, 30 Chinese cases × <code>P_WD</code>, 10-turn budget.
-Cells are mean [95% CI], case-cluster bootstrap. Fidelity is 1.000 because every factual
-sentence in the memo is a quoted client statement: the memo stays anchored to the dialogue.
-Fact Resolution tracks coverage (712/728 covered facts, 97.8%, were judged correct) because the
-lexical judge only flags date/amount contradictions; both are kept for metric completeness.</p>
+Cells are mean [95% CI], case-cluster bootstrap. Fidelity is 1.000 by construction: the claim
+extractor counts only the fact / summary / risk sections, and the memo quotes the dialogue there;
+legal-analysis paragraphs are not counted as claims, so this metric does not detect
+case-specific content that leaks into the issue library. Fact Resolution tracks coverage
+(712/728 covered facts, 97.8%, were judged correct) because the lexical judge only flags
+date/amount contradictions; both are kept for metric completeness.</p>
 
-<p>The <code>P_CD</code> controlling-resister extension (90 sessions) lowers Fact Coverage to
-0.457 / 0.583 while Inquiry is unchanged, consistent with a harder disclosure threshold; its
-full table is in <code>runs/external/pcd/summary.md</code>.</p>
+<p>The <code>P_CD</code> (Controlling-Resister) extension (90 sessions) lowers Fact Coverage to
+0.457 / 0.583 while Inquiry is unchanged. Inquiry does not move because the question list is
+fixed and never depends on the client's answers, so the drop is confined to coverage; the full
+table is in <code>runs/external/pcd/summary.md</code>.</p>
 
 <h3>A.5 What the simulation establishes</h3>
 
 <p>The simulation establishes three results. First, the ask-first protocol runs end-to-end on
-30 unseen Chinese cases: 180 simulation sessions completed with a memo, and every session was
+30 Chinese cases from the public release: 180 simulation sessions (P_WD + P_CD; the
+<code>checklist_9</code> control adds 30 more) completed with a memo, and every session was
 scored by the benchmark's own evaluator. Second, question budget drives the behavioural metrics
 by a large margin: zero to six questions raises Fact Coverage from 0.016 to 0.628 and Elicitation
 from 0.008 to 0.422; three more questions raise them to 0.687 and 0.457; the full policy reaches
 0.696 and 0.462. Third, the result is reproducible from one command, with seven metrics,
-case-cluster confidence intervals, and a hash-checked vendored scorer.</p>
+case-cluster confidence intervals, a hash-checked vendored scorer, and a manifest that records
+the adapter fingerprint and the LLM mode.</p>
 
 <p><b>Scope.</b> The reported quantities are question-budget deltas on the public CN split under
 a fixed 10-turn budget. The gate itself is tested in Section&nbsp;5.1; this appendix does
@@ -171,8 +179,10 @@ memory revision. The real-agent case study in A.8 shows why the schema boundary 
 missed facts are the benchmark's own <code>discovery.missed</code> list.</p>
 
 <p>Coverage is uneven: company, labour and tort are near the ceiling; unfair competition loses 51
-facts and administrative law 14, because the checklist lacks platform/consumer and
-administrative-procedure probes.</p>
+facts and administrative law 14. The cause is not a missing question: of the 103 missed facts,
+56 carry no topic label in the offline client's keyword taxonomy, so no question can elicit them
+(<code>case_cn_0029</code>: the platform probe is asked, the client falls back). Coverage
+therefore has a ceiling independent of the lawyer policy.</p>
 
 <h3>A.7 Question budget vs provenance</h3>
 
@@ -193,35 +203,35 @@ administrative-procedure probes.</p>
 without provenance/verification. Paired case-level deltas: checklist_9 − gate_only = +0.059
 [0.034, 0.088] Fact Coverage; full − checklist_9 = +0.009 [0.000, 0.021].</p>
 
-<p>Most of the gain from six to nine questions is question budget; provenance adds about one
-coverage point, so the appendix reports question-budget deltas rather than a gate effect.</p>
+<p>Most of the six-to-nine gain is question budget; provenance adds about one coverage point.</p>
 
 <h3>A.8 Real-agent case study</h3>
 
 <table>
 <thead>
-<tr><th style="width:28%">Policy</th><th class="num" style="width:15%">FFS</th>
-    <th class="num" style="width:19%">Fact Coverage</th>
-    <th class="num" style="width:19%">Inquiry</th>
-    <th class="num" style="width:19%">Issue Resolution</th></tr>
+<tr><th style="width:22%">Policy</th><th class="num" style="width:12%">FFS</th>
+    <th class="num" style="width:17%">Fact Coverage</th>
+    <th class="num" style="width:15%">Inquiry</th>
+    <th class="num" style="width:17%">Issue Resolution</th>
+    <th class="num" style="width:17%">Fidelity</th></tr>
 </thead>
 <tbody>
-<tr><td>answer_first</td><td class="num">1.000</td><td class="num">0.000</td><td class="num">0.000</td><td class="num">0.000</td></tr>
-<tr><td>gate_only</td><td class="num">1.000</td><td class="num">0.000</td><td class="num">0.133</td><td class="num">0.094</td></tr>
-<tr><td>full</td><td class="num">1.000</td><td class="num">0.000</td><td class="num">0.133</td><td class="num">0.094</td></tr>
+<tr><td>answer_first</td><td class="num">1.000</td><td class="num">0.000</td><td class="num">0.000</td><td class="num">0.000</td><td class="num">0.000</td></tr>
+<tr><td>gate_only</td><td class="num">1.000</td><td class="num">0.000</td><td class="num">0.133</td><td class="num">0.094</td><td class="num">0.143</td></tr>
+<tr><td>full</td><td class="num">1.000</td><td class="num">0.000</td><td class="num">0.133</td><td class="num">0.094</td><td class="num">0.143</td></tr>
 </tbody>
 </table>
-<p class="note">Table A5. Real agent, 3 in-schema cases, 9 sessions.</p>
+<p class="note">Table A5. Real agent, 3 labour/tort cases (1 inside the tort schema), 9 sessions.</p>
 
-<p>The adapter runs end-to-end (FFS 1.000 after memo mapping), but Fact Coverage is zero:
-LexFlow's labour/tort schemas ask for fields these cases do not contain. Case_cn_0024 is a
-work-injury case, but the agent opens a dismissal questionnaire. This is the schema boundary;
-the 30-case table is a simulation.</p>
+<p>The adapter runs end-to-end, but FFS 1.000 comes from the adapter's section mapping, not from
+the agent. Fact Coverage is zero: only <code>case_cn_0006</code> is inside the tort schema; the
+other two open the dismissal questionnaire. Fidelity is 0.000 / 0.143 (the structured fact
+table does not match the dialogue); <code>case_cn_0025</code> also mis-dates the dismissal and
+mis-reads the wage. The 30-case table is a simulation.</p>
 
 <p><b>The agent as a whole.</b> LexFlow is intake → gate → research → rules → memo → verify →
-revise. The main report's 12 cases test that loop; this appendix tests only ask-first and schema
-boundary, not extraction, corpus, rules, verifier or memory; it supports a narrow claim, not
-full-agent generalization.</p>
+revise. The main report's 12 cases test that loop; this appendix tests only ask-first and the
+schema boundary.</p>
 
 </body>
 </html>
