@@ -170,10 +170,9 @@ memory revision. The real-agent case study in A.8 shows why the schema boundary 
 <p class="note">Table A3. Per-domain coverage, <code>full</code> policy, <code>P_WD</code>;
 missed facts are the benchmark's own <code>discovery.missed</code> list.</p>
 
-<p>The checklist is not uniformly weak: company, labour and tort coverage is close to the
-ceiling, while unfair competition loses 51 facts and administrative law loses 14. The two largest
-gaps are topical, not random: the fixed checklist does not contain the platform/consumer and
-administrative-procedure probes that these cases need.</p>
+<p>Coverage is uneven: company, labour and tort are near the ceiling; unfair competition loses 51
+facts and administrative law 14, because the checklist lacks platform/consumer and
+administrative-procedure probes.</p>
 
 <h3>A.7 Question budget vs provenance</h3>
 
@@ -217,8 +216,12 @@ coverage point, so the appendix reports question-budget deltas rather than a gat
 <p>The adapter runs end-to-end (FFS 1.000 after memo mapping), but Fact Coverage is zero:
 LexFlow's labour/tort schemas ask for fields these cases do not contain. Case_cn_0024 is a
 work-injury case, but the agent opens a dismissal questionnaire. This is the schema boundary;
-the 30-case table is a simulation. Commands/manifests are in <code>runs/external/</code>;
-<code>verify.py</code> checks metrics, hashes, provenance and the no-rubric boundary.</p>
+the 30-case table is a simulation.</p>
+
+<p><b>The agent as a whole.</b> LexFlow is intake → gate → research → rules → memo → verify →
+revise. The main report's 12 cases test that loop; this appendix tests only ask-first and schema
+boundary, not extraction, corpus, rules, verifier or memory; it supports a narrow claim, not
+full-agent generalization.</p>
 
 </body>
 </html>
