@@ -3,9 +3,9 @@
 > **Adapted run, not an official leaderboard entry.**  The lawyer is a fixed-domain questionnaire simulation, not the LexFlow element-schema gate; the client and judge are deterministic offline stand-ins. Official DLawBench rubric text, metric formulas and denominators are used unchanged, but absolute scores are not comparable to the DLawBench leaderboard.
 
 - Lawyer mode: `simulation`
-- Generated: `2026-11-25T18:00:24+08:00`
+- Generated: `2026-11-25T18:04:53+08:00`
 - DLawBench: `https://github.com/SKYLENAGE-AI/DLawBench` @ `9f6325f29f07b296fac110a6e1880bdd5d9ca538` (MIT code / CC BY 4.0 data)
-- LexFlow: `7cb291102495ce3a975c85415c94b41bb35f4fce` (dirty working tree)
+- LexFlow: `057f74f310dec0467e747a5f911961b88d6de760`
 - Cases: 30 Chinese-law cases from `cases_cn.jsonl` (case_cn_0001, case_cn_0002, case_cn_0003…)
 - Persona(s): P_WD · max turns: 10
 - Sessions: 90 (3 policies × 30 cases)
