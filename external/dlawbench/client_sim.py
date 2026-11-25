@@ -11,6 +11,7 @@ simulation is equivalent.  It is documented in docs/EXTERNAL_EVAL.md.
 """
 from __future__ import annotations
 
+import os
 import re
 
 try:  # package import
@@ -47,6 +48,17 @@ FALLBACK = {
 MAX_FACTS = {"P_WD": 2, "P_WS": 1, "P_CS": 1, "P_CD": 1}
 REVEAL_THRESHOLD = {"P_WD": 0.35, "P_WS": 0.55, "P_CS": 0.90, "P_CD": 0.70}
 
+# Opt-in extension used by the demo (LEXFLOW_CLIENT_EXTENDED=1).  The default
+# run keeps the original behaviour so committed numbers stay reproducible.
+EXTENDED_KEYWORDS = {
+    "platform": ("平台", "下架", "投诉", "确认收货", "商家", "店铺", "流量",
+                 "推广", "关键词", "搜索", "广告", "加盟", "网店"),
+    "property": ("冻结", "银行卡", "账户", "财产", "查封", "扣押", "没收"),
+    "procedure": ("信息公开", "受案范围", "起诉期限", "复议期限", "送达", "立案"),
+}
+OPEN_QUESTION_MARKERS = ("经过", "事情", "情况", "说说", "怎么回事", "发生了什么",
+                         "详细", "从头")
+
 
 def client_model(persona: str = "P_WD") -> str:
     return "lexflow-client-" + persona.lower().replace("_", "-")
@@ -60,11 +72,22 @@ def persona_from_model(name: str) -> str:
     return "P_WD"
 
 
+def extra_topics(text: str) -> set[str]:
+    text = text or ""
+    return {topic for topic, words in EXTENDED_KEYWORDS.items()
+            if any(word in text for word in words)}
+
+
+def is_open_question(text: str) -> bool:
+    return any(marker in (text or "") for marker in OPEN_QUESTION_MARKERS)
+
+
 class ClientSimulator:
     def __init__(self, persona: str = "P_WD"):
         if persona not in PERSONAS:
             persona = "P_WD"
         self.persona = persona
+        self.extended = os.getenv("LEXFLOW_CLIENT_EXTENDED") == "1"
 
     def respond(self, messages: list[dict]) -> str:
         system = ""
@@ -91,16 +114,26 @@ class ClientSimulator:
             return FALLBACK[self.persona]
 
         q_topics = topics_of(question)
+        narrative = self.extended and is_open_question(question)
+        if self.extended:
+            q_topics = q_topics | extra_topics(question)
         scored: list[tuple[float, str, int]] = []
         for fact in unrevealed:
-            shared = len(q_topics & topics_of(fact))
+            fact_topics = topics_of(fact)
+            if self.extended:
+                fact_topics = fact_topics | extra_topics(fact)
+            shared = len(q_topics & fact_topics)
             lexical = overlap(terms(question), terms(fact))
             bonus = 0.7 if ("时间" in question or "什么时候" in question) and dates(fact) else 0.0
-            scored.append((shared * 1.0 + lexical * 1.5 + bonus, fact, shared))
+            score = shared * 1.0 + lexical * 1.5 + bonus + (0.5 if narrative else 0.0)
+            scored.append((score, fact, shared))
         scored.sort(reverse=True)
 
         best_score, best, best_shared = scored[0]
-        if best_shared == 0 and best_score < REVEAL_THRESHOLD[self.persona]:
+        threshold = REVEAL_THRESHOLD[self.persona]
+        if self.extended and self.persona == "P_WD":
+            threshold = 0.15
+        if best_shared == 0 and best_score < threshold and not narrative:
             return FALLBACK[self.persona]
         if self.persona == "P_CS" and best_score < REVEAL_THRESHOLD["P_CS"]:
             return "记不清了。"

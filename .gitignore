@@ -31,3 +31,7 @@ _report.html
 .vscode/
 *.log
 !.env.example
+
+# 演示用的完整 run（可由 demo 脚本重跑）
+runs/demo/topic_baseline/
+runs/demo/topic_extended/
