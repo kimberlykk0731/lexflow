@@ -164,11 +164,34 @@ lexflow/
 
 详见 [`docs/eval_design.md`](docs/eval_design.md)。
 
+### 5.1 外部检查：DLawBench ask-first 策略（adapted run）
+
+主报告的 12-case controlled protocol 已经测了 gate 本体（critical-fact coverage
+57.5%→100%，premature advice 58.3%→0%）。这一节把同一套 ask-first 策略接到
+DLawBench 的公开协议上，测的是**外部协议迁移 + 两个 schema 的边界**，不是第二次 gate
+测试。
+
+```bash
+python external/dlawbench/run.py --n-cases 30   # 90 sessions 主表
+python external/dlawbench/run.py --n-cases 30 --policies checklist_9 \
+    --output-dir runs/external/checklist9       # 等题量控制
+python external/dlawbench/verify.py             # 验收自检
+```
+
+结果在 [`runs/external/summary.md`](runs/external/summary.md)，方法与 caveat 见
+[`docs/EXTERNAL_EVAL.md`](docs/EXTERNAL_EVAL.md)。**这是 adapted run，不是官方
+leaderboard**：被测对象是固定问卷，不是 LexFlow 的 element-schema gate；30 个 CN case
+里只有 1 个（交通侵权）真正落在 schema 内，另外 2 个（工伤、降薪）是 schema 边界，真 agent
+只能做 case study。题库是人工整理、并在首轮跑分后扩充过的，所以 Issue Resolution /
+Resolution 只作诊断，不作能力分。绝对分数不可与官方榜单比较，也不能和上面 12 案的主表
+混成一张表。
+
 ---
 
 ## 6. 交付物
 
 - [报告 PDF（7 页）](report/LexFlow_Report.pdf) ｜ [Markdown 源稿](report/LexFlow_Report.md)
+- [外部评测附录 PDF（DLawBench，adapted run）](report/External_Eval_Report.pdf) ｜ [HTML 源稿](report/External_Eval_Report.html)
 - [幻灯片 PDF（8 页）](report/LexFlow_Slides.pdf) ｜ [大纲](report/slides_outline.md)
 - [5 分钟演示脚本](report/demo_script.md)
 - [运行汇总（API 主结果 + mock 附录）](runs/SUMMARY.md)

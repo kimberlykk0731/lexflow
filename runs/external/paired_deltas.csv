@@ -1,0 +1,17 @@
+comparison,metric,mean,lo,hi,n_cases
+gate_only - answer_first,fact_coverage,0.612,0.5211,0.6999,30
+gate_only - answer_first,inquiry,0.216,0.1423,0.3003,30
+gate_only - answer_first,elicitation,0.414,0.3513,0.4762,30
+gate_only - answer_first,resolution,0.341,0.2817,0.4013,30
+full - gate_only,fact_coverage,0.0682,0.0409,0.0971,30
+full - gate_only,inquiry,0.0117,0.0,0.0268,30
+full - gate_only,elicitation,0.0399,0.0233,0.0581,30
+full - gate_only,resolution,0.0444,0.0272,0.0635,30
+checklist_9 - gate_only,fact_coverage,0.059,0.0337,0.0879,30
+checklist_9 - gate_only,inquiry,0.0117,0.0,0.0268,30
+checklist_9 - gate_only,elicitation,0.0354,0.0193,0.0538,30
+checklist_9 - gate_only,resolution,0.0323,0.0175,0.0498,30
+full - checklist_9,fact_coverage,0.0091,0.0,0.0208,30
+full - checklist_9,inquiry,0.0,0.0,0.0,30
+full - checklist_9,elicitation,0.0046,0.0,0.0104,30
+full - checklist_9,resolution,0.0121,0.0028,0.024,30

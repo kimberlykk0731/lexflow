@@ -1,0 +1,160 @@
+{
+  "generated_at": "2026-11-25T22:17:48+08:00",
+  "command": "/Library/Frameworks/Python.framework/Versions/3.13/bin/python3 external/dlawbench/run.py --n-cases 30 --policies checklist_9 --output-dir runs/external/checklist9",
+  "argv": [
+    "external/dlawbench/run.py",
+    "--n-cases",
+    "30",
+    "--policies",
+    "checklist_9",
+    "--output-dir",
+    "runs/external/checklist9"
+  ],
+  "elapsed_seconds": 1.3,
+  "n_cases": 30,
+  "case_ids": [
+    "case_cn_0001",
+    "case_cn_0002",
+    "case_cn_0003",
+    "case_cn_0004",
+    "case_cn_0005",
+    "case_cn_0006",
+    "case_cn_0007",
+    "case_cn_0008",
+    "case_cn_0009",
+    "case_cn_0010",
+    "case_cn_0011",
+    "case_cn_0012",
+    "case_cn_0013",
+    "case_cn_0014",
+    "case_cn_0015",
+    "case_cn_0016",
+    "case_cn_0017",
+    "case_cn_0018",
+    "case_cn_0019",
+    "case_cn_0020",
+    "case_cn_0021",
+    "case_cn_0022",
+    "case_cn_0023",
+    "case_cn_0024",
+    "case_cn_0025",
+    "case_cn_0026",
+    "case_cn_0027",
+    "case_cn_0028",
+    "case_cn_0029",
+    "case_cn_0030"
+  ],
+  "personas": [
+    "P_WD"
+  ],
+  "policies": [
+    "checklist_9"
+  ],
+  "max_turns": 10,
+  "sessions_expected": 30,
+  "sessions_evaluated": 30,
+  "status_counts": {
+    "memo_submitted": 30
+  },
+  "eval_failures": 0,
+  "bootstrap": {
+    "resamples": 5000,
+    "seed": 20261124,
+    "cluster": "case_id",
+    "confidence": 0.95
+  },
+  "judge": {
+    "model": "lexflow-rubric-judge",
+    "kind": "deterministic lexical rubric matcher",
+    "official_prompt": true,
+    "official_formulas": true
+  },
+  "dlawbench": {
+    "repo": "https://github.com/SKYLENAGE-AI/DLawBench",
+    "commit": "9f6325f29f07b296fac110a6e1880bdd5d9ca538",
+    "license": {
+      "code": "MIT (upstream LICENSE)",
+      "data": "CC BY 4.0 (upstream data/LICENSE)"
+    },
+    "case_file": "cases_cn.jsonl",
+    "case_file_sha256": "11e16b7d0bf68f8ddab706cda2c5ecdcd4cb4e8937bb8ba1f9f5148626571528",
+    "vendored_files": 28
+  },
+  "lexflow": {
+    "commit": "562546a6163ea65c8d6e4ea6b4ec34c64c40c8fe",
+    "dirty": false,
+    "python": "3.13.5",
+    "platform": "darwin"
+  },
+  "code": {
+    "fingerprint": "5dcb4e146a2853b6",
+    "files": {
+      "policy.py": "d9bc1e9012c65943b65d9fc01db51478df504b374d809aea224b57515cdca74d",
+      "legal_library.py": "55d39284f125ae5522e259428344e0999be99018919e913f8f00a3c80930832c",
+      "textutil.py": "704f9da37033ed67b7410c2a16dea794c12ed7db83ea4957e6904eca082772d2",
+      "client_sim.py": "01abe471f6c589e41d52e42b3189ac4a0c1415c210bd924220e68dcaa5fecd9d",
+      "agent_policy.py": "88d3ad1909fb7e1f3608c17462b4527baf00a9cd69bcbc96ad1eadfdbdf990a2",
+      "judge.py": "50f7b16b2f22a72d11295cdb7aad96dfd146f0136b58cea8fed139e67a051a8b"
+    }
+  },
+  "llm": {
+    "mode": "mock",
+    "enabled": false,
+    "model": "deepseek-chat",
+    "used_by": "none (simulation)"
+  },
+  "metrics": [
+    "fact_coverage",
+    "inquiry",
+    "elicitation",
+    "fact_resolution",
+    "issue_resolution",
+    "resolution",
+    "fidelity"
+  ],
+  "ci": {
+    "checklist_9": {
+      "fact_coverage": {
+        "mean": 0.6867,
+        "lo": 0.5944,
+        "hi": 0.7729
+      },
+      "inquiry": {
+        "mean": 0.2277,
+        "lo": 0.1528,
+        "hi": 0.3126
+      },
+      "elicitation": {
+        "mean": 0.4572,
+        "lo": 0.394,
+        "hi": 0.5218
+      },
+      "fact_resolution": {
+        "mean": 0.6734,
+        "lo": 0.5812,
+        "hi": 0.7601
+      },
+      "issue_resolution": {
+        "mean": 0.3779,
+        "lo": 0.2634,
+        "hi": 0.4995
+      },
+      "resolution": {
+        "mean": 0.5256,
+        "lo": 0.4479,
+        "hi": 0.6053
+      },
+      "fidelity": {
+        "mean": 1.0,
+        "lo": 1.0,
+        "hi": 1.0
+      }
+    }
+  },
+  "files": [
+    "summary.md",
+    "scores.csv",
+    "leaderboard.md",
+    "run_manifest.json"
+  ]
+}

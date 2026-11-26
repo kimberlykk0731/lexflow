@@ -1,0 +1,237 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>LexFlow — Appendix A: External Benchmark</title>
+<style>
+@page { size: 595.92pt 842.88pt; margin: 18mm 16mm 18mm 16mm; }
+body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+       font-size: 10.5pt; line-height: 1.55; color: #1f2937; }
+h1 { font-size: 22pt; margin: 0 0 4pt 0; color: #0f172a; }
+h2 { font-size: 14pt; margin: 18pt 0 6pt; color: #0f172a;
+     border-bottom: 1px solid #e2e8f0; padding-bottom: 3pt;
+     page-break-after: avoid; }
+h2.first { margin-top: 0; }
+h3 { font-size: 11.5pt; margin: 12pt 0 4pt; color: #1e293b; page-break-after: avoid; }
+p { margin: 4pt 0; text-align: justify; }
+ul, ol { margin: 4pt 0 4pt 16pt; }
+li { margin: 2pt 0; }
+table { border-collapse: collapse; width: 100%; margin: 8pt 0; font-size: 8.6pt;
+        page-break-inside: avoid; }
+th { background: #f1f5f9; border: 1px solid #cbd5e1; padding: 3.5pt 5pt;
+     text-align: left; font-weight: bold; }
+td { border: 1px solid #cbd5e1; padding: 3.5pt 5pt; }
+tr:nth-child(even) td { background: #f8fafc; }
+td.num, th.num { text-align: right; white-space: nowrap; }
+img { max-width: 100%; display: block; margin: 10pt auto; }
+code { background: #f1f5f9; padding: 1pt 3pt; border-radius: 3pt;
+       font-family: Menlo, Consolas, monospace; font-size: 9pt; }
+pre { background: #f8fafc; border: 1px solid #e2e8f0; padding: 8pt;
+      border-radius: 4pt; overflow: auto; font-size: 8.5pt; }
+blockquote { border-left: 3px solid #cbd5e1; margin: 8pt 0; padding: 2pt 10pt;
+             color: #475569; }
+hr { border: none; border-top: 1px solid #e2e8f0; margin: 14pt 0; }
+a { color: #1d4ed8; text-decoration: none; }
+.lead { color: #475569; }
+.note { font-size: 8.8pt; color: #475569; margin-top: 4pt; }
+</style>
+</head>
+<body>
+
+<h2 class="first">Appendix A. External Check: Ask-First Policy on DLawBench</h2>
+
+<p class="lead">This appendix continues the report after Section&nbsp;8 and the References. It extends
+the main report's gate test to an external protocol: a controlled simulation of three ask-first
+question-budget policies on DLawBench's multi-turn consultation protocol. The run is an adaptation,
+not an official leaderboard entry: the benchmark's rubrics, metric formulas and denominators are
+used unchanged, with deterministic offline client and judge implementations.</p>
+
+<h3>A.1 From the 12-case gate test to a public protocol</h3>
+
+<p>The main report's controlled 12-case protocol already tests the gate itself: critical-fact
+coverage rises from 57.5% to 100% and premature advice falls from 58.3% to 0% (Section&nbsp;5.1).
+This appendix asks the next question: how far does the same ask-first policy travel on a public
+protocol, and where does the two-schema boundary stop it? DLawBench provides 461 Chinese and U.S.
+cases, four personas, paired client-belief and court-record facts, and expert inquiry and memo
+rubrics [2]. We use its Chinese split and <code>P_WD</code>; the result is an external protocol
+check, not a second test of the element-schema gate.</p>
+
+<h3>A.2 Setup and scoring</h3>
+
+<ul>
+  <li><b>Benchmark.</b> DLawBench public release, commit <code>9f6325f</code>;
+      <code>cases_cn.jsonl</code>; 30 Chinese cases shipped in the release's CN split (the
+      paper's full corpus is larger); at most 10 dialogue turns.</li>
+  <li><b>Policies.</b> <code>answer_first</code> writes a memo from the opening message and asks
+      no questions; <code>gate_only</code> runs a fixed six-question domain checklist;
+      <code>checklist_9</code> runs the same checklist with nine questions and no provenance;
+      <code>full</code> asks nine questions and adds per-fact provenance and a verification
+      section. The <code>gate_only</code> / <code>full</code> labels are inherited from LexFlow's
+      ablation; here they are fixed checklists, not <code>ConsultationAgent</code>'s
+      sufficiency gate.</li>
+  <li><b>Sessions.</b> 3 main policies × 30 cases = 90 with <code>P_WD</code>; a second 90 with
+      <code>P_CD</code>; 30 <code>checklist_9</code> control sessions; 9 real-agent case-study
+      sessions.</li>
+  <li><b>Lawyer shim.</b> An OpenAI-compatible server exposes the simulation policy to
+      DLawBench's <code>talk_to_client</code> / <code>write_memo</code> protocol. It sees only the
+      opening and the client's answers; it never opens the case file, hidden facts, or
+      <code>evaluation_criteria</code>. The question and issue library it draws on is a fixed,
+      hand-curated checklist, not a held-out resource; Issue Resolution is read as a
+      diagnostic of that checklist.</li>
+  <li><b>Scoring.</b> Sessions are scored through the official
+      <code>dlawbench.evaluate.evaluate_session</code> and the official
+      <code>scripts/metrics.py</code> formulas. To keep the run reproducible offline, the
+      judge is a deterministic lexical rubric matcher that answers the same official prompts;
+      the rubric, formulas and denominators remain those of the benchmark.</li>
+  <li><b>Aggregation.</b> Each cell is a mean with a 95% percentile interval from 5,000
+      case-cluster bootstrap resamples (seed 20261124). Cases, not sessions, are resampled, so
+      the three policies share the same resampled case set.</li>
+</ul>
+
+<h3>A.3 The seven metrics</h3>
+
+<p>The benchmark reports seven consultation-quality metrics. Fact Coverage is
+<code>discovery_rate</code> (covered facts / all facts); Inquiry is <code>EAS</code> (mean
+expected-action rubric score); Elicitation is their mean. Fact Resolution is
+<code>absolute_accuracy</code> (correctly analysed facts / all facts); Issue Resolution is
+<code>MES</code> (mean memo-expectation rubric score); Resolution is their mean. Fidelity is
+<code>grounding_rate</code> (grounded claims / total factual claims). The required-section
+score (FFS) is a format filter and is not a ranking metric.</p>
+
+<h3>A.4 Results</h3>
+
+<p>Table&nbsp;A1 reports the main <code>P_WD</code> matrix. Question budget is the dominant effect:
+Fact Coverage rises from 0.016 to 0.628 and Inquiry from 0.000 to 0.216; Elicitation rises from
+0.008 to 0.422. The <code>full</code> policy adds three turns and reaches 0.696, 0.228 and
+0.462 respectively; A.7 shows that most of this gain comes from the extra questions, not from
+provenance or verification. Issue Resolution moves less (0.289 → 0.372 / 0.393) because the
+issue library is held fixed across the ablation; the difference is which issues the elicited
+facts make salient. The library itself is hand-curated, so Issue Resolution is a diagnostic of
+the checklist, not a held-out capability score.</p>
+
+<table>
+<thead>
+<tr>
+  <th style="width:23%">Metric</th>
+  <th class="num" style="width:25.6%">answer_first (n=30)</th>
+  <th class="num" style="width:25.6%">gate_only (n=30)</th>
+  <th class="num" style="width:25.6%">full (n=30)</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>Fact Coverage</td><td class="num">0.016 [0.002, 0.033]</td><td class="num">0.628 [0.531, 0.717]</td><td class="num">0.696 [0.605, 0.780]</td></tr>
+<tr><td>Inquiry</td><td class="num">0.000 [0.000, 0.000]</td><td class="num">0.216 [0.142, 0.300]</td><td class="num">0.228 [0.153, 0.313]</td></tr>
+<tr><td>Elicitation</td><td class="num">0.008 [0.001, 0.017]</td><td class="num">0.422 [0.356, 0.486]</td><td class="num">0.462 [0.401, 0.525]</td></tr>
+<tr><td>Fact Resolution</td><td class="num">0.016 [0.002, 0.033]</td><td class="num">0.614 [0.518, 0.705]</td><td class="num">0.683 [0.593, 0.767]</td></tr>
+<tr><td>Issue Resolution</td><td class="num">0.289 [0.177, 0.414]</td><td class="num">0.372 [0.259, 0.494]</td><td class="num">0.393 [0.282, 0.512]</td></tr>
+<tr><td>Resolution</td><td class="num">0.152 [0.095, 0.216]</td><td class="num">0.493 [0.416, 0.570]</td><td class="num">0.538 [0.461, 0.616]</td></tr>
+<tr><td>Fidelity</td><td class="num">1.000 [1.000, 1.000]</td><td class="num">1.000 [1.000, 1.000]</td><td class="num">1.000 [1.000, 1.000]</td></tr>
+</tbody>
+</table>
+<p class="note">Table A1. Main adapted run, 30 Chinese cases × <code>P_WD</code>, 10-turn budget.
+Cells are mean [95% CI], case-cluster bootstrap. Fidelity is 1.000 by construction: the claim
+extractor counts only the fact / summary / risk sections, and the memo quotes the dialogue there;
+legal-analysis paragraphs are not counted as claims, so this metric does not detect
+case-specific content that leaks into the issue library. Fact Resolution tracks coverage
+(712/728 covered facts, 97.8%, were judged correct) because the lexical judge only flags
+date/amount contradictions; both are kept for metric completeness.</p>
+
+<p>The <code>P_CD</code> (Controlling-Resister) extension (90 sessions) lowers Fact Coverage to
+0.457 / 0.583 while Inquiry is unchanged. Inquiry does not move because the question list is
+fixed and never depends on the client's answers, so the drop is confined to coverage; the full
+table is in <code>runs/external/pcd/summary.md</code>.</p>
+
+<h3>A.5 What the simulation establishes</h3>
+
+<p>The simulation establishes three results. First, the ask-first protocol runs end-to-end on
+30 Chinese cases from the public release: 180 simulation sessions (P_WD + P_CD; the
+<code>checklist_9</code> control adds 30 more) completed with a memo, and every session was
+scored by the benchmark's own evaluator. Second, question budget drives the behavioural metrics
+by a large margin: zero to six questions raises Fact Coverage from 0.016 to 0.628 and Elicitation
+from 0.008 to 0.422; three more questions raise them to 0.687 and 0.457; the full policy reaches
+0.696 and 0.462. Third, the result is reproducible from one command, with seven metrics,
+case-cluster confidence intervals, a hash-checked vendored scorer, and a manifest that records
+the adapter fingerprint and the LLM mode.</p>
+
+<p><b>Scope.</b> The reported quantities are question-budget deltas on the public CN split under
+a fixed 10-turn budget. The gate itself is tested in Section&nbsp;5.1; this appendix does
+<i>not</i> re-test the element-schema gate, LLM fact extraction, version-aware corpus, verifier, or
+memory revision. The real-agent case study in A.8 shows why the schema boundary matters.</p>
+
+<h3>A.6 Where the fixed checklist fails</h3>
+
+<table>
+<thead>
+<tr><th style="width:38%">Domain</th><th class="num" style="width:12%">n</th>
+    <th class="num" style="width:25%">Fact Coverage</th>
+    <th class="num" style="width:25%">Missed facts</th></tr>
+</thead>
+<tbody>
+<tr><td>Administrative</td><td class="num">7</td><td class="num">0.758</td><td class="num">14</td></tr>
+<tr><td>Unfair competition</td><td class="num">7</td><td class="num">0.387</td><td class="num">51</td></tr>
+<tr><td>Company / shareholder</td><td class="num">5</td><td class="num">0.935</td><td class="num">4</td></tr>
+<tr><td>Bankruptcy</td><td class="num">3</td><td class="num">0.770</td><td class="num">9</td></tr>
+<tr><td>Criminal / economic</td><td class="num">5</td><td class="num">0.593</td><td class="num">24</td></tr>
+<tr><td>Labour + tort</td><td class="num">3</td><td class="num">0.970</td><td class="num">1</td></tr>
+</tbody>
+</table>
+<p class="note">Table A3. Per-domain coverage, <code>full</code> policy, <code>P_WD</code>;
+missed facts are the benchmark's own <code>discovery.missed</code> list.</p>
+
+<p>Coverage is uneven: company, labour and tort are near the ceiling; unfair competition loses 51
+facts and administrative law 14. The cause is not a missing question: of the 103 missed facts,
+56 carry no topic label in the offline client's keyword taxonomy, so no question can elicit them
+(<code>case_cn_0029</code>: the platform probe is asked, the client falls back). Coverage
+therefore has a ceiling independent of the lawyer policy.</p>
+
+<h3>A.7 Question budget vs provenance</h3>
+
+<table>
+<thead>
+<tr><th style="width:36%">Condition</th><th class="num" style="width:16%">Questions</th>
+    <th class="num" style="width:24%">Fact Coverage</th>
+    <th class="num" style="width:24%">Elicitation</th></tr>
+</thead>
+<tbody>
+<tr><td>answer_first</td><td class="num">0</td><td class="num">0.016</td><td class="num">0.008</td></tr>
+<tr><td>gate_only</td><td class="num">6</td><td class="num">0.628</td><td class="num">0.422</td></tr>
+<tr><td>checklist_9</td><td class="num">9</td><td class="num">0.687</td><td class="num">0.457</td></tr>
+<tr><td>full</td><td class="num">9 + provenance</td><td class="num">0.696</td><td class="num">0.462</td></tr>
+</tbody>
+</table>
+<p class="note">Table A4. Equal-question control: <code>checklist_9</code> adds three questions
+without provenance/verification. Paired case-level deltas: checklist_9 − gate_only = +0.059
+[0.034, 0.088] Fact Coverage; full − checklist_9 = +0.009 [0.000, 0.021].</p>
+
+<p>Most of the six-to-nine gain is question budget; provenance adds about one coverage point.</p>
+
+<h3>A.8 Real-agent case study</h3>
+
+<table>
+<thead>
+<tr><th style="width:22%">Policy</th><th class="num" style="width:12%">FFS</th>
+    <th class="num" style="width:17%">Fact Coverage</th>
+    <th class="num" style="width:15%">Inquiry</th>
+    <th class="num" style="width:17%">Issue Resolution</th>
+    <th class="num" style="width:17%">Fidelity</th></tr>
+</thead>
+<tbody>
+<tr><td>answer_first</td><td class="num">1.000</td><td class="num">0.000</td><td class="num">0.000</td><td class="num">0.000</td><td class="num">0.000</td></tr>
+<tr><td>gate_only</td><td class="num">1.000</td><td class="num">0.000</td><td class="num">0.133</td><td class="num">0.094</td><td class="num">0.143</td></tr>
+<tr><td>full</td><td class="num">1.000</td><td class="num">0.000</td><td class="num">0.133</td><td class="num">0.094</td><td class="num">0.143</td></tr>
+</tbody>
+</table>
+<p class="note">Table A5. Real agent, 3 labour/tort cases (1 inside the tort schema), 9 sessions.</p>
+
+<p>The adapter runs end-to-end, but FFS 1.000 comes from the adapter's section mapping, not from
+the agent. Fact Coverage is zero: only <code>case_cn_0006</code> is inside the tort schema; the
+other two open the dismissal questionnaire. Fidelity is 0.000 / 0.143 (the structured fact
+table does not match the dialogue); <code>case_cn_0025</code> also mis-dates the dismissal and
+mis-reads the wage. The 30-case table is a simulation.</p>
+
+<p><b>The agent as a whole.</b> LexFlow is intake → gate → research → rules → memo → verify →
+revise. The main report's 12 cases test that loop; this appendix tests only ask-first and the
+schema boundary.</p>
+
+</body>
+</html>
