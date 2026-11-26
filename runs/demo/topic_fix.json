@@ -1,0 +1,52 @@
+{
+  "case_id": "case_cn_0007",
+  "rows": [
+    {
+      "policy": "answer_first",
+      "n": "30",
+      "coverage_before": 0.016,
+      "coverage_after": 0.016,
+      "coverage_delta": 0.0,
+      "inquiry_before": 0.0,
+      "inquiry_after": 0.0,
+      "resolution_before": 0.152,
+      "resolution_after": 0.152
+    },
+    {
+      "policy": "gate_only",
+      "n": "30",
+      "coverage_before": 0.628,
+      "coverage_after": 0.713,
+      "coverage_delta": 0.085,
+      "inquiry_before": 0.216,
+      "inquiry_after": 0.216,
+      "resolution_before": 0.493,
+      "resolution_after": 0.536
+    },
+    {
+      "policy": "full",
+      "n": "30",
+      "coverage_before": 0.696,
+      "coverage_after": 0.851,
+      "coverage_delta": 0.155,
+      "inquiry_before": 0.228,
+      "inquiry_after": 0.228,
+      "resolution_before": 0.538,
+      "resolution_after": 0.621
+    }
+  ],
+  "case_before": {
+    "question": "您向平台投诉过吗？平台怎么处理？有没有申请品牌词保护？",
+    "answer": "这个我手上没有材料，您具体想确认哪一点？",
+    "disclosed": false,
+    "coverage": 0.6,
+    "memo_has_fact": false
+  },
+  "case_after": {
+    "question": "消费者有没有实际混淆的证据：咨询记录、投诉、订单流失？",
+    "answer": "我想确认一下，我申请平台介入后，平台直接支持商家，还帮我自动确认收货，明显偏袒商家。另外，平台既然提供交易服务，就应该先赔我，再去找商家追偿。您看这些够不够？",
+    "disclosed": true,
+    "coverage": 1.0,
+    "memo_has_fact": true
+  }
+}

@@ -1,6 +1,6 @@
 PYTHONPATH=src
 
-.PHONY: test eval eval-api probe cache demo ui report slides all clean external-eval external-check
+.PHONY: test eval eval-api probe cache demo ui report slides all clean external-eval external-check demo-cards
 
 test:
 	PYTHONPATH=$(PYTHONPATH) python3 -m unittest discover -s tests -v
@@ -44,6 +44,12 @@ external-check:
 	python3 external/dlawbench/verify.py
 	python3 external/dlawbench/verify.py runs/external/pcd
 	python3 -m unittest discover -s external/dlawbench/tests -v
+
+demo-cards:
+	python3 external/dlawbench/demo_topic_fix.py
+	PYTHONPATH=$(PYTHONPATH) python3 eval/correction_demo.py
+	PYTHONPATH=$(PYTHONPATH) python3 eval/build_demo_page.py
+	@echo "open runs/demo/index.html"
 
 clean:
 	rm -rf runs/*.sqlite runs/*.sqlite-wal runs/*.sqlite-shm
