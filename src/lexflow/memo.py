@@ -26,6 +26,10 @@ ELEMENT_ICON = {"satisfied": "✅", "partial": "⚠️", "unknown": "○", "bloc
 ELEMENT_TEXT = {"satisfied": "要件事实已具备", "partial": "部分具备", "unknown": "待确认",
                 "blocked": "本分支不适用"}
 
+NUM = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十"]
+def _h(n: int, title: str) -> str:
+    return f"## {NUM[n - 1] if n <= len(NUM) else n}、{title}"
+
 NEXT_STEPS = {
     "tort_injury": [
         "道路交通事故认定书（责任划分）",
@@ -96,12 +100,19 @@ class MemoBuilder:
         # 2) element chain -------------------------------------------------
         chain = analysis.metadata.get("chain") or []
         if chain:
-            lines.append("## 二、要件链（请求权 → 要件 → 事实）")
+            lines.append("## 二、分析路径：请求权 → 要件 → 事实")
             lines.append("")
             for claim in chain:
                 lines.append(f"### {self._claim_label(claim['claim'])}")
                 if claim.get("summary"):
                     lines.append(f"> {claim['summary']}")
+                    lines.append("")
+                if claim.get("basis"):
+                    lines.append("**请求权基础**：" + "；".join(
+                        _cite_short(c) for c in claim["basis"]))
+                    lines.append("")
+                if claim.get("remedy"):
+                    lines.append("**可能后果**：" + claim["remedy"])
                     lines.append("")
                 for i, el in enumerate(claim.get("elements", []), 1):
                     icon = ELEMENT_ICON.get(el["status"], "○")
@@ -165,6 +176,7 @@ class MemoBuilder:
         per_claim = analysis.metadata.get("per_claim") or {}
         calcs = [(c, m.get("calculation")) for c, m in per_claim.items()
                  if isinstance(m, dict) and m.get("calculation")]
+        n_notes = 6 if calcs else 5
         if calcs:
             lines.append("## 五、金额计算")
             lines.append("")
@@ -180,7 +192,7 @@ class MemoBuilder:
         # 6) practice notes ------------------------------------------------
         notes = analysis.metadata.get("practice_notes") or []
         if notes:
-            lines.append("## 六、实务提示（法院/人社口径）")
+            lines.append(_h(n_notes, "实务提示（RAG 检索：法院/人社口径）"))
             lines.append("")
             for n in notes[:4]:
                 lines.append(f"**{n.get('title')}**（{n.get('publisher')}，{n.get('date')}）")
@@ -188,11 +200,13 @@ class MemoBuilder:
                     lines.append(f"- {p}")
                 if n.get("caveat"):
                     lines.append(f"- 注意：{n['caveat']}")
+                if n.get("score"):
+                    lines.append(f"- 检索相关度：BM25 {n['score']}")
                 lines.append(f"- 来源：[{n.get('url')}]({n.get('url')})")
                 lines.append("")
 
         # 7) gaps ----------------------------------------------------------
-        lines.append("## 七、信息缺口与不确定")
+        lines.append(_h(n_notes + 1, "信息缺口与不确定"))
         lines.append("")
         if analysis.gaps:
             for g in analysis.gaps:
@@ -205,7 +219,7 @@ class MemoBuilder:
 
         # 8) evidence ------------------------------------------------------
         checklist = analysis.metadata.get("proof_checklist") or []
-        lines.append("## 八、下一步与证据清单")
+        lines.append(_h(n_notes + 2, "下一步与证据清单"))
         lines.append("")
         if checklist:
             lines.append("**按要件整理的证据清单：**")
@@ -222,7 +236,7 @@ class MemoBuilder:
         lines.append("")
 
         # 9) citations -----------------------------------------------------
-        lines.append("## 九、引用与版本")
+        lines.append(_h(n_notes + 3, "引用与版本"))
         lines.append("")
         lines.append("| 法条 | 生效期间 | 原文摘录 | 来源 |")
         lines.append("|---|---|---|---|")

@@ -716,6 +716,68 @@ CLAIMS = dict([
     ),
 ])
 
+# 请求权基础（claim basis）与可能的法律后果。 放在这里而不是每条 claim 里，
+# 是为了让“分析路径”能直接显示：请求权 → 法条 → 要件 → 事实。
+CLAIM_BASIS = {
+    "labor_dismissal": (
+        ["labor_contract@2008-01-01:第48条", "labor_contract@2008-01-01:第87条",
+         "labor_contract@2008-01-01:第46条", "labor_contract@2008-01-01:第47条"],
+        "继续履行；或违法解除赔偿金 2N；合法解除时可能为 N / N+1 / 0"),
+    "labor_wage": (
+        ["labor_law@1995-01-01:第50条", "labor_contract@2008-01-01:第30条",
+         "labor_contract@2008-01-01:第85条", "wage_payment@1995-01-01:第9条"],
+        "支付欠薪；无故拖欠经责令仍不支付的可能加付 50%-100% 赔偿金"),
+    "labor_overtime": (
+        ["labor_law@1995-01-01:第44条", "wage_payment@1995-01-01:第13条"],
+        "支付工作日 150%、休息日 200%、法定节假日 300% 的加班费差额"),
+    "labor_double_pay": (
+        ["labor_contract@2008-01-01:第82条", "labor_js2@2025-09-01:第6条",
+         "labor_js2@2025-09-01:第7条"],
+        "未签书面合同二倍工资差额，最多 11 个月；劳动者故意不签的可能不支持"),
+    "labor_work_injury": (
+        ["work_injury_reg@2011-01-01:第14条", "work_injury_reg@2011-01-01:第15条",
+         "work_injury_reg@2011-01-01:第17条", "work_injury_reg@2011-01-01:第35条",
+         "work_injury_reg@2011-01-01:第37条", "work_injury_reg@2011-01-01:第62条"],
+        "工伤认定 → 劳动能力鉴定 → 工伤保险待遇；未参保由单位支付"),
+    "labor_social_insurance": (
+        ["social_insurance@2011-07-01:第58条", "social_insurance@2011-07-01:第63条",
+         "labor_contract@2008-01-01:第38条", "labor_js2@2025-09-01:第19条"],
+        "补缴（行政征收）／损失赔偿／被迫解除经济补偿 N"),
+    "labor_annual_leave": (
+        ["annual_leave@2008-01-01:第3条", "annual_leave@2008-01-01:第5条"],
+        "未休年假按日工资 300% 支付（可另主张 200% 额外补偿）"),
+    "labor_noncompete": (
+        ["labor_contract@2008-01-01:第23条", "labor_contract@2008-01-01:第24条",
+         "labor_js1@2021-01-01:第36条", "labor_js1@2021-01-01:第38条",
+         "labor_js2@2025-09-01:第13条"],
+        "支付竞业限制补偿／请求解除竞业限制／违约金抗辩"),
+    "labor_maternity": (
+        ["labor_contract@2008-01-01:第42条", "female_protection@2012-04-28:第5条",
+         "female_protection@2012-04-28:第7条", "female_protection@2012-04-28:第8条"],
+        "违法解除 2N 或继续履行；生育津贴低于工资的由单位补差"),
+    "labor_dispatch": (
+        ["labor_contract@2008-01-01:第58条", "labor_contract@2008-01-01:第66条",
+         "labor_contract@2008-01-01:第92条", "labor_js2@2025-09-01:第1条"],
+        "确认劳动关系／派遣单位与用工单位连带责任／工伤、社保、欠薪"),
+    "labor_contract": (
+        ["labor_contract@2008-01-01:第19条", "labor_contract@2008-01-01:第20条",
+         "labor_contract@2008-01-01:第35条", "labor_contract@2008-01-01:第83条"],
+        "补签合同／确认无固定期限／试用期赔偿金／补足工资差额"),
+    "labor_procedure": (
+        ["labor_dispute@2008-05-01:第5条", "labor_dispute@2008-05-01:第21条",
+         "labor_dispute@2008-05-01:第43条", "labor_dispute@2008-05-01:第47条",
+         "labor_dispute@2008-05-01:第48条", "labor_dispute@2008-05-01:第49条"],
+        "仲裁前置；一裁终局只约束单位；不服裁决 15 日起诉"),
+    "tort_injury": (
+        ["civil_code_tort@2021-01-01:第1179条", "civil_code_tort@2021-01-01:第1213条",
+         "road_traffic@2004-05-01:第76条"],
+        "医疗费、误工费、护理费、残疾/死亡赔偿金等；先交强险、再商业险"),
+}
+for _cid, (_basis, _remedy) in CLAIM_BASIS.items():
+    if _cid in CLAIMS:
+        CLAIMS[_cid]["basis"] = _basis
+        CLAIMS[_cid]["remedy"] = _remedy
+
 # Matters outside the current coverage.  The router must say so instead of
 # silently answering with a labour template.
 OUT_OF_SCOPE = {

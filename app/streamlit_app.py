@@ -28,6 +28,7 @@ from lexflow.guides import (arbitration_checklist,  # noqa: E402
                             compare_arbitration_litigation, worker_rights_map)
 from lexflow.llm import build_llm  # noqa: E402
 from lexflow.memory import MemoryStore  # noqa: E402
+from lexflow.path import render_path_markdown  # noqa: E402
 
 st.set_page_config(page_title="LexFlow · 法律咨询 Agent", layout="wide")
 
@@ -163,8 +164,8 @@ def main() -> None:
 
     with right:
         last = st.session_state.last
-        options = ["事实状态", "要件链", "备忘录", "争点与引用", "文书", "运行轨迹"]
-        default = "备忘录" if (last and last.memo) else "事实状态"
+        options = ["事实状态", "分析路径", "备忘录", "争点与引用", "文书", "运行轨迹"]
+        default = "备忘录" if (last and last.memo) else "分析路径"
         choice = st.segmented_control("视图", options, default=default,
                                       label_visibility="collapsed")
         choice = choice or default
@@ -188,25 +189,23 @@ def main() -> None:
                 old = [f for f in last.facts if f["superseded_by"] is not None]
                 if old:
                     st.caption("已更正：" + "；".join(f"{f['key']} 旧值 {f['value']}" for f in old))
-        elif choice == "要件链":
+        elif choice == "分析路径":
             if last and last.chain:
-                for claim in last.chain:
-                    st.markdown(f"### {schema.label(claim['claim'])}")
-                    if claim.get("summary"):
-                        st.caption(claim["summary"])
-                    for el in claim.get("elements", []):
-                        icon = {"satisfied": "✅", "partial": "⚠️",
-                                "unknown": "○", "blocked": "—"}.get(el["status"], "○")
-                        st.markdown(f"{icon} **{el['label']}**")
-                        known = [f for f in el.get("facts", []) if f.get("known")]
-                        open_ = [f for f in el.get("facts", []) if not f.get("known")]
-                        if known:
-                            st.caption("已具备：" + "；".join(
-                                f"{f['label']}＝{f['value']}" for f in known))
-                        if open_:
-                            st.caption("待确认：" + "、".join(f["label"] for f in open_))
+                st.markdown(render_path_markdown(last.chain))
+                if last.voi:
+                    st.markdown("#### 下一步问什么：信息价值排序")
+                    rows = [{"问题": schema.field_any(k).label if schema.field_any(k) else k,
+                             "可区分结果数": v.get("distinct"),
+                             "信息价值": v.get("gain"),
+                             "说明": v.get("reason")}
+                            for k, v in last.voi.items()]
+                    st.dataframe(rows, use_container_width=True, hide_index=True)
+                coverage = last.coverage or {}
+                if coverage:
+                    st.caption(f"关键要件覆盖率：{coverage.get('known', 0)}/"
+                               f"{coverage.get('total', 0)}（{coverage.get('rate', 0):.0%}）")
             else:
-                st.info("还没有要件链。")
+                st.info("还没有分析路径。先描述情况，系统会按请求权→要件→事实展开。")
         elif choice == "备忘录":
             if last and last.memo:
                 st.markdown(last.memo)

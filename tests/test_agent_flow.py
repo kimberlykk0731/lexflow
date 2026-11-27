@@ -42,7 +42,7 @@ class TestAgentFlow(unittest.TestCase):
             if r.status != "answered":
                 r = a.handle("s", "请根据目前信息生成备忘录", force_memo=True)
             self.assertEqual(r.status, "answered")
-            self.assertIn("要件链", r.memo)
+            self.assertIn("分析路径", r.memo)
             self.assertIn("违法解除", r.analysis["headline"])
             state = a.store.load("s")
             analysis = a._analysis_from_dict(state.last_analysis)

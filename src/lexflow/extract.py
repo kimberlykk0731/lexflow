@@ -497,7 +497,7 @@ class Extractor:
         if available("contract_signed"):
             if re.search(r"(?:合同|文本).{0,4}没给我|没给我(?:合同|一份|文本)|没拿到合同", text):
                 put("contract_signed", "签了但没给我")
-            elif re.search(r"没签|未签|没有签|不签|无合同|没有合同", text):
+            elif re.search(r"没.{0,6}签(?!收|字)|未.{0,6}签(?!收|字)|不签|无合同|没有合同", text):
                 put("contract_signed", "未签书面合同")
             elif re.search(r"签了|签过|签了合同|有合同", text):
                 put("contract_signed", "已签书面合同")

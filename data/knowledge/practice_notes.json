@@ -8,7 +8,12 @@
       "publisher": "最高人民法院",
       "date": "2025-08-01",
       "url": "https://www.court.gov.cn/fabu/xiangqing/472691.html",
-      "topics": ["labor_double_pay", "labor_noncompete", "labor_social_insurance", "labor_procedure"],
+      "topics": [
+        "labor_double_pay",
+        "labor_noncompete",
+        "labor_social_insurance",
+        "labor_procedure"
+      ],
       "points": [
         "二倍工资按月计算，不满一个月按该月实际工作日计算（第6条）。",
         "用人单位能证明因不可抗力、劳动者本人故意或重大过失未签合同的，可不支付二倍工资（第7条）。",
@@ -26,7 +31,13 @@
       "publisher": "最高人民法院",
       "date": "2025-08-01",
       "url": "https://www.court.gov.cn/zixun/xiangqing/472681.html",
-      "topics": ["labor_work_injury", "labor_dispatch", "labor_double_pay", "labor_noncompete", "labor_social_insurance"],
+      "topics": [
+        "labor_work_injury",
+        "labor_dispatch",
+        "labor_double_pay",
+        "labor_noncompete",
+        "labor_social_insurance"
+      ],
       "points": [
         "转包工程中，具备用工主体资格的承包人承担工伤保险责任，不以先确认劳动关系为前提。",
         "关联公司混同用工的，劳动者可以请求确认其中一个单位承担用工责任，并可要求关联单位连带。",
@@ -45,7 +56,12 @@
       "publisher": "人力资源社会保障部、最高人民法院",
       "date": "2025-04-16",
       "url": "https://www.court.gov.cn/zixun/xiangqing/462311.html",
-      "topics": ["labor_work_injury", "labor_maternity", "labor_social_insurance", "labor_noncompete"],
+      "topics": [
+        "labor_work_injury",
+        "labor_maternity",
+        "labor_social_insurance",
+        "labor_noncompete"
+      ],
       "points": [
         "停工留薪期需要延长的，要经劳动能力鉴定委员会确认，医院病假条本身不够。",
         "以怀孕为由把员工调离项目并大幅降薪，缺乏医学证明不能胜任原岗位的，属于违法。",
@@ -63,7 +79,10 @@
       "publisher": "最高人民法院",
       "date": "2024-12-24",
       "url": "https://www.court.gov.cn/fabu/xiangqing/450741.html",
-      "topics": ["labor_dispatch", "labor_contract"],
+      "topics": [
+        "labor_dispatch",
+        "labor_contract"
+      ],
       "points": [
         "劳动关系认定看人格从属性、经济从属性、组织从属性，即是否存在支配性劳动管理。",
         "合同名称（经纪合同、合作协议、个体户）不决定关系性质。",
@@ -79,7 +98,9 @@
       "publisher": "人民法院报（北京丰台法院案例）",
       "date": "2025-04-27",
       "url": "https://www.rmfyb.com/mobile/202504/27/article_973364_1391045168_6012917.html",
-      "topics": ["labor_maternity", "labor_dismissal"],
+      "topics": [
+        "labor_maternity"
+      ],
       "points": [
         "隐瞒怀孕不是合法解除理由。",
         "生育津贴低于本人工资的，差额由用人单位补足。",
@@ -96,7 +117,10 @@
       "publisher": "人民法院报（揭阳中院）",
       "date": "2026-05-26",
       "url": "https://www.rmfyb.com/mobile/202605/26/article_1025705_1391845938_6627798.html",
-      "topics": ["labor_maternity", "labor_dismissal", "labor_double_pay"],
+      "topics": [
+        "labor_maternity",
+        "labor_double_pay"
+      ],
       "points": [
         "六年未签书面合同，仍可认定事实劳动关系。",
         "单位无法证明违纪事实的，解除违法，可能判 2N。",
@@ -112,7 +136,9 @@
       "publisher": "人民法院报（苏州工业园区法院/苏州中院）",
       "date": "2026-05-16",
       "url": "https://www.rmfyb.com/mobile/202605/16/article_1024902_1391825825_6614688.html",
-      "topics": ["labor_work_injury"],
+      "topics": [
+        "labor_work_injury"
+      ],
       "points": [
         "单位应在事故伤害发生之日起 30 日内申请工伤认定。",
         "即使缴了工伤保险，单位未在 30 日内申请，期间发生的费用仍由单位承担。",
@@ -128,7 +154,9 @@
       "publisher": "人民法院报（上海二中院）",
       "date": "2026-04-30",
       "url": "https://www.rmfyb.com/content/202604/30/article_1022889_1391792321_6593987.html",
-      "topics": ["labor_overtime"],
+      "topics": [
+        "labor_overtime"
+      ],
       "points": [
         "加班认定看是否处于用人单位指挥管理下、是否提供实质性劳动，不只看是否在办公室。",
         "下班后微信/远程处理工作，可能构成隐形加班。",
@@ -145,7 +173,10 @@
       "publisher": "人民法院报（南昌中院）",
       "date": "2026-09-16",
       "url": "https://www.rmfyb.com/mobile/202609/16/article_1040249_1392114605_6805873.html",
-      "topics": ["labor_double_pay", "labor_contract"],
+      "topics": [
+        "labor_double_pay",
+        "labor_contract"
+      ],
       "points": [
         "让劳动者在空白合同上签字，不等于订立了书面劳动合同。",
         "单位仍可能被判支付未签合同二倍工资差额。",
@@ -161,7 +192,11 @@
       "publisher": "司法部 中国法律服务网（12348）",
       "date": "2026-11-27",
       "url": "https://know.12348.gov.cn/s/relate/?qid=5c2dc1b436aec564bba26073",
-      "topics": ["labor_procedure", "labor_wage", "labor_dismissal"],
+      "topics": [
+        "labor_procedure",
+        "labor_wage",
+        "labor_dismissal"
+      ],
       "points": [
         "一裁终局只适用于两类：小额争议（不超过当地月最低工资12个月金额，按单项计算）和执行劳动标准的争议（工时、休息休假、社保等）。",
         "终局裁决只约束用人单位；劳动者不服仍可在收到裁决书15日内向基层法院起诉。",
@@ -178,7 +213,9 @@
       "publisher": "中国就业网（人社部主管）",
       "date": "2021-08-04",
       "url": "https://chinajob.mohrss.gov.cn/c/2021-08-04/318591.shtml",
-      "topics": ["labor_annual_leave"],
+      "topics": [
+        "labor_annual_leave"
+      ],
       "points": [
         "未休年假按日工资300%支付，其中100%是正常工资，可另主张的是200%。",
         "计算公式：前12个月平均工资（剔除加班费）÷21.75×未休天数×2。",
@@ -195,7 +232,10 @@
       "publisher": "北京市人力资源和社会保障局",
       "date": "2024-06-17",
       "url": "https://rsj.beijing.gov.cn/xxgk/2024zcjd/202406/t20240617_3717846.html",
-      "topics": ["labor_procedure", "labor_dispatch"],
+      "topics": [
+        "labor_procedure",
+        "labor_dispatch"
+      ],
       "points": [
         "劳动争议由劳动合同履行地或用人单位所在地的仲裁委管辖。",
         "双方分别申请的，由劳动合同履行地仲裁委管辖。",
@@ -211,7 +251,9 @@
       "publisher": "北京市门头沟区人民政府",
       "date": "2026-11-16",
       "url": "https://www.bjmtg.gov.cn/bjmtg/c102966/202611/de6a4037713040c0bca80edb0548c9d5.shtml",
-      "topics": ["labor_procedure"],
+      "topics": [
+        "labor_procedure"
+      ],
       "points": [
         "可以向劳动合同履行地或用人单位所在地的仲裁委申请。",
         "北京可通过调解仲裁平台在线申请，流程为调解→仲裁→送达→庭审。",
@@ -227,7 +269,10 @@
       "publisher": "最高人民法院（解释二第19条）",
       "date": "2025-08-01",
       "url": "https://www.court.gov.cn/fabu/xiangqing/472691.html",
-      "topics": ["labor_social_insurance", "labor_dismissal"],
+      "topics": [
+        "labor_social_insurance",
+        "labor_dismissal"
+      ],
       "points": [
         "用人单位与劳动者约定或劳动者承诺无需缴纳社保的，约定或承诺无效。",
         "单位未依法缴社保，劳动者可依第38条解除并主张经济补偿。",
@@ -243,7 +288,13 @@
       "publisher": "《劳动争议调解仲裁法》第27条（本项目法条库）",
       "date": "2008-05-01",
       "url": "https://flk.npc.gov.cn/",
-      "topics": ["labor_dismissal", "labor_wage", "labor_overtime", "labor_double_pay", "labor_procedure"],
+      "topics": [
+        "labor_dismissal",
+        "labor_wage",
+        "labor_overtime",
+        "labor_double_pay",
+        "labor_procedure"
+      ],
       "points": [
         "一般仲裁时效为一年，从当事人知道或应当知道权利被侵害之日起计算。",
         "劳动关系存续期间因拖欠劳动报酬发生争议，不受一年限制；劳动关系终止的，应自终止之日起一年内提出。",
@@ -251,6 +302,26 @@
         "因不可抗力或其他正当理由不能申请仲裁的，时效中止。"
       ],
       "caveat": "起算点在个案中争议很大（解除日、送达日、知道日），不要只看“事发日”。",
+      "source_type": "statute",
+      "priority": 92
+    },
+    {
+      "id": "dismissal_burden",
+      "title": "解除劳动合同：单位负举证责任，制度要民主+公示，工会程序不能漏",
+      "publisher": "《劳动合同法》及劳动争议司法解释（一）",
+      "date": "2021-01-01",
+      "url": "https://flk.npc.gov.cn/",
+      "topics": [
+        "labor_dismissal",
+        "labor_contract"
+      ],
+      "points": [
+        "因开除、辞退、解除劳动合同等决定发生的争议，用人单位负举证责任（解释一第44条）。",
+        "规章制度须经民主程序制定、不违反法律法规并已向劳动者公示，才能作为确定权利义务的依据（解释一第50条）。",
+        "建立了工会的单位单方解除，应事先通知工会；未通知且起诉前未补正的，可能被认定违法解除（解释一第47条）。",
+        "严重违纪解除要证明：制度有效、行为违反制度、证据充分、程序合法；缺一环都可能变成违法解除。"
+      ],
+      "caveat": "这是法条与司法解释的实务归纳，不是个案裁判；具体举证仍看证据。",
       "source_type": "statute",
       "priority": 92
     }

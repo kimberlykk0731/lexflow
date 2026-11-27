@@ -150,11 +150,12 @@ state.case_type = ranked[0][0] if ranked and ranked[0][1] > 0 else "labor_dismis
 
 ## 4. 知识库：法院/人社口径
 
-`data/knowledge/practice_notes.json` 收录 15 条实务提示，每条带发布机关、日期、链接、
+`data/knowledge/practice_notes.json` 收录 16 条实务提示，每条带发布机关、日期、链接、
 要点和地区差异提示。只做**摘要 + 自编清单**，不复制原文（人民法院报等有版权声明）。
 
 | 来源 | 主题 | 关键点 |
 |---|---|---|
+| 《劳动合同法》/解释（一）（法条归纳） | 解除举证、制度公示、工会 | 单位对解除合法性负举证责任；制度需民主+公示；工会程序不能漏 |
 | 最高法《劳动争议解释（二）》发布会 | 二倍工资、社保、竞业、时效抗辩 | 二倍工资按月算；放弃社保无效；时效抗辩逾期不提一般不支持 |
 | 最高法劳动争议典型案例（2025） | 转包工伤、混同用工、竞业 | 转包工伤不以劳动关系为前提；混同用工可连带 |
 | 人社部/最高法第四批典型案例 | 停工留薪、三期调岗、社保断缴 | 停工留薪延长要鉴定委员会确认；怀孕不能成为降薪理由 |
@@ -185,6 +186,8 @@ state.case_type = ranked[0][0] if ranked and ranked[0][1] > 0 else "labor_dismis
 | 打工人权益地图 | `/rights` | 入职前/在职/离职/维权四阶段 + 投诉渠道 |
 | 关键期限卡片 | `/deadlines` | 仲裁时效、工伤 30 日/1 年、年假、竞业 |
 | 合同条款体检 | `/contract <条款>` | 试用期、竞业、违约金、放弃社保、996、调岗降薪等 |
+| 分析路径 | demo / 网页页签 / `/path` | 请求权基础 → 要件 → 事实，带状态与证据 |
+| VOI 排序 | 自动 | 枚举假设回答，优先问“能改变结论”的事实 |
 | 金额计算 | 自动 | N/N+1/2N、加班费、二倍工资、年假、竞业、工伤伤残 |
 
 ### 还可以做（按价值排序）
@@ -294,6 +297,10 @@ DLawBench 有当事人人格但非劳动专用。**这是一个可以理直气�
    把 `data/eval/scripted_cases.json` 从 12 个扩到 30–50 个、覆盖新请求权即可。
    **这比在公开榜单上刷一分更有信息量。**
 
+   而且这件事**可以主要交给 AI**：生成器造题 → 符号规则层当 oracle 判卷 →
+   另一个模型审题 → 人工只抽查 10–20%。流水线、验收标准和风险见
+   [`docs/TODO_AI_BENCH.md`](TODO_AI_BENCH.md)。
+
 ---
 
 ## 8. 文件地图
@@ -303,18 +310,22 @@ DLawBench 有当事人人格但非劳动专用。**这是一个可以理直气�
 | `src/lexflow/router.py` | 分诊：劳动多标签 / 交通 / 超范围 / 不确定 / 切换 |
 | `src/lexflow/issues.py` | 要件树遍历、动态问题排序、要件链、覆盖率 |
 | `src/lexflow/questions.py` | 上下文锚定 + 可选 LLM 改写 |
+| `src/lexflow/voi.py` | 价值信息（VOI）问题排序 |
+| `src/lexflow/path.py` | 分析路径渲染 |
 | `src/lexflow/rules.py` | 13 个请求权分析器 + 计算器 |
 | `src/lexflow/documents.py` | 法律意见书/仲裁申请/证据清单/催告函/被迫解除通知 |
 | `src/lexflow/guides.py` | 仲裁 vs 诉讼、权益地图、期限卡片、合同体检 |
 | `src/lexflow/knowledge.py` | 法院/人社实务提示检索与渲染 |
 | `data/elements.json` | 90 事实 + 13 请求权 + 要件树（生成物） |
 | `tools/build_elements.py` | schema 源文件 |
-| `data/knowledge/practice_notes.json` | 15 条实务提示（带来源） |
+| `data/knowledge/practice_notes.json` | 16 条实务提示（带来源） |
 | `data/knowledge/worker_rights_map.json` | 打工人全周期权益地图 |
 | `tests/test_router.py` | 分诊回归：交通/离婚/弱信号/多请求权/切换 |
 | `tests/test_issues.py` | 要件分支：严重违纪/不胜任/辞职/无加班 |
 | `tests/test_calculators.py` | 加班/二倍/年假/竞业/工伤计算 |
 | `tests/test_agent_flow.py` | 端到端：辞退、交通、超范围、欠薪+加班 |
+| `docs/TECH_HIGHLIGHTS.md` | 技术点与边界 |
+| `docs/TODO_AI_BENCH.md` | AI 自建评测集的流水线 |
 
 ---
 

@@ -26,6 +26,7 @@ from .router import MatterRouter
 from .rules import Analysis, _cite_short
 from .tools import BudgetExceeded, ToolBox
 from .verify import Verifier
+from .voi import ScenarioVOI
 
 
 @dataclass
@@ -50,6 +51,7 @@ class TurnResult:
     route: dict = field(default_factory=dict)
     coverage: dict = field(default_factory=dict)
     chain: list[dict] = field(default_factory=list)
+    voi: dict = field(default_factory=dict)
 
     def to_dict(self) -> dict:
         return self.__dict__.copy()
@@ -64,7 +66,8 @@ class ConsultationAgent:
                  use_gate: bool = True, use_verify: bool = True,
                  use_repair: bool = True, use_memory: bool = True,
                  use_cache: bool = True, use_revision: bool = True,
-                 today: str | None = None, knowledge: KnowledgeBase | None = None):
+                 use_voi: bool = True, today: str | None = None,
+                 knowledge: KnowledgeBase | None = None):
         self.corpus = corpus
         self.schema = schema
         self.store = store
@@ -77,13 +80,15 @@ class ConsultationAgent:
         self.issues = IssueTree(schema)
         self.composer = QuestionComposer(self.llm)
         self.knowledge = knowledge or KnowledgeBase()
+        self.today = today or date.today().isoformat()
+        self.voi = ScenarioVOI(self.today)
         self.use_gate = use_gate
         self.use_verify = use_verify
         self.use_repair = use_repair
         self.use_memory = use_memory
         self.use_cache = use_cache
         self.use_revision = use_revision
-        self.today = today or date.today().isoformat()
+        self.use_voi = use_voi
         self.turn_no = 0
         self.note_usage = {"prompt": 0, "completion": 0, "calls": 0}
         self._turn_usage_start = {"prompt": 0, "completion": 0, "calls": 0}
@@ -190,16 +195,36 @@ class ConsultationAgent:
         precisions = {k: f.precision for k, f in state.facts.items()}
         frontier = self.issues.frontier(state.claims, facts, precisions=precisions)
         asked_now: list[Question] = []
+        voi_scores: dict = {}
+        skipped_by_voi: list[str] = []
         if self.use_gate and frontier and not force_memo:
             if len(state.asked) < self.budget.max_questions:
+                voi_scores = {}
+                if self.use_voi:
+                    voi_scores = self.voi.score(frontier, state.claims, facts)
+                    trace.append({"node": "voi", "scores": {
+                        k: v.to_dict() for k, v in voi_scores.items()}})
                 asked_now = self.issues.next_questions(
                     state.claims, facts, n=2, ask_counts=state.ask_counts,
-                    precisions=precisions)
+                    precisions=precisions, voi=voi_scores)
+                # If every remaining critical question is outcome-neutral and
+                # no "must ask" fact is left, stop and answer with gaps.
+                must_ask = {"claim_type", "start_date", "monthly_wage",
+                            "dismiss_date", "injury_date", "wage_owed",
+                            "wage_period", "no_contract_months", "overtime_exists"}
+                remaining_keys = {q.key for q in frontier}
+                if (self.use_voi and voi_scores
+                        and len(voi_scores) >= len(frontier)
+                        and not (remaining_keys & must_ask)
+                        and all(v.gain <= 0 for v in voi_scores.values())):
+                    skipped_by_voi = [q.key for q in frontier]
+                    asked_now = []
             if asked_now:
                 for q in asked_now:
                     state.asked.append(q.key)
                     state.ask_counts[q.key] = state.ask_counts.get(q.key, 0) + 1
-                reply = self._ask_reply(asked_now, state, changed, conflicts)
+                reply = self._ask_reply(asked_now, state, changed, conflicts,
+                                        voi_scores)
                 trace.append({"node": "gate", "decision": "ask",
                               "missing": [q.key for q in frontier],
                               "asked": [q.key for q in asked_now],
@@ -209,10 +234,14 @@ class ConsultationAgent:
                     questions=[self._q(q) for q in asked_now], changed=changed,
                     invalidated=invalidated, conflicts=conflicts, claims=state.claims,
                     route=route.to_dict(), coverage=coverage,
-                    chain=self.issues.chain(state.claims, facts))
+                    chain=self.issues.chain(state.claims, facts),
+                    voi={k: v.to_dict() for k, v in voi_scores.items()})
             trace.append({"node": "gate", "decision": "answer_with_gaps",
                           "missing": [q.key for q in frontier],
-                          "reason": "question budget exhausted or forced"})
+                          "skipped_by_voi": skipped_by_voi,
+                          "reason": ("remaining questions do not change the outcome"
+                                     if skipped_by_voi else
+                                     "question budget exhausted or forced")})
         elif frontier:
             trace.append({"node": "gate", "decision": "skip_gate",
                           "missing": [q.key for q in frontier]})
@@ -251,9 +280,25 @@ class ConsultationAgent:
             analysis.metadata["proof_checklist"] = self.issues.proof_checklist(
                 state.claims, facts)
             analysis.metadata["claims"] = state.claims
-            notes = self.knowledge.for_claims(state.claims)
+            rag_query = " ".join(self.schema.label(c) for c in state.claims)
+            rag_query += " " + " ".join(
+                f.issue + " " + f.conclusion[:40] for f in analysis.findings[:4])
+            notes = self.knowledge.retrieve(rag_query, state.claims, k=4)
             if notes:
-                analysis.metadata["practice_notes"] = [n.to_dict() for n in notes]
+                analysis.metadata["practice_notes"] = notes
+                analysis.metadata["rag_query"] = rag_query
+                trace.append({"node": "rag", "query": rag_query,
+                              "hits": [{"id": n.get("id"), "score": n.get("score")}
+                                       for n in notes]})
+
+            # residual value of information: what would still be worth asking
+            residual = self.issues.frontier(state.claims, facts)
+            if residual and self.use_voi:
+                analysis.metadata["voi"] = {
+                    k: v.to_dict() for k, v in
+                    self.voi.score(residual, state.claims, facts).items()}
+            else:
+                analysis.metadata["voi"] = {}
 
             # Retrieval check: would the cited articles be retrieved for the
             # issues the analysis raises?  Diagnostic, not correctness.
@@ -288,9 +333,16 @@ class ConsultationAgent:
                                 gaps=[f"{type(exc).__name__}: {exc}"], assumptions=[])
 
         still_missing = self.schema.missing(state.claims, facts)
+        if skipped_by_voi:
+            still_missing = [f for f in still_missing if f.key not in skipped_by_voi]
         if still_missing:
             analysis.gaps.insert(0, "以下关键事实尚未取得，结论只能在有限范围内成立："
                                 + "、".join(f.label for f in still_missing))
+        if skipped_by_voi:
+            analysis.gaps.insert(0, "以下事实未采集，因为它们不改变当前结论："
+                                + "、".join(self.schema.field_any(k).label
+                                           if self.schema.field_any(k) else k
+                                           for k in skipped_by_voi))
         month_dates = [f.label for f in self.schema.fields(state.claims)
                        if f.type == "date" and state.facts.get(f.key)
                        and state.facts[f.key].precision == "month"]
@@ -325,6 +377,8 @@ class ConsultationAgent:
             changed=changed, invalidated=invalidated, conflicts=conflicts,
             tools=toolbox.summary(), claims=state.claims, route=route.to_dict(),
             coverage=coverage, chain=analysis.metadata.get("chain", []),
+            voi=analysis.metadata.get("voi", {}) or
+                {k: v.to_dict() for k, v in (voi_scores or {}).items()},
             metrics={"retrieval_support": research.get("retrieval_support", 0.0),
                      "cached_tools": toolbox.n_cached,
                      "executed_tools": toolbox.n_executed,
@@ -361,7 +415,8 @@ class ConsultationAgent:
 
     def _ask_reply(self, asked: list[Question], state: CaseState,
                    changed: list[str] | None = None,
-                   conflicts: list[dict] | None = None) -> str:
+                   conflicts: list[dict] | None = None,
+                   voi: dict | None = None) -> str:
         facts = self._facts(state)
         labels = {c: self.schema.label(c) for c in state.claims}
         lines = []
@@ -381,6 +436,8 @@ class ConsultationAgent:
             lines.append(f"{i}. {text}")
             if q.field.why:
                 lines.append(f"   （为什么问：{q.field.why}）")
+            if voi and q.key in voi and voi[q.key].gain > 0:
+                lines.append(f"   （信息价值：{voi[q.key].reason}）")
         remaining = len(self.issues.frontier(
             state.claims, facts,
             precisions={k: f.precision for k, f in state.facts.items()}))
@@ -511,6 +568,7 @@ class ConsultationAgent:
             route=kwargs.pop("route", {}),
             coverage=kwargs.pop("coverage", {}),
             chain=kwargs.pop("chain", []),
+            voi=kwargs.pop("voi", {}),
             metrics={**kwargs.pop("metrics", {}),
                      **self._usage_delta(),
                      "elapsed_ms": round((time.perf_counter() - started) * 1000, 2)},

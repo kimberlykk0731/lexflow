@@ -119,6 +119,8 @@ class IssueTree:
                 "claim": claim,
                 "label": self.schema.label(claim),
                 "summary": self.schema.summary(claim),
+                "basis": self.schema.claim_basis(claim),
+                "remedy": self.schema.remedy(claim),
                 "elements": [
                     {"id": e.id, "label": e.label, "status": e.status,
                      "why": e.why, "proof": e.proof,
@@ -181,7 +183,8 @@ class IssueTree:
     def next_questions(self, claims: list[str], facts: dict, n: int = 2,
                        asked: list[str] | None = None,
                        ask_counts: dict[str, int] | None = None,
-                       precisions: dict[str, str] | None = None) -> list[Question]:
+                       precisions: dict[str, str] | None = None,
+                       voi: dict | None = None) -> list[Question]:
         counts = ask_counts or {}
         # Do not exclude previously asked keys: a user may ignore a question.
         # Instead, cap how many times the same key is asked.
@@ -189,6 +192,8 @@ class IssueTree:
                     if counts.get(q.key, 0) < 2]
         for q in frontier:
             q.score -= 25 * counts.get(q.key, 0)
+            if voi and q.key in voi:
+                q.score += voi[q.key].gain * 20
         frontier.sort(key=lambda q: -q.score)
         out: list[Question] = []
         for q in frontier[:n]:

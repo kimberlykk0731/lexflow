@@ -19,6 +19,7 @@ from .guides import (arbitration_checklist, audit_contract,
                      worker_rights_map)
 from .llm import build_llm
 from .memory import MemoryStore
+from .path import render_path_markdown, render_path_text
 
 
 LABOR_DEMO = [
@@ -69,6 +70,7 @@ def _write_demo(steps: list[TurnResult], out: Path, title: str, meta: dict) -> N
                 "revision": r.revision, "invalidated_cache": r.invalidated_cache,
                 "tools": r.tools, "verification": r.verification,
                 "analysis": r.analysis, "memo": r.memo, "trace": r.trace,
+                "chain": r.chain, "voi": r.voi,
             } for r in steps
         ],
     }
@@ -82,6 +84,9 @@ def _write_demo(steps: list[TurnResult], out: Path, title: str, meta: dict) -> N
         lines += [f"## 第 {r.turn} 轮（{r.status}）", "",
                   "**用户**：" + (r.trace[0].get("text", "") if r.trace else ""), ""]
         lines += ["**系统**：", "", r.reply, ""]
+        if r.chain:
+            lines += ["<details><summary>分析路径（请求权 → 要件 → 事实）</summary>",
+                      "", render_path_markdown(r.chain), "", "</details>", ""]
         if r.changed:
             lines += ["已更新事实：" + "、".join(r.changed) +
                       f"（案例版本 v{r.revision}，失效缓存 {r.invalidated_cache} 条）", ""]
@@ -97,6 +102,9 @@ def run_scripted(agent: ConsultationAgent, dialogue, session: str) -> list[TurnR
         steps.append(r)
         print(f"\n=== 第 {r.turn} 轮 · {r.status} ===")
         print(r.reply)
+        if r.chain:
+            print("\n[分析路径]")
+            print(render_path_text(r.chain))
         if r.status == "answered":
             print(f"\n[备忘录 {len(r.memo)} 字，引用核验 "
                   f"{r.verification.get('support_rate', 0):.0%}]")
@@ -152,6 +160,7 @@ def chat(args) -> None:
   /memo        生成备忘录
   /facts       查看已记录事实
   /claims      查看当前请求类型
+  /path        查看当前分析路径（请求权→要件→事实）
   /letter      生成法律意见书
   /arbitration 生成劳动仲裁申请书
   /evidence    生成证据清单
@@ -175,6 +184,14 @@ def chat(args) -> None:
             state = agent.store.load(session)
             print("当前请求：" + ("、".join(agent.schema.label(c) for c in state.claims)
                                 or "（尚未识别）"))
+            continue
+        if text == "/path":
+            state = agent.store.load(session)
+            if not state.last_analysis:
+                print("还没有分析路径；请先描述情况，或输入 /memo。")
+                continue
+            chain = (state.last_analysis.get("metadata") or {}).get("chain") or []
+            print(render_path_markdown(chain) or "暂无路径。")
             continue
         if text == "/rights":
             print(worker_rights_map())

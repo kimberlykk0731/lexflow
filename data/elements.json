@@ -1507,7 +1507,14 @@
           "essential": true,
           "why": "劳动仲裁时效一年，超过可能丧失胜诉权"
         }
-      ]
+      ],
+      "basis": [
+        "labor_contract@2008-01-01:第48条",
+        "labor_contract@2008-01-01:第87条",
+        "labor_contract@2008-01-01:第46条",
+        "labor_contract@2008-01-01:第47条"
+      ],
+      "remedy": "继续履行；或违法解除赔偿金 2N；合法解除时可能为 N / N+1 / 0"
     },
     "labor_wage": {
       "label": "劳动争议 · 工资/欠薪",
@@ -1648,7 +1655,14 @@
           "essential": true,
           "why": "离职时应一次付清；无故拖欠可主张加付赔偿"
         }
-      ]
+      ],
+      "basis": [
+        "labor_law@1995-01-01:第50条",
+        "labor_contract@2008-01-01:第30条",
+        "labor_contract@2008-01-01:第85条",
+        "wage_payment@1995-01-01:第9条"
+      ],
+      "remedy": "支付欠薪；无故拖欠经责令仍不支付的可能加付 50%-100% 赔偿金"
     },
     "labor_overtime": {
       "label": "劳动争议 · 加班费",
@@ -1814,7 +1828,12 @@
           "essential": true,
           "why": "加班费属于劳动报酬，离职后一年内主张"
         }
-      ]
+      ],
+      "basis": [
+        "labor_law@1995-01-01:第44条",
+        "wage_payment@1995-01-01:第13条"
+      ],
+      "remedy": "支付工作日 150%、休息日 200%、法定节假日 300% 的加班费差额"
     },
     "labor_double_pay": {
       "label": "劳动争议 · 未签合同二倍工资",
@@ -1934,7 +1953,13 @@
           "essential": true,
           "why": "二倍工资差额按应得工资计算，时效争议较大"
         }
-      ]
+      ],
+      "basis": [
+        "labor_contract@2008-01-01:第82条",
+        "labor_js2@2025-09-01:第6条",
+        "labor_js2@2025-09-01:第7条"
+      ],
+      "remedy": "未签书面合同二倍工资差额，最多 11 个月；劳动者故意不签的可能不支持"
     },
     "labor_work_injury": {
       "label": "劳动争议 · 工伤",
@@ -2078,7 +2103,16 @@
           "essential": true,
           "why": "工伤待遇争议属于劳动仲裁范围；未参保由单位支付"
         }
-      ]
+      ],
+      "basis": [
+        "work_injury_reg@2011-01-01:第14条",
+        "work_injury_reg@2011-01-01:第15条",
+        "work_injury_reg@2011-01-01:第17条",
+        "work_injury_reg@2011-01-01:第35条",
+        "work_injury_reg@2011-01-01:第37条",
+        "work_injury_reg@2011-01-01:第62条"
+      ],
+      "remedy": "工伤认定 → 劳动能力鉴定 → 工伤保险待遇；未参保由单位支付"
     },
     "labor_social_insurance": {
       "label": "劳动争议 · 社保/公积金",
@@ -2208,7 +2242,14 @@
           ],
           "essential": false
         }
-      ]
+      ],
+      "basis": [
+        "social_insurance@2011-07-01:第58条",
+        "social_insurance@2011-07-01:第63条",
+        "labor_contract@2008-01-01:第38条",
+        "labor_js2@2025-09-01:第19条"
+      ],
+      "remedy": "补缴（行政征收）／损失赔偿／被迫解除经济补偿 N"
     },
     "labor_annual_leave": {
       "label": "劳动争议 · 年休假",
@@ -2307,7 +2348,12 @@
           ],
           "essential": false
         }
-      ]
+      ],
+      "basis": [
+        "annual_leave@2008-01-01:第3条",
+        "annual_leave@2008-01-01:第5条"
+      ],
+      "remedy": "未休年假按日工资 300% 支付（可另主张 200% 额外补偿）"
     },
     "labor_noncompete": {
       "label": "劳动争议 · 竞业限制",
@@ -2438,7 +2484,15 @@
           "essential": true,
           "why": "补偿标准、违约金调整和协议解除是常见争点"
         }
-      ]
+      ],
+      "basis": [
+        "labor_contract@2008-01-01:第23条",
+        "labor_contract@2008-01-01:第24条",
+        "labor_js1@2021-01-01:第36条",
+        "labor_js1@2021-01-01:第38条",
+        "labor_js2@2025-09-01:第13条"
+      ],
+      "remedy": "支付竞业限制补偿／请求解除竞业限制／违约金抗辩"
     },
     "labor_maternity": {
       "label": "劳动争议 · 三期/生育",
@@ -2548,7 +2602,14 @@
           ],
           "essential": true
         }
-      ]
+      ],
+      "basis": [
+        "labor_contract@2008-01-01:第42条",
+        "female_protection@2012-04-28:第5条",
+        "female_protection@2012-04-28:第7条",
+        "female_protection@2012-04-28:第8条"
+      ],
+      "remedy": "违法解除 2N 或继续履行；生育津贴低于工资的由单位补差"
     },
     "labor_dispatch": {
       "label": "劳动争议 · 派遣/外包/新业态",
@@ -2676,7 +2737,14 @@
           "essential": true,
           "why": "确认劳动关系往往是工伤、社保、欠薪的前置请求"
         }
-      ]
+      ],
+      "basis": [
+        "labor_contract@2008-01-01:第58条",
+        "labor_contract@2008-01-01:第66条",
+        "labor_contract@2008-01-01:第92条",
+        "labor_js2@2025-09-01:第1条"
+      ],
+      "remedy": "确认劳动关系／派遣单位与用工单位连带责任／工伤、社保、欠薪"
     },
     "labor_contract": {
       "label": "劳动争议 · 合同订立/试用期/变更",
@@ -2809,7 +2877,14 @@
           "essential": true,
           "why": "调岗降薪需协商一致；符合条件可要求无固定期限合同"
         }
-      ]
+      ],
+      "basis": [
+        "labor_contract@2008-01-01:第19条",
+        "labor_contract@2008-01-01:第20条",
+        "labor_contract@2008-01-01:第35条",
+        "labor_contract@2008-01-01:第83条"
+      ],
+      "remedy": "补签合同／确认无固定期限／试用期赔偿金／补足工资差额"
     },
     "labor_procedure": {
       "label": "劳动争议 · 仲裁/诉讼程序",
@@ -2915,7 +2990,16 @@
           "essential": true,
           "why": "仲裁时效一年；终局裁决用人单位只能申请撤销"
         }
-      ]
+      ],
+      "basis": [
+        "labor_dispute@2008-05-01:第5条",
+        "labor_dispute@2008-05-01:第21条",
+        "labor_dispute@2008-05-01:第43条",
+        "labor_dispute@2008-05-01:第47条",
+        "labor_dispute@2008-05-01:第48条",
+        "labor_dispute@2008-05-01:第49条"
+      ],
+      "remedy": "仲裁前置；一裁终局只约束单位；不服裁决 15 日起诉"
     },
     "tort_injury": {
       "label": "侵权 · 交通事故人身损害",
@@ -3044,7 +3128,13 @@
           "essential": true,
           "why": "人身损害诉讼时效三年"
         }
-      ]
+      ],
+      "basis": [
+        "civil_code_tort@2021-01-01:第1179条",
+        "civil_code_tort@2021-01-01:第1213条",
+        "road_traffic@2004-05-01:第76条"
+      ],
+      "remedy": "医疗费、误工费、护理费、残疾/死亡赔偿金等；先交强险、再商业险"
     }
   },
   "out_of_scope": {

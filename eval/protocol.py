@@ -26,6 +26,8 @@ CONDITIONS = {
     "full": dict(use_gate=True, use_verify=True, use_repair=True, use_revision=True),
     "full_no_revision": dict(use_gate=True, use_verify=True, use_repair=True,
                              use_revision=False),
+    "full_no_voi": dict(use_gate=True, use_verify=True, use_repair=True,
+                        use_revision=True, use_voi=False),
 }
 
 FIELD_TEMPLATES = {

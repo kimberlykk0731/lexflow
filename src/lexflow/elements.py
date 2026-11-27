@@ -138,6 +138,12 @@ class ElementSchema:
     def summary(self, case_type: str) -> str:
         return self.claims.get(case_type, {}).get("summary", "")
 
+    def claim_basis(self, case_type: str) -> list[str]:
+        return self.claims.get(case_type, {}).get("basis", [])
+
+    def remedy(self, case_type: str) -> str:
+        return self.claims.get(case_type, {}).get("remedy", "")
+
     def law_hints(self, case_type: str | list[str]) -> list[str]:
         claims = [case_type] if isinstance(case_type, str) else case_type
         hints: list[str] = []
