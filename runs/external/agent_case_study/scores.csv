@@ -1,0 +1,10 @@
+policy,case_id,persona,session_file,turns,status,fact_coverage,inquiry,elicitation,fact_resolution,issue_resolution,resolution,fidelity,FFS,MES,EAS,discovery_rate,accuracy_rate,absolute_accuracy,grounding_rate,n_facts,n_covered,n_claims_total,n_claims_ungrounded
+answer_first,case_cn_0006,P_WD,session_case_cn_0006_P_WD_answer_first.json,0,memo_submitted,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,,0.0,0.0,5,0,3,3
+answer_first,case_cn_0024,P_WD,session_case_cn_0024_P_WD_answer_first.json,0,memo_submitted,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,,0.0,0.0,11,0,3,3
+answer_first,case_cn_0025,P_WD,session_case_cn_0025_P_WD_answer_first.json,0,memo_submitted,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,,0.0,0.0,11,0,3,3
+gate_only,case_cn_0006,P_WD,session_case_cn_0006_P_WD_gate_only.json,3,memo_submitted,0.0,0.4,0.2,0.0,0.2,0.1,0.0,1.0,0.2,0.4,0.0,,0.0,0.0,5,0,5,5
+gate_only,case_cn_0024,P_WD,session_case_cn_0024_P_WD_gate_only.json,5,memo_submitted,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,,0.0,0.0,11,0,6,6
+gate_only,case_cn_0025,P_WD,session_case_cn_0025_P_WD_gate_only.json,4,memo_submitted,0.0,0.0,0.0,0.0,0.0833,0.04165,0.4286,1.0,0.0833,0.0,0.0,,0.0,0.4286,11,0,14,8
+full,case_cn_0006,P_WD,session_case_cn_0006_P_WD_full.json,3,memo_submitted,0.0,0.4,0.2,0.0,0.2,0.1,0.0,1.0,0.2,0.4,0.0,,0.0,0.0,5,0,5,5
+full,case_cn_0024,P_WD,session_case_cn_0024_P_WD_full.json,5,memo_submitted,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,,0.0,0.0,11,0,6,6
+full,case_cn_0025,P_WD,session_case_cn_0025_P_WD_full.json,4,memo_submitted,0.0,0.0,0.0,0.0,0.0833,0.04165,0.4286,1.0,0.0833,0.0,0.0,,0.0,0.4286,11,0,14,8

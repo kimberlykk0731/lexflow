@@ -1,0 +1,40 @@
+{
+  "repo": "https://github.com/SKYLENAGE-AI/DLawBench",
+  "commit": "9f6325f29f07b296fac110a6e1880bdd5d9ca538",
+  "vendored_at": "2026-11-24T07:20:37.254377+00:00",
+  "license": {
+    "code": "MIT (upstream LICENSE)",
+    "data": "CC BY 4.0 (upstream data/LICENSE)"
+  },
+  "files": {
+    "LICENSE": "0f394c4b286a3b69a8e6edc5d9fb42cf309c39ddd3316c5d694f13375d64db59",
+    "README.md": "2bc1c1b3085547fe94040e5f9b43e9d8cf27a7e583edffb4e5cd42741629b610",
+    "pyproject.toml": "d38c9e1a0c284fda3fd88c27d89dc76d35bed0b65f116d0dbd461193ab3fedc6",
+    "requirements.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/dlawbench/__init__.py": "d9c1af04abafdd72c240b20b65c80d511791e633c78de89b08924b49bd02b118",
+    "src/dlawbench/api_utils.py": "40b299399e818b4b0f8773f069041b40dafa36225bdee8b5bfd13c8f46aefac4",
+    "src/dlawbench/agent_environment.py": "dc50b15b14d1337940200e96018ef0cceccfc697ab9d9dc9e11d294a8fa030fe",
+    "src/dlawbench/case_utils.py": "2d91521977e10b292f479758e4d0c641b526badc71c399675d014dfdeeee85aa",
+    "src/dlawbench/client_npc.py": "2177adf5344b48217cdd0f345f7824669462fee0fe93d85e8a8ba87720750a8b",
+    "src/dlawbench/evaluate.py": "7f28d86a24a872de440b3364571ec847f023f49bbead82ad983eb3b0e242ccbd",
+    "src/dlawbench/panel_evaluate.py": "fdc640361588cf0e0c7543af5d7206e760a26381a2204f3067d9ebb8e2411dc4",
+    "src/dlawbench/paths.py": "1f6dd254daf7e0e7ff1db92158e8f75e7f27e42ab1d48abb8bfd7076c583c252",
+    "src/dlawbench/run_dialogue.py": "abaa2279bc0143f77cacd26194c799b4e9e0673ae5351a94b74ffe0eee60a568",
+    "src/dlawbench/run_evaluation.py": "a50e5f226b63ca75989714766688717e3a5a6779d089232e2b74fcd0a266b389",
+    "config/lawyer_agent_prompt.txt": "d106f2058bf223a9b109eb0b949116d5f89497f13a54303db4eceddb240e9b74",
+    "config/lawyer_agent_prompt_en.txt": "73b43f179d35036192c84add4b8846d83b2de9820820506dfb59d11d6feb8b05",
+    "config/client_npc_prompt.txt": "e0ec297098ccff087927c2183bbf450bf43e2872a1e61e3850b572893e12e3da",
+    "config/client_npc_prompt_en.txt": "e31fa00bd616b05dc5d2a12951ffd9649b276862f792b8cbcd836da58bae58ec",
+    "config/personas.json": "904a545a7e9b3453b28775178e7cdf71ef1280f103dc59c6181e28b6c46ec030",
+    "config/models.json": "d8d6e4291b09e7264caa8842427f93f15198475db6c8cf447d8712e8fca369cc",
+    "config/benchmark_models.json": "8084a109450604419d5e87fb84db4c0aef3466f0920bcb967793cf7032caa091",
+    "data/LICENSE": "52918658386f8194748b5b4dd6c1142329eb6a05166ab07910c3a6ceb452347c",
+    "data/case_backgrounds/cases_cn.jsonl": "11e16b7d0bf68f8ddab706cda2c5ecdcd4cb4e8937bb8ba1f9f5148626571528",
+    "metadata/case_index.jsonl": "3c21282b1f839b4b6e60ce6baad64cc704f2b5b3c15d01c6bbcd74337db7541b",
+    "metadata/manifest.csv": "779c1aa34d64af3881e05a38576279ab69d8897c41560ffa6b101a9ec940edd1",
+    "metadata/dataset_summary.json": "30541a9c743efc904f8fcbe65d11f50bcb97415c40b5685d91ab03b7d0dec00e",
+    "schema/case.schema.json": "c66b2abc24ad856a6a753727b6106ae6f3f65adaaa4d0aa1e16517b163597ea3",
+    "scripts/metrics.py": "5ca41bfd7234be82a1284328a5b309cc783e3658c464a12175a539ae19974e43"
+  },
+  "note": "Only the CN case file, runner/scorer code, prompts, personas and public metadata are vendored. Upstream rubric text and metric denominators are byte-identical to the pinned commit."
+}

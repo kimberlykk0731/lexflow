@@ -228,6 +228,28 @@ PYTHONPATH=src streamlit run app/streamlit_app.py
 
 **外部评测**：中国已有专门的劳动法基准 [LabourLawBench](https://ieee-dataport.org/documents/labor-law-bench)（12 任务 × 12 案由，CC BY 4.0，需登录下载），但以**单轮**任务为主；多轮劳动争议咨询评测仍是空白。CLC-UKET（Huiyuan Xie 等，NLLP 2024）是英国 employment tribunal 数据集，可作方法学参照。详见 [`docs/LABOR_PIVOT.md`](docs/LABOR_PIVOT.md) 第 7 节。
 
+### 5.1 外部检查：DLawBench ask-first 策略（adapted run）
+
+主报告的 12-case controlled protocol 已经测了 gate 本体（critical-fact coverage
+59.1%→100%，premature advice 58.3%→0%）。这一节把同一套 ask-first 策略接到
+DLawBench 的公开协议上，测的是**外部协议迁移 + 两个 schema 的边界**，不是第二次 gate
+测试。
+
+```bash
+python external/dlawbench/run.py --n-cases 30   # 90 sessions 主表
+python external/dlawbench/run.py --n-cases 30 --policies checklist_9 \
+    --output-dir runs/external/checklist9       # 等题量控制
+python external/dlawbench/verify.py             # 验收自检
+```
+
+结果在 [`runs/external/summary.md`](runs/external/summary.md)，方法与 caveat 见
+[`docs/EXTERNAL_EVAL.md`](docs/EXTERNAL_EVAL.md)。**这是 adapted run，不是官方
+leaderboard**：被测对象是固定问卷，不是 LexFlow 的 element-schema gate；30 个 CN case
+里只有 1 个（交通侵权）真正落在 schema 内，另外 2 个（工伤、降薪）是 schema 边界，真 agent
+只能做 case study。题库是人工整理、并在首轮跑分后扩充过的，所以 Issue Resolution /
+Resolution 只作诊断，不作能力分。绝对分数不可与官方榜单比较，也不能和上面 12 案的主表
+混成一张表。
+
 ---
 
 ## 7. 目录
@@ -238,6 +260,7 @@ lexflow/
 ├── docs/LABOR_PIVOT.md           # 返工说明 + 开源调研 + 评测集调研
 ├── docs/TECH_HIGHLIGHTS.md       # 技术点：哪些高级、哪些只是工程
 ├── docs/TODO_AI_BENCH.md         # AI 自建多轮评测集（少人工）
+├── docs/EXTERNAL_EVAL.md         # DLawBench adapted run 的方法与 caveat
 ├── data/
 │   ├── corpus/manifest.json      # 26 部法律法规/司法解释的版本与生效期
 │   ├── corpus/statutes.jsonl     # 1810 条法条（生成物，已提交）
@@ -264,6 +287,7 @@ lexflow/
 │   ├── verify.py                 # claim-to-evidence 核验
 │   └── cli.py                    # demo / chat / 文书命令
 ├── app/streamlit_app.py
+├── external/dlawbench/           # DLawBench adapted run
 ├── tools/build_corpus.py
 ├── tools/build_elements.py
 ├── eval/
@@ -272,7 +296,18 @@ lexflow/
 
 ---
 
-## 8. 已知局限
+## 8. 交付物
+
+- [报告 PDF（11 页）](report/LexFlow_Report.pdf) ｜ [Markdown 源稿](report/LexFlow_Report.md)
+- [外部评测附录 PDF（DLawBench，adapted run）](report/External_Eval_Report.pdf) ｜ [HTML 源稿](report/External_Eval_Report.html)
+- [幻灯片 PDF（8 页）](report/LexFlow_Slides.pdf) ｜ [大纲](report/slides_outline.md)
+- [5 分钟演示脚本](report/demo_script.md)
+- [运行汇总](runs/SUMMARY.md)
+- [界面截图](runs/ui_api.png) ｜ [架构图](report/figures/architecture.png) ｜ [结果图](report/figures/results.png)
+
+---
+
+## 9. 已知局限
 
 1. **金额计算有简化**：未接入当地社平工资 3 倍封顶、工伤地方补助金、医疗票据、伤残系数。
 2. **规则层是作者编码的**：保证一致性，不保证法律论证正确；高风险结论需律师复核。
@@ -284,7 +319,7 @@ lexflow/
 
 ---
 
-## 9. 语料来源与重建
+## 10. 语料来源与重建
 
 `data/corpus/statutes.jsonl` 由 `tools/build_corpus.py` 从 [LawRefBook/Laws](https://github.com/LawRefBook/Laws) 下载并逐条解析。每条记录带 `law_id / article_no / valid_from / valid_to / source`。版本与生效期在 `manifest.json` 中人工核对，特殊说明写在 `note` 字段。
 
@@ -298,6 +333,6 @@ python3 tools/build_elements.py          # 从 Python 源生成 data/elements.js
 
 ---
 
-## 10. 免责声明
+## 11. 免责声明
 
 课程演示，非法律服务。系统会明确标注不知道、时效风险、金额假设与需人工核实的材料；使用者不应据此作出法律决定。

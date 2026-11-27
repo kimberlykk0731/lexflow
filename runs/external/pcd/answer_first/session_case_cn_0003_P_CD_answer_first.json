@@ -1,0 +1,133 @@
+{
+  "case_id": "case_cn_0003",
+  "persona": "控制对抗者",
+  "lawyer_model": "lexflow-answer-first",
+  "client_model": "lexflow-client-p-cd",
+  "turns_used": 0,
+  "max_turns": 10,
+  "status": "memo_submitted",
+  "memo": "# 法律咨询备忘录\n\n- 咨询类型：刑事案件\n- 事实来源：客户开场陈述与咨询中的客户回答（共 0 轮）\n\n## 案情概要\n\n律师你好，我是张某，之前电话里跟您说过，我因为帮人运送外国人到边境被抓的事，想请您帮我看看。\n\n## 关键事实\n\n- 律师你好，我是张某，之前电话里跟您说过，我因为帮人运送外国人到边境被抓的事，想请您帮我看看。\n\n## 法律问题\n\n### 1. 人数、数额与非法获利的计核\n\n偷越国境人数、走私数额、非法获利是量刑档次的关键；应核对聊天记录、转账记录、运送批次与人员名单的对应关系，排除重复计算、证据不足或者代收代付部分。\n\n### 2. 强制措施与程序期限\n\n刑事拘留、逮捕、延长羁押均有法定条件和期限；应核对拘留通知书、逮捕通知书、延长羁押决定书，及时申请取保候审或者羁押必要性审查。\n\n### 3. 证据合法性与非法证据排除\n\n讯问笔录、辨认笔录、搜查扣押手续、电子数据提取笔录均应审查合法性；存在刑讯逼供、诱供、指供或者程序严重违法的，可以申请排除非法证据。\n\n### 4. 罪名定性与构成要件\n\n应逐项核对指控罪名的构成要件与在案证据，区分此罪与彼罪、犯罪与民事纠纷、既遂与未遂、单位犯罪与个人犯罪。\n\n### 5. 主从犯与共同犯罪\n\n共同犯罪中应区分组织、策划、指挥者与一般参加者；从犯、胁从犯、被诱骗参加者依法可以从轻、减轻或者免除处罚。\n\n### 6. 自首、坦白与立功\n\n自动投案并如实供述构成自首；被动到案后如实供述构成坦白；检举揭发他人犯罪、提供重要线索构成立功。三者均可争取从宽处理。\n\n### 7. 认罪认罚与量刑协商\n\n认罪认罚从宽应建立在事实清楚、证据充分、自愿合法的前提下；应核对量刑建议是否与同类案件均衡，避免量刑建议明显不当。\n\n## 风险评估\n\n- 羁押期限延长，取保候审难度上升\n- 关键言词证据与其他证据相互印证\n- 认罪认罚后撤回具结书的空间有限\n- 以上判断基于客户单方陈述，关键事实尚未经过证据核验；对方可能提出相反证据或者不同版本的事实。\n- 目前仍缺少以下信息：指控事实、事发时间线、角色分工、到案经过，可能影响结论的完整性。\n\n## 下一步建议\n\n- 收集并核对：拘留通知书、逮捕通知书、起诉书、量刑建议书\n- 收集并核对：讯问笔录、询问笔录、辨认笔录、搜查扣押清单\n- 收集并核对：聊天记录、转账记录、监控视频、通话记录\n- 收集并核对：自首、立功、退赔、谅解相关证明材料\n- 收集并核对：取保候审申请书、羁押必要性审查申请\n- 收集并核对：社会调查报告、社区矫正评估意见\n- 先固定时间线与关键书证，再决定协商、投诉、仲裁或者诉讼路径。\n- 对不确定的事实，建议以书面清单向客户二次确认，避免把客户认知直接当作事实。\n",
+  "log": [
+    {
+      "type": "memo",
+      "content_length": 1152,
+      "timestamp": "2026-11-25T14:17:48.528525+00:00"
+    }
+  ],
+  "elapsed_seconds": 0.0,
+  "timestamp": "2026-11-25T14:17:48.528535+00:00",
+  "case_file": "cases_cn.jsonl",
+  "case_line": 3,
+  "jurisdiction": "CN",
+  "policy": "answer_first",
+  "persona_key": "P_CD",
+  "code_fingerprint": "5dcb4e146a2853b6",
+  "evaluation": {
+    "case_id": "case_cn_0003",
+    "process": {
+      "total_turns": 0,
+      "memo_submitted": true
+    },
+    "format": {
+      "score": 1.0,
+      "present": [
+        "案情概要",
+        "关键事实",
+        "法律问题",
+        "风险评估",
+        "下一步建议"
+      ],
+      "missing": []
+    },
+    "memo_quality": {
+      "memo_expectation_scores": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "expected_action_scores": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "overall_quality": "Fail",
+      "analysis": "deterministic lexical rubric matcher (offline stand-in)",
+      "memo_expectation_score": 0.1667,
+      "expected_action_score": 0.0
+    },
+    "fact_evaluation": {
+      "discovery": {
+        "covered": [],
+        "missed": [
+          "F1",
+          "F2",
+          "F3",
+          "F4",
+          "F5",
+          "F6",
+          "F7",
+          "F8",
+          "F9",
+          "F10",
+          "F11",
+          "F12"
+        ]
+      },
+      "accuracy": {
+        "correct": [],
+        "incorrect": []
+      },
+      "grounding": {
+        "total_claims": 1,
+        "grounded_claims": [
+          {
+            "claim": "律师你好，我是张某，之前电话里跟您说过，我因为帮人运送外国人到边境被抓的事，想请您帮我看看",
+            "basis": "对话记录或案件事实"
+          }
+        ],
+        "ungrounded_claims": []
+      },
+      "scores": {
+        "discovery_rate": 0.0,
+        "accuracy_rate": null,
+        "absolute_accuracy": 0.0,
+        "grounding_rate": 1.0,
+        "n_facts": 12,
+        "n_covered": 0,
+        "n_missed": 12,
+        "n_correct": 0,
+        "n_incorrect": 0,
+        "n_claims_total": 1,
+        "n_claims_ungrounded": 0,
+        "by_gap_type": {
+          "disputed": {
+            "n": 9,
+            "discovery_rate": 0.0,
+            "accuracy_rate": null
+          },
+          "undisputed": {
+            "n": 3,
+            "discovery_rate": 0.0,
+            "accuracy_rate": null
+          }
+        }
+      }
+    },
+    "scores": {
+      "FFS": 1.0,
+      "MES": 0.1667,
+      "EAS": 0.0,
+      "discovery_rate": 0.0,
+      "accuracy_rate": null,
+      "absolute_accuracy": 0.0,
+      "grounding_rate": 1.0
+    }
+  }
+}
