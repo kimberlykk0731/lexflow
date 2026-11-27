@@ -1,9 +1,12 @@
 PYTHONPATH=src
 
-.PHONY: test eval eval-api probe cache demo ui report slides all clean
+.PHONY: test schema eval eval-api probe cache demo ui report slides all clean
 
 test:
 	PYTHONPATH=$(PYTHONPATH) python3 -m unittest discover -s tests -v
+
+schema:
+	python3 tools/build_elements.py
 
 eval:
 	PYTHONPATH=$(PYTHONPATH) python3 eval/run_evals.py --llm mock --out runs/mock

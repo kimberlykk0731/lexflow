@@ -30,6 +30,9 @@ class Fact:
 class CaseState:
     session: str
     case_type: str = ""
+    matter: str = ""
+    claims: list[str] = field(default_factory=list)
+    route: dict = field(default_factory=dict)
     facts: dict[str, Fact] = field(default_factory=dict)
     history: list[Fact] = field(default_factory=list)
     revision: int = 0
@@ -90,6 +93,7 @@ class CaseState:
     def to_dict(self) -> dict:
         return {
             "session": self.session, "case_type": self.case_type,
+            "matter": self.matter, "claims": self.claims, "route": self.route,
             "facts": {k: v.to_dict() for k, v in self.facts.items()},
             "history": [f.to_dict() for f in self.history],
             "revision": self.revision, "asked": self.asked,
@@ -102,6 +106,8 @@ class CaseState:
     @classmethod
     def from_dict(cls, d: dict) -> "CaseState":
         st = cls(session=d["session"], case_type=d.get("case_type", ""),
+                 matter=d.get("matter", ""), claims=d.get("claims", []),
+                 route=d.get("route", {}),
                  revision=d.get("revision", 0), asked=d.get("asked", []),
                  ask_counts=d.get("ask_counts", {}),
                  known_unknowns=d.get("known_unknowns", []),

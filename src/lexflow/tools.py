@@ -83,6 +83,8 @@ class ToolBox:
             return self._compute_compensation(**args)
         if name == "analyse":
             return self._analyse(**args)
+        if name == "analyse_many":
+            return self._analyse_many(**args)
         if name == "read_document":
             return self._read_document(**args)
         if name == "statute_versions":
@@ -121,6 +123,15 @@ class ToolBox:
     def _analyse(self, case_type: str, facts: dict, today: str | None = None,
                  revision: int = 0) -> dict:
         analysis = rules.analyse(case_type, facts, today, revision)
+        cites: list[str] = []
+        for f in analysis.findings:
+            cites.extend(f.cites)
+        return {"ok": True, "analysis": analysis.to_dict(),
+                "evidence_ids": list(dict.fromkeys(cites))}
+
+    def _analyse_many(self, claims: list[str], facts: dict, today: str | None = None,
+                      revision: int = 0) -> dict:
+        analysis = rules.analyse_many(claims, facts, today, revision)
         cites: list[str] = []
         for f in analysis.findings:
             cites.extend(f.cites)

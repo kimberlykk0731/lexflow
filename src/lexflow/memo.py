@@ -1,12 +1,18 @@
-"""Markdown memorandum rendering."""
+"""Markdown memorandum rendering.
+
+The memo is organised around the element chain, not around a generic chat
+summary: for each claim the reader sees which elements are established, which
+are still open, which facts support them and which documents are missing.
+"""
 from __future__ import annotations
 
 from datetime import datetime
 
 from .config import DISCLAIMER
 from .corpus import StatuteCorpus
+from .elements import ElementSchema
 from .memory import CaseState
-from .rules import Analysis, _cite_short
+from .rules import CLAIM_LABELS, Analysis, _cite_short
 
 STATUS_LABEL = {
     "user_stated": "当事人陈述",
@@ -16,16 +22,11 @@ STATUS_LABEL = {
     "superseded": "已被更正",
 }
 
+ELEMENT_ICON = {"satisfied": "✅", "partial": "⚠️", "unknown": "○", "blocked": "—"}
+ELEMENT_TEXT = {"satisfied": "要件事实已具备", "partial": "部分具备", "unknown": "待确认",
+                "blocked": "本分支不适用"}
+
 NEXT_STEPS = {
-    "labor_dismissal": [
-        "解除劳动合同通知书、微信/邮件通知或通话录音（确定解除日期、主体与理由）",
-        "劳动合同、入职登记表、考勤记录（证明劳动关系与工作年限）",
-        "员工手册、规章制度文本及签收/培训/公示记录",
-        "公司据以认定违纪的证据（监控、书面检讨、证人、处理决定）",
-        "解除前十二个月工资流水、社保缴纳记录（计算基数）",
-        "工会通知或征求意见的记录（如公司设有工会）",
-        "如已申请仲裁：仲裁受理通知书与开庭通知",
-    ],
     "tort_injury": [
         "道路交通事故认定书（责任划分）",
         "病历、诊断证明、医疗费与护理费票据",
@@ -33,7 +34,6 @@ NEXT_STEPS = {
         "伤残鉴定意见书（如已鉴定）",
         "交强险、商业三者险保单及理赔记录",
         "居住证、租房合同、社保记录（农村户籍主张城镇标准时）",
-        "事故认定复核申请材料（如对责任认定有异议）",
     ],
 }
 
@@ -45,27 +45,46 @@ def _fmt_value(value) -> str:
 
 
 class MemoBuilder:
-    def __init__(self, corpus: StatuteCorpus):
+    def __init__(self, corpus: StatuteCorpus, schema: ElementSchema | None = None):
         self.corpus = corpus
+        self.schema = schema
 
+    # ---------------------------------------------------------------- helpers
+    def _label(self, key: str) -> str:
+        if self.schema:
+            f = self.schema.field_any(key)
+            if f:
+                return f.label
+        return key
+
+    def _claim_label(self, claim: str) -> str:
+        if self.schema:
+            return self.schema.label(claim)
+        return CLAIM_LABELS.get(claim, claim)
+
+    # ---------------------------------------------------------------- render
     def render(self, analysis: Analysis, state: CaseState,
                verification: dict | None = None,
                llm_note: str | None = None) -> str:
-        ct_label = {
-            "labor_dismissal": "劳动争议 · 解除劳动合同",
-            "tort_injury": "侵权 · 交通事故人身损害",
-        }.get(analysis.case_type, analysis.case_type)
+        claims = analysis.metadata.get("claims") or state.claims or (
+            [analysis.case_type] if analysis.case_type else [])
         lines: list[str] = []
-        lines.append("# 法律咨询备忘录（草稿）")
+        lines.append("# 劳动法律咨询备忘录（草稿）" if all(
+            c.startswith("labor") for c in claims) else "# 法律咨询备忘录（草稿）")
         lines.append("")
-        lines.append(f"- 案由：{ct_label}")
+        lines.append(f"- 咨询事项：{'、'.join(self._claim_label(c) for c in claims) or '未分类'}")
         lines.append(f"- 案件基准日期：{analysis.as_of or '未确定'}")
         lines.append(f"- 事实记录版本：v{state.revision}（共 {len(state.facts)} 项事实）")
+        coverage = analysis.metadata.get("coverage") or {}
+        if coverage:
+            lines.append(f"- 关键要件覆盖率：{coverage.get('known', 0)}/"
+                         f"{coverage.get('total', 0)}（{coverage.get('rate', 0):.0%}）")
         lines.append(f"- 生成时间：{datetime.now().strftime('%Y-%m-%d %H:%M')}")
         lines.append("")
         lines.append(f"> {DISCLAIMER}")
         lines.append("")
 
+        # 1) conclusion ---------------------------------------------------
         lines.append("## 一、结论摘要")
         lines.append("")
         lines.append(analysis.headline)
@@ -74,27 +93,56 @@ class MemoBuilder:
             lines.append("**给当事人的说明**：" + llm_note.strip())
             lines.append("")
 
-        lines.append("## 二、事实状态")
+        # 2) element chain -------------------------------------------------
+        chain = analysis.metadata.get("chain") or []
+        if chain:
+            lines.append("## 二、要件链（请求权 → 要件 → 事实）")
+            lines.append("")
+            for claim in chain:
+                lines.append(f"### {self._claim_label(claim['claim'])}")
+                if claim.get("summary"):
+                    lines.append(f"> {claim['summary']}")
+                    lines.append("")
+                for i, el in enumerate(claim.get("elements", []), 1):
+                    icon = ELEMENT_ICON.get(el["status"], "○")
+                    lines.append(f"{i}. {icon} **{el['label']}** — "
+                                 f"{ELEMENT_TEXT.get(el['status'], el['status'])}")
+                    if el.get("why"):
+                        lines.append(f"   - 为什么：{el['why']}")
+                    known = [f for f in el.get("facts", []) if f.get("known")]
+                    open_ = [f for f in el.get("facts", []) if not f.get("known")]
+                    if known:
+                        lines.append("   - 已具备：" + "；".join(
+                            f"{f['label']}＝{_fmt_value(f['value'])}" for f in known))
+                    if open_:
+                        lines.append("   - 待确认：" + "、".join(
+                            f["label"] for f in open_))
+                lines.append("")
+
+        # 3) facts ---------------------------------------------------------
+        lines.append("## 三、事实状态")
         lines.append("")
         lines.append("| 事实 | 内容 | 状态 | 来源 | 版本 |")
         lines.append("|---|---|---|---|---|")
         for f in sorted(state.facts.values(), key=lambda x: -x.revision):
             if f.superseded_by is not None:
                 continue
-            lines.append(f"| {f.key} | {_fmt_value(f.value)} | "
+            lines.append(f"| {self._label(f.key)} | {_fmt_value(f.value)} | "
                          f"{STATUS_LABEL.get(f.status, f.status)} | {f.source} | v{f.revision} |")
         if state.history:
             lines.append("")
             lines.append("**已被更正的事实**（旧值不再作为结论依据）：")
             for h in state.history:
-                lines.append(f"- {h.key}：~~{_fmt_value(h.value)}~~ → v{h.superseded_by}")
+                lines.append(f"- {self._label(h.key)}：~~{_fmt_value(h.value)}~~ → "
+                             f"v{h.superseded_by}")
         if state.known_unknowns:
             lines.append("")
             lines.append("**当事人明确表示不清楚的事实**：" +
-                         "、".join(state.known_unknowns))
+                         "、".join(self._label(k) for k in state.known_unknowns))
         lines.append("")
 
-        lines.append("## 三、争点分析")
+        # 4) issues --------------------------------------------------------
+        lines.append("## 四、争点分析")
         lines.append("")
         if not analysis.findings:
             lines.append("（暂无可分析的争点，需补充事实。）")
@@ -113,7 +161,38 @@ class MemoBuilder:
                 lines.append("**适用前提**：" + "；".join(finding.assumptions))
                 lines.append("")
 
-        lines.append("## 四、信息缺口与不确定")
+        # 5) calculations --------------------------------------------------
+        per_claim = analysis.metadata.get("per_claim") or {}
+        calcs = [(c, m.get("calculation")) for c, m in per_claim.items()
+                 if isinstance(m, dict) and m.get("calculation")]
+        if calcs:
+            lines.append("## 五、金额计算")
+            lines.append("")
+            for claim, calc in calcs:
+                if not calc or not calc.get("ok"):
+                    continue
+                lines.append(f"- **{self._claim_label(claim)}**：{calc.get('formula')}，"
+                             f"合计约 **{calc.get('amount', 0):,.0f} 元**")
+                for a in calc.get("assumptions", []):
+                    lines.append(f"  - 假设：{a}")
+            lines.append("")
+
+        # 6) practice notes ------------------------------------------------
+        notes = analysis.metadata.get("practice_notes") or []
+        if notes:
+            lines.append("## 六、实务提示（法院/人社口径）")
+            lines.append("")
+            for n in notes[:4]:
+                lines.append(f"**{n.get('title')}**（{n.get('publisher')}，{n.get('date')}）")
+                for p in n.get("points", [])[:4]:
+                    lines.append(f"- {p}")
+                if n.get("caveat"):
+                    lines.append(f"- 注意：{n['caveat']}")
+                lines.append(f"- 来源：[{n.get('url')}]({n.get('url')})")
+                lines.append("")
+
+        # 7) gaps ----------------------------------------------------------
+        lines.append("## 七、信息缺口与不确定")
         lines.append("")
         if analysis.gaps:
             for g in analysis.gaps:
@@ -124,13 +203,26 @@ class MemoBuilder:
             lines.append(f"- 假设：{a}")
         lines.append("")
 
-        lines.append("## 五、下一步与所需材料")
+        # 8) evidence ------------------------------------------------------
+        checklist = analysis.metadata.get("proof_checklist") or []
+        lines.append("## 八、下一步与证据清单")
         lines.append("")
+        if checklist:
+            lines.append("**按要件整理的证据清单：**")
+            for item in checklist:
+                lines.append(f"- [ ] {item}")
+            lines.append("")
         for s in NEXT_STEPS.get(analysis.case_type, []):
-            lines.append(f"- {s}")
+            if not checklist:
+                lines.append(f"- [ ] {s}")
+        lines.append("**程序建议：**")
+        lines.append("- [ ] 先核对仲裁时效与管辖，再决定申请仲裁还是先投诉/协商。")
+        lines.append("- [ ] 与单位沟通尽量留书面记录；录音、微信记录注意保留原始载体。")
+        lines.append("- [ ] 如涉及工伤，先确认工伤认定和劳动能力鉴定的进度。")
         lines.append("")
 
-        lines.append("## 六、引用与版本")
+        # 9) citations -----------------------------------------------------
+        lines.append("## 九、引用与版本")
         lines.append("")
         lines.append("| 法条 | 生效期间 | 原文摘录 | 来源 |")
         lines.append("|---|---|---|---|")

@@ -1,269 +1,3157 @@
 {
-  "version": 1,
-  "note": "要件事实（element-of-claim）schema。每个字段对应一个会影响结论的事实；critical 字段缺失时 agent 必须先追问，不得直接下结论。critical_if 表示仅在满足条件时才成为关键事实。",
-  "case_types": {
+  "version": 2,
+  "note": "要件事实（element-of-claim）与要件层次 schema。facts 是共享事实目录；claims 是请求权/争议类型，按 element 组织事实，element 可带 requires 条件。critical 字段缺失时应先追问；critical_if 表示仅在满足条件时才成为关键事实。本文件由 tools/build_elements.py 生成，请改脚本而不是手改 JSON。",
+  "facts": {
+    "employer": {
+      "label": "用人单位",
+      "question": "和您签劳动合同、给您发工资的公司全称是什么？如果是派遣或外包，实际用工单位是哪家？",
+      "type": "text",
+      "why": "确定仲裁被申请人；关联公司混同用工、派遣/外包时尤其重要",
+      "proof": [
+        "营业执照/国家企业信用信息公示系统截图",
+        "劳动合同盖章页",
+        "工资流水付款方"
+      ]
+    },
+    "position": {
+      "label": "岗位",
+      "question": "您当时的岗位和工作内容是什么？",
+      "type": "text",
+      "why": "判断是否属于管理岗、是否适用特殊工时、是否属于竞业限制人员"
+    },
+    "work_location": {
+      "label": "工作地点",
+      "question": "您实际工作的城市和地点是哪里？",
+      "type": "text",
+      "why": "确定劳动仲裁管辖（劳动合同履行地或用人单位所在地）",
+      "basis": [
+        "labor_dispute@2008-05-01:第21条"
+      ]
+    },
+    "start_date": {
+      "label": "入职日期",
+      "question": "您是哪一年哪一月入职的？中间有没有断过、换过关联公司？",
+      "type": "date",
+      "why": "计算工作年限、经济补偿/赔偿金，以及二倍工资的起算",
+      "basis": [
+        "labor_contract@2008-01-01:第47条"
+      ],
+      "proof": [
+        "劳动合同",
+        "入职登记表",
+        "首月工资流水",
+        "社保参保记录"
+      ]
+    },
+    "dismiss_date": {
+      "label": "离职/解除日期",
+      "question": "公司是哪一天通知您解除或让您离职的？最后工作日是哪天？",
+      "type": "date",
+      "why": "决定仲裁时效起算点，以及应适用哪一版本的法条",
+      "basis": [
+        "labor_dispute@2008-05-01:第27条"
+      ],
+      "proof": [
+        "解除通知书",
+        "微信/邮件通知",
+        "离职证明",
+        "最后工资发放日"
+      ]
+    },
+    "monthly_wage": {
+      "label": "月平均工资",
+      "question": "离职前十二个月，您平均每月应发工资大约是多少？可以给一个大概数。",
+      "type": "number",
+      "why": "经济补偿/赔偿金、加班费、二倍工资、年假工资的计算基数；高于当地社平工资三倍时另有封顶规则",
+      "basis": [
+        "labor_contract@2008-01-01:第47条"
+      ],
+      "proof": [
+        "工资条",
+        "银行流水",
+        "个税APP收入记录",
+        "劳动合同约定"
+      ]
+    },
+    "contract_signed": {
+      "label": "是否签书面劳动合同",
+      "question": "公司有没有和您签书面劳动合同？签了几份、您手上有没有一份？",
+      "type": "enum",
+      "options": [
+        "已签书面合同",
+        "未签书面合同",
+        "签了但没给我",
+        "不清楚"
+      ],
+      "why": "未签书面合同可能主张二倍工资；也影响劳动关系证明",
+      "basis": [
+        "labor_contract@2008-01-01:第10条",
+        "labor_contract@2008-01-01:第82条"
+      ]
+    },
+    "contract_type": {
+      "label": "合同期限类型",
+      "question": "劳动合同是固定期限、无固定期限，还是以完成一定工作任务为期限？",
+      "type": "enum",
+      "options": [
+        "固定期限",
+        "无固定期限",
+        "以完成一定工作任务为期限",
+        "不清楚"
+      ],
+      "why": "影响合同到期不续签的补偿，以及无固定期限合同的主张",
+      "basis": [
+        "labor_contract@2008-01-01:第14条",
+        "labor_contract@2008-01-01:第46条"
+      ]
+    },
+    "contract_copies": {
+      "label": "合同文本持有",
+      "question": "签完合同后，公司有没有把其中一份交给您？",
+      "type": "enum",
+      "options": [
+        "我有一份",
+        "两份都在公司",
+        "没有给我",
+        "不清楚"
+      ],
+      "why": "用人单位未将合同文本交付劳动者的，需承担相应责任",
+      "basis": [
+        "labor_contract@2008-01-01:第16条",
+        "labor_contract@2008-01-01:第81条"
+      ]
+    },
+    "probation": {
+      "label": "是否约定试用期",
+      "question": "有没有约定试用期？试用期多长？",
+      "type": "enum",
+      "options": [
+        "有试用期",
+        "没有试用期",
+        "不清楚"
+      ],
+      "why": "试用期长度和工资有法定上限",
+      "basis": [
+        "labor_contract@2008-01-01:第19条",
+        "labor_contract@2008-01-01:第20条"
+      ]
+    },
+    "probation_length": {
+      "label": "试用期长度（月）",
+      "question": "试用期约定的是几个月？",
+      "type": "number",
+      "why": "三年以上固定期限或无固定期限合同，试用期不得超过六个月",
+      "basis": [
+        "labor_contract@2008-01-01:第19条"
+      ]
+    },
+    "probation_wage": {
+      "label": "试用期工资",
+      "question": "试用期每月实际发多少工资？",
+      "type": "number",
+      "why": "不得低于本单位相同岗位最低档工资或约定工资的80%，并不得低于当地最低工资",
+      "basis": [
+        "labor_contract@2008-01-01:第20条"
+      ]
+    },
+    "illegal_probation": {
+      "label": "试用期违法情形",
+      "question": "试用期有没有这些情况：超过法定上限、工资低于80%、只签试用期合同、试用期后不转正？",
+      "type": "enum",
+      "options": [
+        "试用期超过法定上限",
+        "试用期工资低于80%",
+        "只签试用期合同",
+        "没有",
+        "不清楚"
+      ],
+      "why": "违法约定试用期需按已履行超过法定试用期的期间支付赔偿金",
+      "basis": [
+        "labor_contract@2008-01-01:第19条",
+        "labor_contract@2008-01-01:第83条"
+      ]
+    },
+    "social_insurance": {
+      "label": "社保缴纳情况",
+      "question": "公司有没有给您缴社保？是按实际工资缴，还是按最低基数缴？有没有断缴？",
+      "type": "enum",
+      "options": [
+        "正常缴纳",
+        "未缴纳",
+        "断缴",
+        "按最低基数缴纳",
+        "不清楚"
+      ],
+      "why": "未缴/断缴社保可作为被迫解除并主张经济补偿的理由，也可要求补缴",
+      "basis": [
+        "social_insurance@2011-07-01:第58条",
+        "labor_contract@2008-01-01:第38条"
+      ]
+    },
+    "social_insurance_years": {
+      "label": "累计社保缴费年限",
+      "question": "您累计缴了几年社保？中间断过多久？",
+      "type": "number",
+      "why": "影响养老、医疗、失业待遇资格，以及年休假天数（累计工作年限）"
+    },
+    "social_insurance_gap": {
+      "label": "社保断缴期间",
+      "question": "哪一段时间没有缴或断缴了？",
+      "type": "text",
+      "why": "补缴和损失计算需要具体期间"
+    },
+    "housing_fund": {
+      "label": "住房公积金",
+      "question": "公司有没有给您缴住房公积金？",
+      "type": "enum",
+      "options": [
+        "正常缴纳",
+        "未缴纳",
+        "不清楚"
+      ],
+      "why": "公积金不属于劳动仲裁受案范围，通常向公积金管理中心投诉"
+    },
+    "work_schedule": {
+      "label": "工时制度",
+      "question": "您执行的是标准工时（每天8小时、每周40小时）、综合计算工时，还是不定时工时？",
+      "type": "enum",
+      "options": [
+        "标准工时",
+        "综合计算工时",
+        "不定时工时",
+        "不清楚"
+      ],
+      "why": "不同工时制度下加班费的计算方式不同；综合/不定时需经审批",
+      "basis": [
+        "labor_law@1995-01-01:第36条",
+        "labor_law@1995-01-01:第39条"
+      ]
+    },
+    "arbitration_filed": {
+      "label": "是否已申请仲裁",
+      "question": "您已经向劳动人事争议仲裁委员会申请仲裁了吗？如果申请了，是哪一天？",
+      "type": "enum",
+      "options": [
+        "已申请",
+        "没有申请",
+        "不清楚"
+      ],
+      "why": "影响时效是否中断，以及后续程序建议",
+      "basis": [
+        "labor_dispute@2008-05-01:第27条"
+      ]
+    },
+    "arbitration_date": {
+      "label": "申请仲裁日期",
+      "question": "仲裁申请是哪一天提交/受理的？",
+      "type": "date",
+      "why": "计算时效中断和审限",
+      "basis": [
+        "labor_dispute@2008-05-01:第27条"
+      ]
+    },
+    "arbitration_result": {
+      "label": "仲裁进展",
+      "question": "仲裁现在是什么状态：已受理、已开庭、已裁决，还是调解结案？",
+      "type": "enum",
+      "options": [
+        "已受理",
+        "已裁决",
+        "调解结案",
+        "不清楚"
+      ],
+      "why": "决定下一步是起诉、申请撤销还是申请执行",
+      "basis": [
+        "labor_dispute@2008-05-01:第47条",
+        "labor_dispute@2008-05-01:第48条"
+      ]
+    },
+    "court_filed": {
+      "label": "是否已向法院起诉",
+      "question": "对仲裁结果不服，您有没有在收到裁决书之日起十五日内向法院起诉？",
+      "type": "enum",
+      "options": [
+        "已起诉",
+        "没有起诉",
+        "不清楚"
+      ],
+      "why": "劳动争议一般仲裁前置；不服非终局裁决须在15日内起诉",
+      "basis": [
+        "labor_dispute@2008-05-01:第48条"
+      ]
+    },
+    "amount_in_dispute": {
+      "label": "争议金额",
+      "question": "您这次主张的金额大概是多少？",
+      "type": "number",
+      "why": "判断是否属于一裁终局的小额案件",
+      "basis": [
+        "labor_dispute@2008-05-01:第47条"
+      ]
+    },
+    "claim_type": {
+      "label": "诉求",
+      "question": "您现在最想要的是什么结果？",
+      "type": "enum",
+      "options": [
+        "要求赔偿金",
+        "要求继续履行",
+        "要求支付欠薪",
+        "要求支付加班费",
+        "要求补缴社保",
+        "要求工伤待遇",
+        "要求支付二倍工资",
+        "要求支付年假工资",
+        "要求支付竞业限制补偿",
+        "要求确认劳动关系",
+        "还没想好"
+      ],
+      "why": "不同诉求对应不同的请求权基础和程序"
+    },
+    "deadline_aware": {
+      "label": "是否知道仲裁时效",
+      "question": "您知道劳动仲裁一般要在一年内提出吗？现在离争议发生多久了？",
+      "type": "enum",
+      "options": [
+        "知道，还没过",
+        "知道，可能已经过了",
+        "不知道",
+        "不清楚"
+      ],
+      "why": "时效是劳动仲裁的第一道门槛，过期可能直接败诉",
+      "basis": [
+        "labor_dispute@2008-05-01:第27条"
+      ]
+    },
+    "who_initiated": {
+      "label": "解除主体",
+      "question": "这次是公司单方面通知解除，还是您自己提出辞职，或者双方协商一致？",
+      "type": "enum",
+      "options": [
+        "单位单方解除",
+        "劳动者辞职",
+        "协商一致解除",
+        "被迫解除",
+        "说不清"
+      ],
+      "why": "决定适用第三十九条/四十条/三十六条/三十八条，以及是否有经济补偿",
+      "basis": [
+        "labor_contract@2008-01-01:第36条",
+        "labor_contract@2008-01-01:第38条",
+        "labor_contract@2008-01-01:第39条",
+        "labor_contract@2008-01-01:第40条"
+      ]
+    },
+    "stated_reason": {
+      "label": "解除理由",
+      "question": "解除通知或公司口头说明的理由是什么？例如严重违纪、不能胜任、客观情况变化、经济性裁员。",
+      "type": "enum",
+      "options": [
+        "严重违纪",
+        "不胜任工作",
+        "客观情况重大变化",
+        "经济性裁员",
+        "试用期不符合录用条件",
+        "合同期满不续签",
+        "其他或说不清"
+      ],
+      "why": "不同法定解除事由对应不同的举证与程序要求",
+      "basis": [
+        "labor_contract@2008-01-01:第39条",
+        "labor_contract@2008-01-01:第40条",
+        "labor_contract@2008-01-01:第41条",
+        "labor_contract@2008-01-01:第44条"
+      ]
+    },
+    "rule_publicized": {
+      "label": "规章制度是否公示或告知",
+      "question": "公司据以解除的员工手册或规章制度，有没有向您公示、送达或组织学习过？您有没有签收记录？",
+      "type": "enum",
+      "options": [
+        "有签收或公示",
+        "没有公示告知",
+        "记不清"
+      ],
+      "why": "规章制度未经公示或告知，不能作为解除依据",
+      "basis": [
+        "labor_contract@2008-01-01:第4条",
+        "labor_js1@2021-01-01:第50条"
+      ]
+    },
+    "rule_exists": {
+      "label": "规章制度是否存在",
+      "question": "公司有没有成文的员工手册或违纪处理制度？您手上有没有这份文件的副本？",
+      "type": "enum",
+      "options": [
+        "有成文制度",
+        "没有成文制度",
+        "不清楚"
+      ],
+      "why": "无规章制度时，严重违纪解除缺少规范依据",
+      "basis": [
+        "labor_contract@2008-01-01:第4条",
+        "labor_contract@2008-01-01:第39条"
+      ]
+    },
+    "misconduct_proof": {
+      "label": "违纪事实的证据",
+      "question": "公司说您违纪，具体指什么事？他们手上有哪些证据，比如监控、书面检讨、证人或者您签字的记录？",
+      "type": "enum",
+      "options": [
+        "有书面证据",
+        "只有口头指认",
+        "有证人但无书面材料",
+        "不清楚"
+      ],
+      "why": "用人单位对解除决定的合法性负举证责任",
+      "basis": [
+        "labor_js1@2021-01-01:第44条"
+      ]
+    },
+    "rule_democratic": {
+      "label": "规章制度制定程序",
+      "question": "这份制度制定或修改时，有没有经过职工代表大会或全体职工讨论，并和工会或职工代表协商？",
+      "type": "enum",
+      "options": [
+        "经过了民主程序",
+        "没有经过",
+        "不清楚"
+      ],
+      "why": "直接涉及劳动者切身利益的规章制度须经民主程序制定",
+      "basis": [
+        "labor_contract@2008-01-01:第4条"
+      ]
+    },
+    "training_or_transfer": {
+      "label": "是否培训或调岗",
+      "question": "公司说您不能胜任工作，在解除前有没有给您培训，或者调整过工作岗位？",
+      "type": "enum",
+      "options": [
+        "有培训或调岗",
+        "没有",
+        "不清楚"
+      ],
+      "why": "不胜任解除须先经培训或调岗，仍不能胜任才可解除",
+      "basis": [
+        "labor_contract@2008-01-01:第40条"
+      ]
+    },
+    "notice_30d": {
+      "label": "是否提前三十日通知",
+      "question": "公司有没有提前三十天书面通知您，或者额外支付一个月工资作为代通知金？",
+      "type": "enum",
+      "options": [
+        "提前三十日通知",
+        "支付了代通知金",
+        "都没有"
+      ],
+      "why": "无过失性辞退须提前三十日通知或支付代通知金",
+      "basis": [
+        "labor_contract@2008-01-01:第40条"
+      ]
+    },
+    "union_notified": {
+      "label": "是否通知工会",
+      "question": "公司解除前有没有把理由通知工会？公司里有没有建立工会？",
+      "type": "enum",
+      "options": [
+        "已通知工会",
+        "没有通知",
+        "公司没有工会",
+        "不清楚"
+      ],
+      "why": "单方解除应事先通知工会；未通知且未补正的，可能构成违法解除",
+      "basis": [
+        "labor_contract@2008-01-01:第43条",
+        "labor_js1@2021-01-01:第47条"
+      ]
+    },
+    "forced_resignation_reason": {
+      "label": "被迫解除的理由",
+      "question": "如果是您提出解除，是不是因为公司欠薪、未缴社保、未提供劳动条件等法定情形？",
+      "type": "enum",
+      "options": [
+        "未及时足额支付工资",
+        "未依法缴纳社保",
+        "未提供劳动保护或劳动条件",
+        "规章制度违法损害权益",
+        "欺诈胁迫",
+        "其他",
+        "不适用"
+      ],
+      "why": "依据第38条被迫解除的，仍可主张经济补偿",
+      "basis": [
+        "labor_contract@2008-01-01:第38条",
+        "labor_contract@2008-01-01:第46条"
+      ]
+    },
+    "compensation_paid": {
+      "label": "已支付补偿情况",
+      "question": "公司有没有支付经济补偿或赔偿金？按什么标准付的？",
+      "type": "enum",
+      "options": [
+        "未支付任何补偿",
+        "支付了N",
+        "支付了N+1",
+        "支付了2N",
+        "不清楚"
+      ],
+      "why": "已支付部分可以从主张金额中扣除，但低于法定标准不影响继续主张差额",
+      "basis": [
+        "labor_contract@2008-01-01:第47条",
+        "labor_contract@2008-01-01:第87条"
+      ]
+    },
+    "pregnancy_status": {
+      "label": "是否处于三期",
+      "question": "您当时是否处于孕期、产期或哺乳期？",
+      "type": "enum",
+      "options": [
+        "孕期",
+        "产期",
+        "哺乳期",
+        "不是",
+        "不方便说"
+      ],
+      "why": "三期女职工受特殊保护，单位一般不得依第40、41条解除",
+      "basis": [
+        "labor_contract@2008-01-01:第42条",
+        "female_protection@2012-04-28:第5条"
+      ]
+    },
+    "contract_expired": {
+      "label": "是否合同到期",
+      "question": "解除时劳动合同还在有效期内，还是刚好到期公司不续签？",
+      "type": "enum",
+      "options": [
+        "合同期内解除",
+        "合同到期不续签",
+        "不清楚"
+      ],
+      "why": "合同到期不续签通常支付N；违法解除才是2N",
+      "basis": [
+        "labor_contract@2008-01-01:第44条",
+        "labor_contract@2008-01-01:第46条"
+      ]
+    },
+    "wage_owed": {
+      "label": "欠薪金额",
+      "question": "公司欠您多少钱？是几个月工资，还是提成、奖金没发？",
+      "type": "number",
+      "why": "确定仲裁请求金额；劳动报酬争议的时效起算有特殊规则",
+      "basis": [
+        "labor_law@1995-01-01:第50条",
+        "labor_contract@2008-01-01:第30条"
+      ]
+    },
+    "wage_period": {
+      "label": "欠薪期间",
+      "question": "欠的是哪几个月或哪段时间的工资？",
+      "type": "text",
+      "why": "确定欠薪期间和时效",
+      "basis": [
+        "labor_dispute@2008-05-01:第27条"
+      ]
+    },
+    "wage_type": {
+      "label": "欠薪类型",
+      "question": "欠的是基本工资、提成奖金、年终奖，还是加班费？",
+      "type": "enum",
+      "options": [
+        "基本工资",
+        "提成/奖金",
+        "年终奖",
+        "加班费",
+        "其他"
+      ],
+      "why": "不同工资项目的举证和计算规则不同",
+      "basis": [
+        "labor_law@1995-01-01:第50条",
+        "wage_payment@1995-01-01:第9条"
+      ]
+    },
+    "wage_reason": {
+      "label": "欠薪原因",
+      "question": "公司为什么没发？是说经营困难、绩效不达标，还是没有任何说明？",
+      "type": "enum",
+      "options": [
+        "公司经营困难",
+        "无故拖欠",
+        "以绩效为由扣发",
+        "离职后未结清",
+        "其他"
+      ],
+      "why": "无故拖欠可能加付赔偿金；离职时应一次付清",
+      "basis": [
+        "labor_contract@2008-01-01:第85条",
+        "wage_payment@1995-01-01:第9条"
+      ]
+    },
+    "wage_evidence": {
+      "label": "工资证据",
+      "question": "您手上有工资条、银行流水、微信转账记录或考勤记录吗？",
+      "type": "enum",
+      "options": [
+        "工资条",
+        "银行流水",
+        "微信/支付宝转账",
+        "考勤记录",
+        "没有书面证据",
+        "不清楚"
+      ],
+      "why": "工资标准和欠付事实的举证责任分配",
+      "basis": [
+        "labor_js1@2021-01-01:第44条"
+      ]
+    },
+    "reduced_salary": {
+      "label": "是否被降薪",
+      "question": "公司有没有单方面降低您的工资或调整薪酬结构？",
+      "type": "enum",
+      "options": [
+        "被降薪",
+        "没有被降薪",
+        "不清楚"
+      ],
+      "why": "单方降薪需协商一致；可主张补足差额",
+      "basis": [
+        "labor_contract@2008-01-01:第35条"
+      ]
+    },
+    "overtime_exists": {
+      "label": "是否存在加班",
+      "question": "您平时需要加班吗？是工作日延时、周末上班，还是法定节假日上班？",
+      "type": "enum",
+      "options": [
+        "有",
+        "没有",
+        "不清楚"
+      ],
+      "why": "决定是否进入加班费计算分支",
+      "basis": [
+        "labor_law@1995-01-01:第41条",
+        "labor_law@1995-01-01:第44条"
+      ]
+    },
+    "overtime_period": {
+      "label": "加班期间",
+      "question": "大概哪段时间在加班？持续了多久？",
+      "type": "text",
+      "why": "加班费主张受仲裁时效和举证期间限制",
+      "basis": [
+        "labor_dispute@2008-05-01:第27条"
+      ]
+    },
+    "overtime_hours_weekday": {
+      "label": "工作日延时（小时/月）",
+      "question": "工作日每天大概加班几小时？一个月大概多少小时？",
+      "type": "number",
+      "why": "工作日延时按150%计算",
+      "basis": [
+        "labor_law@1995-01-01:第44条"
+      ]
+    },
+    "overtime_hours_rest": {
+      "label": "休息日加班（小时/月）",
+      "question": "周末或休息日一个月大概加班多少小时？有没有安排补休？",
+      "type": "number",
+      "why": "休息日加班不能补休的按200%计算",
+      "basis": [
+        "labor_law@1995-01-01:第44条"
+      ]
+    },
+    "overtime_hours_holiday": {
+      "label": "法定节假日加班（小时/月）",
+      "question": "法定节假日加班大概多少小时？",
+      "type": "number",
+      "why": "法定节假日加班按300%计算，不能以补休替代",
+      "basis": [
+        "labor_law@1995-01-01:第44条"
+      ]
+    },
+    "overtime_evidence": {
+      "label": "加班证据",
+      "question": "您有考勤打卡、排班表、工作群消息、加班审批单这类证据吗？",
+      "type": "enum",
+      "options": [
+        "考勤打卡",
+        "排班表",
+        "工作群消息",
+        "加班审批单",
+        "没有证据",
+        "不清楚"
+      ],
+      "why": "劳动者需先就加班事实存在承担初步举证责任",
+      "basis": [
+        "labor_js1@2021-01-01:第42条"
+      ]
+    },
+    "overtime_paid": {
+      "label": "加班费支付情况",
+      "question": "公司有没有发过加班费？还是只调休、或者完全没给？",
+      "type": "enum",
+      "options": [
+        "支付了",
+        "没有支付",
+        "部分支付",
+        "不清楚"
+      ],
+      "why": "已付部分可扣除；未付部分可主张",
+      "basis": [
+        "labor_law@1995-01-01:第44条"
+      ]
+    },
+    "no_contract_months": {
+      "label": "未签合同月数",
+      "question": "从入职第几个月起一直没签书面合同？大概持续了几个月？",
+      "type": "number",
+      "why": "未签书面合同二倍工资最多支持十一个月",
+      "basis": [
+        "labor_contract@2008-01-01:第82条",
+        "labor_contract_regs@2008-09-18:第6条"
+      ]
+    },
+    "demand_contract": {
+      "label": "是否要求过签合同",
+      "question": "您有没有向公司提出过签书面合同、要求给合同文本？",
+      "type": "enum",
+      "options": [
+        "提出过",
+        "没有提出",
+        "不清楚"
+      ],
+      "why": "二倍工资的起算和用人单位补签抗辩相关",
+      "basis": [
+        "labor_contract@2008-01-01:第82条"
+      ]
+    },
+    "injury_date": {
+      "label": "受伤日期",
+      "question": "是哪一天受伤的？",
+      "type": "date",
+      "why": "工伤认定申请期限和待遇计算",
+      "basis": [
+        "work_injury_reg@2011-01-01:第17条"
+      ]
+    },
+    "injury_at_work": {
+      "label": "受伤情形",
+      "question": "受伤是什么情形：工作时间和场所内受伤、上下班途中交通事故、因工外出、职业病，还是其他？",
+      "type": "enum",
+      "options": [
+        "工作时间和场所内",
+        "上下班途中交通事故",
+        "因工外出",
+        "职业病",
+        "视同工伤情形",
+        "不属于工伤",
+        "说不清"
+      ],
+      "why": "是否属于应当认定或视同工伤的情形",
+      "basis": [
+        "work_injury_reg@2011-01-01:第14条",
+        "work_injury_reg@2011-01-01:第15条"
+      ]
+    },
+    "injury_reported": {
+      "label": "工伤认定申请",
+      "question": "单位有没有在30日内申请工伤认定？您自己有没有在一年内申请？",
+      "type": "enum",
+      "options": [
+        "单位30日内申请",
+        "自己1年内申请",
+        "还没申请",
+        "不清楚"
+      ],
+      "why": "单位未在30日内申请的，期间发生的工伤待遇由单位负担",
+      "basis": [
+        "work_injury_reg@2011-01-01:第17条"
+      ]
+    },
+    "injury_recognized": {
+      "label": "工伤认定结果",
+      "question": "工伤认定下来了吗？结论是什么？",
+      "type": "enum",
+      "options": [
+        "已认定工伤",
+        "尚未认定",
+        "认定被驳回",
+        "不清楚"
+      ],
+      "why": "认定工伤是享受工伤保险待遇的前提",
+      "basis": [
+        "work_injury_reg@2011-01-01:第17条",
+        "work_injury_reg@2011-01-01:第20条"
+      ]
+    },
+    "disability_level": {
+      "label": "伤残等级",
+      "question": "做劳动能力鉴定了吗？伤残是几级？",
+      "type": "enum",
+      "options": [
+        "一级",
+        "二级",
+        "三级",
+        "四级",
+        "五级",
+        "六级",
+        "七级",
+        "八级",
+        "九级",
+        "十级",
+        "未鉴定",
+        "不清楚"
+      ],
+      "why": "不同伤残等级对应不同的一次性伤残补助金和津贴",
+      "basis": [
+        "work_injury_reg@2011-01-01:第35条",
+        "work_injury_reg@2011-01-01:第37条"
+      ]
+    },
+    "medical_cost": {
+      "label": "工伤医疗费",
+      "question": "工伤治疗花了多少医疗费？有没有保留票据？",
+      "type": "number",
+      "why": "符合目录的工伤医疗费从工伤保险基金支付",
+      "basis": [
+        "work_injury_reg@2011-01-01:第30条"
+      ]
+    },
+    "work_injury_insurance": {
+      "label": "是否参加工伤保险",
+      "question": "公司有没有给您参加工伤保险？",
+      "type": "enum",
+      "options": [
+        "参加了工伤保险",
+        "没有参加",
+        "不清楚"
+      ],
+      "why": "未参保的，工伤保险待遇由用人单位支付",
+      "basis": [
+        "work_injury_reg@2011-01-01:第62条"
+      ]
+    },
+    "injury_evidence": {
+      "label": "工伤证据",
+      "question": "有没有事故现场照片/视频、证人、医院病历、报警记录？",
+      "type": "enum",
+      "options": [
+        "事故现场照片/视频",
+        "证人证言",
+        "医院病历",
+        "报警记录",
+        "没有证据",
+        "不清楚"
+      ],
+      "why": "工伤认定需要证明事故发生在工作原因、工作场所",
+      "basis": [
+        "work_injury_reg@2011-01-01:第18条"
+      ]
+    },
+    "social_insurance_claim": {
+      "label": "社保诉求",
+      "question": "社保这块您想要什么：补缴、赔偿损失，还是以此为由被迫解除要经济补偿？",
+      "type": "enum",
+      "options": [
+        "要求补缴",
+        "要求赔偿损失",
+        "要求被迫解除经济补偿",
+        "还没想好"
+      ],
+      "why": "补缴一般向社保征收机构投诉；赔偿损失和被迫解除属于仲裁范围",
+      "basis": [
+        "social_insurance@2011-07-01:第63条",
+        "labor_contract@2008-01-01:第38条"
+      ]
+    },
+    "cumulative_work_years": {
+      "label": "累计工作年限",
+      "question": "您从参加工作到现在，累计工作多少年？（不是只算这家公司）",
+      "type": "number",
+      "why": "累计工作满1年不满10年年休5天，满10年不满20年10天，满20年15天",
+      "basis": [
+        "annual_leave@2008-01-01:第3条"
+      ]
+    },
+    "annual_leave_taken": {
+      "label": "已休年假天数",
+      "question": "这些年公司安排您休了多少天年假？",
+      "type": "number",
+      "why": "未休天数按日工资300%折算（含正常工资，另需支付200%）",
+      "basis": [
+        "annual_leave@2008-01-01:第5条"
+      ]
+    },
+    "annual_leave_year": {
+      "label": "未休年假年度",
+      "question": "未休的是哪几个年度的年假？",
+      "type": "text",
+      "why": "年假可跨一年安排；仲裁时效可能按年度分别计算",
+      "basis": [
+        "annual_leave@2008-01-01:第5条"
+      ]
+    },
+    "annual_leave_paid": {
+      "label": "年假工资支付",
+      "question": "公司有没有为未休年假支付过300%工资？",
+      "type": "enum",
+      "options": [
+        "支付了",
+        "没有支付",
+        "不清楚"
+      ],
+      "why": "未支付的可以主张差额",
+      "basis": [
+        "annual_leave@2008-01-01:第5条"
+      ]
+    },
+    "noncompete_signed": {
+      "label": "是否签竞业限制协议",
+      "question": "您和公司签过竞业限制协议或保密协议中的竞业条款吗？",
+      "type": "enum",
+      "options": [
+        "签了竞业限制协议",
+        "没有签",
+        "不清楚"
+      ],
+      "why": "竞业限制只适用于高级管理人员、高级技术人员和其他负有保密义务的人员",
+      "basis": [
+        "labor_contract@2008-01-01:第23条",
+        "labor_contract@2008-01-01:第24条"
+      ]
+    },
+    "noncompete_months": {
+      "label": "竞业限制期限",
+      "question": "协议约定的竞业限制期限是多久？",
+      "type": "number",
+      "why": "竞业限制期限不得超过二年",
+      "basis": [
+        "labor_contract@2008-01-01:第24条"
+      ]
+    },
+    "noncompete_compensation": {
+      "label": "竞业限制补偿标准",
+      "question": "协议约定或实际支付的竞业限制补偿是多少钱一个月？",
+      "type": "number",
+      "why": "未约定补偿时，按解除前十二个月平均工资的30%按月支付",
+      "basis": [
+        "labor_js1@2021-01-01:第36条",
+        "labor_js2@2025-09-01:第13条"
+      ]
+    },
+    "noncompete_paid": {
+      "label": "竞业限制补偿支付",
+      "question": "离职后公司有没有按月支付竞业限制补偿？",
+      "type": "enum",
+      "options": [
+        "按月支付了",
+        "没有支付",
+        "支付了一部分",
+        "不清楚"
+      ],
+      "why": "用人单位三个月未支付补偿的，劳动者可请求解除竞业限制",
+      "basis": [
+        "labor_js1@2021-01-01:第38条"
+      ]
+    },
+    "noncompete_claim": {
+      "label": "竞业限制诉求",
+      "question": "竞业限制这块您是想要补偿、被公司索赔违约金，还是想解除协议？",
+      "type": "enum",
+      "options": [
+        "要求支付补偿",
+        "被公司索赔违约金",
+        "要求解除竞业限制",
+        "还没想好"
+      ],
+      "why": "不同立场的举证和抗辩不同",
+      "basis": [
+        "labor_contract@2008-01-01:第23条"
+      ]
+    },
+    "new_employer_competitor": {
+      "label": "是否入职竞争单位",
+      "question": "您离职后有没有去竞争对手公司或自己开同类公司？",
+      "type": "enum",
+      "options": [
+        "去了竞争单位",
+        "没有去",
+        "还没找工作",
+        "不清楚"
+      ],
+      "why": "违反竞业限制可能面临违约金；也影响补偿主张",
+      "basis": [
+        "labor_contract@2008-01-01:第23条"
+      ]
+    },
+    "maternity_leave_taken": {
+      "label": "产假情况",
+      "question": "产假休了吗？休了多少天？产假期间公司有没有要求提前返岗？",
+      "type": "enum",
+      "options": [
+        "已休产假",
+        "产假中被要求提前返岗",
+        "还没休",
+        "不清楚"
+      ],
+      "why": "产假天数与生育津贴",
+      "basis": [
+        "female_protection@2012-04-28:第7条"
+      ]
+    },
+    "maternity_allowance": {
+      "label": "生育津贴/产假工资",
+      "question": "产假期间领的是生育津贴还是公司发的工资？有没有被降低？",
+      "type": "enum",
+      "options": [
+        "领取了生育津贴",
+        "单位发工资",
+        "没有发",
+        "不清楚"
+      ],
+      "why": "生育津贴低于本人工资的，差额由单位补足",
+      "basis": [
+        "female_protection@2012-04-28:第8条",
+        "social_insurance@2011-07-01:第56条"
+      ]
+    },
+    "maternity_dismissal": {
+      "label": "是否因三期被辞退",
+      "question": "公司有没有因为您怀孕、生育、哺乳而降薪、调岗或辞退？",
+      "type": "enum",
+      "options": [
+        "因怀孕/生育被辞退",
+        "被降薪或调岗",
+        "没有",
+        "不清楚"
+      ],
+      "why": "三期女职工受特殊保护，违法解除可主张2N或继续履行",
+      "basis": [
+        "labor_contract@2008-01-01:第42条",
+        "female_protection@2012-04-28:第5条"
+      ]
+    },
+    "dispatch_type": {
+      "label": "用工形式",
+      "question": "您是和公司直接签合同，还是劳务派遣、业务外包、平台用工？",
+      "type": "enum",
+      "options": [
+        "直接用工",
+        "劳务派遣",
+        "业务外包",
+        "平台/新业态用工",
+        "不清楚"
+      ],
+      "why": "不同用工形式下，劳动关系主体和责任承担不同",
+      "basis": [
+        "labor_contract@2008-01-01:第58条",
+        "labor_js2@2025-09-01:第1条"
+      ]
+    },
+    "actual_employer": {
+      "label": "实际用工单位",
+      "question": "实际给您派活、考勤、发工资的是哪家公司？",
+      "type": "text",
+      "why": "派遣/外包/混同用工时确定责任主体",
+      "basis": [
+        "labor_contract@2008-01-01:第62条"
+      ]
+    },
+    "platform_worker": {
+      "label": "平台用工类型",
+      "question": "您是外卖骑手、网约车司机、网络主播，还是其他平台工作？",
+      "type": "enum",
+      "options": [
+        "外卖骑手",
+        "网约车司机",
+        "网络主播",
+        "其他平台",
+        "不是"
+      ],
+      "why": "新业态用工的劳动关系认定要看用工管理程度",
+      "basis": [
+        "labor_js2@2025-09-01:第1条"
+      ]
+    },
+    "work_management": {
+      "label": "用工管理程度",
+      "question": "平台或公司对您有没有打卡、派单、考核、奖惩、着装等管理？",
+      "type": "enum",
+      "options": [
+        "打卡考勤",
+        "平台派单",
+        "绩效考核",
+        "没有管理",
+        "不清楚"
+      ],
+      "why": "从属性（人格、经济、组织）是认定劳动关系的关键",
+      "basis": [
+        "labor_js2@2025-09-01:第1条"
+      ]
+    },
+    "pay_by": {
+      "label": "工资发放主体",
+      "question": "工资是谁发给您的？个人账户、平台、还是外包公司？",
+      "type": "text",
+      "why": "工资支付主体是认定用人单位的重要线索"
+    },
+    "uniform_tools": {
+      "label": "是否使用单位工具/标识",
+      "question": "您工作时穿工服、用公司车辆或平台标识吗？",
+      "type": "enum",
+      "options": [
+        "穿工服/用公司工具",
+        "没有",
+        "不清楚"
+      ],
+      "why": "组织从属性的辅助证据"
+    },
+    "contract_terms_changed": {
+      "label": "合同是否被单方变更",
+      "question": "公司有没有单方面给您调岗、降薪、改变工作地点或工时？",
+      "type": "enum",
+      "options": [
+        "被单方变更",
+        "没有",
+        "不清楚"
+      ],
+      "why": "变更劳动合同应协商一致并采用书面形式",
+      "basis": [
+        "labor_contract@2008-01-01:第35条"
+      ]
+    },
+    "accident_date": {
+      "label": "事故发生日期",
+      "question": "交通事故发生的具体日期是哪一天？",
+      "type": "date",
+      "why": "决定适用哪一版本的人身损害赔偿司法解释，以及三年诉讼时效的起算",
+      "basis": [
+        "civil_code_general@2021-01-01:第188条",
+        "civil_time_effect@2021-01-01:第1条"
+      ]
+    },
+    "responsibility": {
+      "label": "事故责任划分",
+      "question": "交警出具的事故认定书是怎么划分责任的？对方和您分别是什么责任？",
+      "type": "enum",
+      "options": [
+        "对方全责",
+        "对方主要责任",
+        "同等责任",
+        "对方次要责任",
+        "己方全责",
+        "尚未认定"
+      ],
+      "why": "责任比例直接影响赔偿范围和数额",
+      "basis": [
+        "road_traffic@2004-05-01:第76条",
+        "civil_code_tort@2021-01-01:第1165条"
+      ]
+    },
+    "injury": {
+      "label": "伤情与伤残等级",
+      "question": "伤情现在是什么情况？有没有做过伤残等级鉴定，是几级？",
+      "type": "enum",
+      "options": [
+        "死亡",
+        "已鉴定伤残等级",
+        "伤残但未鉴定",
+        "重伤",
+        "一般伤害"
+      ],
+      "why": "决定可主张的赔偿项目（残疾赔偿金/死亡赔偿金等）",
+      "basis": [
+        "civil_code_tort@2021-01-01:第1179条"
+      ]
+    },
+    "residence": {
+      "label": "户籍/经常居住地",
+      "question": "受害人的户籍是城镇还是农村？事故前连续在城镇居住、工作满一年了吗？",
+      "type": "enum",
+      "options": [
+        "城镇",
+        "农村",
+        "农村户籍但城镇居住满一年"
+      ],
+      "why": "2022-05-01前残疾/死亡赔偿金区分城乡标准，之后统一按城镇居民标准",
+      "basis": [
+        "tort_interp_2020@2021-01-01:第12条",
+        "tort_interp_2022@2022-05-01:第12条"
+      ]
+    },
+    "insurance": {
+      "label": "保险情况",
+      "question": "肇事车辆投保了哪些保险？交强险和商业三者险分别有没有？",
+      "type": "enum",
+      "options": [
+        "交强险和商业险",
+        "仅有交强险",
+        "没有保险",
+        "不清楚"
+      ],
+      "why": "赔偿顺序是先交强险、再商业险、不足部分由侵权人承担",
+      "basis": [
+        "civil_code_tort@2021-01-01:第1213条",
+        "road_traffic@2004-05-01:第76条"
+      ]
+    },
+    "employment": {
+      "label": "是否执行工作任务",
+      "question": "事故发生时，驾驶人是不是正在执行工作任务，比如送货、接送客户或者开公司车办公事？",
+      "type": "enum",
+      "options": [
+        "执行工作任务",
+        "个人事务",
+        "不清楚"
+      ],
+      "why": "执行工作任务造成他人损害的，由用人单位承担侵权责任",
+      "basis": [
+        "civil_code_tort@2021-01-01:第1191条"
+      ]
+    },
+    "treatment_cost": {
+      "label": "已发生医疗费",
+      "question": "目前医疗费大概花了多少？有没有保留发票和病历？",
+      "type": "number",
+      "why": "医疗费、护理费、误工费等需凭票据主张",
+      "basis": [
+        "civil_code_tort@2021-01-01:第1179条"
+      ]
+    },
+    "claim_filed": {
+      "label": "是否已起诉或索赔",
+      "question": "目前有没有向保险公司报案理赔，或者已经向法院起诉？",
+      "type": "enum",
+      "options": [
+        "已起诉",
+        "已向保险公司索赔",
+        "都没有"
+      ],
+      "why": "影响诉讼时效中断与程序建议",
+      "basis": [
+        "civil_code_general@2021-01-01:第188条"
+      ]
+    }
+  },
+  "claims": {
     "labor_dismissal": {
-      "label": "劳动争议 · 解除劳动合同",
-      "aliases": ["辞退", "开除", "解除劳动合同", "被公司炒", "裁员", "劳动关系", "经济补偿", "赔偿金", "N+1", "2N"],
-      "law_hints": ["labor_contract", "labor_dispute", "labor_js1", "labor_law", "labor_contract_regs"],
-      "default_as_of": "today",
+      "label": "劳动争议 · 解除/辞退",
+      "matter": "labor",
+      "stage": "离职",
+      "aliases": [
+        "辞退",
+        "开除",
+        "解除劳动合同",
+        "被公司炒",
+        "裁员",
+        "经济补偿",
+        "赔偿金",
+        "N+1",
+        "2N",
+        "违法解除",
+        "被迫解除",
+        "不续签",
+        "让我走",
+        "不用来了",
+        "优化",
+        "毕业"
+      ],
+      "law_hints": [
+        "labor_contract",
+        "labor_law",
+        "labor_dispute",
+        "labor_contract_regs",
+        "labor_js1",
+        "labor_js2"
+      ],
+      "default_as_of": "dismiss_date",
+      "summary": "解除是否合法、能拿 N、N+1 还是 2N，取决于解除主体、理由、程序和你手上的证据。",
+      "priority": 50,
       "fields": [
         {
           "key": "dismiss_date",
-          "label": "解除日期",
-          "question": "公司是哪一天通知您解除劳动合同的？如果有书面通知，通知上写的日期是哪天？",
-          "type": "date",
           "critical": true,
-          "priority": 96,
-          "why": "决定仲裁时效起算点，以及应适用哪一版本的法条",
-          "basis": ["labor_dispute@2008-05-01:第27条"]
+          "priority": 98
         },
         {
           "key": "who_initiated",
-          "label": "解除主体",
-          "question": "这次是公司单方面通知解除，还是您自己提出辞职，或者双方协商一致？",
-          "type": "enum",
-          "options": ["单位单方解除", "劳动者辞职", "协商一致解除", "说不清"],
           "critical": true,
-          "priority": 94,
-          "why": "决定适用第三十九条/四十条/三十六条，以及是否有经济补偿",
-          "basis": ["labor_contract@2008-01-01:第39条", "labor_contract@2008-01-01:第40条", "labor_contract@2008-01-01:第46条"]
+          "priority": 96
         },
         {
           "key": "stated_reason",
-          "label": "解除理由",
-          "question": "解除通知或公司口头说明的理由是什么？例如严重违纪、不能胜任工作、客观情况变化、经济性裁员。",
-          "type": "enum",
-          "options": ["严重违纪", "不胜任工作", "客观情况重大变化", "经济性裁员", "试用期不符合录用条件", "其他或说不清"],
           "critical": true,
-          "priority": 92,
-          "why": "不同法定解除事由对应不同的举证与程序要求",
-          "basis": ["labor_contract@2008-01-01:第39条", "labor_contract@2008-01-01:第40条", "labor_contract@2008-01-01:第41条"]
+          "priority": 94
         },
         {
           "key": "rule_publicized",
-          "label": "规章制度是否公示或告知",
-          "question": "公司据以解除的员工手册或规章制度，有没有向您公示、送达或组织学习过？您有没有签收记录？",
-          "type": "enum",
-          "options": ["有签收或公示", "没有公示告知", "记不清"],
-          "critical_if": [{"stated_reason": "严重违纪"}],
+          "critical": true,
           "priority": 84,
-          "why": "规章制度未经公示或告知，不能作为解除依据（劳动合同法第4条第4款）",
-          "basis": ["labor_contract@2008-01-01:第4条", "labor_js1@2021-01-01:第50条"]
+          "critical_if": [
+            {
+              "stated_reason": "严重违纪"
+            }
+          ]
         },
         {
           "key": "rule_exists",
-          "label": "规章制度是否存在",
-          "question": "公司有没有成文的员工手册或违纪处理制度？您手上有没有这份文件的副本？",
-          "type": "enum",
-          "options": ["有成文制度", "没有成文制度", "不清楚"],
-          "critical_if": [{"stated_reason": "严重违纪"}],
+          "critical": true,
           "priority": 80,
-          "why": "无规章制度时，严重违纪解除缺少规范依据",
-          "basis": ["labor_contract@2008-01-01:第4条", "labor_contract@2008-01-01:第39条"]
+          "critical_if": [
+            {
+              "stated_reason": "严重违纪"
+            }
+          ]
         },
         {
           "key": "misconduct_proof",
-          "label": "违纪事实的证据",
-          "question": "公司说您违纪，具体指什么事？他们手上有哪些证据，比如监控、书面检讨、证人或者您签字的记录？",
-          "type": "enum",
-          "options": ["有书面证据", "只有口头指认", "有证人但无书面材料", "不清楚"],
-          "critical_if": [{"stated_reason": "严重违纪"}],
+          "critical": true,
           "priority": 78,
-          "why": "用人单位对解除决定的合法性负举证责任",
-          "basis": ["labor_js1@2021-01-01:第44条"]
+          "critical_if": [
+            {
+              "stated_reason": "严重违纪"
+            }
+          ]
         },
         {
           "key": "rule_democratic",
-          "label": "规章制度制定程序",
-          "question": "这份制度制定或修改时，有没有经过职工代表大会或全体职工讨论，并和工会或职工代表协商？",
-          "type": "enum",
-          "options": ["经过了民主程序", "没有经过", "不清楚"],
-          "critical_if": [{"stated_reason": "严重违纪"}],
+          "critical": true,
           "priority": 66,
-          "why": "直接涉及劳动者切身利益的规章制度须经民主程序制定",
-          "basis": ["labor_contract@2008-01-01:第4条"]
+          "critical_if": [
+            {
+              "stated_reason": "严重违纪"
+            }
+          ]
         },
         {
           "key": "training_or_transfer",
-          "label": "是否培训或调岗",
-          "question": "公司说您不能胜任工作，在解除前有没有给您培训，或者调整过工作岗位？",
-          "type": "enum",
-          "options": ["有培训或调岗", "没有", "不清楚"],
-          "critical_if": [{"stated_reason": "不胜任工作"}],
+          "critical": true,
           "priority": 76,
-          "why": "不胜任解除须先经培训或调岗，仍不能胜任才可解除",
-          "basis": ["labor_contract@2008-01-01:第40条"]
+          "critical_if": [
+            {
+              "stated_reason": "不胜任工作"
+            }
+          ]
         },
         {
           "key": "notice_30d",
-          "label": "是否提前三十日通知",
-          "question": "公司有没有提前三十天书面通知您，或者额外支付一个月工资作为代通知金？",
-          "type": "enum",
-          "options": ["提前三十日通知", "支付了代通知金", "都没有"],
-          "critical_if": [{"stated_reason": "不胜任工作"}, {"stated_reason": "客观情况重大变化"}],
+          "critical": true,
           "priority": 64,
-          "why": "无过失性辞退须提前三十日通知或支付代通知金",
-          "basis": ["labor_contract@2008-01-01:第40条"]
+          "critical_if": [
+            {
+              "stated_reason__in": [
+                "不胜任工作",
+                "客观情况重大变化"
+              ]
+            }
+          ]
         },
         {
           "key": "union_notified",
-          "label": "是否通知工会",
-          "question": "公司解除前有没有把理由通知工会？公司里有没有建立工会？",
-          "type": "enum",
-          "options": ["已通知工会", "没有通知", "公司没有工会", "不清楚"],
-          "critical_if": [{"stated_reason": "严重违纪"}, {"stated_reason": "不胜任工作"}, {"stated_reason": "客观情况重大变化"}, {"stated_reason": "经济性裁员"}],
+          "critical": true,
           "priority": 60,
-          "why": "单方解除应事先通知工会；未通知且未补正的，可能构成违法解除",
-          "basis": ["labor_contract@2008-01-01:第43条", "labor_js1@2021-01-01:第47条"]
+          "critical_if": [
+            {
+              "who_initiated__in": [
+                "单位单方解除",
+                "被迫解除"
+              ]
+            }
+          ]
+        },
+        {
+          "key": "forced_resignation_reason",
+          "critical": true,
+          "priority": 46,
+          "critical_if": [
+            {
+              "who_initiated__in": [
+                "被迫解除",
+                "劳动者辞职"
+              ]
+            }
+          ]
+        },
+        {
+          "key": "contract_expired",
+          "critical": true,
+          "priority": 42,
+          "critical_if": [
+            {
+              "stated_reason": "合同期满不续签"
+            }
+          ]
         },
         {
           "key": "start_date",
-          "label": "入职日期",
-          "question": "您是哪一年哪一月入职的？中间有没有断过、换过关联公司？",
-          "type": "date",
           "critical": true,
-          "priority": 58,
-          "why": "用于计算工作年限和经济补偿/赔偿金基数",
-          "basis": ["labor_contract@2008-01-01:第47条"]
+          "priority": 58
         },
         {
           "key": "monthly_wage",
-          "label": "月平均工资",
-          "question": "解除前十二个月，您平均每月应发工资大约是多少？可以给一个大概数。",
-          "type": "number",
           "critical": true,
-          "priority": 56,
-          "why": "经济补偿/赔偿金的计算基数；高于当地社平工资三倍时另有封顶规则",
-          "basis": ["labor_contract@2008-01-01:第47条"]
+          "priority": 56
+        },
+        {
+          "key": "contract_signed",
+          "critical": true,
+          "priority": 54
         },
         {
           "key": "claim_type",
-          "label": "诉求",
-          "question": "您现在更希望继续回去上班，还是要求公司支付赔偿金？",
-          "type": "enum",
-          "options": ["要求赔偿金", "要求继续履行", "还没想好"],
           "critical": true,
-          "priority": 50,
-          "why": "继续履行与赔偿金是不同的救济路径",
-          "basis": ["labor_contract@2008-01-01:第48条", "labor_contract@2008-01-01:第87条"]
+          "priority": 50
+        },
+        {
+          "key": "compensation_paid",
+          "critical": false,
+          "priority": 48
+        },
+        {
+          "key": "pregnancy_status",
+          "critical": false,
+          "priority": 44
         },
         {
           "key": "arbitration_filed",
-          "label": "是否已申请仲裁",
-          "question": "您已经向劳动人事争议仲裁委员会申请仲裁了吗？如果申请了，是哪一天？",
-          "type": "enum",
-          "options": ["已申请", "没有申请", "不清楚"],
           "critical": false,
-          "priority": 44,
-          "why": "影响时效是否已经中断，以及后续程序建议",
-          "basis": ["labor_dispute@2008-05-01:第27条"]
+          "priority": 40
         },
         {
           "key": "employer",
-          "label": "用人单位",
-          "question": "和您签劳动合同的公司全称是什么？实际给您发工资、交社保的是同一家公司吗？",
-          "type": "text",
+          "critical": true,
+          "priority": 36
+        }
+      ],
+      "elements": [
+        {
+          "id": "relationship",
+          "label": "劳动关系成立",
+          "facts": [
+            "start_date",
+            "employer",
+            "contract_signed"
+          ],
+          "essential": true,
+          "why": "没有劳动关系，后面的解除、补偿都无从谈起",
+          "proof": [
+            "劳动合同",
+            "工资流水",
+            "社保记录",
+            "工牌/考勤"
+          ]
+        },
+        {
+          "id": "dismissal_act",
+          "label": "解除行为与时间",
+          "facts": [
+            "dismiss_date",
+            "who_initiated"
+          ],
+          "essential": true,
+          "why": "先确定是单位解除、劳动者辞职、协商一致还是被迫解除",
+          "proof": [
+            "解除通知书",
+            "微信/邮件",
+            "离职证明",
+            "录音"
+          ]
+        },
+        {
+          "id": "illegality",
+          "label": "解除理由与程序合法性",
+          "facts": [
+            "stated_reason",
+            "rule_exists",
+            "rule_publicized",
+            "rule_democratic",
+            "misconduct_proof",
+            "training_or_transfer",
+            "notice_30d",
+            "union_notified",
+            "forced_resignation_reason",
+            "pregnancy_status",
+            "contract_expired"
+          ],
+          "essential": true,
+          "why": "单位对解除合法性负举证责任；制度效力和程序是常见突破口",
+          "proof": [
+            "员工手册及签收记录",
+            "违纪证据",
+            "培训/调岗记录",
+            "工会通知"
+          ]
+        },
+        {
+          "id": "remedy",
+          "label": "救济路径与金额",
+          "facts": [
+            "claim_type",
+            "monthly_wage",
+            "compensation_paid"
+          ],
+          "essential": true,
+          "why": "继续履行与赔偿金是不同路径；N、N+1、2N 适用条件不同",
+          "proof": [
+            "工资流水",
+            "补偿支付凭证"
+          ]
+        },
+        {
+          "id": "timeline",
+          "label": "仲裁时效与程序",
+          "facts": [
+            "arbitration_filed",
+            "deadline_aware"
+          ],
+          "essential": true,
+          "why": "劳动仲裁时效一年，超过可能丧失胜诉权"
+        }
+      ]
+    },
+    "labor_wage": {
+      "label": "劳动争议 · 工资/欠薪",
+      "matter": "labor",
+      "stage": "在职/离职",
+      "aliases": [
+        "拖欠工资",
+        "欠薪",
+        "克扣工资",
+        "不发工资",
+        "工资没给",
+        "提成",
+        "年终奖",
+        "最低工资",
+        "降薪",
+        "欠我工资",
+        "劳动报酬"
+      ],
+      "law_hints": [
+        "labor_contract",
+        "labor_law",
+        "labor_dispute",
+        "labor_contract_regs",
+        "labor_js1",
+        "labor_js2",
+        "wage_payment",
+        "migrant_wage"
+      ],
+      "default_as_of": "dismiss_date",
+      "summary": "欠薪案件的核心是工资标准、欠付期间和证据；离职时公司应一次付清。",
+      "priority": 50,
+      "fields": [
+        {
+          "key": "wage_owed",
+          "critical": true,
+          "priority": 98
+        },
+        {
+          "key": "wage_period",
+          "critical": true,
+          "priority": 94
+        },
+        {
+          "key": "wage_type",
+          "critical": true,
+          "priority": 88
+        },
+        {
+          "key": "wage_reason",
           "critical": false,
-          "priority": 36,
-          "why": "确定被申请人主体，关联公司混同用工时尤其重要",
-          "basis": []
+          "priority": 76
+        },
+        {
+          "key": "wage_evidence",
+          "critical": true,
+          "priority": 72
+        },
+        {
+          "key": "monthly_wage",
+          "critical": true,
+          "priority": 70
+        },
+        {
+          "key": "start_date",
+          "critical": true,
+          "priority": 60
+        },
+        {
+          "key": "reduced_salary",
+          "critical": false,
+          "priority": 56
+        },
+        {
+          "key": "employer",
+          "critical": false,
+          "priority": 52
+        },
+        {
+          "key": "arbitration_filed",
+          "critical": false,
+          "priority": 40
+        }
+      ],
+      "elements": [
+        {
+          "id": "relationship",
+          "label": "劳动关系与工资标准",
+          "facts": [
+            "start_date",
+            "employer",
+            "monthly_wage"
+          ],
+          "essential": true,
+          "proof": [
+            "劳动合同",
+            "工资条",
+            "银行流水"
+          ]
+        },
+        {
+          "id": "owed",
+          "label": "欠付事实与金额",
+          "facts": [
+            "wage_owed",
+            "wage_period",
+            "wage_type",
+            "wage_reason"
+          ],
+          "essential": true,
+          "proof": [
+            "工资条",
+            "考勤",
+            "聊天记录",
+            "欠条"
+          ]
+        },
+        {
+          "id": "evidence",
+          "label": "证据与举证责任",
+          "facts": [
+            "wage_evidence"
+          ],
+          "essential": false,
+          "why": "工资支付凭证由用人单位保存，劳动者先证明初步事实",
+          "proof": [
+            "银行流水",
+            "微信转账",
+            "工资表"
+          ]
+        },
+        {
+          "id": "remedy",
+          "label": "诉求与程序",
+          "facts": [
+            "reduced_salary",
+            "arbitration_filed"
+          ],
+          "essential": true,
+          "why": "离职时应一次付清；无故拖欠可主张加付赔偿"
+        }
+      ]
+    },
+    "labor_overtime": {
+      "label": "劳动争议 · 加班费",
+      "matter": "labor",
+      "stage": "在职/离职",
+      "aliases": [
+        "加班费",
+        "加班",
+        "996",
+        "大小周",
+        "休息日上班",
+        "法定节假日加班",
+        "延时加班",
+        "调休"
+      ],
+      "law_hints": [
+        "labor_contract",
+        "labor_law",
+        "labor_dispute",
+        "labor_contract_regs",
+        "labor_js1",
+        "labor_js2"
+      ],
+      "default_as_of": "dismiss_date",
+      "summary": "加班费按工作日150%、休息日200%、法定节假日300%计算；先确认工时制度和加班证据。",
+      "priority": 50,
+      "fields": [
+        {
+          "key": "overtime_exists",
+          "critical": true,
+          "priority": 98
+        },
+        {
+          "key": "work_schedule",
+          "critical": true,
+          "priority": 90
+        },
+        {
+          "key": "overtime_period",
+          "critical": true,
+          "priority": 84
+        },
+        {
+          "key": "overtime_hours_weekday",
+          "critical": true,
+          "priority": 80,
+          "critical_if": [
+            {
+              "overtime_exists": "有"
+            }
+          ]
+        },
+        {
+          "key": "overtime_hours_rest",
+          "critical": true,
+          "priority": 78,
+          "critical_if": [
+            {
+              "overtime_exists": "有"
+            }
+          ]
+        },
+        {
+          "key": "overtime_hours_holiday",
+          "critical": true,
+          "priority": 76,
+          "critical_if": [
+            {
+              "overtime_exists": "有"
+            }
+          ]
+        },
+        {
+          "key": "overtime_evidence",
+          "critical": true,
+          "priority": 72,
+          "critical_if": [
+            {
+              "overtime_exists": "有"
+            }
+          ]
+        },
+        {
+          "key": "overtime_paid",
+          "critical": true,
+          "priority": 68,
+          "critical_if": [
+            {
+              "overtime_exists": "有"
+            }
+          ]
+        },
+        {
+          "key": "monthly_wage",
+          "critical": true,
+          "priority": 64
+        },
+        {
+          "key": "start_date",
+          "critical": true,
+          "priority": 56
+        },
+        {
+          "key": "arbitration_filed",
+          "critical": false,
+          "priority": 40
+        }
+      ],
+      "elements": [
+        {
+          "id": "relationship",
+          "label": "劳动关系与工时制度",
+          "facts": [
+            "start_date",
+            "monthly_wage",
+            "work_schedule"
+          ],
+          "essential": true,
+          "why": "标准工时、综合工时、不定时工时的加班认定不同"
+        },
+        {
+          "id": "existence",
+          "label": "加班事实",
+          "facts": [
+            "overtime_exists",
+            "overtime_period"
+          ],
+          "essential": true,
+          "why": "先确认有没有加班；没有则不必进入计算"
+        },
+        {
+          "id": "hours",
+          "label": "加班时长",
+          "facts": [
+            "overtime_hours_weekday",
+            "overtime_hours_rest",
+            "overtime_hours_holiday"
+          ],
+          "essential": true,
+          "why": "工作日150%、休息日200%、法定节假日300%",
+          "proof": [
+            "考勤记录",
+            "排班表",
+            "加班审批"
+          ]
+        },
+        {
+          "id": "evidence",
+          "label": "证据与已付情况",
+          "facts": [
+            "overtime_evidence",
+            "overtime_paid"
+          ],
+          "essential": true,
+          "why": "劳动者先就加班事实初步举证；考勤由单位掌握的，可要求单位提供"
+        },
+        {
+          "id": "remedy",
+          "label": "诉求与程序",
+          "facts": [
+            "arbitration_filed"
+          ],
+          "essential": true,
+          "why": "加班费属于劳动报酬，离职后一年内主张"
+        }
+      ]
+    },
+    "labor_double_pay": {
+      "label": "劳动争议 · 未签合同二倍工资",
+      "matter": "labor",
+      "stage": "在职/离职",
+      "aliases": [
+        "没签合同",
+        "未签劳动合同",
+        "二倍工资",
+        "双倍工资",
+        "不签合同",
+        "合同没给我"
+      ],
+      "law_hints": [
+        "labor_contract",
+        "labor_law",
+        "labor_dispute",
+        "labor_contract_regs",
+        "labor_js1",
+        "labor_js2"
+      ],
+      "default_as_of": "dismiss_date",
+      "summary": "未签书面合同可主张最多11个月的二倍工资差额，但要注意时效和补签抗辩。",
+      "priority": 50,
+      "fields": [
+        {
+          "key": "contract_signed",
+          "critical": true,
+          "priority": 98
+        },
+        {
+          "key": "start_date",
+          "critical": true,
+          "priority": 92
+        },
+        {
+          "key": "no_contract_months",
+          "critical": true,
+          "priority": 88,
+          "critical_if": [
+            {
+              "contract_signed__in": [
+                "未签书面合同",
+                "签了但没给我",
+                "不清楚"
+              ]
+            }
+          ]
+        },
+        {
+          "key": "demand_contract",
+          "critical": false,
+          "priority": 70,
+          "critical_if": [
+            {
+              "contract_signed__in": [
+                "未签书面合同",
+                "签了但没给我",
+                "不清楚"
+              ]
+            }
+          ]
+        },
+        {
+          "key": "monthly_wage",
+          "critical": true,
+          "priority": 66
+        },
+        {
+          "key": "employer",
+          "critical": false,
+          "priority": 56
+        },
+        {
+          "key": "arbitration_filed",
+          "critical": false,
+          "priority": 40
+        }
+      ],
+      "elements": [
+        {
+          "id": "relationship",
+          "label": "劳动关系成立",
+          "facts": [
+            "start_date",
+            "employer"
+          ],
+          "essential": true,
+          "why": "二倍工资以劳动关系存在为前提"
+        },
+        {
+          "id": "contract",
+          "label": "书面合同订立情况",
+          "facts": [
+            "contract_signed"
+          ],
+          "essential": true,
+          "why": "已签合同则无二倍工资；拒绝补签或代签另论"
+        },
+        {
+          "id": "duration",
+          "label": "未签期间",
+          "facts": [
+            "no_contract_months",
+            "demand_contract"
+          ],
+          "essential": true,
+          "why": "自用工之日起满一个月的次日至满一年的前一日，最多11个月"
+        },
+        {
+          "id": "remedy",
+          "label": "计算基数与程序",
+          "facts": [
+            "monthly_wage",
+            "arbitration_filed"
+          ],
+          "essential": true,
+          "why": "二倍工资差额按应得工资计算，时效争议较大"
+        }
+      ]
+    },
+    "labor_work_injury": {
+      "label": "劳动争议 · 工伤",
+      "matter": "labor",
+      "stage": "工伤",
+      "aliases": [
+        "工伤",
+        "工伤认定",
+        "职业病",
+        "上下班途中",
+        "工伤待遇",
+        "工伤赔偿",
+        "劳动能力鉴定"
+      ],
+      "law_hints": [
+        "labor_contract",
+        "labor_law",
+        "labor_dispute",
+        "labor_contract_regs",
+        "labor_js1",
+        "labor_js2",
+        "work_injury_reg",
+        "social_insurance"
+      ],
+      "default_as_of": "injury_date",
+      "summary": "工伤先走认定，再做劳动能力鉴定，最后按伤残等级计算待遇；未参保的单位买单。",
+      "priority": 50,
+      "fields": [
+        {
+          "key": "injury_date",
+          "critical": true,
+          "priority": 98
+        },
+        {
+          "key": "injury_at_work",
+          "critical": true,
+          "priority": 96
+        },
+        {
+          "key": "injury_reported",
+          "critical": true,
+          "priority": 86
+        },
+        {
+          "key": "injury_recognized",
+          "critical": true,
+          "priority": 82
+        },
+        {
+          "key": "disability_level",
+          "critical": true,
+          "priority": 80
+        },
+        {
+          "key": "medical_cost",
+          "critical": false,
+          "priority": 72
+        },
+        {
+          "key": "work_injury_insurance",
+          "critical": true,
+          "priority": 68
+        },
+        {
+          "key": "injury_evidence",
+          "critical": false,
+          "priority": 64
+        },
+        {
+          "key": "start_date",
+          "critical": true,
+          "priority": 58
+        },
+        {
+          "key": "monthly_wage",
+          "critical": true,
+          "priority": 56
+        },
+        {
+          "key": "employer",
+          "critical": false,
+          "priority": 50
+        },
+        {
+          "key": "claim_type",
+          "critical": false,
+          "priority": 48
+        }
+      ],
+      "elements": [
+        {
+          "id": "relationship",
+          "label": "劳动关系",
+          "facts": [
+            "start_date",
+            "employer",
+            "monthly_wage"
+          ],
+          "essential": true,
+          "why": "工伤认定通常先确认劳动关系；未参保时待遇由单位承担"
+        },
+        {
+          "id": "injury",
+          "label": "事故与伤情",
+          "facts": [
+            "injury_date",
+            "injury_at_work",
+            "injury_evidence"
+          ],
+          "essential": true,
+          "why": "是否属于应当认定或视同工伤的情形"
+        },
+        {
+          "id": "recognition",
+          "label": "工伤认定程序",
+          "facts": [
+            "injury_reported",
+            "injury_recognized"
+          ],
+          "essential": true,
+          "why": "单位30日、个人1年内申请；认定是待遇前提"
+        },
+        {
+          "id": "disability",
+          "label": "劳动能力鉴定与待遇",
+          "facts": [
+            "disability_level",
+            "medical_cost",
+            "work_injury_insurance"
+          ],
+          "essential": true,
+          "why": "伤残等级决定一次性伤残补助金、津贴等项目"
+        },
+        {
+          "id": "remedy",
+          "label": "诉求与程序",
+          "facts": [
+            "claim_type",
+            "arbitration_filed"
+          ],
+          "essential": true,
+          "why": "工伤待遇争议属于劳动仲裁范围；未参保由单位支付"
+        }
+      ]
+    },
+    "labor_social_insurance": {
+      "label": "劳动争议 · 社保/公积金",
+      "matter": "labor",
+      "stage": "在职/离职",
+      "aliases": [
+        "社保",
+        "五险一金",
+        "公积金",
+        "断缴",
+        "补缴",
+        "没交社保",
+        "未缴社保",
+        "社保损失"
+      ],
+      "law_hints": [
+        "labor_contract",
+        "labor_law",
+        "labor_dispute",
+        "labor_contract_regs",
+        "labor_js1",
+        "labor_js2",
+        "social_insurance"
+      ],
+      "default_as_of": "dismiss_date",
+      "summary": "社保补缴一般找社保征收机构；以未缴社保为由被迫解除的，可主张经济补偿。",
+      "priority": 50,
+      "fields": [
+        {
+          "key": "social_insurance",
+          "critical": true,
+          "priority": 98
+        },
+        {
+          "key": "social_insurance_gap",
+          "critical": true,
+          "priority": 88,
+          "critical_if": [
+            {
+              "social_insurance__in": [
+                "未缴纳",
+                "断缴",
+                "按最低基数缴纳"
+              ]
+            }
+          ]
+        },
+        {
+          "key": "social_insurance_years",
+          "critical": false,
+          "priority": 76
+        },
+        {
+          "key": "housing_fund",
+          "critical": false,
+          "priority": 70
+        },
+        {
+          "key": "social_insurance_claim",
+          "critical": true,
+          "priority": 68
+        },
+        {
+          "key": "forced_resignation_reason",
+          "critical": false,
+          "priority": 64
+        },
+        {
+          "key": "start_date",
+          "critical": true,
+          "priority": 58
+        },
+        {
+          "key": "monthly_wage",
+          "critical": true,
+          "priority": 54
+        },
+        {
+          "key": "employer",
+          "critical": false,
+          "priority": 50
+        },
+        {
+          "key": "arbitration_filed",
+          "critical": false,
+          "priority": 40
+        }
+      ],
+      "elements": [
+        {
+          "id": "relationship",
+          "label": "劳动关系与缴费义务",
+          "facts": [
+            "start_date",
+            "employer",
+            "monthly_wage"
+          ],
+          "essential": true,
+          "why": "用人单位应当自用工之日起三十日内办理社保登记"
+        },
+        {
+          "id": "status",
+          "label": "社保缴纳情况",
+          "facts": [
+            "social_insurance",
+            "social_insurance_gap"
+          ],
+          "essential": true,
+          "why": "未缴、断缴、按最低基数缴的处理路径不同"
+        },
+        {
+          "id": "remedy",
+          "label": "补缴/赔偿/被迫解除",
+          "facts": [
+            "social_insurance_claim",
+            "forced_resignation_reason",
+            "housing_fund"
+          ],
+          "essential": true,
+          "why": "补缴找社保征收机构；赔偿损失和被迫解除可走仲裁"
+        },
+        {
+          "id": "procedure",
+          "label": "仲裁时效",
+          "facts": [
+            "arbitration_filed"
+          ],
+          "essential": false
+        }
+      ]
+    },
+    "labor_annual_leave": {
+      "label": "劳动争议 · 年休假",
+      "matter": "labor",
+      "stage": "在职/离职",
+      "aliases": [
+        "年假",
+        "年休假",
+        "未休年假",
+        "带薪年假"
+      ],
+      "law_hints": [
+        "labor_contract",
+        "labor_law",
+        "labor_dispute",
+        "labor_contract_regs",
+        "labor_js1",
+        "labor_js2",
+        "annual_leave"
+      ],
+      "default_as_of": "dismiss_date",
+      "summary": "未休年假按日工资300%折算（含正常工资，额外200%），天数看累计工作年限。",
+      "priority": 50,
+      "fields": [
+        {
+          "key": "cumulative_work_years",
+          "critical": true,
+          "priority": 94
+        },
+        {
+          "key": "annual_leave_taken",
+          "critical": true,
+          "priority": 90
+        },
+        {
+          "key": "annual_leave_year",
+          "critical": true,
+          "priority": 82
+        },
+        {
+          "key": "annual_leave_paid",
+          "critical": true,
+          "priority": 74
+        },
+        {
+          "key": "monthly_wage",
+          "critical": true,
+          "priority": 68
+        },
+        {
+          "key": "start_date",
+          "critical": true,
+          "priority": 58
+        },
+        {
+          "key": "arbitration_filed",
+          "critical": false,
+          "priority": 40
+        }
+      ],
+      "elements": [
+        {
+          "id": "relationship",
+          "label": "劳动关系与工资",
+          "facts": [
+            "start_date",
+            "monthly_wage"
+          ],
+          "essential": true
+        },
+        {
+          "id": "entitlement",
+          "label": "年假天数",
+          "facts": [
+            "cumulative_work_years",
+            "annual_leave_year"
+          ],
+          "essential": true,
+          "why": "累计工作满1年5天、满10年10天、满20年15天"
+        },
+        {
+          "id": "taken",
+          "label": "已休与未休",
+          "facts": [
+            "annual_leave_taken",
+            "annual_leave_paid"
+          ],
+          "essential": true,
+          "why": "未休年假按日工资300%支付，其中200%为额外补偿"
+        },
+        {
+          "id": "procedure",
+          "label": "仲裁时效",
+          "facts": [
+            "arbitration_filed"
+          ],
+          "essential": false
+        }
+      ]
+    },
+    "labor_noncompete": {
+      "label": "劳动争议 · 竞业限制",
+      "matter": "labor",
+      "stage": "离职后",
+      "aliases": [
+        "竞业限制",
+        "竞业协议",
+        "保密协议",
+        "竞业补偿",
+        "违约金",
+        "限制就业"
+      ],
+      "law_hints": [
+        "labor_contract",
+        "labor_law",
+        "labor_dispute",
+        "labor_contract_regs",
+        "labor_js1",
+        "labor_js2",
+        "labor_js2"
+      ],
+      "default_as_of": "dismiss_date",
+      "summary": "竞业限制不是签了就有效：人员范围、期限、补偿和实际履行都会影响结果。",
+      "priority": 50,
+      "fields": [
+        {
+          "key": "noncompete_signed",
+          "critical": true,
+          "priority": 98
+        },
+        {
+          "key": "noncompete_months",
+          "critical": true,
+          "priority": 88,
+          "critical_if": [
+            {
+              "noncompete_signed": "签了竞业限制协议"
+            }
+          ]
+        },
+        {
+          "key": "noncompete_compensation",
+          "critical": true,
+          "priority": 84,
+          "critical_if": [
+            {
+              "noncompete_signed": "签了竞业限制协议"
+            }
+          ]
+        },
+        {
+          "key": "noncompete_paid",
+          "critical": true,
+          "priority": 80,
+          "critical_if": [
+            {
+              "noncompete_signed": "签了竞业限制协议"
+            }
+          ]
+        },
+        {
+          "key": "new_employer_competitor",
+          "critical": true,
+          "priority": 76,
+          "critical_if": [
+            {
+              "noncompete_signed": "签了竞业限制协议"
+            }
+          ]
+        },
+        {
+          "key": "noncompete_claim",
+          "critical": true,
+          "priority": 72,
+          "critical_if": [
+            {
+              "noncompete_signed": "签了竞业限制协议"
+            }
+          ]
+        },
+        {
+          "key": "monthly_wage",
+          "critical": true,
+          "priority": 64
+        },
+        {
+          "key": "dismiss_date",
+          "critical": true,
+          "priority": 56
+        },
+        {
+          "key": "arbitration_filed",
+          "critical": false,
+          "priority": 40
+        }
+      ],
+      "elements": [
+        {
+          "id": "agreement",
+          "label": "协议与适用人员",
+          "facts": [
+            "noncompete_signed",
+            "noncompete_months",
+            "noncompete_compensation"
+          ],
+          "essential": true,
+          "why": "竞业限制限于高管、高技和负有保密义务的人员，期限不超过二年"
+        },
+        {
+          "id": "performance",
+          "label": "双方履行情况",
+          "facts": [
+            "noncompete_paid",
+            "new_employer_competitor"
+          ],
+          "essential": true,
+          "why": "单位三个月未付补偿，劳动者可请求解除；劳动者违约可能承担违约金"
+        },
+        {
+          "id": "remedy",
+          "label": "诉求与抗辩",
+          "facts": [
+            "noncompete_claim",
+            "monthly_wage",
+            "arbitration_filed"
+          ],
+          "essential": true,
+          "why": "补偿标准、违约金调整和协议解除是常见争点"
+        }
+      ]
+    },
+    "labor_maternity": {
+      "label": "劳动争议 · 三期/生育",
+      "matter": "labor",
+      "stage": "在职/离职",
+      "aliases": [
+        "怀孕",
+        "产假",
+        "哺乳期",
+        "生育津贴",
+        "三期",
+        "孕期被辞退",
+        "产假工资"
+      ],
+      "law_hints": [
+        "labor_contract",
+        "labor_law",
+        "labor_dispute",
+        "labor_contract_regs",
+        "labor_js1",
+        "labor_js2",
+        "female_protection",
+        "social_insurance"
+      ],
+      "default_as_of": "dismiss_date",
+      "summary": "三期女职工被辞退、降薪或产假待遇被压低，都有专门的保护规则。",
+      "priority": 50,
+      "fields": [
+        {
+          "key": "pregnancy_status",
+          "critical": true,
+          "priority": 98
+        },
+        {
+          "key": "maternity_dismissal",
+          "critical": true,
+          "priority": 94
+        },
+        {
+          "key": "maternity_leave_taken",
+          "critical": true,
+          "priority": 84
+        },
+        {
+          "key": "maternity_allowance",
+          "critical": true,
+          "priority": 80
+        },
+        {
+          "key": "dismiss_date",
+          "critical": true,
+          "priority": 70
+        },
+        {
+          "key": "monthly_wage",
+          "critical": true,
+          "priority": 64
+        },
+        {
+          "key": "social_insurance",
+          "critical": false,
+          "priority": 58
+        },
+        {
+          "key": "arbitration_filed",
+          "critical": false,
+          "priority": 40
+        }
+      ],
+      "elements": [
+        {
+          "id": "status",
+          "label": "三期状态",
+          "facts": [
+            "pregnancy_status",
+            "maternity_leave_taken"
+          ],
+          "essential": true,
+          "why": "孕期、产期、哺乳期受特殊保护"
+        },
+        {
+          "id": "treatment",
+          "label": "降薪/调岗/辞退",
+          "facts": [
+            "maternity_dismissal",
+            "dismiss_date"
+          ],
+          "essential": true,
+          "why": "三期女职工一般不得依第40、41条解除"
+        },
+        {
+          "id": "allowance",
+          "label": "生育津贴与产假工资",
+          "facts": [
+            "maternity_allowance",
+            "social_insurance"
+          ],
+          "essential": true,
+          "why": "生育津贴低于本人工资的由单位补足"
+        },
+        {
+          "id": "remedy",
+          "label": "救济与程序",
+          "facts": [
+            "monthly_wage",
+            "arbitration_filed"
+          ],
+          "essential": true
+        }
+      ]
+    },
+    "labor_dispatch": {
+      "label": "劳动争议 · 派遣/外包/新业态",
+      "matter": "labor",
+      "stage": "在职",
+      "aliases": [
+        "劳务派遣",
+        "外包",
+        "骑手",
+        "网约车",
+        "主播",
+        "灵活用工",
+        "确认劳动关系",
+        "平台用工",
+        "派遣工"
+      ],
+      "law_hints": [
+        "labor_contract",
+        "labor_law",
+        "labor_dispute",
+        "labor_contract_regs",
+        "labor_js1",
+        "labor_js2",
+        "labor_js2"
+      ],
+      "default_as_of": "dismiss_date",
+      "summary": "派遣/外包/平台用工先看谁在管理、谁发工资、谁承担用工责任，再谈具体请求。",
+      "priority": 50,
+      "fields": [
+        {
+          "key": "dispatch_type",
+          "critical": true,
+          "priority": 98
+        },
+        {
+          "key": "employer",
+          "critical": true,
+          "priority": 90
+        },
+        {
+          "key": "actual_employer",
+          "critical": true,
+          "priority": 86
+        },
+        {
+          "key": "work_management",
+          "critical": true,
+          "priority": 82
+        },
+        {
+          "key": "pay_by",
+          "critical": true,
+          "priority": 78
+        },
+        {
+          "key": "platform_worker",
+          "critical": false,
+          "priority": 74
+        },
+        {
+          "key": "uniform_tools",
+          "critical": false,
+          "priority": 66
+        },
+        {
+          "key": "start_date",
+          "critical": true,
+          "priority": 60
+        },
+        {
+          "key": "monthly_wage",
+          "critical": true,
+          "priority": 56
+        },
+        {
+          "key": "social_insurance",
+          "critical": false,
+          "priority": 52
+        },
+        {
+          "key": "claim_type",
+          "critical": true,
+          "priority": 48
+        },
+        {
+          "key": "arbitration_filed",
+          "critical": false,
+          "priority": 40
+        }
+      ],
+      "elements": [
+        {
+          "id": "form",
+          "label": "用工形式与主体",
+          "facts": [
+            "dispatch_type",
+            "employer",
+            "actual_employer",
+            "pay_by"
+          ],
+          "essential": true,
+          "why": "派遣、外包、平台用工的责任主体不同"
+        },
+        {
+          "id": "control",
+          "label": "从属性/管理程度",
+          "facts": [
+            "work_management",
+            "platform_worker",
+            "uniform_tools"
+          ],
+          "essential": true,
+          "why": "人格、经济、组织从属性是认定劳动关系的关键"
+        },
+        {
+          "id": "remedy",
+          "label": "诉求与程序",
+          "facts": [
+            "claim_type",
+            "social_insurance",
+            "start_date",
+            "monthly_wage",
+            "arbitration_filed"
+          ],
+          "essential": true,
+          "why": "确认劳动关系往往是工伤、社保、欠薪的前置请求"
+        }
+      ]
+    },
+    "labor_contract": {
+      "label": "劳动争议 · 合同订立/试用期/变更",
+      "matter": "labor",
+      "stage": "在职",
+      "aliases": [
+        "试用期",
+        "劳动合同",
+        "无固定期限",
+        "调岗",
+        "降薪",
+        "合同到期",
+        "合同变更",
+        "续签"
+      ],
+      "law_hints": [
+        "labor_contract",
+        "labor_law",
+        "labor_dispute",
+        "labor_contract_regs",
+        "labor_js1",
+        "labor_js2"
+      ],
+      "default_as_of": "dismiss_date",
+      "summary": "合同订立、试用期和调岗降薪的规则不同，先定位你处在哪个阶段。",
+      "priority": 50,
+      "fields": [
+        {
+          "key": "contract_signed",
+          "critical": true,
+          "priority": 92
+        },
+        {
+          "key": "contract_type",
+          "critical": true,
+          "priority": 86
+        },
+        {
+          "key": "probation",
+          "critical": true,
+          "priority": 80
+        },
+        {
+          "key": "probation_length",
+          "critical": true,
+          "priority": 74,
+          "critical_if": [
+            {
+              "probation": "有试用期"
+            }
+          ]
+        },
+        {
+          "key": "probation_wage",
+          "critical": true,
+          "priority": 70,
+          "critical_if": [
+            {
+              "probation": "有试用期"
+            }
+          ]
+        },
+        {
+          "key": "illegal_probation",
+          "critical": true,
+          "priority": 68,
+          "critical_if": [
+            {
+              "probation": "有试用期"
+            }
+          ]
+        },
+        {
+          "key": "contract_terms_changed",
+          "critical": true,
+          "priority": 64
+        },
+        {
+          "key": "contract_copies",
+          "critical": false,
+          "priority": 58
+        },
+        {
+          "key": "start_date",
+          "critical": true,
+          "priority": 56
+        },
+        {
+          "key": "monthly_wage",
+          "critical": true,
+          "priority": 52
+        },
+        {
+          "key": "claim_type",
+          "critical": true,
+          "priority": 46
+        }
+      ],
+      "elements": [
+        {
+          "id": "contract",
+          "label": "合同订立与文本",
+          "facts": [
+            "contract_signed",
+            "contract_type",
+            "contract_copies"
+          ],
+          "essential": true,
+          "why": "书面合同、合同期限和文本交付是用人单位的法定义务"
+        },
+        {
+          "id": "probation",
+          "label": "试用期",
+          "facts": [
+            "probation",
+            "probation_length",
+            "probation_wage",
+            "illegal_probation"
+          ],
+          "essential": true,
+          "why": "试用期长度、工资和解除条件均有法定限制"
+        },
+        {
+          "id": "change",
+          "label": "变更/续签",
+          "facts": [
+            "contract_terms_changed",
+            "claim_type"
+          ],
+          "essential": true,
+          "why": "调岗降薪需协商一致；符合条件可要求无固定期限合同"
+        }
+      ]
+    },
+    "labor_procedure": {
+      "label": "劳动争议 · 仲裁/诉讼程序",
+      "matter": "labor",
+      "stage": "维权",
+      "aliases": [
+        "劳动仲裁",
+        "仲裁申请",
+        "一裁终局",
+        "仲裁时效",
+        "不服裁决",
+        "撤销裁决",
+        "强制执行",
+        "劳动诉讼"
+      ],
+      "law_hints": [
+        "labor_contract",
+        "labor_law",
+        "labor_dispute",
+        "labor_contract_regs",
+        "labor_js1",
+        "labor_js2"
+      ],
+      "default_as_of": "dismiss_date",
+      "summary": "劳动仲裁是诉讼前置程序；是否一裁终局、下一步怎么走，取决于争议类型和金额。",
+      "priority": 50,
+      "fields": [
+        {
+          "key": "claim_type",
+          "critical": true,
+          "priority": 92
+        },
+        {
+          "key": "amount_in_dispute",
+          "critical": true,
+          "priority": 84
+        },
+        {
+          "key": "arbitration_filed",
+          "critical": true,
+          "priority": 80
+        },
+        {
+          "key": "arbitration_date",
+          "critical": true,
+          "priority": 74
+        },
+        {
+          "key": "arbitration_result",
+          "critical": true,
+          "priority": 70
+        },
+        {
+          "key": "court_filed",
+          "critical": true,
+          "priority": 66
+        },
+        {
+          "key": "deadline_aware",
+          "critical": true,
+          "priority": 60
+        },
+        {
+          "key": "employer",
+          "critical": false,
+          "priority": 54
+        },
+        {
+          "key": "work_location",
+          "critical": false,
+          "priority": 50
+        }
+      ],
+      "elements": [
+        {
+          "id": "dispute",
+          "label": "争议类型与金额",
+          "facts": [
+            "claim_type",
+            "amount_in_dispute"
+          ],
+          "essential": true,
+          "why": "争议类型和金额决定是否一裁终局、管辖和费用"
+        },
+        {
+          "id": "filed",
+          "label": "仲裁/诉讼进展",
+          "facts": [
+            "arbitration_filed",
+            "arbitration_date",
+            "arbitration_result",
+            "court_filed"
+          ],
+          "essential": true,
+          "why": "劳动争议一般仲裁前置；不服非终局裁决15日内起诉"
+        },
+        {
+          "id": "timeline",
+          "label": "时效与期限",
+          "facts": [
+            "deadline_aware"
+          ],
+          "essential": true,
+          "why": "仲裁时效一年；终局裁决用人单位只能申请撤销"
         }
       ]
     },
     "tort_injury": {
       "label": "侵权 · 交通事故人身损害",
-      "aliases": ["交通事故", "车祸", "撞伤", "人身损害", "伤残", "赔偿", "保险公司", "交通事故认定书"],
-      "law_hints": ["civil_code_tort", "civil_code_general", "road_traffic", "tort_interp_2022", "tort_interp_2020", "tort_interp_2003", "civil_time_effect"],
+      "matter": "tort",
+      "stage": "事故",
+      "aliases": [
+        "交通事故",
+        "车祸",
+        "肇事",
+        "撞伤",
+        "撞人",
+        "撞了",
+        "撞到",
+        "撞死",
+        "追尾",
+        "人身损害",
+        "伤残",
+        "保险公司",
+        "交强险",
+        "事故认定书",
+        "赔偿",
+        "医药费",
+        "误工费"
+      ],
+      "law_hints": [
+        "civil_code_tort",
+        "civil_code_general",
+        "road_traffic",
+        "tort_interp_2022",
+        "tort_interp_2020",
+        "tort_interp_2003",
+        "civil_time_effect"
+      ],
       "default_as_of": "accident_date",
+      "summary": "交通事故赔偿先看责任划分，再看伤情和保险，最后按项目计算。",
+      "priority": 50,
       "fields": [
         {
           "key": "accident_date",
-          "label": "事故发生日期",
-          "question": "交通事故发生的具体日期是哪一天？",
-          "type": "date",
           "critical": true,
-          "priority": 98,
-          "why": "决定适用哪一版本的人身损害赔偿司法解释，以及三年诉讼时效的起算",
-          "basis": ["civil_code_general@2021-01-01:第188条", "civil_time_effect@2021-01-01:第1条"]
+          "priority": 98
         },
         {
           "key": "responsibility",
-          "label": "事故责任划分",
-          "question": "交警出具的事故认定书是怎么划分责任的？对方和您分别是什么责任？",
-          "type": "enum",
-          "options": ["对方全责", "对方主要责任", "同等责任", "对方次要责任", "己方全责", "尚未认定"],
           "critical": true,
-          "priority": 92,
-          "why": "责任比例直接影响赔偿范围和数额",
-          "basis": ["road_traffic@2004-05-01:第76条", "civil_code_tort@2021-01-01:第1165条"]
+          "priority": 92
         },
         {
           "key": "injury",
-          "label": "伤情与伤残等级",
-          "question": "伤情现在是什么情况？有没有做过伤残等级鉴定，是几级？",
-          "type": "enum",
-          "options": ["死亡", "已鉴定伤残等级", "伤残但未鉴定", "重伤", "一般伤害"],
           "critical": true,
-          "priority": 88,
-          "why": "决定可主张的赔偿项目（残疾赔偿金/死亡赔偿金等）",
-          "basis": ["civil_code_tort@2021-01-01:第1179条"]
+          "priority": 88
         },
         {
           "key": "residence",
-          "label": "户籍/经常居住地",
-          "question": "受害人的户籍是城镇还是农村？事故前连续在城镇居住、工作满一年了吗？",
-          "type": "enum",
-          "options": ["城镇", "农村", "农村户籍但城镇居住满一年"],
-          "critical_if": [{"injury": "已鉴定伤残等级"}, {"injury": "伤残但未鉴定"}, {"injury": "死亡"}],
-          "critical_if_date_before": "2022-05-01",
-          "priority": 72,
-          "why": "2022-05-01前残疾/死亡赔偿金区分城乡标准，之后统一按城镇居民标准",
-          "basis": ["tort_interp_2020@2021-01-01:第12条", "tort_interp_2022@2022-05-01:第12条"]
+          "critical": true,
+          "priority": 72
         },
         {
           "key": "insurance",
-          "label": "保险情况",
-          "question": "肇事车辆投保了哪些保险？交强险和商业三者险分别有没有？",
-          "type": "enum",
-          "options": ["交强险和商业险", "仅有交强险", "没有保险", "不清楚"],
           "critical": false,
-          "priority": 62,
-          "why": "赔偿顺序是先交强险、再商业险、不足部分由侵权人承担",
-          "basis": ["civil_code_tort@2021-01-01:第1213条", "road_traffic@2004-05-01:第76条"]
+          "priority": 62
         },
         {
           "key": "employment",
-          "label": "是否执行工作任务",
-          "question": "事故发生时，驾驶人是不是正在执行工作任务，比如送货、接送客户或者开公司车办公事？",
-          "type": "enum",
-          "options": ["执行工作任务", "个人事务", "不清楚"],
           "critical": false,
-          "priority": 56,
-          "why": "执行工作任务造成他人损害的，由用人单位承担侵权责任",
-          "basis": ["civil_code_tort@2021-01-01:第1191条"]
+          "priority": 56
         },
         {
           "key": "treatment_cost",
-          "label": "已发生医疗费",
-          "question": "目前医疗费大概花了多少？有没有保留发票和病历？",
-          "type": "number",
           "critical": false,
-          "priority": 48,
-          "why": "医疗费、护理费、误工费等需凭票据主张",
-          "basis": ["civil_code_tort@2021-01-01:第1179条"]
+          "priority": 48
         },
         {
           "key": "claim_filed",
-          "label": "是否已起诉或索赔",
-          "question": "目前有没有向保险公司报案理赔，或者已经向法院起诉？",
-          "type": "enum",
-          "options": ["已起诉", "已向保险公司索赔", "都没有"],
           "critical": false,
-          "priority": 40,
-          "why": "影响诉讼时效中断与程序建议",
-          "basis": ["civil_code_general@2021-01-01:第188条"]
+          "priority": 40
         }
+      ],
+      "elements": [
+        {
+          "id": "accident",
+          "label": "事故与责任",
+          "facts": [
+            "accident_date",
+            "responsibility"
+          ],
+          "essential": true,
+          "proof": [
+            "事故认定书",
+            "现场照片",
+            "行车记录仪"
+          ]
+        },
+        {
+          "id": "injury",
+          "label": "伤情与损失",
+          "facts": [
+            "injury",
+            "treatment_cost",
+            "residence"
+          ],
+          "essential": true,
+          "proof": [
+            "病历",
+            "医疗费票据",
+            "伤残鉴定",
+            "居住证明"
+          ]
+        },
+        {
+          "id": "insurance",
+          "label": "保险与责任主体",
+          "facts": [
+            "insurance",
+            "employment"
+          ],
+          "essential": true,
+          "why": "先交强险、再商业险、不足部分由侵权人承担"
+        },
+        {
+          "id": "procedure",
+          "label": "时效与程序",
+          "facts": [
+            "claim_filed"
+          ],
+          "essential": true,
+          "why": "人身损害诉讼时效三年"
+        }
+      ]
+    }
+  },
+  "out_of_scope": {
+    "marriage": {
+      "label": "婚姻家事",
+      "keywords": [
+        "离婚",
+        "抚养",
+        "彩礼",
+        "继承",
+        "遗嘱",
+        "分家"
+      ]
+    },
+    "loan": {
+      "label": "借贷/债务",
+      "keywords": [
+        "借钱",
+        "借款",
+        "欠款",
+        "民间借贷",
+        "借条",
+        "还钱"
+      ]
+    },
+    "housing": {
+      "label": "房产/租赁",
+      "keywords": [
+        "买房",
+        "租房",
+        "房东",
+        "物业",
+        "商品房",
+        "二手房"
+      ]
+    },
+    "contract": {
+      "label": "合同/买卖",
+      "keywords": [
+        "买卖合同",
+        "违约",
+        "定金",
+        "货款",
+        "合作协议"
+      ]
+    },
+    "criminal": {
+      "label": "刑事",
+      "keywords": [
+        "报警",
+        "刑事",
+        "拘留",
+        "诈骗",
+        "盗窃",
+        "取保候审"
+      ]
+    },
+    "consumer": {
+      "label": "消费维权",
+      "keywords": [
+        "退货",
+        "假货",
+        "消费者",
+        "退款",
+        "315"
+      ]
+    },
+    "ip": {
+      "label": "知识产权",
+      "keywords": [
+        "商标",
+        "专利",
+        "著作权",
+        "侵权作品"
+      ]
+    },
+    "admin": {
+      "label": "行政",
+      "keywords": [
+        "罚款",
+        "行政复议",
+        "行政处罚",
+        "拆迁"
+      ]
+    }
+  },
+  "matters": {
+    "labor": {
+      "label": "劳动争议",
+      "aliases": [
+        "劳动",
+        "公司",
+        "老板",
+        "上班",
+        "工资",
+        "员工",
+        "用工"
+      ]
+    },
+    "tort": {
+      "label": "交通事故/侵权",
+      "aliases": [
+        "交通",
+        "事故",
+        "撞",
+        "赔偿",
+        "保险"
       ]
     }
   }

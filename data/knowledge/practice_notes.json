@@ -1,0 +1,258 @@
+{
+  "version": 1,
+  "note": "法院/人社实务口径摘要。只存事实、裁判要点和自编清单，不复制原文；每条带发布机关、日期和链接。地区差异见 caveat。",
+  "notes": [
+    {
+      "id": "spc_js2_2025",
+      "title": "劳动争议司法解释（二）施行：二倍工资按月算、社保承诺无效、竞业限制收紧",
+      "publisher": "最高人民法院",
+      "date": "2025-08-01",
+      "url": "https://www.court.gov.cn/fabu/xiangqing/472691.html",
+      "topics": ["labor_double_pay", "labor_noncompete", "labor_social_insurance", "labor_procedure"],
+      "points": [
+        "二倍工资按月计算，不满一个月按该月实际工作日计算（第6条）。",
+        "用人单位能证明因不可抗力、劳动者本人故意或重大过失未签合同的，可不支付二倍工资（第7条）。",
+        "约定或承诺无需缴纳社保的，一律无效；劳动者可依第38条被迫解除并主张经济补偿（第19条）。",
+        "仲裁期间因自身原因未提时效抗辩，一审、二审再提的，法院一般不支持，除非有新证据（第20条）。",
+        "竞业限制条款要与劳动者实际接触的商业秘密相适应，否则可能不生效（第13条）。"
+      ],
+      "caveat": "2025-09-01 起施行；对施行前的行为原则上不溯及，需按争议时间核对。",
+      "source_type": "court",
+      "priority": 90
+    },
+    {
+      "id": "spc_typical_2025",
+      "title": "最高法劳动争议典型案例：转包工伤、混同用工、故意不签合同、竞业限制",
+      "publisher": "最高人民法院",
+      "date": "2025-08-01",
+      "url": "https://www.court.gov.cn/zixun/xiangqing/472681.html",
+      "topics": ["labor_work_injury", "labor_dispatch", "labor_double_pay", "labor_noncompete", "labor_social_insurance"],
+      "points": [
+        "转包工程中，具备用工主体资格的承包人承担工伤保险责任，不以先确认劳动关系为前提。",
+        "关联公司混同用工的，劳动者可以请求确认其中一个单位承担用工责任，并可要求关联单位连带。",
+        "劳动者故意不签书面合同（如 HR 自己主张“不签就有二倍工资”）的，不支持二倍工资。",
+        "竞业限制只保护劳动者实际接触的商业秘密；保安等未接触秘密的岗位约定竞业限制，可能不生效。",
+        "在职期间的竞业限制约定可以有效，不以支付补偿为生效条件。",
+        "“自愿放弃社保”的承诺无效，劳动者可据此被迫解除并主张经济补偿。"
+      ],
+      "caveat": "典型案例不是法律，但反映最高法倾向；个案仍要结合证据。",
+      "source_type": "court",
+      "priority": 88
+    },
+    {
+      "id": "mohrss_spc_batch4",
+      "title": "人社部、最高法第四批劳动人事争议典型案例：停工留薪、三期调岗、社保断缴",
+      "publisher": "人力资源社会保障部、最高人民法院",
+      "date": "2025-04-16",
+      "url": "https://www.court.gov.cn/zixun/xiangqing/462311.html",
+      "topics": ["labor_work_injury", "labor_maternity", "labor_social_insurance", "labor_noncompete"],
+      "points": [
+        "停工留薪期需要延长的，要经劳动能力鉴定委员会确认，医院病假条本身不够。",
+        "以怀孕为由把员工调离项目并大幅降薪，缺乏医学证明不能胜任原岗位的，属于违法。",
+        "社保断缴造成遗属抚恤金差额的，用人单位可能要赔偿差额。",
+        "劳动者替单位垫付了单位应缴的社保费，可以要求返还。",
+        "保安等未接触商业秘密的岗位，不属于竞业限制适格主体。"
+      ],
+      "caveat": "案例涉及地方口径，赔偿项目和标准仍需按当地规定核对。",
+      "source_type": "court",
+      "priority": 86
+    },
+    {
+      "id": "spc_guiding_239",
+      "title": "指导性案例239号：网络主播劳动关系看“支配性劳动管理”",
+      "publisher": "最高人民法院",
+      "date": "2024-12-24",
+      "url": "https://www.court.gov.cn/fabu/xiangqing/450741.html",
+      "topics": ["labor_dispatch", "labor_contract"],
+      "points": [
+        "劳动关系认定看人格从属性、经济从属性、组织从属性，即是否存在支配性劳动管理。",
+        "合同名称（经纪合同、合作协议、个体户）不决定关系性质。",
+        "主播对工作安排有较强自主权、收入分配有议价能力的，可能不构成劳动关系。"
+      ],
+      "caveat": "新业态个案差异大，需结合派单、考核、收入分配和拒绝权综合判断。",
+      "source_type": "court",
+      "priority": 84
+    },
+    {
+      "id": "rmfyb_maternity_pay",
+      "title": "女职工“三期”关“薪”事：生育津贴低于工资由单位补差",
+      "publisher": "人民法院报（北京丰台法院案例）",
+      "date": "2025-04-27",
+      "url": "https://www.rmfyb.com/mobile/202504/27/article_973364_1391045168_6012917.html",
+      "topics": ["labor_maternity", "labor_dismissal"],
+      "points": [
+        "隐瞒怀孕不是合法解除理由。",
+        "生育津贴低于本人工资的，差额由用人单位补足。",
+        "哺乳期以“不能胜任”为由解除，通常违法；劳动者可要求继续履行。",
+        "三期女职工被违法解除的，可主张 2N 或继续履行。"
+      ],
+      "caveat": "产假天数和生育津贴标准各地不同（国家基础 98 天，多地有奖励假）。",
+      "source_type": "court_media",
+      "priority": 82
+    },
+    {
+      "id": "rmfyb_pregnant_teacher",
+      "title": "孕期女教师被解聘：无书面合同仍可能构成事实劳动关系",
+      "publisher": "人民法院报（揭阳中院）",
+      "date": "2026-05-26",
+      "url": "https://www.rmfyb.com/mobile/202605/26/article_1025705_1391845938_6627798.html",
+      "topics": ["labor_maternity", "labor_dismissal", "labor_double_pay"],
+      "points": [
+        "六年未签书面合同，仍可认定事实劳动关系。",
+        "单位无法证明违纪事实的，解除违法，可能判 2N。",
+        "未参加生育保险的，生育津贴由单位按产假前工资支付。"
+      ],
+      "caveat": "事实劳动关系需要工资、考勤、管理关系等证据支撑。",
+      "source_type": "court_media",
+      "priority": 78
+    },
+    {
+      "id": "rmfyb_injury_30days",
+      "title": "单位未及时申请工伤认定，期间的工伤待遇由单位承担",
+      "publisher": "人民法院报（苏州工业园区法院/苏州中院）",
+      "date": "2026-05-16",
+      "url": "https://www.rmfyb.com/mobile/202605/16/article_1024902_1391825825_6614688.html",
+      "topics": ["labor_work_injury"],
+      "points": [
+        "单位应在事故伤害发生之日起 30 日内申请工伤认定。",
+        "即使缴了工伤保险，单位未在 30 日内申请，期间发生的费用仍由单位承担。",
+        "社保部门事后出具的不予支付决定，可能构成新证据，允许再次主张。"
+      ],
+      "caveat": "“期间”的起止和费用范围需按当地社保经办口径核对。",
+      "source_type": "court_media",
+      "priority": 84
+    },
+    {
+      "id": "rmfyb_overtime_2026",
+      "title": "上海二中院调研：隐形加班看“用人单位指挥+实质劳动”",
+      "publisher": "人民法院报（上海二中院）",
+      "date": "2026-04-30",
+      "url": "https://www.rmfyb.com/content/202604/30/article_1022889_1391792321_6593987.html",
+      "topics": ["labor_overtime"],
+      "points": [
+        "加班认定看是否处于用人单位指挥管理下、是否提供实质性劳动，不只看是否在办公室。",
+        "下班后微信/远程处理工作，可能构成隐形加班。",
+        "“加班必须审批”“调休过期作废”等内部规则，不能当然排除法定加班费。",
+        "综合工时、不定时工时需经审批并在合同中明确告知，否则可能仍按标准工时计算。"
+      ],
+      "caveat": "隐形加班的时长举证仍是难点，需要工作群记录、交付记录等。",
+      "source_type": "court_media",
+      "priority": 88
+    },
+    {
+      "id": "rmfyb_blank_contract",
+      "title": "空白劳动合同不是免责道具：签字不等于真实合意",
+      "publisher": "人民法院报（南昌中院）",
+      "date": "2026-09-16",
+      "url": "https://www.rmfyb.com/mobile/202609/16/article_1040249_1392114605_6805873.html",
+      "topics": ["labor_double_pay", "labor_contract"],
+      "points": [
+        "让劳动者在空白合同上签字，不等于订立了书面劳动合同。",
+        "单位仍可能被判支付未签合同二倍工资差额。",
+        "劳动者主张时，要说明签字背景、合同是否空白、是否被收走。"
+      ],
+      "caveat": "需要结合签字过程、合同内容和双方陈述综合认定。",
+      "source_type": "court_media",
+      "priority": 80
+    },
+    {
+      "id": "mof_yizhong",
+      "title": "如何理解“一裁终局”：只约束用人单位，劳动者仍有15日起诉权",
+      "publisher": "司法部 中国法律服务网（12348）",
+      "date": "2026-11-27",
+      "url": "https://know.12348.gov.cn/s/relate/?qid=5c2dc1b436aec564bba26073",
+      "topics": ["labor_procedure", "labor_wage", "labor_dismissal"],
+      "points": [
+        "一裁终局只适用于两类：小额争议（不超过当地月最低工资12个月金额，按单项计算）和执行劳动标准的争议（工时、休息休假、社保等）。",
+        "终局裁决只约束用人单位；劳动者不服仍可在收到裁决书15日内向基层法院起诉。",
+        "用人单位不服终局裁决，不能在基层法院起诉，只能在30日内向中院申请撤销，且限于六种法定情形。",
+        "劳动者起诉后又撤诉的，用人单位的30日撤销期通常已经过了，需特别注意。"
+      ],
+      "caveat": "“当地月最低工资”按用人单位所在地标准；金额按单项请求判断。",
+      "source_type": "authority",
+      "priority": 86
+    },
+    {
+      "id": "chinajob_annual_leave",
+      "title": "未休年假可主张2倍工资：300%里包含正常工资",
+      "publisher": "中国就业网（人社部主管）",
+      "date": "2021-08-04",
+      "url": "https://chinajob.mohrss.gov.cn/c/2021-08-04/318591.shtml",
+      "topics": ["labor_annual_leave"],
+      "points": [
+        "未休年假按日工资300%支付，其中100%是正常工资，可另主张的是200%。",
+        "计算公式：前12个月平均工资（剔除加班费）÷21.75×未休天数×2。",
+        "离职当年按已过日历天数折算。",
+        "未休年假工资不属于劳动报酬，很多地区按年度分别起算一年仲裁时效，陈年旧账容易过期。"
+      ],
+      "caveat": "折算和时效口径存在地区差异，需按当地裁审规则核对。",
+      "source_type": "authority",
+      "priority": 82
+    },
+    {
+      "id": "bj_jurisdiction",
+      "title": "北京劳动人事争议仲裁管辖：履行地或用人单位所在地",
+      "publisher": "北京市人力资源和社会保障局",
+      "date": "2024-06-17",
+      "url": "https://rsj.beijing.gov.cn/xxgk/2024zcjd/202406/t20240617_3717846.html",
+      "topics": ["labor_procedure", "labor_dispatch"],
+      "points": [
+        "劳动争议由劳动合同履行地或用人单位所在地的仲裁委管辖。",
+        "双方分别申请的，由劳动合同履行地仲裁委管辖。",
+        "北京按用人单位注册地、注册资本和劳动合同履行地划分市/区仲裁委。"
+      ],
+      "caveat": "其他城市划分规则不同，申请前查当地仲裁委的管辖公告。",
+      "source_type": "authority",
+      "priority": 70
+    },
+    {
+      "id": "bj_filing",
+      "title": "北京劳动仲裁申请方式：现场或线上平台",
+      "publisher": "北京市门头沟区人民政府",
+      "date": "2026-11-16",
+      "url": "https://www.bjmtg.gov.cn/bjmtg/c102966/202611/de6a4037713040c0bca80edb0548c9d5.shtml",
+      "topics": ["labor_procedure"],
+      "points": [
+        "可以向劳动合同履行地或用人单位所在地的仲裁委申请。",
+        "北京可通过调解仲裁平台在线申请，流程为调解→仲裁→送达→庭审。",
+        "申请材料通常包括仲裁申请书、身份证明、劳动关系证明和证据清单。"
+      ],
+      "caveat": "线上平台和材料清单以当地仲裁委最新要求为准。",
+      "source_type": "authority",
+      "priority": 66
+    },
+    {
+      "id": "js2_social_waiver",
+      "title": "“自愿放弃社保”无效：可以被迫解除并主张经济补偿",
+      "publisher": "最高人民法院（解释二第19条）",
+      "date": "2025-08-01",
+      "url": "https://www.court.gov.cn/fabu/xiangqing/472691.html",
+      "topics": ["labor_social_insurance", "labor_dismissal"],
+      "points": [
+        "用人单位与劳动者约定或劳动者承诺无需缴纳社保的，约定或承诺无效。",
+        "单位未依法缴社保，劳动者可依第38条解除并主张经济补偿。",
+        "单位补缴后，可能要求劳动者返还此前以“社保补贴”名义发放的款项。"
+      ],
+      "caveat": "返还补贴的请求需单位举证证明款项性质和约定。",
+      "source_type": "court",
+      "priority": 84
+    },
+    {
+      "id": "limitation_1year",
+      "title": "劳动仲裁时效：一年，从知道或应当知道权利被侵害之日起算",
+      "publisher": "《劳动争议调解仲裁法》第27条（本项目法条库）",
+      "date": "2008-05-01",
+      "url": "https://flk.npc.gov.cn/",
+      "topics": ["labor_dismissal", "labor_wage", "labor_overtime", "labor_double_pay", "labor_procedure"],
+      "points": [
+        "一般仲裁时效为一年，从当事人知道或应当知道权利被侵害之日起计算。",
+        "劳动关系存续期间因拖欠劳动报酬发生争议，不受一年限制；劳动关系终止的，应自终止之日起一年内提出。",
+        "时效可因向对方主张权利、请求有关部门救济、对方同意履行而中断。",
+        "因不可抗力或其他正当理由不能申请仲裁的，时效中止。"
+      ],
+      "caveat": "起算点在个案中争议很大（解除日、送达日、知道日），不要只看“事发日”。",
+      "source_type": "statute",
+      "priority": 92
+    }
+  ]
+}

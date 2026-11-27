@@ -10,7 +10,13 @@ from pathlib import Path
 from .agent import ConsultationAgent, TurnResult
 from .config import Budget, LLMConfig, RUNS, corpus_version
 from .corpus import StatuteCorpus
+from .documents import (render_arbitration_application, render_demand_letter,
+                        render_evidence_list, render_forced_resignation_notice,
+                        render_legal_opinion)
 from .elements import ElementSchema
+from .guides import (arbitration_checklist, audit_contract,
+                     compare_arbitration_litigation, deadline_card,
+                     worker_rights_map)
 from .llm import build_llm
 from .memory import MemoryStore
 
@@ -20,7 +26,7 @@ LABOR_DEMO = [
     ("2026年3月15日通知的，员工手册从来没给我看过，也没有签收。", None),
     ("公司有员工手册，但制定的时候没经过民主程序，解除前也没通知工会。", None),
     ("我2021年5月入职的，月薪一万五，想要赔偿金。", None),
-    ("违纪的事公司只有口头说，没有书面证据。", None),
+    ("违纪的事公司只有口头说，没有书面证据。合同签了但没给我，公司叫北京示例科技有限公司。", None),
     ("更正一下，我是2022年8月1日入职的，不是2021年5月。", None),
 ]
 
@@ -109,14 +115,27 @@ def demo(args) -> None:
                 "session": session, "today": args.today}
         print(f"\n### 场景：{name} | LLM: {agent.llm.name}")
         steps = run_scripted(agent, dialogue, session)
+        if steps and steps[-1].status != "answered":
+            steps.append(agent.handle(session, "请根据目前信息生成备忘录。",
+                                      force_memo=True))
+            print("\n[已强制生成备忘录]")
         _write_demo(steps, Path(args.out), name, meta)
         print(f"\n完整备忘录已写入 {args.out}/{name}_report.md")
+
+
+def _state_analysis(agent: ConsultationAgent, session: str):
+    state = agent.store.load(session)
+    if not state.last_analysis:
+        return state, None
+    return state, agent._analysis_from_dict(state.last_analysis)
 
 
 def chat(args) -> None:
     agent = make_agent(args)
     session = args.session
-    print(f"LexFlow 交互模式 | LLM: {agent.llm.name} | 输入 /memo 出备忘录，/facts 看事实，/quit 退出")
+    print(f"LexFlow 交互模式 | LLM: {agent.llm.name}")
+    print("输入 /help 看命令；/memo 出备忘录；/letter 法律意见书；"
+          "/compare 仲裁vs诉讼；/quit 退出")
     while True:
         try:
             text = input("\n你：").strip()
@@ -127,16 +146,80 @@ def chat(args) -> None:
             continue
         if text in {"/quit", "/exit", "q"}:
             break
+        if text == "/help":
+            print("""
+命令：
+  /memo        生成备忘录
+  /facts       查看已记录事实
+  /claims      查看当前请求类型
+  /letter      生成法律意见书
+  /arbitration 生成劳动仲裁申请书
+  /evidence    生成证据清单
+  /demand      生成催告函/律师函草稿
+  /resign      生成被迫解除通知书
+  /compare     仲裁 vs 诉讼对比
+  /checklist   劳动仲裁材料清单
+  /deadlines   关键期限卡片
+  /contract    劳动合同条款体检（把条款粘在命令后面）
+  /rights      打工人权益地图
+""")
+            continue
         if text == "/facts":
             state = agent.store.load(session)
             for f in state.fact_table():
-                print(f"  {f['key']:20s} {f['value']!s:20s} {f['status']:12s} v{f['revision']}")
+                label = agent.schema.field_any(f["key"])
+                print(f"  {(label.label if label else f['key']):20s} "
+                      f"{f['value']!s:20s} {f['status']:12s} v{f['revision']}")
+            continue
+        if text == "/claims":
+            state = agent.store.load(session)
+            print("当前请求：" + ("、".join(agent.schema.label(c) for c in state.claims)
+                                or "（尚未识别）"))
+            continue
+        if text == "/rights":
+            print(worker_rights_map())
+            continue
+        if text == "/deadlines":
+            state = agent.store.load(session)
+            print(deadline_card(state, agent.schema, args.today))
+            continue
+        if text.startswith("/contract"):
+            clause = text[len("/contract"):].strip()
+            if not clause:
+                clause = input("把合同条款粘贴进来：").strip()
+            print(audit_contract(clause))
+            continue
+        if text == "/compare":
+            state = agent.store.load(session)
+            print(compare_arbitration_litigation(state, agent.schema))
+            continue
+        if text == "/checklist":
+            state = agent.store.load(session)
+            print(arbitration_checklist(state, agent.schema))
+            continue
+        state, analysis = _state_analysis(agent, session)
+        if text in ("/letter", "/arbitration", "/evidence", "/demand", "/resign"):
+            if text != "/resign" and analysis is None:
+                print("还没有可用的分析；请先描述情况，或输入 /memo。")
+                continue
+            if text == "/letter":
+                print(render_legal_opinion(analysis, state, agent.schema))
+            elif text == "/arbitration":
+                print(render_arbitration_application(analysis, state, agent.schema))
+            elif text == "/evidence":
+                print(render_evidence_list(analysis, state, agent.schema))
+            elif text == "/demand":
+                print(render_demand_letter(analysis, state, agent.schema))
+            else:
+                print(render_forced_resignation_notice(state, agent.schema))
             continue
         if text == "/memo":
             r = agent.handle(session, "请根据目前信息生成备忘录。", force_memo=True)
         else:
             r = agent.handle(session, text)
         print("\n" + r.reply)
+        if r.route.get("note"):
+            print("\n（说明：" + r.route["note"] + "）")
         if r.status == "answered" and r.memo:
             print("\n" + "-" * 60)
             print(r.memo)

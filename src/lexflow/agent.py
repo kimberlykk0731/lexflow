@@ -1,4 +1,10 @@
-"""The consultation agent: intake → sufficiency gate → research → memo → verify."""
+"""The consultation agent: route → intake → element gate → research → memo → verify.
+
+Control flow is deterministic so ablations isolate one mechanism at a time.
+The model is used for fact extraction, optional routing disambiguation, and a
+short plain-language explanation.  Conclusions, citations and arithmetic come
+from the rule layer.
+"""
 from __future__ import annotations
 
 import json
@@ -10,9 +16,13 @@ from .config import Budget, LLMConfig
 from .corpus import StatuteCorpus
 from .elements import ElementSchema, Field
 from .extract import Extractor
+from .issues import IssueTree, Question
+from .knowledge import KnowledgeBase
 from .llm import BaseLLM, build_llm
 from .memory import CaseState, MemoryStore
 from .memo import MemoBuilder
+from .questions import QuestionComposer
+from .router import MatterRouter
 from .rules import Analysis, _cite_short
 from .tools import BudgetExceeded, ToolBox
 from .verify import Verifier
@@ -36,24 +46,17 @@ class TurnResult:
     conflicts: list[dict] = field(default_factory=list)
     trace: list[dict] = field(default_factory=list)
     metrics: dict = field(default_factory=dict)
+    claims: list[str] = field(default_factory=list)
+    route: dict = field(default_factory=dict)
+    coverage: dict = field(default_factory=dict)
+    chain: list[dict] = field(default_factory=list)
 
     def to_dict(self) -> dict:
         return self.__dict__.copy()
 
 
-def _fmt_fact(key: str, value) -> str:
-    if isinstance(value, float):
-        return f"{value:,.0f}"
-    return str(value)
-
-
 class ConsultationAgent:
-    """A rule-controlled, LLM-assisted legal consultation agent.
-
-    Control flow is deterministic so that ablations isolate one mechanism at a
-    time.  The model is used for fact extraction and for a short plain-language
-    explanation; conclusions and citations come from the rule layer.
-    """
+    """A rule-controlled, LLM-assisted legal consultation agent."""
 
     def __init__(self, corpus: StatuteCorpus, schema: ElementSchema,
                  store: MemoryStore, llm: BaseLLM | None = None,
@@ -61,15 +64,19 @@ class ConsultationAgent:
                  use_gate: bool = True, use_verify: bool = True,
                  use_repair: bool = True, use_memory: bool = True,
                  use_cache: bool = True, use_revision: bool = True,
-                 today: str | None = None):
+                 today: str | None = None, knowledge: KnowledgeBase | None = None):
         self.corpus = corpus
         self.schema = schema
         self.store = store
         self.llm = llm or build_llm(LLMConfig())
         self.budget = budget or Budget()
         self.extractor = Extractor(schema, self.llm)
-        self.memo_builder = MemoBuilder(corpus)
+        self.memo_builder = MemoBuilder(corpus, schema)
         self.verifier = Verifier(corpus)
+        self.router = MatterRouter(schema, self.llm)
+        self.issues = IssueTree(schema)
+        self.composer = QuestionComposer(self.llm)
+        self.knowledge = knowledge or KnowledgeBase()
         self.use_gate = use_gate
         self.use_verify = use_verify
         self.use_repair = use_repair
@@ -87,24 +94,51 @@ class ConsultationAgent:
         started = time.perf_counter()
         self._turn_usage_start = self._usage_now()
         state = self.store.load(session) if self.use_memory else CaseState(session)
-        if case_type:
-            state.case_type = case_type
         self.turn_no += 1
         turn = self.turn_no
         trace: list[dict] = [{"node": "input", "text": text},
                              {"node": "session_load", "revision": state.revision,
                               "facts": len(state.facts)}]
 
+        # 0) route + optional switch --------------------------------------
+        if case_type:
+            route = self._forced_route(case_type)
+        else:
+            route = self.router.route(text, state)
+        trace.append({"node": "route", **route.to_dict()})
+
+        if route.action in ("clarify", "out_of_scope") and not (force_memo and state.claims):
+            status = "clarify" if route.action == "clarify" else "out_of_scope"
+            self.store.log_turn(session, turn, "user", text,
+                                {"case_type": state.case_type, "route": route.to_dict()})
+            return self._finish(state, turn, status, route.reply, trace, started,
+                                claims=state.claims, route=route.to_dict(),
+                                coverage=self.issues.coverage(state.claims, state.values())
+                                if state.claims else {})
+
+        if route.action == "switch" and state.claims:
+            state.asked = []
+            state.ask_counts = {}
+            state.last_analysis = None
+            state.claims = []
+        if route.claims:
+            if state.matter == route.matter and route.action != "switch":
+                state.claims = list(dict.fromkeys(state.claims + route.claims))
+            else:
+                state.claims = list(route.claims)
+        if route.matter:
+            state.matter = route.matter
+        if not state.claims:
+            self.store.log_turn(session, turn, "user", text, {"case_type": ""})
+            return self._finish(state, turn, "clarify", self.router._clarify_reply(),
+                                trace, started, route=route.to_dict())
+        state.case_type = state.claims[0]
+        state.route = route.to_dict()
+        self.store.log_turn(session, turn, "user", text,
+                            {"case_type": state.case_type, "claims": state.claims})
+
         # 1) intake -------------------------------------------------------
-        if not state.case_type:
-            ranked = self.schema.classify(text)
-            state.case_type = ranked[0][0] if ranked and ranked[0][1] > 0 else "labor_dismissal"
-        case_type = state.case_type
-        self.store.log_turn(session, turn, "user", text, {"case_type": case_type})
-        extracted = self.extractor.extract(text, state.values(), case_type)
-        if extracted["case_type"] != case_type and not state.facts:
-            case_type = extracted["case_type"]
-            state.case_type = case_type
+        extracted = self.extractor.extract(text, state.values(), state.claims)
         changed: list[str] = []
         conflicts: list[dict] = []
         for key, value in extracted["facts"].items():
@@ -116,7 +150,7 @@ class ConsultationAgent:
                 trace.append({"node": "fact_conflict", "key": key,
                               "documented": old.value, "user_said": value})
                 continue
-            field = self.schema.field(case_type, key)
+            field = self.schema.field_any(key)
             refine = bool(field and field.type == "date" and old is not None
                           and str(old.value).endswith("-01")
                           and str(value)[:7] == str(old.value)[:7])
@@ -128,12 +162,8 @@ class ConsultationAgent:
                               "reason": "no explicit correction"})
                 continue
             ok, changed_keys = state.set_fact(
-                key, value,
-                status="user_stated",
-                source="user",
-                turn=turn,
-                overwrite=True,
-                precision=extracted.get("precision", {}).get(key, "day"))
+                key, value, status="user_stated", source="user", turn=turn,
+                overwrite=True, precision=extracted.get("precision", {}).get(key, "day"))
             if ok:
                 changed.extend(changed_keys)
                 self.store.log_fact(state, state.facts[key])
@@ -149,74 +179,91 @@ class ConsultationAgent:
             trace.append({"node": "cache_invalidate", "keys": changed,
                           "entries": invalidated, "revision": state.revision})
 
-        # optional document intake
         if document:
-            doc = self._read_document(state, case_type, document, turn)
+            doc = self._read_document(state, state.claims, document, turn)
             changed.extend(doc)
             trace.append({"node": "document_intake", "facts": doc})
 
-        # 2) sufficiency gate --------------------------------------------
-        missing = self._missing(case_type, state)
-        asked_now: list[Field] = []
-        if self.use_gate and missing and not force_memo:
-            candidates = [f for f in missing if state.ask_counts.get(f.key, 0) < 2]
-            candidates.sort(key=lambda f: (state.ask_counts.get(f.key, 0), -f.priority))
-            asked_now = candidates[:2]
-            if asked_now and len(state.asked) < self.budget.max_questions:
-                for f in asked_now:
-                    state.asked.append(f.key)
-                    state.ask_counts[f.key] = state.ask_counts.get(f.key, 0) + 1
-                reply = self._ask_reply(missing, asked_now, state, changed, conflicts)
+        # 2) element gate -------------------------------------------------
+        facts = self._facts(state)
+        coverage = self.issues.coverage(state.claims, facts)
+        precisions = {k: f.precision for k, f in state.facts.items()}
+        frontier = self.issues.frontier(state.claims, facts, precisions=precisions)
+        asked_now: list[Question] = []
+        if self.use_gate and frontier and not force_memo:
+            if len(state.asked) < self.budget.max_questions:
+                asked_now = self.issues.next_questions(
+                    state.claims, facts, n=2, ask_counts=state.ask_counts,
+                    precisions=precisions)
+            if asked_now:
+                for q in asked_now:
+                    state.asked.append(q.key)
+                    state.ask_counts[q.key] = state.ask_counts.get(q.key, 0) + 1
+                reply = self._ask_reply(asked_now, state, changed, conflicts)
                 trace.append({"node": "gate", "decision": "ask",
-                              "missing": [f.key for f in missing],
-                              "asked": [f.key for f in asked_now]})
+                              "missing": [q.key for q in frontier],
+                              "asked": [q.key for q in asked_now],
+                              "coverage": coverage})
                 return self._finish(
                     state, turn, "asked", reply, trace, started,
-                    questions=[self._q(f) for f in asked_now], changed=changed,
-                    invalidated=invalidated, conflicts=conflicts)
+                    questions=[self._q(q) for q in asked_now], changed=changed,
+                    invalidated=invalidated, conflicts=conflicts, claims=state.claims,
+                    route=route.to_dict(), coverage=coverage,
+                    chain=self.issues.chain(state.claims, facts))
             trace.append({"node": "gate", "decision": "answer_with_gaps",
-                          "missing": [f.key for f in missing],
+                          "missing": [q.key for q in frontier],
                           "reason": "question budget exhausted or forced"})
-        elif missing:
+        elif frontier:
             trace.append({"node": "gate", "decision": "skip_gate",
-                          "missing": [f.key for f in missing]})
+                          "missing": [q.key for q in frontier]})
         else:
             trace.append({"node": "gate", "decision": "ready", "missing": []})
 
         # 3) research -----------------------------------------------------
         toolbox = ToolBox(self.corpus, self.store, state, self.budget)
-        facts = {k: v for k, v in state.values().items() if v not in ("不清楚", "记不清")}
-        critical_keys = [f.key for f in self.schema.fields(case_type)
-                         if self.schema.is_critical(f, state.values(), case_type)]
+        critical_keys = [f.key for f in self.schema.fields(state.claims)
+                         if self.schema.is_critical(f, facts, f.claim)]
         research: dict = {}
         try:
             if not self.use_revision and state.last_analysis:
                 analysis = self._analysis_from_dict(state.last_analysis)
-                trace.append({"node": "analysis_reused", "from_revision": state.revision - 1})
+                trace.append({"node": "analysis_reused",
+                              "from_revision": state.revision - 1})
                 res = {"evidence_ids": [], "cached": True}
             else:
-                res = toolbox.call("analyse", {"case_type": case_type, "facts": facts,
-                                               "today": self.today,
-                                               "revision": state.revision},
-                                   deps=[k for k in critical_keys])
+                res = toolbox.call("analyse_many",
+                                   {"claims": state.claims, "facts": facts,
+                                    "today": self.today, "revision": state.revision},
+                                   deps=critical_keys)
                 if not res.get("ok"):
                     raise RuntimeError(res.get("error", "analysis failed"))
                 analysis = self._analysis_from_dict(res["analysis"])
                 state.last_analysis = analysis.to_dict()
             research["analysis_evidence"] = res.get("evidence_ids", [])
             research["analysis_cached"] = res.get("cached", False)
-            trace.append({"node": "tool:analyse", "cached": res.get("cached", False),
+            trace.append({"node": "tool:analyse_many",
+                          "cached": res.get("cached", False),
                           "findings": len(analysis.findings)})
 
+            # attach the element chain + coverage + practice notes
+            analysis.metadata["chain"] = self.issues.chain(state.claims, facts)
+            analysis.metadata["coverage"] = coverage
+            analysis.metadata["proof_checklist"] = self.issues.proof_checklist(
+                state.claims, facts)
+            analysis.metadata["claims"] = state.claims
+            notes = self.knowledge.for_claims(state.claims)
+            if notes:
+                analysis.metadata["practice_notes"] = [n.to_dict() for n in notes]
+
             # Retrieval check: would the cited articles be retrieved for the
-            # issues the analysis raises?  Diagnostic, not a correctness claim.
+            # issues the analysis raises?  Diagnostic, not correctness.
             retrieval_hits = 0
+            law_hints = self.schema.law_hints(state.claims)
             for finding in analysis.findings:
                 query = finding.issue + " " + finding.conclusion[:40]
                 r = toolbox.call("search_statute",
                                  {"query": query, "as_of": analysis.as_of or None,
-                                  "law_hints": self.schema.law_hints(case_type), "k": 5},
-                                 deps=[])
+                                  "law_hints": law_hints, "k": 5}, deps=[])
                 ids = [h["id"] for h in r.get("results", [])]
                 hit = any(c in ids for c in finding.cites)
                 retrieval_hits += 1 if hit else 0
@@ -224,34 +271,33 @@ class ConsultationAgent:
                     {"finding": finding.id, "top": ids[:3], "cited": finding.cites,
                      "hit": hit})
             research["retrieval_support"] = (
-                round(retrieval_hits / len(analysis.findings), 4) if analysis.findings else 0.0)
+                round(retrieval_hits / len(analysis.findings), 4)
+                if analysis.findings else 0.0)
 
-            # Make sure every cited article is materialised as evidence.
             for aid in dict.fromkeys(c for f in analysis.findings for c in f.cites):
                 toolbox.call("get_article", {"article_id": aid}, deps=[])
         except BudgetExceeded as exc:
             trace.append({"node": "budget", "error": str(exc)})
-            analysis = Analysis(case_type=case_type, as_of=state.value("dismiss_date")
-                                or state.value("accident_date") or "",
+            analysis = Analysis(case_type=state.claims[0], as_of="",
                                 headline="工具预算已用完，无法完成检索。", findings=[],
                                 gaps=[str(exc)], assumptions=[])
         except Exception as exc:  # keep the consultation alive
             trace.append({"node": "error", "error": f"{type(exc).__name__}: {exc}"})
-            analysis = Analysis(case_type=case_type, as_of="", headline="分析阶段出错。",
-                                findings=[], gaps=[f"{type(exc).__name__}: {exc}"],
-                                assumptions=[])
+            analysis = Analysis(case_type=state.claims[0], as_of="",
+                                headline="分析阶段出错。", findings=[],
+                                gaps=[f"{type(exc).__name__}: {exc}"], assumptions=[])
 
-        # record missing critical facts as explicit gaps
-        still_missing = self.schema.missing(case_type, state.values())
+        still_missing = self.schema.missing(state.claims, facts)
         if still_missing:
             analysis.gaps.insert(0, "以下关键事实尚未取得，结论只能在有限范围内成立："
                                 + "、".join(f.label for f in still_missing))
-        month_dates = [f.label for f in self.schema.fields(case_type)
+        month_dates = [f.label for f in self.schema.fields(state.claims)
                        if f.type == "date" and state.facts.get(f.key)
                        and state.facts[f.key].precision == "month"]
         if month_dates:
             analysis.gaps.insert(1, "以下日期只精确到月（" + "、".join(month_dates)
                                 + "），可能影响时效与年限计算。")
+
         # 4) verify + bounded repair -------------------------------------
         verification = self.verifier.verify(analysis, state)
         if self.use_verify and verification["defects"] and self.use_repair:
@@ -273,31 +319,32 @@ class ConsultationAgent:
             analysis.gaps.append("事实冲突：" + "；".join(
                 f"{c['key']} 的材料记载为 {c['documented']}，您说的是 {c['user_said']}"
                 for c in conflicts) + "。请核对原件后确认。")
-        result = self._finish(state, turn, "answered", reply, trace, started,
-                              memo=memo, analysis=analysis.to_dict(),
-                              verification=verification, changed=changed,
-                              invalidated=invalidated, conflicts=conflicts,
-                              tools=toolbox.summary(),
-                              metrics={"retrieval_support": research.get("retrieval_support", 0.0),
-                                       "cached_tools": toolbox.n_cached,
-                                       "executed_tools": toolbox.n_executed})
-        return result
+        return self._finish(
+            state, turn, "answered", reply, trace, started,
+            memo=memo, analysis=analysis.to_dict(), verification=verification,
+            changed=changed, invalidated=invalidated, conflicts=conflicts,
+            tools=toolbox.summary(), claims=state.claims, route=route.to_dict(),
+            coverage=coverage, chain=analysis.metadata.get("chain", []),
+            metrics={"retrieval_support": research.get("retrieval_support", 0.0),
+                     "cached_tools": toolbox.n_cached,
+                     "executed_tools": toolbox.n_executed,
+                     "coverage_rate": coverage.get("rate", 0.0)})
 
-    def _missing(self, case_type: str, state: CaseState) -> list[Field]:
-        missing = self.schema.missing(case_type, state.values())
-        for f in self.schema.fields(case_type):
-            if not self.schema.is_critical(f, state.values(), case_type):
-                continue
-            fact = state.facts.get(f.key)
-            if (fact is not None and fact.precision == "month" and f.type == "date"
-                    and f not in missing and state.ask_counts.get(f.key, 0) == 0):
-                missing.append(f)
-        return missing
+    # ------------------------------------------------------------- helpers
+    def _facts(self, state: CaseState) -> dict:
+        return {k: v for k, v in state.values().items()
+                if v not in ("不清楚", "记不清", "说不清")}
 
-    # ------------------------------------------------------------- intake
-    def _read_document(self, state: CaseState, case_type: str, text: str, turn: int) -> list[str]:
+    def _forced_route(self, case_type: str):
+        from .router import Route
+        matter = self.schema.claims.get(case_type, {}).get("matter", "labor")
+        return Route(matter=matter, claims=[case_type], confidence=1.0,
+                     action="proceed", source="forced")
+
+    def _read_document(self, state: CaseState, claims: list[str], text: str,
+                       turn: int) -> list[str]:
         changed: list[str] = []
-        extracted = self.extractor.extract(text, state.values(), case_type)
+        extracted = self.extractor.extract(text, state.values(), claims)
         for key, value in extracted["facts"].items():
             ok, keys = state.set_fact(key, value, status="documentary",
                                       source="document", turn=turn,
@@ -308,16 +355,15 @@ class ConsultationAgent:
         return changed
 
     # ------------------------------------------------------------- replies
-    def _q(self, f: Field) -> dict:
-        return {"key": f.key, "label": f.label, "question": f.question, "why": f.why}
+    def _q(self, q: Question) -> dict:
+        return {"key": q.key, "label": q.field.label, "question": q.field.question,
+                "why": q.field.why, "element": q.element_label, "claim": q.claim}
 
-    def _ask_reply(self, missing: list[Field], asked: list[Field], state: CaseState,
+    def _ask_reply(self, asked: list[Question], state: CaseState,
                    changed: list[str] | None = None,
                    conflicts: list[dict] | None = None) -> str:
-        lead = {
-            "labor_dismissal": "在判断解除是否合法、能拿多少赔偿之前，我需要先确认几个会直接影响结论的事实。",
-            "tort_injury": "在判断责任和赔偿范围之前，我需要先确认几个会直接影响适用标准的事实。",
-        }.get(state.case_type, "为了给出负责任的结论，我需要先确认几个事实。")
+        facts = self._facts(state)
+        labels = {c: self.schema.label(c) for c in state.claims}
         lines = []
         ack = self._ack(state, changed or [])
         if ack:
@@ -325,19 +371,22 @@ class ConsultationAgent:
         if conflicts:
             parts = []
             for c in conflicts:
-                f = self.schema.field(state.case_type, c["key"])
+                f = self.schema.field_any(c["key"])
                 parts.append(f"{f.label if f else c['key']} 的材料记载为 "
                              f"{c['documented']}，您说的是 {c['user_said']}")
             lines += ["⚠️ " + "；".join(parts) + "。我先保留材料记载，请核对原件后再确认。", ""]
-        lines += [lead, ""]
-        for i, f in enumerate(asked, 1):
-            lines.append(f"{i}. {f.question}")
-            if f.why:
-                lines.append(f"   （为什么问：{f.why}）")
-        remaining = [f for f in missing if f not in asked]
-        if remaining:
+        lines += [self.composer.intro(state.claims, labels, facts), ""]
+        texts = self.composer.compose_many(asked, facts, labels)
+        for i, (q, text) in enumerate(zip(asked, texts), 1):
+            lines.append(f"{i}. {text}")
+            if q.field.why:
+                lines.append(f"   （为什么问：{q.field.why}）")
+        remaining = len(self.issues.frontier(
+            state.claims, facts,
+            precisions={k: f.precision for k, f in state.facts.items()}))
+        if remaining > 0:
             lines.append("")
-            lines.append(f"另外还有 {len(remaining)} 项信息待补充，可以稍后再说。")
+            lines.append(f"另外还有 {remaining} 项信息待补充，可以稍后再说。")
         lines.append("")
         lines.append("您可以直接用大白话回答，不用管法律术语。")
         return "\n".join(lines)
@@ -345,7 +394,7 @@ class ConsultationAgent:
     def _ack(self, state: CaseState, changed: list[str]) -> str:
         parts = []
         for key in dict.fromkeys(changed):
-            f = self.schema.field(state.case_type, key)
+            f = self.schema.field_any(key)
             if not f or key not in state.facts:
                 continue
             value = state.facts[key].value
@@ -360,19 +409,20 @@ class ConsultationAgent:
         ack = self._ack(state, changed or [])
         if ack:
             lines += [ack, ""]
-        lines += ["根据目前记录的事实，初步判断如下：", "", analysis.headline]
-        if analysis.findings:
-            main = analysis.findings[0]
-            lines += ["", f"最关键的争点是「{main.issue}」：{main.conclusion}"]
+        labels = "、".join(self.schema.label(c) for c in state.claims)
+        lines += [f"根据目前记录的事实（{labels}），初步判断如下：", "", analysis.headline]
         high = [f for f in analysis.findings if f.risk == "高"]
         if high:
-            lines += ["", "**风险提示**：" + "；".join(f.issue for f in high)]
+            lines += ["", "**风险提示**：" + "；".join(f.issue for f in high[:3])]
         if analysis.gaps:
             lines += ["", "**尚不能确定**："]
-            lines += [f"- {g}" for g in analysis.gaps]
+            lines += [f"- {g}" for g in analysis.gaps[:6]]
         if verification.get("defects"):
-            lines += ["", f"（自动核验发现 {len(verification['defects'])} 处需要人工复核的地方，见备忘录。）"]
-        lines += ["", "完整的备忘录（事实状态、争点依据、下一步材料清单）已生成。"]
+            lines += ["", f"（自动核验发现 {len(verification['defects'])} 处需要人工复核的地方，"
+                          "见备忘录。）"]
+        lines += ["", "完整的备忘录（要件链、事实状态、争点依据、证据清单）已生成。"]
+        lines += ["您还可以让我出：法律意见书、劳动仲裁申请书、证据清单、"
+                  "被迫解除通知书，或做「仲裁 vs 诉讼」对比。"]
         return "\n".join(lines)
 
     def _usage_now(self) -> dict:
@@ -386,7 +436,7 @@ class ConsultationAgent:
         payload = {
             "headline": analysis.headline,
             "findings": [{"issue": f.issue, "conclusion": f.conclusion, "risk": f.risk}
-                         for f in analysis.findings],
+                         for f in analysis.findings[:6]],
         }
         res = self.llm.complete([
             {"role": "system", "content": (
@@ -457,6 +507,10 @@ class ConsultationAgent:
             verification=kwargs.pop("verification", {}),
             tools=kwargs.pop("tools", {}),
             conflicts=kwargs.pop("conflicts", []),
+            claims=kwargs.pop("claims", []),
+            route=kwargs.pop("route", {}),
+            coverage=kwargs.pop("coverage", {}),
+            chain=kwargs.pop("chain", []),
             metrics={**kwargs.pop("metrics", {}),
                      **self._usage_delta(),
                      "elapsed_ms": round((time.perf_counter() - started) * 1000, 2)},
