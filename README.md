@@ -62,6 +62,12 @@ PYTHONPATH=src python3 -m lexflow.cli chat
 
 ### 网页演示
 
+历史咨询保存在本机 `runs/ui.sqlite`。侧边栏「历史会话 → 恢复会话」可恢复对话、
+案件事实、分析日期、备忘录和分析路径；刷新带 `session` 参数的页面也会恢复同一会话。
+「新会话」保留旧记录并创建独立咨询，「载入示例对话」也会新建会话。
+模型会收到同一会话最近最多 8 条消息（总计最多 10,000 字符），用于理解指代和简短回答；
+结构化事实仍以最新版本为准，完整原文留在数据库中。对前文的解释不会修改案件事实。
+
 ```bash
 pip install streamlit
 PYTHONPATH=src streamlit run app/streamlit_app.py

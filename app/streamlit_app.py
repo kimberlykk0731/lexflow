@@ -6,17 +6,21 @@ Run from the project root:
 from __future__ import annotations
 
 import json
+import hashlib
 import os
 import sys
 import time
+from dataclasses import fields
 from pathlib import Path
+from uuid import uuid4
 
 import streamlit as st
+import streamlit.components.v1 as components
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from lexflow.agent import ConsultationAgent  # noqa: E402
+from lexflow.agent import ConsultationAgent, TurnResult  # noqa: E402
 from lexflow.cli import LABOR_DEMO  # noqa: E402
 from lexflow.config import Budget, LLMConfig, RUNS, corpus_version  # noqa: E402
 from lexflow.corpus import StatuteCorpus  # noqa: E402
@@ -29,6 +33,7 @@ from lexflow.guides import (arbitration_checklist,  # noqa: E402
 from lexflow.llm import build_llm  # noqa: E402
 from lexflow.memory import MemoryStore  # noqa: E402
 from lexflow.path import render_path_markdown  # noqa: E402
+from lexflow.exports import export_docx, export_pdf, missing_fields, plain_text  # noqa: E402
 
 st.set_page_config(page_title="LexFlow · 法律咨询 Agent", layout="wide")
 
@@ -47,14 +52,16 @@ st.markdown(
     div[data-testid="stMarkdownContainer"] h2 { font-size: 1.2rem; margin-top: 1.1rem; }
     div[data-testid="stMarkdownContainer"] h3 { font-size: 1.02rem; }
     section[data-testid="stSidebar"] h1 { font-size: 1.8rem; }
-    .block-container { padding-top: 2.2rem; }
+    /* Keep the first row below Streamlit's fixed 60px toolbar. */
+    .block-container { padding-top: calc(60px + 1rem); }
     </style>
     """,
     unsafe_allow_html=True,
 )
 
 STATUS = {"asked": "追问中", "answered": "已出备忘录", "error": "出错",
-          "clarify": "需要补充问题类型", "out_of_scope": "超出当前覆盖范围"}
+          "clarify": "需要补充问题类型", "out_of_scope": "超出当前覆盖范围",
+          "explained": "前文解释"}
 FACT_STATUS = {"user_stated": "当事人陈述", "documentary": "材料支持",
                "verified": "已核验", "unknown": "不清楚"}
 
@@ -75,28 +82,127 @@ def new_agent(session: str, today: str, use_gate: bool = True) -> ConsultationAg
 
 def init() -> None:
     if "session" not in st.session_state:
-        st.session_state.session = f"ui-case-{int(time.time())}"
-        st.session_state.today = "2026-11-18"
-        st.session_state.history = []
-        st.session_state.last = None
-        st.session_state.agent = new_agent(st.session_state.session,
-                                           st.session_state.today)
+        requested = str(st.query_params.get("session", ""))
+        store = MemoryStore(RUNS / "ui.sqlite")
+        try:
+            exists = bool(requested) and store.session_exists(requested)
+        finally:
+            store.close()
+        activate_session(requested if exists else f"ui-case-{uuid4().hex}")
+
+
+def activate_session(session: str) -> None:
+    old_agent = st.session_state.get("agent")
+    if old_agent is not None:
+        old_agent.store.close()
+    store = MemoryStore(RUNS / "ui.sqlite")
+    try:
+        today = store.session_date(session)
+        history = [{"role": m["role"], "content": m["content"],
+                    "status": m["meta"].get("status")}
+                   for m in store.history(session)]
+        snapshot = store.last_result(session)
+        store.save_session(session, today)
+    finally:
+        store.close()
+    st.session_state.session = session
+    st.session_state.today = today
+    st.session_state.history = history
+    names = {f.name for f in fields(TurnResult)}
+    st.session_state.last = (TurnResult(**{k: v for k, v in snapshot.items() if k in names})
+                             if snapshot else None)
+    st.session_state.agent = new_agent(session, today)
+    st.session_state.request_error = ""
+    st.query_params["session"] = session
 
 
 def reset() -> None:
-    st.session_state.session = f"ui-case-{int(time.time())}"
-    st.session_state.history = []
-    st.session_state.last = None
-    st.session_state.agent = new_agent(st.session_state.session, st.session_state.today)
+    activate_session(f"ui-case-{uuid4().hex}")
 
 
-def submit(text: str) -> None:
+def submit(text: str, force_memo: bool = False, skip_keys: list[str] | None = None) -> None:
     agent = st.session_state.agent
-    r = agent.handle(st.session_state.session, text)
-    st.session_state.history.append({"role": "user", "content": text})
-    st.session_state.history.append({"role": "assistant", "content": r.reply,
-                                     "status": r.status})
+    session = st.session_state.session
+    agent.store.prepare_request(session, text, force_memo, skip_keys)
+    st.session_state.request_error = ""
+    with st.status("正在处理您的消息…", expanded=True) as status:
+        try:
+            r = agent.handle(session, text, force_memo=force_memo, skip_keys=skip_keys,
+                             on_progress=lambda message: status.update(label=message))
+        except Exception:
+            # Do not print credentials, request bodies or private traceback data.
+            st.session_state.request_error = "本次处理未完成。请重试本轮；此前的记录仍保留。"
+            status.update(label="处理未完成，可以重试", state="error")
+            return
+        degraded = bool(r.metrics.get("api", {}).get("failures") or r.metrics.get("api", {}).get("fallbacks"))
+        status.update(label="已完成（部分步骤使用规则兜底）" if degraded else "已完成",
+                      state="complete", expanded=False)
+    st.session_state.history = [{"role": m["role"], "content": m["content"],
+                                 "status": m["meta"].get("status")}
+                                for m in agent.store.history(session)]
     st.session_state.last = r
+
+
+def retry_request() -> None:
+    agent = st.session_state.agent
+    try:
+        request = agent.store.rewind_request(st.session_state.session)
+    except ValueError:
+        st.session_state.request_error = "这条消息之后已有新的对话，请直接发送需要补充的内容。"
+        return
+    agent.composer._cache.clear()
+    submit(**request)
+
+
+def document_editor(content: str, kind: str) -> None:
+    store = st.session_state.agent.store
+    session = st.session_state.session
+    source_hash = hashlib.sha256(content.encode("utf-8")).hexdigest()
+    saved = store.draft(session, kind)
+    key = f"document:{session}:{kind}"
+    if saved and saved["source_hash"] != source_hash:
+        st.info("案情或分析已更新；保留了您上次编辑的草稿，请核对后使用。")
+    if st.button("根据最新分析重新生成草稿", key=f"reset:{key}"):
+        st.session_state[key] = content
+        saved = None
+    if key not in st.session_state:
+        st.session_state[key] = saved["content"] if saved else content
+    edited = st.text_area("编辑文书（修改后点击输入框外保存）", key=key, height=380)
+    basis = saved["source_hash"] if saved else source_hash
+    if not saved or saved["content"] != edited:
+        store.save_draft(session, kind, edited, basis)
+    missing = missing_fields(edited)
+    if missing:
+        with st.expander(f"还有 {len(missing)} 处信息待填写", expanded=True):
+            for item in missing:
+                st.write("• " + item)
+    # Encode text as a JS string, escaping '<' to prevent script/HTML injection.
+    copy_value = json.dumps(plain_text(edited), ensure_ascii=False).replace("<", "\\u003c")
+    components.html('''<button id="copy" style="padding:9px 20px;border:1px solid #bbb;border-radius:7px;background:white;cursor:pointer">复制全文</button>
+<script>const text = ''' + copy_value + ''';
+document.getElementById('copy').onclick = async function(){
+  try { await navigator.clipboard.writeText(text); this.textContent='已复制'; }
+  catch(e){ const box=document.createElement('textarea'); box.value=text;
+    document.body.appendChild(box); box.select(); const ok=document.execCommand('copy'); box.remove();
+    this.textContent=ok?'已复制':'请使用下方文本框复制'; }
+};</script>''', height=48)
+    with st.expander("复制备用文本"):
+        st.code(plain_text(edited), language=None)
+    with st.expander("排版预览"):
+        st.markdown(edited)
+    try:
+        word = export_docx(edited)
+        pdf = export_pdf(edited)
+    except ImportError:
+        st.warning("文书导出组件未安装，请安装项目 requirements.txt 后重启。")
+        return
+    except Exception:
+        st.error("文书排版失败，编辑内容已保存。请检查内容后重试。")
+        return
+    a, b = st.columns(2)
+    a.download_button("下载 Word", word, file_name=f"{kind}.docx",
+                      mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+    b.download_button("下载 PDF", pdf, file_name=f"{kind}.pdf", mime="application/pdf")
 
 
 def main() -> None:
@@ -124,21 +230,43 @@ def main() -> None:
         if st.button("新会话", use_container_width=True):
             reset()
             st.rerun()
+        sessions = st.session_state.agent.store.list_sessions()
+        if sessions:
+            st.caption("历史咨询保存在本机，可恢复对话、事实和上次分析。")
+            labels = {s["session"]: f"{s['title']} · {s['session'][-6:]}" for s in sessions}
+            with st.form("history_picker"):
+                selected = st.selectbox("历史会话", [None, *labels],
+                                        format_func=lambda sid: labels.get(sid, "选择一段历史咨询"))
+                restore = st.form_submit_button("恢复会话", use_container_width=True)
+            if restore and selected:
+                activate_session(selected)
+                st.rerun()
         if st.button("载入示例对话", use_container_width=True):
+            reset()
             for text, _ in LABOR_DEMO:
                 submit(text)
             st.rerun()
         if st.button("直接出备忘录", use_container_width=True):
-            agent = st.session_state.agent
-            r = agent.handle(st.session_state.session, "请根据目前信息生成备忘录。",
-                             force_memo=True)
-            st.session_state.history.append({"role": "user", "content": "（直接出备忘录）"})
-            st.session_state.history.append({"role": "assistant", "content": r.reply,
-                                             "status": r.status})
-            st.session_state.last = r
+            submit("请根据目前信息生成备忘录。", force_memo=True)
             st.rerun()
         st.divider()
         last = st.session_state.last
+        api = last.metrics.get("api", {}) if last else {}
+        error = st.session_state.get("request_error", "")
+        if error:
+            st.error(error)
+        if api.get("failures") or api.get("fallbacks"):
+            st.warning("部分模型步骤未成功，已采用规则兜底；请核对结果或重试本轮。")
+            for message in api.get("errors", []):
+                st.caption(message)
+        if error or api.get("failures") or api.get("fallbacks"):
+            if st.button("重试本轮", use_container_width=True):
+                retry_request()
+                st.rerun()
+        if api.get("calls"):
+            with st.expander("本轮运行详情"):
+                st.write(f"模型调用 {api['calls']} 次；失败 {api['failures']} 次；重试 {api['retries']} 次。")
+                st.write(f"输入 {api['prompt_tokens']} / 输出 {api['completion_tokens']} tokens。")
         if last is not None:
             st.metric("事实版本", f"v{last.revision}")
             st.metric("已记录事实", len([f for f in last.facts if f["superseded_by"] is None]))
@@ -161,6 +289,16 @@ def main() -> None:
         if text:
             submit(text)
             st.rerun()
+        last = st.session_state.last
+        if last and last.questions and last.status in ("asked", "explained"):
+            choices = {q["key"]: q.get("label", q["key"]) for q in last.questions}
+            choice = st.selectbox("暂时不知道哪项？", ["all", *choices],
+                                  format_func=lambda k: "本轮全部问题" if k == "all" else choices[k],
+                                  key=f"skip-choice:{last.session}:{last.turn}")
+            if st.button("暂时跳过"):
+                keys = list(choices) if choice == "all" else [choice]
+                submit("这些信息暂时不清楚，先跳过。", skip_keys=keys)
+                st.rerun()
 
     with right:
         last = st.session_state.last
@@ -234,20 +372,20 @@ def main() -> None:
                                                  "催告函", "被迫解除通知书",
                                                  "仲裁 vs 诉讼", "仲裁材料清单"])
                 if kind == "法律意见书":
-                    st.markdown(render_legal_opinion(analysis, state, schema,
-                                                     last.verification))
+                    content = render_legal_opinion(analysis, state, schema, last.verification)
                 elif kind == "劳动仲裁申请书":
-                    st.markdown(render_arbitration_application(analysis, state, schema))
+                    content = render_arbitration_application(analysis, state, schema)
                 elif kind == "证据清单":
-                    st.markdown(render_evidence_list(analysis, state, schema))
+                    content = render_evidence_list(analysis, state, schema)
                 elif kind == "催告函":
-                    st.markdown(render_demand_letter(analysis, state, schema))
+                    content = render_demand_letter(analysis, state, schema)
                 elif kind == "被迫解除通知书":
-                    st.markdown(render_forced_resignation_notice(state, schema))
+                    content = render_forced_resignation_notice(state, schema)
                 elif kind == "仲裁 vs 诉讼":
-                    st.markdown(compare_arbitration_litigation(state, schema))
+                    content = compare_arbitration_litigation(state, schema)
                 else:
-                    st.markdown(arbitration_checklist(state, schema))
+                    content = arbitration_checklist(state, schema)
+                document_editor(content, kind)
                 st.caption("以上均为草稿，需核对身份信息、金额和管辖后使用。")
         elif choice == "运行轨迹":
             if last:

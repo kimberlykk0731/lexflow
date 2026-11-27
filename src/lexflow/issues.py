@@ -30,6 +30,8 @@ class Question:
     element_label: str
     score: float
     reason: str = ""
+    refine: bool = False
+    attempt: int = 0
 
 
 @dataclass
@@ -168,6 +170,7 @@ class IssueTree:
                     q = self._score(claim, el, f, facts)
                     if precisions.get(f.key) == "month":
                         q.score += 30
+                        q.refine = True
                     old = seen.get(f.key)
                     if old is None or q.score > old.score:
                         seen[f.key] = q
@@ -198,9 +201,10 @@ class IssueTree:
         counts = ask_counts or {}
         # Do not exclude previously asked keys: a user may ignore a question.
         # Instead, cap how many times the same key is asked.
-        frontier = [q for q in self.frontier(claims, facts, precisions=precisions)
+        frontier = [q for q in self.frontier(claims, facts, asked=asked, precisions=precisions)
                     if counts.get(q.key, 0) < 2]
         for q in frontier:
+            q.attempt = counts.get(q.key, 0)
             q.score -= 25 * counts.get(q.key, 0)
             if voi and q.key in voi:
                 q.score += voi[q.key].gain * 20

@@ -23,6 +23,7 @@ class QuestionComposer:
     def __init__(self, llm: BaseLLM | None = None):
         self.llm = llm
         self._cache: dict[str, str] = {}
+        self.fallbacks = 0
 
     # ------------------------------------------------------------------ API
     def intro(self, claims: list[str], labels: dict[str, str], facts: dict) -> str:
@@ -52,14 +53,22 @@ class QuestionComposer:
         return "为了给出负责任的结论，我需要先确认几个事实。"
 
     def compose(self, q: Question, facts: dict, labels: dict[str, str]) -> str:
+        if q.refine:
+            value = str(facts.get(q.key, ""))[:7]
+            return (f"已经记下{q.field.label}是 {value}，能确认具体几号吗？"
+                    "记不清可以先跳过，我会保留月份并标注估算。")
         key = self._cache_key(q, facts)
         if key in self._cache:
             return self._cache[key]
         text = None
         if self.llm and self.llm.enabled:
             text = self._llm_compose(q, facts, labels)
+            if not text:
+                self.fallbacks += 1
         if not text:
             text = self._template(q, facts, labels)
+        if q.attempt:
+            text = "这项还没确认：" + text
         self._cache[key] = text
         return text
 
@@ -121,7 +130,7 @@ class QuestionComposer:
 
     @staticmethod
     def _cache_key(q: Question, facts: dict) -> str:
-        raw = json.dumps([q.key, q.claim, {k: facts.get(k) for k in
+        raw = json.dumps([q.key, q.claim, q.refine, q.attempt, facts.get(q.key), {k: facts.get(k) for k in
                                            ("stated_reason", "who_initiated", "employer",
                                             "injury_at_work", "dispatch_type")}],
                          ensure_ascii=False, sort_keys=True)

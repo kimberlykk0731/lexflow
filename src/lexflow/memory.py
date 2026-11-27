@@ -39,6 +39,7 @@ class CaseState:
     asked: list[str] = field(default_factory=list)
     ask_counts: dict[str, int] = field(default_factory=dict)
     known_unknowns: list[str] = field(default_factory=list)
+    deferred: list[str] = field(default_factory=list)
     last_analysis: dict | None = None
     created_at: float = field(default_factory=time.time)
     updated_at: float = field(default_factory=time.time)
@@ -99,6 +100,7 @@ class CaseState:
             "revision": self.revision, "asked": self.asked,
             "ask_counts": self.ask_counts,
             "known_unknowns": self.known_unknowns,
+            "deferred": self.deferred,
             "last_analysis": self.last_analysis,
             "created_at": self.created_at, "updated_at": self.updated_at,
         }
@@ -111,6 +113,7 @@ class CaseState:
                  revision=d.get("revision", 0), asked=d.get("asked", []),
                  ask_counts=d.get("ask_counts", {}),
                  known_unknowns=d.get("known_unknowns", []),
+                 deferred=d.get("deferred", []),
                  last_analysis=d.get("last_analysis"),
                  created_at=d.get("created_at", time.time()),
                  updated_at=d.get("updated_at", time.time()))
@@ -157,6 +160,14 @@ class MemoryStore:
             session TEXT, turn INTEGER, role TEXT, content TEXT, meta TEXT, ts REAL);
         CREATE TABLE IF NOT EXISTS traces (
             session TEXT, turn INTEGER, payload TEXT, ts REAL);
+        CREATE TABLE IF NOT EXISTS session_info (
+            session TEXT PRIMARY KEY, today TEXT NOT NULL);
+        CREATE TABLE IF NOT EXISTS request_backup (
+            session TEXT PRIMARY KEY, turn INTEGER, state TEXT, text TEXT,
+            force_memo INTEGER, skip_keys TEXT);
+        CREATE TABLE IF NOT EXISTS document_drafts (
+            session TEXT, kind TEXT, content TEXT, source_hash TEXT,
+            PRIMARY KEY (session, kind));
         """)
         self.db.commit()
 
@@ -204,6 +215,106 @@ class MemoryStore:
             (session,)).fetchall()
         return [{"turn": r[0], "role": r[1], "content": r[2], "meta": json.loads(r[3] or "{}")}
                 for r in rows]
+
+    def save_session(self, session: str, today: str) -> None:
+        self.db.execute("INSERT OR REPLACE INTO session_info VALUES (?,?)",
+                        (session, today))
+        self.db.commit()
+
+    def session_date(self, session: str, default: str = "2026-11-18") -> str:
+        row = self.db.execute("SELECT today FROM session_info WHERE session=?",
+                              (session,)).fetchone()
+        return row[0] if row else default
+
+    def session_exists(self, session: str) -> bool:
+        return self.db.execute(
+            "SELECT 1 FROM case_state WHERE session=? UNION ALL "
+            "SELECT 1 FROM session_info WHERE session=? LIMIT 1",
+            (session, session)).fetchone() is not None
+
+    def list_sessions(self) -> list[dict]:
+        # Legacy consultations already have state/turns/traces, so no data rewrite
+        # is needed to make them visible in the history picker.
+        rows = self.db.execute("""
+            SELECT s.session, s.updated_at,
+                (SELECT content FROM turns t WHERE t.session=s.session
+                 AND role='user' ORDER BY rowid LIMIT 1)
+            FROM case_state s ORDER BY s.updated_at DESC, s.session
+        """).fetchall()
+        return [{"session": sid, "updated_at": ts,
+                 "title": " ".join((opening or "未命名咨询").split())[:40],
+                 "today": self.session_date(sid)} for sid, ts, opening in rows]
+
+    def last_result(self, session: str) -> dict | None:
+        row = self.db.execute(
+            "SELECT payload FROM traces WHERE session=? ORDER BY rowid DESC LIMIT 1",
+            (session,)).fetchone()
+        return json.loads(row[0]) if row else None
+
+    def next_turn(self, session: str) -> int:
+        row = self.db.execute("SELECT MAX(turn) FROM turns WHERE session=?",
+                              (session,)).fetchone()
+        return (row[0] or 0) + 1
+
+    def recent_history(self, session: str, limit: int = 8,
+                       max_chars: int = 10000) -> list[dict]:
+        """A bounded chronological prompt window; the full log stays on disk."""
+        rows = self.db.execute(
+            "SELECT role, content FROM turns WHERE session=? "
+            "ORDER BY rowid DESC LIMIT ?", (session, max(0, limit))).fetchall()
+        selected = []
+        remaining = max(0, max_chars)
+        for role, content in rows:
+            if remaining <= 0:
+                break
+            if role not in ("user", "assistant"):
+                continue
+            content = content[:min(3000, remaining)]
+            selected.append({"role": role, "content": content})
+            remaining -= len(content)
+        return list(reversed(selected))
+
+    def prepare_request(self, session: str, text: str, force_memo: bool = False,
+                        skip_keys: list[str] | None = None) -> None:
+        row = self.db.execute("SELECT payload FROM case_state WHERE session=?", (session,)).fetchone()
+        self.db.execute("INSERT OR REPLACE INTO request_backup VALUES (?,?,?,?,?,?)",
+                        (session, self.next_turn(session), row[0] if row else None,
+                         text, int(force_memo), json.dumps(skip_keys or [])))
+        self.db.commit()
+
+    def rewind_request(self, session: str) -> dict:
+        """Undo only the latest request before retrying, avoiding duplicate turns."""
+        row = self.db.execute("SELECT turn,state,text,force_memo,skip_keys FROM request_backup WHERE session=?",
+                              (session,)).fetchone()
+        if row is None or self.next_turn(session) - 1 > row[0]:
+            raise ValueError("只能重试最近一条消息。")
+        turn, state_json, text, forced, skip_json = row
+        current = self.load(session)
+        before = CaseState.from_dict(json.loads(state_json)) if state_json else CaseState(session)
+        changed = [key for key in set(current.facts) | set(before.facts)
+                   if current.value(key) != before.value(key)]
+        # Cached analyses depending on facts changed by the failed attempt must
+        # not survive a rewind. Public immutable article lookups remain valid.
+        self.invalidate(changed, before)
+        with self.db:
+            for table in ("turns", "traces", "fact_log"):
+                self.db.execute(f"DELETE FROM {table} WHERE session=? AND turn>=?", (session, turn))
+            if state_json:
+                self.db.execute("INSERT OR REPLACE INTO case_state VALUES (?,?,?)",
+                                (session, state_json, before.updated_at))
+            else:
+                self.db.execute("DELETE FROM case_state WHERE session=?", (session,))
+        return {"text": text, "force_memo": bool(forced), "skip_keys": json.loads(skip_json)}
+
+    def draft(self, session: str, kind: str) -> dict | None:
+        row = self.db.execute("SELECT content,source_hash FROM document_drafts WHERE session=? AND kind=?",
+                              (session, kind)).fetchone()
+        return {"content": row[0], "source_hash": row[1]} if row else None
+
+    def save_draft(self, session: str, kind: str, content: str, source_hash: str) -> None:
+        self.db.execute("INSERT OR REPLACE INTO document_drafts VALUES (?,?,?,?)",
+                        (session, kind, content, source_hash))
+        self.db.commit()
 
     # -------------------------------------------------------------- cache
     @staticmethod

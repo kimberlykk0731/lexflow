@@ -2,6 +2,7 @@
 import os
 import tempfile
 import unittest
+from contextlib import contextmanager
 
 from lexflow.agent import ConsultationAgent
 from lexflow.config import LLMConfig
@@ -25,9 +26,16 @@ class TestAgentFlow(unittest.TestCase):
             MemoryStore(os.path.join(tmp, "m.sqlite")), llm=self.llm,
             today="2026-11-27")
 
+    @contextmanager
+    def agent_context(self, tmp):
+        agent = self.agent(tmp)
+        try:
+            yield agent
+        finally:
+            agent.store.close()
+
     def test_dismissal_flow(self):
-        with tempfile.TemporaryDirectory() as tmp:
-            a = self.agent(tmp)
+        with tempfile.TemporaryDirectory() as tmp, self.agent_context(tmp) as a:
             r = a.handle("s", "公司把我辞退了，说我严重违纪，我想问能赔多少钱")
             self.assertEqual(r.status, "asked")
             self.assertEqual(r.claims, ["labor_dismissal"])
@@ -52,22 +60,19 @@ class TestAgentFlow(unittest.TestCase):
             self.assertIn("仲裁请求", arb)
 
     def test_traffic_flow_not_labour(self):
-        with tempfile.TemporaryDirectory() as tmp:
-            a = self.agent(tmp)
+        with tempfile.TemporaryDirectory() as tmp, self.agent_context(tmp) as a:
             r = a.handle("t", "交通肇事一般怎么处理")
             self.assertEqual(r.claims, ["tort_injury"])
             self.assertNotIn("劳动", r.reply)
 
     def test_out_of_scope(self):
-        with tempfile.TemporaryDirectory() as tmp:
-            a = self.agent(tmp)
+        with tempfile.TemporaryDirectory() as tmp, self.agent_context(tmp) as a:
             r = a.handle("o", "我要离婚，孩子归谁")
             self.assertEqual(r.status, "out_of_scope")
             self.assertIn("婚姻家事", r.reply)
 
     def test_wage_and_overtime(self):
-        with tempfile.TemporaryDirectory() as tmp:
-            a = self.agent(tmp)
+        with tempfile.TemporaryDirectory() as tmp, self.agent_context(tmp) as a:
             r = a.handle("w", "公司欠我两个月工资，还让我天天加班")
             self.assertIn("labor_wage", r.claims)
             self.assertIn("labor_overtime", r.claims)

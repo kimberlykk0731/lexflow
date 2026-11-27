@@ -1,2 +1,5 @@
 # Optional: only for the Streamlit UI. The core system has no third-party deps.
 streamlit>=1.30
+# Optional document export dependencies; the consultation core stays stdlib-only.
+python-docx>=1.1
+reportlab>=4.0

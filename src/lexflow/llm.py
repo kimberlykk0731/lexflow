@@ -57,12 +57,38 @@ class OpenAICompatLLM(BaseLLM):
     def __init__(self, cfg: LLMConfig | None = None):
         self.cfg = cfg or LLMConfig()
         self.name = self.cfg.model
+        self.events: list[dict] = []
 
     @property
     def enabled(self) -> bool:
         return self.cfg.enabled
 
     def complete(self, messages: list[dict], temperature: float | None = None,
+                 max_tokens: int | None = None) -> LLMResult:
+        started = time.perf_counter()
+        result = self._request(messages, temperature, max_tokens)
+        self.events.append({
+            "ok": result.ok, "model": result.model, "attempts": result.attempts,
+            "prompt_tokens": result.prompt_tokens, "completion_tokens": result.completion_tokens,
+            "elapsed_ms": round((time.perf_counter() - started) * 1000, 1),
+            # Do not expose provider bodies, credentials or request contents.
+            "error": self.error_message(result.error) if not result.ok else "",
+        })
+        return result
+
+    @staticmethod
+    def error_message(error: str) -> str:
+        if "401" in error or "403" in error:
+            return "模型认证或访问权限异常，请检查本地 API 配置。"
+        if "402" in error:
+            return "模型账户余额不足，请检查服务商账户。"
+        if "429" in error:
+            return "模型请求过于频繁，请稍后重试。"
+        if "empty" in error:
+            return "模型返回了空内容，请重试。"
+        return "模型请求超时或连接失败，请检查网络后重试。"
+
+    def _request(self, messages: list[dict], temperature: float | None = None,
                  max_tokens: int | None = None) -> LLMResult:
         if not self.enabled:
             return LLMResult(text="", ok=False, model=self.name,
