@@ -53,9 +53,8 @@ def main() -> None:
     corpus = StatuteCorpus()
     schema = ElementSchema()
     cfg = LLMConfig()
-    if args.llm == "api":
-        cfg.mode = "api"
-    llm = build_llm(cfg)
+    cfg.mode = args.llm
+    llm = build_llm(cfg, strict=args.llm == "api")
 
     conditions = [c.strip() for c in args.conditions.split(",") if c.strip()]
     unknown = [c for c in conditions if c not in CONDITIONS]

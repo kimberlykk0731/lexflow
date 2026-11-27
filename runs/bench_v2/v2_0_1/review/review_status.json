@@ -1,0 +1,17 @@
+{
+  "human_status": "pending",
+  "sample_ids": [
+    "B03",
+    "B18",
+    "B14",
+    "B17",
+    "B33",
+    "B24",
+    "B32"
+  ],
+  "sample_ratio": 0.18421052631578946,
+  "model_status": "not_run",
+  "audits": [],
+  "usage": null,
+  "notice": "自动检查和模型审题不替代人工法律审定；不自动批准或覆盖gold。"
+}

@@ -149,11 +149,12 @@ def find_dates(text: str, today: date) -> list[tuple[int, str, str]]:
         except ValueError:
             continue
     if not out:
-        m = re.search(r"(去年|今年|前年)\s*(\d{1,2})\s*月", text)
+        m = re.search(r"(去年|今年|前年)\s*(\d{1,2})\s*月\s*(?:(\d{1,2})\s*[日号]?)?", text)
         if m:
             year = today.year + {"去年": -1, "今年": 0, "前年": -2}[m.group(1)]
             try:
-                out.append((m.start(), date(year, int(m.group(2)), 1).isoformat(), "month"))
+                out.append((m.start(), date(year, int(m.group(2)), int(m.group(3)) if m.group(3) else 1).isoformat(),
+                            "day" if m.group(3) else "month"))
             except ValueError:
                 pass
     return out
@@ -188,9 +189,10 @@ def find_money(text: str) -> float | None:
 
 
 class Extractor:
-    def __init__(self, schema: ElementSchema, llm: BaseLLM):
+    def __init__(self, schema: ElementSchema, llm: BaseLLM, today: date | None = None):
         self.schema = schema
         self.llm = llm
+        self.today = today or date.today()
         self.last_source = "rules"
         self.usage = {"prompt": 0, "completion": 0, "calls": 0}
 
@@ -204,6 +206,12 @@ class Extractor:
         if self.llm.enabled:
             result = self._llm_extract(text, facts, claims)
             if result:
+                allowed = {f.key for f in self.schema.fields(claims)} if claims else set()
+                if claims:
+                    for part in ("facts", "corrections", "precision"):
+                        result[part] = {k: v for k, v in result.get(part, {}).items() if k in allowed}
+                    result["unknown"] = [k for k in result["unknown"] if k in allowed]
+                result["facts"].update(result["corrections"])
                 self.last_source = "llm"
                 return result
         self.last_source = "rules"
@@ -234,6 +242,8 @@ class Extractor:
             "4. 枚举字段只能取 options 中的一个值；拿不准就不要填。\n"
             "5. 用户明确更正此前说法时，把新值同时放进 corrections。\n"
             "6. unknown 填用户明确表示“不知道/记不清”的字段 key。\n"
+            "7. text 类型的值保留用户原话中的连续片段，只去掉字段标签；期间和年度不要改写或转成ISO日期。\n"
+            "8. known_facts只作上下文，最新一句没有提及的不要重新输出。只说赔偿时不要擅自区分经济补偿和赔偿金。\n"
             "输出格式：{\"case_type\":\"...\",\"facts\":{...},\"corrections\":{...},\"unknown\":[...]}"
         )
         user = json.dumps({
@@ -256,7 +266,7 @@ class Extractor:
         if not isinstance(data, dict) or ("facts" not in data and "corrections" not in data):
             return None
         ctype = data.get("case_type")
-        if ctype not in self.schema.types():
+        if ctype not in (claims or self.schema.types()):
             ctype = claims[0] if claims else ""
         if not ctype:
             ranked = self.schema.classify(text)
@@ -265,10 +275,20 @@ class Extractor:
         # The model normalises "2024年1月" to 2024-01-01; recover month
         # precision from the original text so the gate can ask for the day.
         precision = {}
-        seen = {iso: prec for _, iso, prec in find_dates(text, date.today())}
+        seen = {iso: prec for _, iso, prec in find_dates(text, self.today)}
         for key, value in (data.get("facts") or {}).items():
             if isinstance(value, str) and value in seen:
                 precision[key] = seen[value]
+        # Preserve explicitly labelled text independently of model formatting.
+        # This only uses the current utterance, never the hidden evaluation sheet.
+        for f in fields:
+            if f["type"] != "text":
+                continue
+            pattern = re.escape(f["label"]) + r"(?:是|为|[，,:：])\s*([^。；;\n]+)"
+            match = re.search(pattern, text)
+            if match and not re.search(r"不清楚|不知道|记不清|无法确认", match.group(1)):
+                target = "corrections" if f["key"] in (data.get("corrections") or {}) else "facts"
+                data.setdefault(target, {})[f["key"]] = match.group(1).strip()
         return self._clean(ctype, data.get("facts", {}), data.get("corrections", {}),
                            data.get("unknown", []), hint, source="llm",
                            precision=precision)
@@ -282,7 +302,7 @@ class Extractor:
             ctype = ranked[0][0] if ranked and ranked[0][1] > 0 else ""
         found: dict = {}
         precision: dict[str, str] = {}
-        today = date.today()
+        today = self.today
         hint = any(m in text for m in CORRECTION_MARKERS)
 
         def available(key):

@@ -26,6 +26,8 @@ class LLMResult:
     completion_tokens: int = 0
     error: str = ""
     latency_ms: float = 0.0
+    attempts: int = 0
+    finish_reason: str = ""
 
 
 class BaseLLM:
@@ -72,6 +74,10 @@ class OpenAICompatLLM(BaseLLM):
             "temperature": self.cfg.temperature if temperature is None else temperature,
             "max_tokens": max_tokens or self.cfg.max_tokens,
         }
+        if self.cfg.thinking:
+            if self.cfg.thinking not in {"enabled", "disabled"}:
+                raise ValueError("LLM_THINKING must be enabled, disabled, or unset")
+            payload["thinking"] = {"type": self.cfg.thinking}
         data = json.dumps(payload, ensure_ascii=False).encode("utf-8")
         last_error = ""
         for attempt in range(3):
@@ -83,21 +89,27 @@ class OpenAICompatLLM(BaseLLM):
                              "Authorization": f"Bearer {self.cfg.api_key}"})
                 with urllib.request.urlopen(req, timeout=self.cfg.timeout) as resp:
                     body = json.loads(resp.read().decode("utf-8"))
-                text = body["choices"][0]["message"]["content"] or ""
+                choice = body["choices"][0]
+                text = choice["message"]["content"] or ""
                 usage = body.get("usage", {})
                 return LLMResult(
-                    text=text, ok=True, model=self.cfg.model,
+                    text=text, ok=bool(text.strip()), model=self.cfg.model,
+                    error="" if text.strip() else "empty model response",
+                    finish_reason=choice.get("finish_reason", ""),
                     prompt_tokens=usage.get("prompt_tokens", 0),
                     completion_tokens=usage.get("completion_tokens", 0),
+                    attempts=attempt + 1,
                     latency_ms=round((time.perf_counter() - started) * 1000, 1))
             except (urllib.error.URLError, KeyError, TimeoutError, json.JSONDecodeError) as exc:
                 last_error = f"{type(exc).__name__}: {exc}"
                 time.sleep(1.5 * (attempt + 1))
-        return LLMResult(text="", ok=False, model=self.cfg.model, error=last_error)
+        return LLMResult(text="", ok=False, model=self.cfg.model, error=last_error, attempts=3)
 
 
-def build_llm(cfg: LLMConfig | None = None) -> BaseLLM:
+def build_llm(cfg: LLMConfig | None = None, *, strict: bool = False) -> BaseLLM:
     cfg = cfg or LLMConfig()
+    if strict and cfg.mode.lower() != "mock" and not cfg.enabled:
+        raise ValueError("API mode requires LLM_API_KEY; refusing to substitute mock")
     if cfg.enabled:
         return OpenAICompatLLM(cfg)
     return NullLLM()

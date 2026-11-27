@@ -1,0 +1,314 @@
+{
+  "config": {
+    "llm_mode": "mock",
+    "model": "mock",
+    "api_host": null,
+    "today": "2026-11-27",
+    "dataset_sha256": "85a0af410c697b54cfe09c4f97f59da4cac436b1312c2dd1560b33e2f9263296",
+    "corpus_version": "945c2b0291e4d6bc",
+    "split": "test",
+    "repeats": 1,
+    "conditions": [
+      "full",
+      "full_no_voi"
+    ],
+    "max_turns_per_phase": 12,
+    "max_questions_total": 4,
+    "bootstrap_seed": 20261127,
+    "bootstrap_samples": 2000,
+    "human_reviewed": 0,
+    "source_tree_sha256": "f82519db53b8a0fb7504f3bf983e73b4dd0cfcf498f9602ed272c76db5143c6f",
+    "source_commit": "f8db186b0bc597b1c7eab64b3094cd70103190fc",
+    "source_dirty": true
+  },
+  "aggregate": {
+    "full": {
+      "sessions": 26,
+      "cases": 26,
+      "metrics": {
+        "completed": {
+          "mean": 0.9230769230769231,
+          "lo": 0.8076923076923077,
+          "hi": 1.0,
+          "n_cases": 26
+        },
+        "claim_f1": {
+          "mean": 0.9358974358974359,
+          "lo": 0.8461538461538461,
+          "hi": 1.0,
+          "n_cases": 26
+        },
+        "correct_coverage": {
+          "mean": 0.3665485155869771,
+          "lo": 0.29792707292707293,
+          "hi": 0.43678661082507236,
+          "n_cases": 26
+        },
+        "extraction_f1": {
+          "mean": 0.6436230436230436,
+          "lo": 0.5444583194583195,
+          "hi": 0.7297841047841048,
+          "n_cases": 26
+        },
+        "inquiry_recall": {
+          "mean": 0.4514363841286918,
+          "lo": 0.38035330054560823,
+          "hi": 0.524126194318502,
+          "n_cases": 26
+        },
+        "outcome_agreement": {
+          "mean": 0.4288461538461538,
+          "lo": 0.2653846153846154,
+          "hi": 0.5846153846153846,
+          "n_cases": 26
+        },
+        "formula_agreement": {
+          "mean": 0.24444444444444444,
+          "lo": 0.06666666666666667,
+          "hi": 0.4222222222222222,
+          "n_cases": 15
+        },
+        "behavior_agreement": {
+          "mean": 0.575,
+          "lo": 0.35,
+          "hi": 0.775,
+          "n_cases": 20
+        },
+        "outcome_all_correct": {
+          "mean": 0.2692307692307692,
+          "lo": 0.11538461538461539,
+          "hi": 0.4230769230769231,
+          "n_cases": 26
+        },
+        "citation_mechanical_support": {
+          "mean": 0.7937041666666667,
+          "lo": 0.722875,
+          "hi": 0.8637916666666666,
+          "n_cases": 24
+        },
+        "premature_unqualified_memo_proxy": {
+          "mean": 0.0,
+          "lo": 0.0,
+          "hi": 0.0,
+          "n_cases": 26
+        },
+        "unknown_handling_proxy": {
+          "mean": 0.8333333333333334,
+          "lo": 0.5,
+          "hi": 1.0,
+          "n_cases": 6
+        },
+        "correction_protocol_complete": {
+          "mean": 0.9166666666666666,
+          "lo": 0.75,
+          "hi": 1.0,
+          "n_cases": 12
+        },
+        "revision_success": {
+          "mean": 0.45454545454545453,
+          "lo": 0.18181818181818182,
+          "hi": 0.7272727272727273,
+          "n_cases": 11
+        },
+        "unaffected_preserved": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 1
+        },
+        "questions": {
+          "mean": 3.8461538461538463,
+          "lo": 3.5384615384615383,
+          "hi": 4.0,
+          "n_cases": 26
+        },
+        "repeat_rate": {
+          "mean": 0.02,
+          "lo": 0.0,
+          "hi": 0.06,
+          "n_cases": 25
+        },
+        "fallback_extraction_rate": {
+          "mean": null,
+          "lo": null,
+          "hi": null,
+          "n_cases": 0
+        },
+        "elapsed_ms": {
+          "mean": 15.483846153846153,
+          "lo": 12.665000000000001,
+          "hi": 18.987692307692306,
+          "n_cases": 26
+        },
+        "turns": {
+          "mean": 3.3461538461538463,
+          "lo": 3.076923076923077,
+          "hi": 3.576923076923077,
+          "n_cases": 26
+        }
+      },
+      "usage": {
+        "logical_calls": 0,
+        "successful_calls": 0,
+        "failed_calls": 0,
+        "http_attempts": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0
+      }
+    },
+    "full_no_voi": {
+      "sessions": 26,
+      "cases": 26,
+      "metrics": {
+        "completed": {
+          "mean": 0.9230769230769231,
+          "lo": 0.8076923076923077,
+          "hi": 1.0,
+          "n_cases": 26
+        },
+        "claim_f1": {
+          "mean": 0.9358974358974359,
+          "lo": 0.8461538461538461,
+          "hi": 1.0,
+          "n_cases": 26
+        },
+        "correct_coverage": {
+          "mean": 0.37167672071518226,
+          "lo": 0.30305527805527804,
+          "hi": 0.43959213863060015,
+          "n_cases": 26
+        },
+        "extraction_f1": {
+          "mean": 0.653005328005328,
+          "lo": 0.5537101787101787,
+          "hi": 0.7355228105228105,
+          "n_cases": 26
+        },
+        "inquiry_recall": {
+          "mean": 0.4514363841286918,
+          "lo": 0.38035330054560823,
+          "hi": 0.524126194318502,
+          "n_cases": 26
+        },
+        "outcome_agreement": {
+          "mean": 0.43653846153846154,
+          "lo": 0.2692307692307692,
+          "hi": 0.5942307692307692,
+          "n_cases": 26
+        },
+        "formula_agreement": {
+          "mean": 0.24444444444444444,
+          "lo": 0.06666666666666667,
+          "hi": 0.4222222222222222,
+          "n_cases": 15
+        },
+        "behavior_agreement": {
+          "mean": 0.6,
+          "lo": 0.4,
+          "hi": 0.8,
+          "n_cases": 20
+        },
+        "outcome_all_correct": {
+          "mean": 0.2692307692307692,
+          "lo": 0.11538461538461539,
+          "hi": 0.4230769230769231,
+          "n_cases": 26
+        },
+        "citation_mechanical_support": {
+          "mean": 0.8020375,
+          "lo": 0.7295208333333333,
+          "hi": 0.8732166666666666,
+          "n_cases": 24
+        },
+        "premature_unqualified_memo_proxy": {
+          "mean": 0.0,
+          "lo": 0.0,
+          "hi": 0.0,
+          "n_cases": 26
+        },
+        "unknown_handling_proxy": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 6
+        },
+        "correction_protocol_complete": {
+          "mean": 0.9166666666666666,
+          "lo": 0.75,
+          "hi": 1.0,
+          "n_cases": 12
+        },
+        "revision_success": {
+          "mean": 0.45454545454545453,
+          "lo": 0.18181818181818182,
+          "hi": 0.7272727272727273,
+          "n_cases": 11
+        },
+        "unaffected_preserved": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 1
+        },
+        "questions": {
+          "mean": 3.8461538461538463,
+          "lo": 3.5384615384615383,
+          "hi": 4.0,
+          "n_cases": 26
+        },
+        "repeat_rate": {
+          "mean": 0.02,
+          "lo": 0.0,
+          "hi": 0.06,
+          "n_cases": 25
+        },
+        "fallback_extraction_rate": {
+          "mean": null,
+          "lo": null,
+          "hi": null,
+          "n_cases": 0
+        },
+        "elapsed_ms": {
+          "mean": 12.409615384615385,
+          "lo": 10.079230769230769,
+          "hi": 15.226153846153846,
+          "n_cases": 26
+        },
+        "turns": {
+          "mean": 3.3461538461538463,
+          "lo": 3.076923076923077,
+          "hi": 3.576923076923077,
+          "n_cases": 26
+        }
+      },
+      "usage": {
+        "logical_calls": 0,
+        "successful_calls": 0,
+        "failed_calls": 0,
+        "http_attempts": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0
+      }
+    }
+  },
+  "paired": {
+    "full-minus-full_no_voi:correct_coverage": {
+      "mean": -0.005128205128205128,
+      "lo": -0.015384615384615384,
+      "hi": 0.0,
+      "n_cases": 26
+    },
+    "full-minus-full_no_voi:formula_agreement": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.0,
+      "n_cases": 15
+    },
+    "full-minus-full_no_voi:questions": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.0,
+      "n_cases": 26
+    }
+  }
+}

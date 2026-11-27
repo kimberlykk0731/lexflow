@@ -8,6 +8,7 @@ without human annotation and without an LLM judge.
 from __future__ import annotations
 
 import json
+import time
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -137,7 +138,7 @@ def _answer_ok(analysis: dict, gold: dict) -> tuple[bool | None, bool | None, bo
         amount_ok = bool(comp.get("ok")) and abs(float(comp.get("amount", -1)) - gold["amount"]) < 1
     illegal_ok = None
     if "illegal" in gold:
-        illegal_ok = bool(meta.get("illegal")) == gold["illegal"]
+        illegal_ok = type(meta.get("illegal")) is bool and meta["illegal"] == gold["illegal"]
     version_ok = None
     if gold.get("interp"):
         version_ok = meta.get("interp") == gold["interp"]
@@ -153,9 +154,14 @@ def run_case(case: dict, condition: str, corpus: StatuteCorpus,
     client = ScriptedClient(case)
     session = f"{case['id']}-{condition}"
     questions_asked: set[str] = set()
+    question_count = 0
+    total_turns = 0
+    started = time.perf_counter()
     usage = {"prompt": 0, "completion": 0, "calls": 0}
 
     def accumulate(r):
+        nonlocal total_turns
+        total_turns += 1
         usage["prompt"] += r.metrics.get("prompt_tokens", 0)
         usage["completion"] += r.metrics.get("completion_tokens", 0)
         usage["calls"] += r.metrics.get("llm_calls", 0)
@@ -166,6 +172,7 @@ def run_case(case: dict, condition: str, corpus: StatuteCorpus,
     initial_facts = set(_facts(result))
     while result.status == "asked" and exchanges < max_exchanges:
         if result.questions:
+            question_count += len(result.questions)
             questions_asked.update(q["key"] for q in result.questions)
         reply = client.answer(result.questions)
         exchanges += 1
@@ -188,6 +195,7 @@ def run_case(case: dict, condition: str, corpus: StatuteCorpus,
         exchanges = 0
         while result.status == "asked" and exchanges < max_exchanges:
             if result.questions:
+                question_count += len(result.questions)
                 questions_asked.update(q["key"] for q in result.questions)
             exchanges += 1
             result = agent.handle(session, client.answer(result.questions))
@@ -197,6 +205,9 @@ def run_case(case: dict, condition: str, corpus: StatuteCorpus,
             accumulate(result)
 
     gold = case["gold"]
+    # Uniform offline scoring, independent of the runtime verifier switch.
+    offline_verification = agent.verifier.verify(
+        agent._analysis_from_dict(result.analysis), store.load(session))
     illegal_ok, amount_ok, limitation_ok, version_ok = _answer_ok(result.analysis, gold)
     if case.get("correction"):
         checks = []
@@ -204,6 +215,10 @@ def run_case(case: dict, condition: str, corpus: StatuteCorpus,
             checks.append(bool(limitation_ok))
         if gold.get("interp"):
             checks.append(bool(version_ok))
+        if "amount" in gold:
+            checks.append(bool(amount_ok))
+        if "illegal" in gold:
+            checks.append(bool(illegal_ok))
         stale = (not all(checks)) if checks else False
     # Only facts that were not volunteered in the opening can test inquiry.
     must_ask = [k for k in critical if k not in initial_facts]
@@ -211,13 +226,13 @@ def run_case(case: dict, condition: str, corpus: StatuteCorpus,
     run = CaseRun(
         case_id=case["id"], condition=condition, status=result.status,
         coverage=round(coverage, 3), inquiry_recall=round(inquiry, 3),
-        questions=len(questions_asked), turns=exchanges + 1,
+        questions=question_count, turns=total_turns,
         premature=premature,
-        support_rate=result.verification.get("support_rate", 0.0),
+        support_rate=offline_verification.get("support_rate", 0.0),
         illegal_ok=illegal_ok, amount_ok=amount_ok,
         limitation_ok=limitation_ok, version_ok=version_ok,
         stale_after_correction=stale,
-        elapsed_ms=result.metrics.get("elapsed_ms", 0.0),
+        elapsed_ms=round((time.perf_counter() - started) * 1000, 2),
         prompt_tokens=usage["prompt"],
         completion_tokens=usage["completion"],
         llm_calls=usage["calls"],

@@ -1,0 +1,2384 @@
+{
+  "n": 12,
+  "action_accuracy": 1,
+  "claim_exact_accuracy": 1,
+  "runs": [
+    {
+      "case_id": "R01",
+      "expected_action": "proceed",
+      "action": "proceed",
+      "action_ok": true,
+      "scores": {
+        "claim_precision": 1.0,
+        "claim_recall": 1.0,
+        "claim_f1": 1.0,
+        "claim_exact": true
+      },
+      "usage": {
+        "logical_calls": 3,
+        "successful_calls": 3,
+        "failed_calls": 0,
+        "http_attempts": 3,
+        "prompt_tokens": 1013,
+        "completion_tokens": 52
+      },
+      "result": {
+        "session": "R01",
+        "turn": 1,
+        "status": "asked",
+        "reply": "在判断「欠薪金额、时效和举证」之前，我需要先确认几个会直接影响结论的事实。\n\n1. 欠的是哪几个月或哪段时间的工资？\n   （为什么问：确定欠薪期间和时效）\n2. 公司目前欠您多少钱，具体是几个月的工资，还是提成、奖金没有发？\n   （为什么问：确定仲裁请求金额；劳动报酬争议的时效起算有特殊规则）\n\n另外还有 6 项信息待补充，可以稍后再说。\n\n您可以直接用大白话回答，不用管法律术语。",
+        "questions": [
+          {
+            "key": "wage_period",
+            "label": "欠薪期间",
+            "question": "欠的是哪几个月或哪段时间的工资？",
+            "why": "确定欠薪期间和时效",
+            "element": "欠付事实与金额",
+            "claim": "labor_wage"
+          },
+          {
+            "key": "wage_owed",
+            "label": "欠薪金额",
+            "question": "公司欠您多少钱？是几个月工资，还是提成、奖金没发？",
+            "why": "确定仲裁请求金额；劳动报酬争议的时效起算有特殊规则",
+            "element": "欠付事实与金额",
+            "claim": "labor_wage"
+          }
+        ],
+        "memo": "",
+        "analysis": {},
+        "verification": {},
+        "facts": [],
+        "changed": [],
+        "invalidated_cache": 0,
+        "revision": 0,
+        "tools": {},
+        "conflicts": [],
+        "trace": [
+          {
+            "node": "input",
+            "text": "公司拖欠工资，我该怎么办？"
+          },
+          {
+            "node": "session_load",
+            "revision": 0,
+            "facts": 0
+          },
+          {
+            "node": "route",
+            "matter": "labor",
+            "claims": [
+              "labor_wage"
+            ],
+            "confidence": 0.895,
+            "evidence": [
+              "拖欠工资",
+              "欠.{0,8}工资",
+              "拖.{0,8}工资"
+            ],
+            "alternatives": [
+              [
+                "劳动争议 · 工资/欠薪",
+                8.0
+              ]
+            ],
+            "action": "proceed",
+            "out_of_scope": "",
+            "note": "",
+            "source": "rules"
+          },
+          {
+            "node": "fact_extraction",
+            "source": "llm"
+          },
+          {
+            "node": "voi",
+            "scores": {
+              "wage_owed": {
+                "key": "wage_owed",
+                "distinct": 1,
+                "gain": 0.0,
+                "reason": "回答这个问题大概率不会改变当前结论"
+              },
+              "wage_type": {
+                "key": "wage_type",
+                "distinct": 1,
+                "gain": 0.0,
+                "reason": "回答这个问题大概率不会改变当前结论"
+              },
+              "monthly_wage": {
+                "key": "monthly_wage",
+                "distinct": 1,
+                "gain": 0.0,
+                "reason": "回答这个问题大概率不会改变当前结论"
+              },
+              "wage_evidence": {
+                "key": "wage_evidence",
+                "distinct": 1,
+                "gain": 0.0,
+                "reason": "回答这个问题大概率不会改变当前结论"
+              },
+              "start_date": {
+                "key": "start_date",
+                "distinct": 1,
+                "gain": 0.0,
+                "reason": "回答这个问题大概率不会改变当前结论"
+              }
+            }
+          },
+          {
+            "node": "gate",
+            "decision": "ask",
+            "missing": [
+              "wage_period",
+              "wage_owed",
+              "wage_type",
+              "monthly_wage",
+              "wage_evidence",
+              "start_date"
+            ],
+            "asked": [
+              "wage_period",
+              "wage_owed"
+            ],
+            "coverage": {
+              "known": 0,
+              "total": 6,
+              "rate": 0.0
+            }
+          }
+        ],
+        "metrics": {
+          "prompt_tokens": 687,
+          "completion_tokens": 22,
+          "llm_calls": 1,
+          "elapsed_ms": 1456.4
+        },
+        "claims": [
+          "labor_wage"
+        ],
+        "route": {
+          "matter": "labor",
+          "claims": [
+            "labor_wage"
+          ],
+          "confidence": 0.895,
+          "evidence": [
+            "拖欠工资",
+            "欠.{0,8}工资",
+            "拖.{0,8}工资"
+          ],
+          "alternatives": [
+            [
+              "劳动争议 · 工资/欠薪",
+              8.0
+            ]
+          ],
+          "action": "proceed",
+          "out_of_scope": "",
+          "note": "",
+          "source": "rules"
+        },
+        "coverage": {
+          "known": 0,
+          "total": 6,
+          "rate": 0.0
+        },
+        "chain": [
+          {
+            "claim": "labor_wage",
+            "label": "劳动争议 · 工资/欠薪",
+            "summary": "欠薪案件的核心是工资标准、欠付期间和证据；离职时公司应一次付清。",
+            "basis": [
+              "labor_law@1995-01-01:第50条",
+              "labor_contract@2008-01-01:第30条",
+              "labor_contract@2008-01-01:第85条",
+              "wage_payment@1995-01-01:第9条"
+            ],
+            "remedy": "支付欠薪；无故拖欠经责令仍不支付的可能加付 50%-100% 赔偿金",
+            "elements": [
+              {
+                "id": "relationship",
+                "label": "劳动关系与工资标准",
+                "status": "unknown",
+                "why": "",
+                "proof": [
+                  "劳动合同",
+                  "工资条",
+                  "银行流水"
+                ],
+                "facts": [
+                  {
+                    "key": "start_date",
+                    "label": "入职日期",
+                    "value": "",
+                    "known": false,
+                    "critical": true
+                  },
+                  {
+                    "key": "monthly_wage",
+                    "label": "月平均工资",
+                    "value": "",
+                    "known": false,
+                    "critical": true
+                  }
+                ]
+              },
+              {
+                "id": "owed",
+                "label": "欠付事实与金额",
+                "status": "unknown",
+                "why": "",
+                "proof": [
+                  "工资条",
+                  "考勤",
+                  "聊天记录",
+                  "欠条"
+                ],
+                "facts": [
+                  {
+                    "key": "wage_owed",
+                    "label": "欠薪金额",
+                    "value": "",
+                    "known": false,
+                    "critical": true
+                  },
+                  {
+                    "key": "wage_period",
+                    "label": "欠薪期间",
+                    "value": "",
+                    "known": false,
+                    "critical": true
+                  },
+                  {
+                    "key": "wage_type",
+                    "label": "欠薪类型",
+                    "value": "",
+                    "known": false,
+                    "critical": true
+                  }
+                ]
+              },
+              {
+                "id": "evidence",
+                "label": "证据与举证责任",
+                "status": "unknown",
+                "why": "工资支付凭证由用人单位保存，劳动者先证明初步事实",
+                "proof": [
+                  "银行流水",
+                  "微信转账",
+                  "工资表"
+                ],
+                "facts": [
+                  {
+                    "key": "wage_evidence",
+                    "label": "工资证据",
+                    "value": "",
+                    "known": false,
+                    "critical": true
+                  }
+                ]
+              },
+              {
+                "id": "remedy",
+                "label": "诉求与程序",
+                "status": "unknown",
+                "why": "离职时应一次付清；无故拖欠可主张加付赔偿",
+                "proof": [],
+                "facts": []
+              }
+            ]
+          }
+        ],
+        "voi": {
+          "wage_owed": {
+            "key": "wage_owed",
+            "distinct": 1,
+            "gain": 0.0,
+            "reason": "回答这个问题大概率不会改变当前结论"
+          },
+          "wage_type": {
+            "key": "wage_type",
+            "distinct": 1,
+            "gain": 0.0,
+            "reason": "回答这个问题大概率不会改变当前结论"
+          },
+          "monthly_wage": {
+            "key": "monthly_wage",
+            "distinct": 1,
+            "gain": 0.0,
+            "reason": "回答这个问题大概率不会改变当前结论"
+          },
+          "wage_evidence": {
+            "key": "wage_evidence",
+            "distinct": 1,
+            "gain": 0.0,
+            "reason": "回答这个问题大概率不会改变当前结论"
+          },
+          "start_date": {
+            "key": "start_date",
+            "distinct": 1,
+            "gain": 0.0,
+            "reason": "回答这个问题大概率不会改变当前结论"
+          }
+        }
+      },
+      "model_calls": [
+        {
+          "model": "deepseek-flash",
+          "ok": true,
+          "error": "",
+          "prompt_tokens": 687,
+          "completion_tokens": 22,
+          "attempts": 1,
+          "finish_reason": "stop",
+          "elapsed_ms": 504.2
+        },
+        {
+          "model": "deepseek-flash",
+          "ok": true,
+          "error": "",
+          "prompt_tokens": 155,
+          "completion_tokens": 10,
+          "attempts": 1,
+          "finish_reason": "stop",
+          "elapsed_ms": 448.19
+        },
+        {
+          "model": "deepseek-flash",
+          "ok": true,
+          "error": "",
+          "prompt_tokens": 171,
+          "completion_tokens": 20,
+          "attempts": 1,
+          "finish_reason": "stop",
+          "elapsed_ms": 502.26
+        }
+      ]
+    },
+    {
+      "case_id": "R02",
+      "expected_action": "proceed",
+      "action": "proceed",
+      "action_ok": true,
+      "scores": {
+        "claim_precision": 1.0,
+        "claim_recall": 1.0,
+        "claim_f1": 1.0,
+        "claim_exact": true
+      },
+      "usage": {
+        "logical_calls": 3,
+        "successful_calls": 3,
+        "failed_calls": 0,
+        "http_attempts": 3,
+        "prompt_tokens": 1400,
+        "completion_tokens": 73
+      },
+      "result": {
+        "session": "R02",
+        "turn": 1,
+        "status": "asked",
+        "reply": "已记录：是否存在加班＝有；欠薪原因＝无故拖欠。\n\n您同时提到 「劳动争议 · 加班费」、「劳动争议 · 工资/欠薪」 这几条线。我先把最影响结论的事实确认一下，再分别判断，不会用同一个模板套所有问题。\n\n1. 您说的欠薪，具体是哪几个月或哪段时间的工资？\n   （为什么问：确定欠薪期间和时效）\n2. 公司欠您的工资一共是多少钱，具体是几个月没发，还是提成、奖金没发？\n   （为什么问：确定仲裁请求金额；劳动报酬争议的时效起算有特殊规则）\n\n另外还有 13 项信息待补充，可以稍后再说。\n\n您可以直接用大白话回答，不用管法律术语。",
+        "questions": [
+          {
+            "key": "wage_period",
+            "label": "欠薪期间",
+            "question": "欠的是哪几个月或哪段时间的工资？",
+            "why": "确定欠薪期间和时效",
+            "element": "欠付事实与金额",
+            "claim": "labor_wage"
+          },
+          {
+            "key": "wage_owed",
+            "label": "欠薪金额",
+            "question": "公司欠您多少钱？是几个月工资，还是提成、奖金没发？",
+            "why": "确定仲裁请求金额；劳动报酬争议的时效起算有特殊规则",
+            "element": "欠付事实与金额",
+            "claim": "labor_wage"
+          }
+        ],
+        "memo": "",
+        "analysis": {},
+        "verification": {},
+        "facts": [
+          {
+            "key": "wage_reason",
+            "value": "无故拖欠",
+            "status": "user_stated",
+            "source": "user",
+            "turn": 1,
+            "revision": 2,
+            "precision": "day",
+            "superseded_by": null
+          },
+          {
+            "key": "overtime_exists",
+            "value": "有",
+            "status": "user_stated",
+            "source": "user",
+            "turn": 1,
+            "revision": 1,
+            "precision": "day",
+            "superseded_by": null
+          }
+        ],
+        "changed": [
+          "overtime_exists",
+          "wage_reason"
+        ],
+        "invalidated_cache": 0,
+        "revision": 2,
+        "tools": {},
+        "conflicts": [],
+        "trace": [
+          {
+            "node": "input",
+            "text": "公司欠薪还让我天天加班。"
+          },
+          {
+            "node": "session_load",
+            "revision": 0,
+            "facts": 0
+          },
+          {
+            "node": "route",
+            "matter": "labor",
+            "claims": [
+              "labor_overtime",
+              "labor_wage"
+            ],
+            "confidence": 0.875,
+            "evidence": [
+              "欠薪",
+              "加班",
+              "天天加班"
+            ],
+            "alternatives": [
+              [
+                "劳动争议 · 加班费",
+                4.5
+              ],
+              [
+                "劳动争议 · 工资/欠薪",
+                2.0
+              ]
+            ],
+            "action": "proceed",
+            "out_of_scope": "",
+            "note": "",
+            "source": "rules"
+          },
+          {
+            "node": "fact_extraction",
+            "source": "llm"
+          },
+          {
+            "node": "fact_set",
+            "key": "overtime_exists",
+            "value": "有",
+            "correction": false
+          },
+          {
+            "node": "fact_set",
+            "key": "wage_reason",
+            "value": "无故拖欠",
+            "correction": false
+          },
+          {
+            "node": "cache_invalidate",
+            "keys": [
+              "overtime_exists",
+              "wage_reason"
+            ],
+            "entries": 0,
+            "revision": 2
+          },
+          {
+            "node": "voi",
+            "scores": {
+              "wage_owed": {
+                "key": "wage_owed",
+                "distinct": 1,
+                "gain": 0.0,
+                "reason": "回答这个问题大概率不会改变当前结论"
+              },
+              "work_schedule": {
+                "key": "work_schedule",
+                "distinct": 1,
+                "gain": 0.0,
+                "reason": "回答这个问题大概率不会改变当前结论"
+              },
+              "wage_type": {
+                "key": "wage_type",
+                "distinct": 1,
+                "gain": 0.0,
+                "reason": "回答这个问题大概率不会改变当前结论"
+              },
+              "overtime_hours_weekday": {
+                "key": "overtime_hours_weekday",
+                "distinct": 1,
+                "gain": 0.0,
+                "reason": "回答这个问题大概率不会改变当前结论"
+              },
+              "overtime_hours_rest": {
+                "key": "overtime_hours_rest",
+                "distinct": 1,
+                "gain": 0.0,
+                "reason": "回答这个问题大概率不会改变当前结论"
+              },
+              "overtime_hours_holiday": {
+                "key": "overtime_hours_holiday",
+                "distinct": 1,
+                "gain": 0.0,
+                "reason": "回答这个问题大概率不会改变当前结论"
+              },
+              "overtime_evidence": {
+                "key": "overtime_evidence",
+                "distinct": 1,
+                "gain": 0.0,
+                "reason": "回答这个问题大概率不会改变当前结论"
+              },
+              "monthly_wage": {
+                "key": "monthly_wage",
+                "distinct": 1,
+                "gain": 0.0,
+                "reason": "回答这个问题大概率不会改变当前结论"
+              },
+              "overtime_paid": {
+                "key": "overtime_paid",
+                "distinct": 1,
+                "gain": 0.0,
+                "reason": "回答这个问题大概率不会改变当前结论"
+              },
+              "wage_evidence": {
+                "key": "wage_evidence",
+                "distinct": 1,
+                "gain": 0.0,
+                "reason": "回答这个问题大概率不会改变当前结论"
+              }
+            }
+          },
+          {
+            "node": "gate",
+            "decision": "ask",
+            "missing": [
+              "wage_period",
+              "wage_owed",
+              "work_schedule",
+              "wage_type",
+              "overtime_period",
+              "overtime_hours_weekday",
+              "overtime_hours_rest",
+              "overtime_hours_holiday",
+              "overtime_evidence",
+              "monthly_wage",
+              "overtime_paid",
+              "wage_evidence",
+              "start_date"
+            ],
+            "asked": [
+              "wage_period",
+              "wage_owed"
+            ],
+            "coverage": {
+              "known": 1,
+              "total": 16,
+              "rate": 0.0625
+            }
+          }
+        ],
+        "metrics": {
+          "prompt_tokens": 1038,
+          "completion_tokens": 37,
+          "llm_calls": 1,
+          "elapsed_ms": 1905.79
+        },
+        "claims": [
+          "labor_overtime",
+          "labor_wage"
+        ],
+        "route": {
+          "matter": "labor",
+          "claims": [
+            "labor_overtime",
+            "labor_wage"
+          ],
+          "confidence": 0.875,
+          "evidence": [
+            "欠薪",
+            "加班",
+            "天天加班"
+          ],
+          "alternatives": [
+            [
+              "劳动争议 · 加班费",
+              4.5
+            ],
+            [
+              "劳动争议 · 工资/欠薪",
+              2.0
+            ]
+          ],
+          "action": "proceed",
+          "out_of_scope": "",
+          "note": "",
+          "source": "rules"
+        },
+        "coverage": {
+          "known": 1,
+          "total": 16,
+          "rate": 0.0625
+        },
+        "chain": [
+          {
+            "claim": "labor_overtime",
+            "label": "劳动争议 · 加班费",
+            "summary": "加班费按工作日150%、休息日200%、法定节假日300%计算；先确认工时制度和加班证据。",
+            "basis": [
+              "labor_law@1995-01-01:第44条",
+              "wage_payment@1995-01-01:第13条"
+            ],
+            "remedy": "支付工作日 150%、休息日 200%、法定节假日 300% 的加班费差额",
+            "elements": [
+              {
+                "id": "relationship",
+                "label": "劳动关系与工时制度",
+                "status": "unknown",
+                "why": "标准工时、综合工时、不定时工时的加班认定不同",
+                "proof": [],
+                "facts": [
+                  {
+                    "key": "start_date",
+                    "label": "入职日期",
+                    "value": "",
+                    "known": false,
+                    "critical": true
+                  },
+                  {
+                    "key": "monthly_wage",
+                    "label": "月平均工资",
+                    "value": "",
+                    "known": false,
+                    "critical": true
+                  },
+                  {
+                    "key": "work_schedule",
+                    "label": "工时制度",
+                    "value": "",
+                    "known": false,
+                    "critical": true
+                  }
+                ]
+              },
+              {
+                "id": "existence",
+                "label": "加班事实",
+                "status": "partial",
+                "why": "先确认有没有加班；没有则不必进入计算",
+                "proof": [],
+                "facts": [
+                  {
+                    "key": "overtime_exists",
+                    "label": "是否存在加班",
+                    "value": "有",
+                    "known": true,
+                    "critical": true
+                  },
+                  {
+                    "key": "overtime_period",
+                    "label": "加班期间",
+                    "value": "",
+                    "known": false,
+                    "critical": true
+                  }
+                ]
+              },
+              {
+                "id": "hours",
+                "label": "加班时长",
+                "status": "unknown",
+                "why": "工作日150%、休息日200%、法定节假日300%",
+                "proof": [
+                  "考勤记录",
+                  "排班表",
+                  "加班审批"
+                ],
+                "facts": [
+                  {
+                    "key": "overtime_hours_weekday",
+                    "label": "工作日延时（小时/月）",
+                    "value": "",
+                    "known": false,
+                    "critical": true
+                  },
+                  {
+                    "key": "overtime_hours_rest",
+                    "label": "休息日加班（小时/月）",
+                    "value": "",
+                    "known": false,
+                    "critical": true
+                  },
+                  {
+                    "key": "overtime_hours_holiday",
+                    "label": "法定节假日加班（小时/月）",
+                    "value": "",
+                    "known": false,
+                    "critical": true
+                  }
+                ]
+              },
+              {
+                "id": "evidence",
+                "label": "证据与已付情况",
+                "status": "unknown",
+                "why": "劳动者先就加班事实初步举证；考勤由单位掌握的，可要求单位提供",
+                "proof": [],
+                "facts": [
+                  {
+                    "key": "overtime_evidence",
+                    "label": "加班证据",
+                    "value": "",
+                    "known": false,
+                    "critical": true
+                  },
+                  {
+                    "key": "overtime_paid",
+                    "label": "加班费支付情况",
+                    "value": "",
+                    "known": false,
+                    "critical": true
+                  }
+                ]
+              },
+              {
+                "id": "remedy",
+                "label": "诉求与程序",
+                "status": "unknown",
+                "why": "加班费属于劳动报酬，离职后一年内主张",
+                "proof": [],
+                "facts": []
+              }
+            ]
+          },
+          {
+            "claim": "labor_wage",
+            "label": "劳动争议 · 工资/欠薪",
+            "summary": "欠薪案件的核心是工资标准、欠付期间和证据；离职时公司应一次付清。",
+            "basis": [
+              "labor_law@1995-01-01:第50条",
+              "labor_contract@2008-01-01:第30条",
+              "labor_contract@2008-01-01:第85条",
+              "wage_payment@1995-01-01:第9条"
+            ],
+            "remedy": "支付欠薪；无故拖欠经责令仍不支付的可能加付 50%-100% 赔偿金",
+            "elements": [
+              {
+                "id": "relationship",
+                "label": "劳动关系与工资标准",
+                "status": "unknown",
+                "why": "",
+                "proof": [
+                  "劳动合同",
+                  "工资条",
+                  "银行流水"
+                ],
+                "facts": [
+                  {
+                    "key": "start_date",
+                    "label": "入职日期",
+                    "value": "",
+                    "known": false,
+                    "critical": true
+                  },
+                  {
+                    "key": "monthly_wage",
+                    "label": "月平均工资",
+                    "value": "",
+                    "known": false,
+                    "critical": true
+                  }
+                ]
+              },
+              {
+                "id": "owed",
+                "label": "欠付事实与金额",
+                "status": "partial",
+                "why": "",
+                "proof": [
+                  "工资条",
+                  "考勤",
+                  "聊天记录",
+                  "欠条"
+                ],
+                "facts": [
+                  {
+                    "key": "wage_owed",
+                    "label": "欠薪金额",
+                    "value": "",
+                    "known": false,
+                    "critical": true
+                  },
+                  {
+                    "key": "wage_period",
+                    "label": "欠薪期间",
+                    "value": "",
+                    "known": false,
+                    "critical": true
+                  },
+                  {
+                    "key": "wage_type",
+                    "label": "欠薪类型",
+                    "value": "",
+                    "known": false,
+                    "critical": true
+                  },
+                  {
+                    "key": "wage_reason",
+                    "label": "欠薪原因",
+                    "value": "无故拖欠",
+                    "known": true,
+                    "critical": false
+                  }
+                ]
+              },
+              {
+                "id": "evidence",
+                "label": "证据与举证责任",
+                "status": "unknown",
+                "why": "工资支付凭证由用人单位保存，劳动者先证明初步事实",
+                "proof": [
+                  "银行流水",
+                  "微信转账",
+                  "工资表"
+                ],
+                "facts": [
+                  {
+                    "key": "wage_evidence",
+                    "label": "工资证据",
+                    "value": "",
+                    "known": false,
+                    "critical": true
+                  }
+                ]
+              },
+              {
+                "id": "remedy",
+                "label": "诉求与程序",
+                "status": "unknown",
+                "why": "离职时应一次付清；无故拖欠可主张加付赔偿",
+                "proof": [],
+                "facts": []
+              }
+            ]
+          }
+        ],
+        "voi": {
+          "wage_owed": {
+            "key": "wage_owed",
+            "distinct": 1,
+            "gain": 0.0,
+            "reason": "回答这个问题大概率不会改变当前结论"
+          },
+          "work_schedule": {
+            "key": "work_schedule",
+            "distinct": 1,
+            "gain": 0.0,
+            "reason": "回答这个问题大概率不会改变当前结论"
+          },
+          "wage_type": {
+            "key": "wage_type",
+            "distinct": 1,
+            "gain": 0.0,
+            "reason": "回答这个问题大概率不会改变当前结论"
+          },
+          "overtime_hours_weekday": {
+            "key": "overtime_hours_weekday",
+            "distinct": 1,
+            "gain": 0.0,
+            "reason": "回答这个问题大概率不会改变当前结论"
+          },
+          "overtime_hours_rest": {
+            "key": "overtime_hours_rest",
+            "distinct": 1,
+            "gain": 0.0,
+            "reason": "回答这个问题大概率不会改变当前结论"
+          },
+          "overtime_hours_holiday": {
+            "key": "overtime_hours_holiday",
+            "distinct": 1,
+            "gain": 0.0,
+            "reason": "回答这个问题大概率不会改变当前结论"
+          },
+          "overtime_evidence": {
+            "key": "overtime_evidence",
+            "distinct": 1,
+            "gain": 0.0,
+            "reason": "回答这个问题大概率不会改变当前结论"
+          },
+          "monthly_wage": {
+            "key": "monthly_wage",
+            "distinct": 1,
+            "gain": 0.0,
+            "reason": "回答这个问题大概率不会改变当前结论"
+          },
+          "overtime_paid": {
+            "key": "overtime_paid",
+            "distinct": 1,
+            "gain": 0.0,
+            "reason": "回答这个问题大概率不会改变当前结论"
+          },
+          "wage_evidence": {
+            "key": "wage_evidence",
+            "distinct": 1,
+            "gain": 0.0,
+            "reason": "回答这个问题大概率不会改变当前结论"
+          }
+        }
+      },
+      "model_calls": [
+        {
+          "model": "deepseek-flash",
+          "ok": true,
+          "error": "",
+          "prompt_tokens": 1038,
+          "completion_tokens": 37,
+          "attempts": 1,
+          "finish_reason": "stop",
+          "elapsed_ms": 699.72
+        },
+        {
+          "model": "deepseek-flash",
+          "ok": true,
+          "error": "",
+          "prompt_tokens": 173,
+          "completion_tokens": 14,
+          "attempts": 1,
+          "finish_reason": "stop",
+          "elapsed_ms": 429.33
+        },
+        {
+          "model": "deepseek-flash",
+          "ok": true,
+          "error": "",
+          "prompt_tokens": 189,
+          "completion_tokens": 22,
+          "attempts": 1,
+          "finish_reason": "stop",
+          "elapsed_ms": 773.33
+        }
+      ]
+    },
+    {
+      "case_id": "R03",
+      "expected_action": "proceed",
+      "action": "proceed",
+      "action_ok": true,
+      "scores": {
+        "claim_precision": 1.0,
+        "claim_recall": 1.0,
+        "claim_f1": 1.0,
+        "claim_exact": true
+      },
+      "usage": {
+        "logical_calls": 3,
+        "successful_calls": 3,
+        "failed_calls": 0,
+        "http_attempts": 3,
+        "prompt_tokens": 880,
+        "completion_tokens": 50
+      },
+      "result": {
+        "session": "R03",
+        "turn": 1,
+        "status": "asked",
+        "reply": "在判断「年假天数、未休折算和时效」之前，我需要先确认几个会直接影响结论的事实。\n\n1. 您从参加工作到现在，累计工作多少年（不只是在这家公司）？\n   （为什么问：累计工作满1年不满10年年休5天，满10年不满20年10天，满20年15天）\n2. 这些年公司实际安排您休了多少天年假？\n   （为什么问：未休天数按日工资300%折算（含正常工资，另需支付200%））\n\n另外还有 6 项信息待补充，可以稍后再说。\n\n您可以直接用大白话回答，不用管法律术语。",
+        "questions": [
+          {
+            "key": "cumulative_work_years",
+            "label": "累计工作年限",
+            "question": "您从参加工作到现在，累计工作多少年？（不是只算这家公司）",
+            "why": "累计工作满1年不满10年年休5天，满10年不满20年10天，满20年15天",
+            "element": "年假天数",
+            "claim": "labor_annual_leave"
+          },
+          {
+            "key": "annual_leave_taken",
+            "label": "已休年假天数",
+            "question": "这些年公司安排您休了多少天年假？",
+            "why": "未休天数按日工资300%折算（含正常工资，另需支付200%）",
+            "element": "已休与未休",
+            "claim": "labor_annual_leave"
+          }
+        ],
+        "memo": "",
+        "analysis": {},
+        "verification": {},
+        "facts": [],
+        "changed": [],
+        "invalidated_cache": 0,
+        "revision": 0,
+        "tools": {},
+        "conflicts": [],
+        "trace": [
+          {
+            "node": "input",
+            "text": "我想问未休年假工资。"
+          },
+          {
+            "node": "session_load",
+            "revision": 0,
+            "facts": 0
+          },
+          {
+            "node": "route",
+            "matter": "labor",
+            "claims": [
+              "labor_annual_leave"
+            ],
+            "confidence": 0.833,
+            "evidence": [
+              "年假",
+              "未休年假"
+            ],
+            "alternatives": [
+              [
+                "劳动争议 · 年休假",
+                5.0
+              ]
+            ],
+            "action": "proceed",
+            "out_of_scope": "",
+            "note": "",
+            "source": "rules"
+          },
+          {
+            "node": "fact_extraction",
+            "source": "llm"
+          },
+          {
+            "node": "voi",
+            "scores": {
+              "cumulative_work_years": {
+                "key": "cumulative_work_years",
+                "distinct": 1,
+                "gain": 0.0,
+                "reason": "回答这个问题大概率不会改变当前结论"
+              },
+              "annual_leave_taken": {
+                "key": "annual_leave_taken",
+                "distinct": 1,
+                "gain": 0.0,
+                "reason": "回答这个问题大概率不会改变当前结论"
+              },
+              "annual_leave_paid": {
+                "key": "annual_leave_paid",
+                "distinct": 1,
+                "gain": 0.0,
+                "reason": "回答这个问题大概率不会改变当前结论"
+              },
+              "monthly_wage": {
+                "key": "monthly_wage",
+                "distinct": 1,
+                "gain": 0.0,
+                "reason": "回答这个问题大概率不会改变当前结论"
+              },
+              "start_date": {
+                "key": "start_date",
+                "distinct": 1,
+                "gain": 0.0,
+                "reason": "回答这个问题大概率不会改变当前结论"
+              }
+            }
+          },
+          {
+            "node": "gate",
+            "decision": "ask",
+            "missing": [
+              "cumulative_work_years",
+              "annual_leave_taken",
+              "annual_leave_year",
+              "annual_leave_paid",
+              "monthly_wage",
+              "start_date"
+            ],
+            "asked": [
+              "cumulative_work_years",
+              "annual_leave_taken"
+            ],
+            "coverage": {
+              "known": 0,
+              "total": 6,
+              "rate": 0.0
+            }
+          }
+        ],
+        "metrics": {
+          "prompt_tokens": 535,
+          "completion_tokens": 24,
+          "llm_calls": 1,
+          "elapsed_ms": 2059.2
+        },
+        "claims": [
+          "labor_annual_leave"
+        ],
+        "route": {
+          "matter": "labor",
+          "claims": [
+            "labor_annual_leave"
+          ],
+          "confidence": 0.833,
+          "evidence": [
+            "年假",
+            "未休年假"
+          ],
+          "alternatives": [
+            [
+              "劳动争议 · 年休假",
+              5.0
+            ]
+          ],
+          "action": "proceed",
+          "out_of_scope": "",
+          "note": "",
+          "source": "rules"
+        },
+        "coverage": {
+          "known": 0,
+          "total": 6,
+          "rate": 0.0
+        },
+        "chain": [
+          {
+            "claim": "labor_annual_leave",
+            "label": "劳动争议 · 年休假",
+            "summary": "未休年假按日工资300%折算（含正常工资，额外200%），天数看累计工作年限。",
+            "basis": [
+              "annual_leave@2008-01-01:第3条",
+              "annual_leave@2008-01-01:第5条"
+            ],
+            "remedy": "未休年假按日工资 300% 支付（可另主张 200% 额外补偿）",
+            "elements": [
+              {
+                "id": "relationship",
+                "label": "劳动关系与工资",
+                "status": "unknown",
+                "why": "",
+                "proof": [],
+                "facts": [
+                  {
+                    "key": "start_date",
+                    "label": "入职日期",
+                    "value": "",
+                    "known": false,
+                    "critical": true
+                  },
+                  {
+                    "key": "monthly_wage",
+                    "label": "月平均工资",
+                    "value": "",
+                    "known": false,
+                    "critical": true
+                  }
+                ]
+              },
+              {
+                "id": "entitlement",
+                "label": "年假天数",
+                "status": "unknown",
+                "why": "累计工作满1年5天、满10年10天、满20年15天",
+                "proof": [],
+                "facts": [
+                  {
+                    "key": "cumulative_work_years",
+                    "label": "累计工作年限",
+                    "value": "",
+                    "known": false,
+                    "critical": true
+                  },
+                  {
+                    "key": "annual_leave_year",
+                    "label": "未休年假年度",
+                    "value": "",
+                    "known": false,
+                    "critical": true
+                  }
+                ]
+              },
+              {
+                "id": "taken",
+                "label": "已休与未休",
+                "status": "unknown",
+                "why": "未休年假按日工资300%支付，其中200%为额外补偿",
+                "proof": [],
+                "facts": [
+                  {
+                    "key": "annual_leave_taken",
+                    "label": "已休年假天数",
+                    "value": "",
+                    "known": false,
+                    "critical": true
+                  },
+                  {
+                    "key": "annual_leave_paid",
+                    "label": "年假工资支付",
+                    "value": "",
+                    "known": false,
+                    "critical": true
+                  }
+                ]
+              },
+              {
+                "id": "procedure",
+                "label": "仲裁时效",
+                "status": "unknown",
+                "why": "",
+                "proof": [],
+                "facts": []
+              }
+            ]
+          }
+        ],
+        "voi": {
+          "cumulative_work_years": {
+            "key": "cumulative_work_years",
+            "distinct": 1,
+            "gain": 0.0,
+            "reason": "回答这个问题大概率不会改变当前结论"
+          },
+          "annual_leave_taken": {
+            "key": "annual_leave_taken",
+            "distinct": 1,
+            "gain": 0.0,
+            "reason": "回答这个问题大概率不会改变当前结论"
+          },
+          "annual_leave_paid": {
+            "key": "annual_leave_paid",
+            "distinct": 1,
+            "gain": 0.0,
+            "reason": "回答这个问题大概率不会改变当前结论"
+          },
+          "monthly_wage": {
+            "key": "monthly_wage",
+            "distinct": 1,
+            "gain": 0.0,
+            "reason": "回答这个问题大概率不会改变当前结论"
+          },
+          "start_date": {
+            "key": "start_date",
+            "distinct": 1,
+            "gain": 0.0,
+            "reason": "回答这个问题大概率不会改变当前结论"
+          }
+        }
+      },
+      "model_calls": [
+        {
+          "model": "deepseek-flash",
+          "ok": true,
+          "error": "",
+          "prompt_tokens": 535,
+          "completion_tokens": 24,
+          "attempts": 1,
+          "finish_reason": "stop",
+          "elapsed_ms": 606.75
+        },
+        {
+          "model": "deepseek-flash",
+          "ok": true,
+          "error": "",
+          "prompt_tokens": 177,
+          "completion_tokens": 15,
+          "attempts": 1,
+          "finish_reason": "stop",
+          "elapsed_ms": 768.4
+        },
+        {
+          "model": "deepseek-flash",
+          "ok": true,
+          "error": "",
+          "prompt_tokens": 168,
+          "completion_tokens": 11,
+          "attempts": 1,
+          "finish_reason": "stop",
+          "elapsed_ms": 682.26
+        }
+      ]
+    },
+    {
+      "case_id": "R04",
+      "expected_action": "proceed",
+      "action": "proceed",
+      "action_ok": true,
+      "scores": {
+        "claim_precision": 1.0,
+        "claim_recall": 1.0,
+        "claim_f1": 1.0,
+        "claim_exact": true
+      },
+      "usage": {
+        "logical_calls": 3,
+        "successful_calls": 3,
+        "failed_calls": 0,
+        "http_attempts": 3,
+        "prompt_tokens": 951,
+        "completion_tokens": 47
+      },
+      "result": {
+        "session": "R04",
+        "turn": 1,
+        "status": "asked",
+        "reply": "在判断责任和赔偿范围之前，我需要先确认几个会直接影响适用标准的事实。\n\n1. 交通事故发生的具体日期是哪一天？\n   （为什么问：决定适用哪一版本的人身损害赔偿司法解释，以及三年诉讼时效的起算）\n   （信息价值：回答后可在 2 种可能结果之间区分（其余事实不变））\n2. 交警出具的事故认定书是怎么划分责任的，对方和您分别是什么责任？\n   （为什么问：责任比例直接影响赔偿范围和数额）\n\n另外还有 4 项信息待补充，可以稍后再说。\n\n您可以直接用大白话回答，不用管法律术语。",
+        "questions": [
+          {
+            "key": "accident_date",
+            "label": "事故发生日期",
+            "question": "交通事故发生的具体日期是哪一天？",
+            "why": "决定适用哪一版本的人身损害赔偿司法解释，以及三年诉讼时效的起算",
+            "element": "事故与责任",
+            "claim": "tort_injury"
+          },
+          {
+            "key": "responsibility",
+            "label": "事故责任划分",
+            "question": "交警出具的事故认定书是怎么划分责任的？对方和您分别是什么责任？",
+            "why": "责任比例直接影响赔偿范围和数额",
+            "element": "事故与责任",
+            "claim": "tort_injury"
+          }
+        ],
+        "memo": "",
+        "analysis": {},
+        "verification": {},
+        "facts": [],
+        "changed": [],
+        "invalidated_cache": 0,
+        "revision": 0,
+        "tools": {},
+        "conflicts": [],
+        "trace": [
+          {
+            "node": "input",
+            "text": "车祸之后保险公司不赔，交通事故怎么处理？"
+          },
+          {
+            "node": "session_load",
+            "revision": 0,
+            "facts": 0
+          },
+          {
+            "node": "route",
+            "matter": "tort",
+            "claims": [
+              "tort_injury"
+            ],
+            "confidence": 0.842,
+            "evidence": [
+              "交通事故",
+              "车祸",
+              "保险公司"
+            ],
+            "alternatives": [
+              [
+                "侵权 · 交通事故人身损害",
+                8.0
+              ]
+            ],
+            "action": "proceed",
+            "out_of_scope": "",
+            "note": "",
+            "source": "rules"
+          },
+          {
+            "node": "fact_extraction",
+            "source": "llm"
+          },
+          {
+            "node": "voi",
+            "scores": {
+              "accident_date": {
+                "key": "accident_date",
+                "distinct": 2,
+                "gain": 0.98,
+                "reason": "回答后可在 2 种可能结果之间区分（其余事实不变）"
+              },
+              "responsibility": {
+                "key": "responsibility",
+                "distinct": 1,
+                "gain": 0.0,
+                "reason": "回答这个问题大概率不会改变当前结论"
+              },
+              "injury": {
+                "key": "injury",
+                "distinct": 1,
+                "gain": 0.0,
+                "reason": "回答这个问题大概率不会改变当前结论"
+              },
+              "residence": {
+                "key": "residence",
+                "distinct": 1,
+                "gain": 0.0,
+                "reason": "回答这个问题大概率不会改变当前结论"
+              }
+            }
+          },
+          {
+            "node": "gate",
+            "decision": "ask",
+            "missing": [
+              "accident_date",
+              "responsibility",
+              "injury",
+              "residence"
+            ],
+            "asked": [
+              "accident_date",
+              "responsibility"
+            ],
+            "coverage": {
+              "known": 0,
+              "total": 4,
+              "rate": 0.0
+            }
+          }
+        ],
+        "metrics": {
+          "prompt_tokens": 634,
+          "completion_tokens": 23,
+          "llm_calls": 1,
+          "elapsed_ms": 1829.31
+        },
+        "claims": [
+          "tort_injury"
+        ],
+        "route": {
+          "matter": "tort",
+          "claims": [
+            "tort_injury"
+          ],
+          "confidence": 0.842,
+          "evidence": [
+            "交通事故",
+            "车祸",
+            "保险公司"
+          ],
+          "alternatives": [
+            [
+              "侵权 · 交通事故人身损害",
+              8.0
+            ]
+          ],
+          "action": "proceed",
+          "out_of_scope": "",
+          "note": "",
+          "source": "rules"
+        },
+        "coverage": {
+          "known": 0,
+          "total": 4,
+          "rate": 0.0
+        },
+        "chain": [
+          {
+            "claim": "tort_injury",
+            "label": "侵权 · 交通事故人身损害",
+            "summary": "交通事故赔偿先看责任划分，再看伤情和保险，最后按项目计算。",
+            "basis": [
+              "civil_code_tort@2021-01-01:第1179条",
+              "civil_code_tort@2021-01-01:第1213条",
+              "road_traffic@2004-05-01:第76条"
+            ],
+            "remedy": "医疗费、误工费、护理费、残疾/死亡赔偿金等；先交强险、再商业险",
+            "elements": [
+              {
+                "id": "accident",
+                "label": "事故与责任",
+                "status": "unknown",
+                "why": "",
+                "proof": [
+                  "事故认定书",
+                  "现场照片",
+                  "行车记录仪"
+                ],
+                "facts": [
+                  {
+                    "key": "accident_date",
+                    "label": "事故发生日期",
+                    "value": "",
+                    "known": false,
+                    "critical": true
+                  },
+                  {
+                    "key": "responsibility",
+                    "label": "事故责任划分",
+                    "value": "",
+                    "known": false,
+                    "critical": true
+                  }
+                ]
+              },
+              {
+                "id": "injury",
+                "label": "伤情与损失",
+                "status": "unknown",
+                "why": "",
+                "proof": [
+                  "病历",
+                  "医疗费票据",
+                  "伤残鉴定",
+                  "居住证明"
+                ],
+                "facts": [
+                  {
+                    "key": "injury",
+                    "label": "伤情与伤残等级",
+                    "value": "",
+                    "known": false,
+                    "critical": true
+                  },
+                  {
+                    "key": "residence",
+                    "label": "户籍/经常居住地",
+                    "value": "",
+                    "known": false,
+                    "critical": true
+                  }
+                ]
+              },
+              {
+                "id": "insurance",
+                "label": "保险与责任主体",
+                "status": "unknown",
+                "why": "先交强险、再商业险、不足部分由侵权人承担",
+                "proof": [],
+                "facts": []
+              },
+              {
+                "id": "procedure",
+                "label": "时效与程序",
+                "status": "unknown",
+                "why": "人身损害诉讼时效三年",
+                "proof": [],
+                "facts": []
+              }
+            ]
+          }
+        ],
+        "voi": {
+          "accident_date": {
+            "key": "accident_date",
+            "distinct": 2,
+            "gain": 0.98,
+            "reason": "回答后可在 2 种可能结果之间区分（其余事实不变）"
+          },
+          "responsibility": {
+            "key": "responsibility",
+            "distinct": 1,
+            "gain": 0.0,
+            "reason": "回答这个问题大概率不会改变当前结论"
+          },
+          "injury": {
+            "key": "injury",
+            "distinct": 1,
+            "gain": 0.0,
+            "reason": "回答这个问题大概率不会改变当前结论"
+          },
+          "residence": {
+            "key": "residence",
+            "distinct": 1,
+            "gain": 0.0,
+            "reason": "回答这个问题大概率不会改变当前结论"
+          }
+        }
+      },
+      "model_calls": [
+        {
+          "model": "deepseek-flash",
+          "ok": true,
+          "error": "",
+          "prompt_tokens": 634,
+          "completion_tokens": 23,
+          "attempts": 1,
+          "finish_reason": "stop",
+          "elapsed_ms": 651.11
+        },
+        {
+          "model": "deepseek-flash",
+          "ok": true,
+          "error": "",
+          "prompt_tokens": 158,
+          "completion_tokens": 7,
+          "attempts": 1,
+          "finish_reason": "stop",
+          "elapsed_ms": 550.44
+        },
+        {
+          "model": "deepseek-flash",
+          "ok": true,
+          "error": "",
+          "prompt_tokens": 159,
+          "completion_tokens": 17,
+          "attempts": 1,
+          "finish_reason": "stop",
+          "elapsed_ms": 625.88
+        }
+      ]
+    },
+    {
+      "case_id": "R05",
+      "expected_action": "out_of_scope",
+      "action": "out_of_scope",
+      "action_ok": true,
+      "scores": {
+        "claim_precision": 0.0,
+        "claim_recall": 1.0,
+        "claim_f1": 0.0,
+        "claim_exact": true
+      },
+      "usage": {
+        "logical_calls": 0,
+        "successful_calls": 0,
+        "failed_calls": 0,
+        "http_attempts": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0
+      },
+      "result": {
+        "session": "R05",
+        "turn": 1,
+        "status": "out_of_scope",
+        "reply": "您描述的问题更像**婚姻家事**，不在当前版本覆盖的范围内，我不想用劳动仲裁的模板硬套，那样会误导您。\n\n本版本目前专注：辞退/解除、欠薪、加班费、未签合同二倍工资、工伤、社保公积金、年休假、竞业限制、孕期产期哺乳期、劳务派遣/外包/新业态、合同试用期、仲裁程序；以及交通事故人身损害赔偿。\n\n如果这件事其实和劳动用工有关（比如工伤、欠薪、解除），您可以补充一句“我是在工作中/因为工作遇到的”，我再按劳动纠纷来分析。",
+        "questions": [],
+        "memo": "",
+        "analysis": {},
+        "verification": {},
+        "facts": [],
+        "changed": [],
+        "invalidated_cache": 0,
+        "revision": 0,
+        "tools": {},
+        "conflicts": [],
+        "trace": [
+          {
+            "node": "input",
+            "text": "我要离婚，孩子抚养权归谁？"
+          },
+          {
+            "node": "session_load",
+            "revision": 0,
+            "facts": 0
+          },
+          {
+            "node": "route",
+            "matter": "",
+            "claims": [],
+            "confidence": 0.85,
+            "evidence": [
+              "离婚",
+              "抚养"
+            ],
+            "alternatives": [
+              [
+                "marriage",
+                4.0
+              ]
+            ],
+            "action": "out_of_scope",
+            "out_of_scope": "marriage",
+            "note": "",
+            "source": "rules"
+          }
+        ],
+        "metrics": {
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "llm_calls": 0,
+          "elapsed_ms": 0.27
+        },
+        "claims": [],
+        "route": {
+          "matter": "",
+          "claims": [],
+          "confidence": 0.85,
+          "evidence": [
+            "离婚",
+            "抚养"
+          ],
+          "alternatives": [
+            [
+              "marriage",
+              4.0
+            ]
+          ],
+          "action": "out_of_scope",
+          "out_of_scope": "marriage",
+          "note": "",
+          "source": "rules"
+        },
+        "coverage": {},
+        "chain": [],
+        "voi": {}
+      },
+      "model_calls": []
+    },
+    {
+      "case_id": "R06",
+      "expected_action": "out_of_scope",
+      "action": "out_of_scope",
+      "action_ok": true,
+      "scores": {
+        "claim_precision": 0.0,
+        "claim_recall": 1.0,
+        "claim_f1": 0.0,
+        "claim_exact": true
+      },
+      "usage": {
+        "logical_calls": 0,
+        "successful_calls": 0,
+        "failed_calls": 0,
+        "http_attempts": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0
+      },
+      "result": {
+        "session": "R06",
+        "turn": 1,
+        "status": "out_of_scope",
+        "reply": "您描述的问题更像**借贷/债务**，不在当前版本覆盖的范围内，我不想用劳动仲裁的模板硬套，那样会误导您。\n\n本版本目前专注：辞退/解除、欠薪、加班费、未签合同二倍工资、工伤、社保公积金、年休假、竞业限制、孕期产期哺乳期、劳务派遣/外包/新业态、合同试用期、仲裁程序；以及交通事故人身损害赔偿。\n\n如果这件事其实和劳动用工有关（比如工伤、欠薪、解除），您可以补充一句“我是在工作中/因为工作遇到的”，我再按劳动纠纷来分析。",
+        "questions": [],
+        "memo": "",
+        "analysis": {},
+        "verification": {},
+        "facts": [],
+        "changed": [],
+        "invalidated_cache": 0,
+        "revision": 0,
+        "tools": {},
+        "conflicts": [],
+        "trace": [
+          {
+            "node": "input",
+            "text": "朋友借钱不还，借贷欠条怎么起诉？"
+          },
+          {
+            "node": "session_load",
+            "revision": 0,
+            "facts": 0
+          },
+          {
+            "node": "route",
+            "matter": "",
+            "claims": [],
+            "confidence": 0.85,
+            "evidence": [
+              "借钱"
+            ],
+            "alternatives": [
+              [
+                "loan",
+                2.0
+              ]
+            ],
+            "action": "out_of_scope",
+            "out_of_scope": "loan",
+            "note": "",
+            "source": "rules"
+          }
+        ],
+        "metrics": {
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "llm_calls": 0,
+          "elapsed_ms": 0.17
+        },
+        "claims": [],
+        "route": {
+          "matter": "",
+          "claims": [],
+          "confidence": 0.85,
+          "evidence": [
+            "借钱"
+          ],
+          "alternatives": [
+            [
+              "loan",
+              2.0
+            ]
+          ],
+          "action": "out_of_scope",
+          "out_of_scope": "loan",
+          "note": "",
+          "source": "rules"
+        },
+        "coverage": {},
+        "chain": [],
+        "voi": {}
+      },
+      "model_calls": []
+    },
+    {
+      "case_id": "R07",
+      "expected_action": "out_of_scope",
+      "action": "out_of_scope",
+      "action_ok": true,
+      "scores": {
+        "claim_precision": 0.0,
+        "claim_recall": 1.0,
+        "claim_f1": 0.0,
+        "claim_exact": true
+      },
+      "usage": {
+        "logical_calls": 0,
+        "successful_calls": 0,
+        "failed_calls": 0,
+        "http_attempts": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0
+      },
+      "result": {
+        "session": "R07",
+        "turn": 1,
+        "status": "out_of_scope",
+        "reply": "您描述的问题更像**房产/租赁**，不在当前版本覆盖的范围内，我不想用劳动仲裁的模板硬套，那样会误导您。\n\n本版本目前专注：辞退/解除、欠薪、加班费、未签合同二倍工资、工伤、社保公积金、年休假、竞业限制、孕期产期哺乳期、劳务派遣/外包/新业态、合同试用期、仲裁程序；以及交通事故人身损害赔偿。\n\n如果这件事其实和劳动用工有关（比如工伤、欠薪、解除），您可以补充一句“我是在工作中/因为工作遇到的”，我再按劳动纠纷来分析。",
+        "questions": [],
+        "memo": "",
+        "analysis": {},
+        "verification": {},
+        "facts": [],
+        "changed": [],
+        "invalidated_cache": 0,
+        "revision": 0,
+        "tools": {},
+        "conflicts": [],
+        "trace": [
+          {
+            "node": "input",
+            "text": "房东不退租房押金，租赁纠纷怎么办？"
+          },
+          {
+            "node": "session_load",
+            "revision": 0,
+            "facts": 0
+          },
+          {
+            "node": "route",
+            "matter": "",
+            "claims": [],
+            "confidence": 0.85,
+            "evidence": [
+              "租房",
+              "房东"
+            ],
+            "alternatives": [
+              [
+                "housing",
+                4.0
+              ]
+            ],
+            "action": "out_of_scope",
+            "out_of_scope": "housing",
+            "note": "",
+            "source": "rules"
+          }
+        ],
+        "metrics": {
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "llm_calls": 0,
+          "elapsed_ms": 0.28
+        },
+        "claims": [],
+        "route": {
+          "matter": "",
+          "claims": [],
+          "confidence": 0.85,
+          "evidence": [
+            "租房",
+            "房东"
+          ],
+          "alternatives": [
+            [
+              "housing",
+              4.0
+            ]
+          ],
+          "action": "out_of_scope",
+          "out_of_scope": "housing",
+          "note": "",
+          "source": "rules"
+        },
+        "coverage": {},
+        "chain": [],
+        "voi": {}
+      },
+      "model_calls": []
+    },
+    {
+      "case_id": "R08",
+      "expected_action": "out_of_scope",
+      "action": "out_of_scope",
+      "action_ok": true,
+      "scores": {
+        "claim_precision": 0.0,
+        "claim_recall": 1.0,
+        "claim_f1": 0.0,
+        "claim_exact": true
+      },
+      "usage": {
+        "logical_calls": 0,
+        "successful_calls": 0,
+        "failed_calls": 0,
+        "http_attempts": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0
+      },
+      "result": {
+        "session": "R08",
+        "turn": 1,
+        "status": "out_of_scope",
+        "reply": "您描述的问题更像**刑事**，不在当前版本覆盖的范围内，我不想用劳动仲裁的模板硬套，那样会误导您。\n\n本版本目前专注：辞退/解除、欠薪、加班费、未签合同二倍工资、工伤、社保公积金、年休假、竞业限制、孕期产期哺乳期、劳务派遣/外包/新业态、合同试用期、仲裁程序；以及交通事故人身损害赔偿。\n\n如果这件事其实和劳动用工有关（比如工伤、欠薪、解除），您可以补充一句“我是在工作中/因为工作遇到的”，我再按劳动纠纷来分析。",
+        "questions": [],
+        "memo": "",
+        "analysis": {},
+        "verification": {},
+        "facts": [],
+        "changed": [],
+        "invalidated_cache": 0,
+        "revision": 0,
+        "tools": {},
+        "conflicts": [],
+        "trace": [
+          {
+            "node": "input",
+            "text": "涉嫌诈骗被刑事拘留了，怎么办？"
+          },
+          {
+            "node": "session_load",
+            "revision": 0,
+            "facts": 0
+          },
+          {
+            "node": "route",
+            "matter": "",
+            "claims": [],
+            "confidence": 0.85,
+            "evidence": [
+              "刑事",
+              "拘留",
+              "诈骗"
+            ],
+            "alternatives": [
+              [
+                "criminal",
+                6.0
+              ]
+            ],
+            "action": "out_of_scope",
+            "out_of_scope": "criminal",
+            "note": "",
+            "source": "rules"
+          }
+        ],
+        "metrics": {
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "llm_calls": 0,
+          "elapsed_ms": 0.15
+        },
+        "claims": [],
+        "route": {
+          "matter": "",
+          "claims": [],
+          "confidence": 0.85,
+          "evidence": [
+            "刑事",
+            "拘留",
+            "诈骗"
+          ],
+          "alternatives": [
+            [
+              "criminal",
+              6.0
+            ]
+          ],
+          "action": "out_of_scope",
+          "out_of_scope": "criminal",
+          "note": "",
+          "source": "rules"
+        },
+        "coverage": {},
+        "chain": [],
+        "voi": {}
+      },
+      "model_calls": []
+    },
+    {
+      "case_id": "R09",
+      "expected_action": "clarify",
+      "action": "clarify",
+      "action_ok": true,
+      "scores": {
+        "claim_precision": 0.0,
+        "claim_recall": 1.0,
+        "claim_f1": 0.0,
+        "claim_exact": true
+      },
+      "usage": {
+        "logical_calls": 1,
+        "successful_calls": 1,
+        "failed_calls": 0,
+        "http_attempts": 1,
+        "prompt_tokens": 1111,
+        "completion_tokens": 22
+      },
+      "result": {
+        "session": "R09",
+        "turn": 1,
+        "status": "clarify",
+        "reply": "我想先确认一下您遇到的是哪类问题，避免答错方向：\n\n1. **劳动用工**：辞退/裁员、欠薪、加班费、未签合同、工伤、社保、年假、竞业限制、孕期产期哺乳期、派遣/外包/新业态等；\n2. **交通事故/人身损害**：责任认定、伤残、保险、赔偿项目；\n3. **其他**：婚姻家事、借贷、房产、合同、刑事等（当前版本暂不覆盖）。\n\n您可以直接用大白话说一句“发生了什么、对方是谁、您想要什么”。",
+        "questions": [],
+        "memo": "",
+        "analysis": {},
+        "verification": {},
+        "facts": [],
+        "changed": [],
+        "invalidated_cache": 0,
+        "revision": 0,
+        "tools": {},
+        "conflicts": [],
+        "trace": [
+          {
+            "node": "input",
+            "text": "我遇到了麻烦，想咨询一下。"
+          },
+          {
+            "node": "session_load",
+            "revision": 0,
+            "facts": 0
+          },
+          {
+            "node": "route",
+            "matter": "",
+            "claims": [],
+            "confidence": 0.0,
+            "evidence": [],
+            "alternatives": [],
+            "action": "clarify",
+            "out_of_scope": "",
+            "note": "",
+            "source": "rules"
+          }
+        ],
+        "metrics": {
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "llm_calls": 0,
+          "elapsed_ms": 584.75
+        },
+        "claims": [],
+        "route": {
+          "matter": "",
+          "claims": [],
+          "confidence": 0.0,
+          "evidence": [],
+          "alternatives": [],
+          "action": "clarify",
+          "out_of_scope": "",
+          "note": "",
+          "source": "rules"
+        },
+        "coverage": {},
+        "chain": [],
+        "voi": {}
+      },
+      "model_calls": [
+        {
+          "model": "deepseek-flash",
+          "ok": true,
+          "error": "",
+          "prompt_tokens": 1111,
+          "completion_tokens": 22,
+          "attempts": 1,
+          "finish_reason": "stop",
+          "elapsed_ms": 584.25
+        }
+      ]
+    },
+    {
+      "case_id": "R10",
+      "expected_action": "clarify",
+      "action": "clarify",
+      "action_ok": true,
+      "scores": {
+        "claim_precision": 0.0,
+        "claim_recall": 1.0,
+        "claim_f1": 0.0,
+        "claim_exact": true
+      },
+      "usage": {
+        "logical_calls": 1,
+        "successful_calls": 1,
+        "failed_calls": 0,
+        "http_attempts": 1,
+        "prompt_tokens": 1108,
+        "completion_tokens": 22
+      },
+      "result": {
+        "session": "R10",
+        "turn": 1,
+        "status": "clarify",
+        "reply": "我想先确认一下您遇到的是哪类问题，避免答错方向：\n\n1. **劳动用工**：辞退/裁员、欠薪、加班费、未签合同、工伤、社保、年假、竞业限制、孕期产期哺乳期、派遣/外包/新业态等；\n2. **交通事故/人身损害**：责任认定、伤残、保险、赔偿项目；\n3. **其他**：婚姻家事、借贷、房产、合同、刑事等（当前版本暂不覆盖）。\n\n您可以直接用大白话说一句“发生了什么、对方是谁、您想要什么”。",
+        "questions": [],
+        "memo": "",
+        "analysis": {},
+        "verification": {},
+        "facts": [],
+        "changed": [],
+        "invalidated_cache": 0,
+        "revision": 0,
+        "tools": {},
+        "conflicts": [],
+        "trace": [
+          {
+            "node": "input",
+            "text": "对方这么做合理吗？"
+          },
+          {
+            "node": "session_load",
+            "revision": 0,
+            "facts": 0
+          },
+          {
+            "node": "route",
+            "matter": "",
+            "claims": [],
+            "confidence": 0.0,
+            "evidence": [],
+            "alternatives": [],
+            "action": "clarify",
+            "out_of_scope": "",
+            "note": "",
+            "source": "rules"
+          }
+        ],
+        "metrics": {
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "llm_calls": 0,
+          "elapsed_ms": 713.78
+        },
+        "claims": [],
+        "route": {
+          "matter": "",
+          "claims": [],
+          "confidence": 0.0,
+          "evidence": [],
+          "alternatives": [],
+          "action": "clarify",
+          "out_of_scope": "",
+          "note": "",
+          "source": "rules"
+        },
+        "coverage": {},
+        "chain": [],
+        "voi": {}
+      },
+      "model_calls": [
+        {
+          "model": "deepseek-flash",
+          "ok": true,
+          "error": "",
+          "prompt_tokens": 1108,
+          "completion_tokens": 22,
+          "attempts": 1,
+          "finish_reason": "stop",
+          "elapsed_ms": 713.42
+        }
+      ]
+    },
+    {
+      "case_id": "R11",
+      "expected_action": "clarify",
+      "action": "clarify",
+      "action_ok": true,
+      "scores": {
+        "claim_precision": 0.0,
+        "claim_recall": 1.0,
+        "claim_f1": 0.0,
+        "claim_exact": true
+      },
+      "usage": {
+        "logical_calls": 1,
+        "successful_calls": 1,
+        "failed_calls": 0,
+        "http_attempts": 1,
+        "prompt_tokens": 1108,
+        "completion_tokens": 22
+      },
+      "result": {
+        "session": "R11",
+        "turn": 1,
+        "status": "clarify",
+        "reply": "我想先确认一下您遇到的是哪类问题，避免答错方向：\n\n1. **劳动用工**：辞退/裁员、欠薪、加班费、未签合同、工伤、社保、年假、竞业限制、孕期产期哺乳期、派遣/外包/新业态等；\n2. **交通事故/人身损害**：责任认定、伤残、保险、赔偿项目；\n3. **其他**：婚姻家事、借贷、房产、合同、刑事等（当前版本暂不覆盖）。\n\n您可以直接用大白话说一句“发生了什么、对方是谁、您想要什么”。",
+        "questions": [],
+        "memo": "",
+        "analysis": {},
+        "verification": {},
+        "facts": [],
+        "changed": [],
+        "invalidated_cache": 0,
+        "revision": 0,
+        "tools": {},
+        "conflicts": [],
+        "trace": [
+          {
+            "node": "input",
+            "text": "我应该准备什么材料？"
+          },
+          {
+            "node": "session_load",
+            "revision": 0,
+            "facts": 0
+          },
+          {
+            "node": "route",
+            "matter": "",
+            "claims": [],
+            "confidence": 0.0,
+            "evidence": [],
+            "alternatives": [],
+            "action": "clarify",
+            "out_of_scope": "",
+            "note": "",
+            "source": "rules"
+          }
+        ],
+        "metrics": {
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "llm_calls": 0,
+          "elapsed_ms": 613.82
+        },
+        "claims": [],
+        "route": {
+          "matter": "",
+          "claims": [],
+          "confidence": 0.0,
+          "evidence": [],
+          "alternatives": [],
+          "action": "clarify",
+          "out_of_scope": "",
+          "note": "",
+          "source": "rules"
+        },
+        "coverage": {},
+        "chain": [],
+        "voi": {}
+      },
+      "model_calls": [
+        {
+          "model": "deepseek-flash",
+          "ok": true,
+          "error": "",
+          "prompt_tokens": 1108,
+          "completion_tokens": 22,
+          "attempts": 1,
+          "finish_reason": "stop",
+          "elapsed_ms": 613.27
+        }
+      ]
+    },
+    {
+      "case_id": "R12",
+      "expected_action": "clarify",
+      "action": "clarify",
+      "action_ok": true,
+      "scores": {
+        "claim_precision": 0.0,
+        "claim_recall": 1.0,
+        "claim_f1": 0.0,
+        "claim_exact": true
+      },
+      "usage": {
+        "logical_calls": 1,
+        "successful_calls": 1,
+        "failed_calls": 0,
+        "http_attempts": 1,
+        "prompt_tokens": 1111,
+        "completion_tokens": 22
+      },
+      "result": {
+        "session": "R12",
+        "turn": 1,
+        "status": "clarify",
+        "reply": "我想先确认一下您遇到的是哪类问题，避免答错方向：\n\n1. **劳动用工**：辞退/裁员、欠薪、加班费、未签合同、工伤、社保、年假、竞业限制、孕期产期哺乳期、派遣/外包/新业态等；\n2. **交通事故/人身损害**：责任认定、伤残、保险、赔偿项目；\n3. **其他**：婚姻家事、借贷、房产、合同、刑事等（当前版本暂不覆盖）。\n\n您可以直接用大白话说一句“发生了什么、对方是谁、您想要什么”。",
+        "questions": [],
+        "memo": "",
+        "analysis": {},
+        "verification": {},
+        "facts": [],
+        "changed": [],
+        "invalidated_cache": 0,
+        "revision": 0,
+        "tools": {},
+        "conflicts": [],
+        "trace": [
+          {
+            "node": "input",
+            "text": "我现在很着急，不知道下一步怎么办。"
+          },
+          {
+            "node": "session_load",
+            "revision": 0,
+            "facts": 0
+          },
+          {
+            "node": "route",
+            "matter": "",
+            "claims": [],
+            "confidence": 0.0,
+            "evidence": [],
+            "alternatives": [],
+            "action": "clarify",
+            "out_of_scope": "",
+            "note": "",
+            "source": "rules"
+          }
+        ],
+        "metrics": {
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "llm_calls": 0,
+          "elapsed_ms": 503.43
+        },
+        "claims": [],
+        "route": {
+          "matter": "",
+          "claims": [],
+          "confidence": 0.0,
+          "evidence": [],
+          "alternatives": [],
+          "action": "clarify",
+          "out_of_scope": "",
+          "note": "",
+          "source": "rules"
+        },
+        "coverage": {},
+        "chain": [],
+        "voi": {}
+      },
+      "model_calls": [
+        {
+          "model": "deepseek-flash",
+          "ok": true,
+          "error": "",
+          "prompt_tokens": 1111,
+          "completion_tokens": 22,
+          "attempts": 1,
+          "finish_reason": "stop",
+          "elapsed_ms": 503.07
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "version": "2.0.0",
+  "cases": [
+    {
+      "id": "R01",
+      "opening": "公司拖欠工资，我该怎么办？",
+      "action_gold": "proceed",
+      "claims_gold": [
+        "labor_wage"
+      ],
+      "human_status": "pending"
+    },
+    {
+      "id": "R02",
+      "opening": "公司欠薪还让我天天加班。",
+      "action_gold": "proceed",
+      "claims_gold": [
+        "labor_wage",
+        "labor_overtime"
+      ],
+      "human_status": "pending"
+    },
+    {
+      "id": "R03",
+      "opening": "我想问未休年假工资。",
+      "action_gold": "proceed",
+      "claims_gold": [
+        "labor_annual_leave"
+      ],
+      "human_status": "pending"
+    },
+    {
+      "id": "R04",
+      "opening": "车祸之后保险公司不赔，交通事故怎么处理？",
+      "action_gold": "proceed",
+      "claims_gold": [
+        "tort_injury"
+      ],
+      "human_status": "pending"
+    },
+    {
+      "id": "R05",
+      "opening": "我要离婚，孩子抚养权归谁？",
+      "action_gold": "out_of_scope",
+      "claims_gold": [],
+      "human_status": "pending"
+    },
+    {
+      "id": "R06",
+      "opening": "朋友借钱不还，借贷欠条怎么起诉？",
+      "action_gold": "out_of_scope",
+      "claims_gold": [],
+      "human_status": "pending"
+    },
+    {
+      "id": "R07",
+      "opening": "房东不退租房押金，租赁纠纷怎么办？",
+      "action_gold": "out_of_scope",
+      "claims_gold": [],
+      "human_status": "pending"
+    },
+    {
+      "id": "R08",
+      "opening": "涉嫌诈骗被刑事拘留了，怎么办？",
+      "action_gold": "out_of_scope",
+      "claims_gold": [],
+      "human_status": "pending"
+    },
+    {
+      "id": "R09",
+      "opening": "我遇到了麻烦，想咨询一下。",
+      "action_gold": "clarify",
+      "claims_gold": [],
+      "human_status": "pending"
+    },
+    {
+      "id": "R10",
+      "opening": "对方这么做合理吗？",
+      "action_gold": "clarify",
+      "claims_gold": [],
+      "human_status": "pending"
+    },
+    {
+      "id": "R11",
+      "opening": "我应该准备什么材料？",
+      "action_gold": "clarify",
+      "claims_gold": [],
+      "human_status": "pending"
+    },
+    {
+      "id": "R12",
+      "opening": "我现在很着急，不知道下一步怎么办。",
+      "action_gold": "clarify",
+      "claims_gold": [],
+      "human_status": "pending"
+    }
+  ]
+}

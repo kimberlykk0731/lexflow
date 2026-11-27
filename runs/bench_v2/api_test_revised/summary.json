@@ -1,0 +1,626 @@
+{
+  "config": {
+    "llm_mode": "api",
+    "model": "deepseek-flash",
+    "api_host": "api.deepseek.com",
+    "today": "2026-11-27",
+    "dataset_sha256": "85a0af410c697b54cfe09c4f97f59da4cac436b1312c2dd1560b33e2f9263296",
+    "corpus_version": "945c2b0291e4d6bc",
+    "split": "test",
+    "repeats": 3,
+    "conditions": [
+      "answer_first",
+      "gate_only",
+      "full",
+      "full_no_voi"
+    ],
+    "max_turns_per_phase": 12,
+    "max_questions_total": 14,
+    "bootstrap_seed": 20261127,
+    "bootstrap_samples": 2000,
+    "human_reviewed": 0,
+    "workers": 8,
+    "llm_parameters": {
+      "temperature": 0.0,
+      "max_tokens": 1600,
+      "thinking": "disabled",
+      "timeout": 60.0
+    },
+    "source_tree_sha256": "2fa0136385ec3dd55cd8923d494a9891f11a40cd32153cdd9205d7e0880d0252",
+    "source_commit": "unavailable"
+  },
+  "aggregate": {
+    "answer_first": {
+      "sessions": 78,
+      "cases": 26,
+      "metrics": {
+        "completed": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 26
+        },
+        "claim_f1": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 26
+        },
+        "correct_coverage": {
+          "mean": 0.12189466516389594,
+          "lo": 0.06731591058514136,
+          "hi": 0.17349722926646002,
+          "n_cases": 26
+        },
+        "extraction_f1": {
+          "mean": 0.5000610500610501,
+          "lo": 0.3145299145299145,
+          "hi": 0.6655067155067155,
+          "n_cases": 26
+        },
+        "inquiry_recall": {
+          "mean": 0.0,
+          "lo": 0.0,
+          "hi": 0.0,
+          "n_cases": 26
+        },
+        "outcome_agreement": {
+          "mean": 0.4423076923076923,
+          "lo": 0.2692307692307692,
+          "hi": 0.6057692307692307,
+          "n_cases": 26
+        },
+        "formula_agreement": {
+          "mean": 0.04444444444444444,
+          "lo": 0.0,
+          "hi": 0.13333333333333333,
+          "n_cases": 15
+        },
+        "behavior_agreement": {
+          "mean": 0.675,
+          "lo": 0.475,
+          "hi": 0.85,
+          "n_cases": 20
+        },
+        "outcome_all_correct": {
+          "mean": 0.34615384615384615,
+          "lo": 0.15384615384615385,
+          "hi": 0.5384615384615384,
+          "n_cases": 26
+        },
+        "citation_mechanical_support": {
+          "mean": 0.6041708333333333,
+          "lo": 0.43750416666666664,
+          "hi": 0.7743083333333334,
+          "n_cases": 24
+        },
+        "premature_unqualified_memo_proxy": {
+          "mean": 0.0,
+          "lo": 0.0,
+          "hi": 0.0,
+          "n_cases": 26
+        },
+        "unknown_handling_proxy": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 6
+        },
+        "correction_protocol_complete": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 12
+        },
+        "revision_success": {
+          "mean": 0.5,
+          "lo": 0.25,
+          "hi": 0.75,
+          "n_cases": 12
+        },
+        "unaffected_preserved": {
+          "mean": null,
+          "lo": null,
+          "hi": null,
+          "n_cases": 0
+        },
+        "questions": {
+          "mean": 0.0,
+          "lo": 0.0,
+          "hi": 0.0,
+          "n_cases": 26
+        },
+        "repeat_rate": {
+          "mean": null,
+          "lo": null,
+          "hi": null,
+          "n_cases": 0
+        },
+        "fallback_extraction_rate": {
+          "mean": 0.0,
+          "lo": 0.0,
+          "hi": 0.0,
+          "n_cases": 26
+        },
+        "elapsed_ms": {
+          "mean": 2392.1389743589743,
+          "lo": 2060.7371794871797,
+          "hi": 2714.166282051282,
+          "n_cases": 26
+        },
+        "turns": {
+          "mean": 1.4615384615384615,
+          "lo": 1.2692307692307692,
+          "hi": 1.6538461538461537,
+          "n_cases": 26
+        }
+      },
+      "usage": {
+        "logical_calls": 228,
+        "successful_calls": 228,
+        "failed_calls": 0,
+        "http_attempts": 228,
+        "prompt_tokens": 121014,
+        "completion_tokens": 12349
+      }
+    },
+    "gate_only": {
+      "sessions": 78,
+      "cases": 26,
+      "metrics": {
+        "completed": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 26
+        },
+        "claim_f1": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 26
+        },
+        "correct_coverage": {
+          "mean": 0.9930528161297392,
+          "lo": 0.9842866535174227,
+          "hi": 1.0,
+          "n_cases": 26
+        },
+        "extraction_f1": {
+          "mean": 0.9977073906485672,
+          "lo": 0.9938763197586727,
+          "hi": 1.0,
+          "n_cases": 26
+        },
+        "inquiry_recall": {
+          "mean": 0.9923368298368298,
+          "lo": 0.98243006993007,
+          "hi": 1.0,
+          "n_cases": 26
+        },
+        "outcome_agreement": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 26
+        },
+        "formula_agreement": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 15
+        },
+        "behavior_agreement": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 20
+        },
+        "outcome_all_correct": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 26
+        },
+        "citation_mechanical_support": {
+          "mean": 0.956668,
+          "lo": 0.913336,
+          "hi": 0.99,
+          "n_cases": 25
+        },
+        "premature_unqualified_memo_proxy": {
+          "mean": 0.05128205128205128,
+          "lo": 0.0,
+          "hi": 0.14102564102564102,
+          "n_cases": 26
+        },
+        "unknown_handling_proxy": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 6
+        },
+        "correction_protocol_complete": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 12
+        },
+        "revision_success": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 12
+        },
+        "unaffected_preserved": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 1
+        },
+        "questions": {
+          "mean": 8.153846153846153,
+          "lo": 7.141025641025641,
+          "hi": 9.243589743589743,
+          "n_cases": 26
+        },
+        "repeat_rate": {
+          "mean": 0.021443833943833944,
+          "lo": 0.004807692307692308,
+          "hi": 0.040674603174603176,
+          "n_cases": 26
+        },
+        "fallback_extraction_rate": {
+          "mean": 0.0,
+          "lo": 0.0,
+          "hi": 0.0,
+          "n_cases": 26
+        },
+        "elapsed_ms": {
+          "mean": 9700.851025641026,
+          "lo": 8807.693846153847,
+          "hi": 10648.747307692307,
+          "n_cases": 26
+        },
+        "turns": {
+          "mean": 5.6923076923076925,
+          "lo": 5.256410256410256,
+          "hi": 6.166666666666667,
+          "n_cases": 26
+        }
+      },
+      "usage": {
+        "logical_calls": 1179,
+        "successful_calls": 1179,
+        "failed_calls": 0,
+        "http_attempts": 1179,
+        "prompt_tokens": 595122,
+        "completion_tokens": 37303
+      }
+    },
+    "full": {
+      "sessions": 78,
+      "cases": 26,
+      "metrics": {
+        "completed": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 26
+        },
+        "claim_f1": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 26
+        },
+        "correct_coverage": {
+          "mean": 0.9930528161297392,
+          "lo": 0.9842866535174227,
+          "hi": 1.0,
+          "n_cases": 26
+        },
+        "extraction_f1": {
+          "mean": 0.9977073906485672,
+          "lo": 0.9938763197586727,
+          "hi": 1.0,
+          "n_cases": 26
+        },
+        "inquiry_recall": {
+          "mean": 0.9923368298368298,
+          "lo": 0.98243006993007,
+          "hi": 1.0,
+          "n_cases": 26
+        },
+        "outcome_agreement": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 26
+        },
+        "formula_agreement": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 15
+        },
+        "behavior_agreement": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 20
+        },
+        "outcome_all_correct": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 26
+        },
+        "citation_mechanical_support": {
+          "mean": 0.956668,
+          "lo": 0.913336,
+          "hi": 0.99,
+          "n_cases": 25
+        },
+        "premature_unqualified_memo_proxy": {
+          "mean": 0.05128205128205128,
+          "lo": 0.0,
+          "hi": 0.14102564102564102,
+          "n_cases": 26
+        },
+        "unknown_handling_proxy": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 6
+        },
+        "correction_protocol_complete": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 12
+        },
+        "revision_success": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 12
+        },
+        "unaffected_preserved": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 1
+        },
+        "questions": {
+          "mean": 8.166666666666666,
+          "lo": 7.153846153846154,
+          "hi": 9.243589743589745,
+          "n_cases": 26
+        },
+        "repeat_rate": {
+          "mean": 0.021443833943833944,
+          "lo": 0.004807692307692308,
+          "hi": 0.040674603174603176,
+          "n_cases": 26
+        },
+        "fallback_extraction_rate": {
+          "mean": 0.0,
+          "lo": 0.0,
+          "hi": 0.0,
+          "n_cases": 26
+        },
+        "elapsed_ms": {
+          "mean": 9737.07358974359,
+          "lo": 8898.185,
+          "hi": 10584.531538461539,
+          "n_cases": 26
+        },
+        "turns": {
+          "mean": 5.705128205128205,
+          "lo": 5.256410256410256,
+          "hi": 6.166666666666667,
+          "n_cases": 26
+        }
+      },
+      "usage": {
+        "logical_calls": 1181,
+        "successful_calls": 1181,
+        "failed_calls": 0,
+        "http_attempts": 1181,
+        "prompt_tokens": 595753,
+        "completion_tokens": 37416
+      }
+    },
+    "full_no_voi": {
+      "sessions": 78,
+      "cases": 26,
+      "metrics": {
+        "completed": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 26
+        },
+        "claim_f1": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 26
+        },
+        "correct_coverage": {
+          "mean": 0.9930528161297392,
+          "lo": 0.9842866535174227,
+          "hi": 1.0,
+          "n_cases": 26
+        },
+        "extraction_f1": {
+          "mean": 0.9977073906485672,
+          "lo": 0.9938763197586727,
+          "hi": 1.0,
+          "n_cases": 26
+        },
+        "inquiry_recall": {
+          "mean": 0.9923368298368298,
+          "lo": 0.98243006993007,
+          "hi": 1.0,
+          "n_cases": 26
+        },
+        "outcome_agreement": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 26
+        },
+        "formula_agreement": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 15
+        },
+        "behavior_agreement": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 20
+        },
+        "outcome_all_correct": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 26
+        },
+        "citation_mechanical_support": {
+          "mean": 0.956668,
+          "lo": 0.913336,
+          "hi": 0.99,
+          "n_cases": 25
+        },
+        "premature_unqualified_memo_proxy": {
+          "mean": 0.05128205128205128,
+          "lo": 0.0,
+          "hi": 0.14102564102564102,
+          "n_cases": 26
+        },
+        "unknown_handling_proxy": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 6
+        },
+        "correction_protocol_complete": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 12
+        },
+        "revision_success": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 12
+        },
+        "unaffected_preserved": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 1
+        },
+        "questions": {
+          "mean": 8.192307692307692,
+          "lo": 7.17948717948718,
+          "hi": 9.26923076923077,
+          "n_cases": 26
+        },
+        "repeat_rate": {
+          "mean": 0.026938339438339436,
+          "lo": 0.00908119658119658,
+          "hi": 0.04769536019536019,
+          "n_cases": 26
+        },
+        "fallback_extraction_rate": {
+          "mean": 0.0,
+          "lo": 0.0,
+          "hi": 0.0,
+          "n_cases": 26
+        },
+        "elapsed_ms": {
+          "mean": 9926.649743589744,
+          "lo": 9050.892948717948,
+          "hi": 10853.39705128205,
+          "n_cases": 26
+        },
+        "turns": {
+          "mean": 5.730769230769231,
+          "lo": 5.3076923076923075,
+          "hi": 6.17948717948718,
+          "n_cases": 26
+        }
+      },
+      "usage": {
+        "logical_calls": 1182,
+        "successful_calls": 1182,
+        "failed_calls": 0,
+        "http_attempts": 1182,
+        "prompt_tokens": 597661,
+        "completion_tokens": 37429
+      }
+    }
+  },
+  "paired": {
+    "full-minus-answer_first:correct_coverage": {
+      "mean": 0.8711581509658433,
+      "lo": 0.8187568485645409,
+      "hi": 0.9253001628001628,
+      "n_cases": 26
+    },
+    "full-minus-answer_first:formula_agreement": {
+      "mean": 0.9555555555555556,
+      "lo": 0.8666666666666667,
+      "hi": 1.0,
+      "n_cases": 15
+    },
+    "full-minus-answer_first:questions": {
+      "mean": 8.166666666666666,
+      "lo": 7.153846153846154,
+      "hi": 9.243589743589745,
+      "n_cases": 26
+    },
+    "full-minus-gate_only:correct_coverage": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.0,
+      "n_cases": 26
+    },
+    "full-minus-gate_only:formula_agreement": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.0,
+      "n_cases": 15
+    },
+    "full-minus-gate_only:questions": {
+      "mean": 0.01282051282051281,
+      "lo": 0.0,
+      "hi": 0.03846153846153843,
+      "n_cases": 26
+    },
+    "full-minus-full_no_voi:correct_coverage": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.0,
+      "n_cases": 26
+    },
+    "full-minus-full_no_voi:formula_agreement": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.0,
+      "n_cases": 15
+    },
+    "full-minus-full_no_voi:questions": {
+      "mean": -0.025641025641025654,
+      "lo": -0.11538461538461539,
+      "hi": 0.03846153846153843,
+      "n_cases": 26
+    }
+  }
+}

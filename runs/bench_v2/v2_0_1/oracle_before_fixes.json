@@ -1,0 +1,1687 @@
+{
+  "role": "diagnostic_crosscheck_only",
+  "phases": 50,
+  "disagreement_phases": 7,
+  "rows": [
+    {
+      "case_id": "B01",
+      "phase": "before",
+      "checks": [
+        {
+          "claim": "labor_dismissal",
+          "path": "illegal",
+          "calculator": "literal",
+          "depends": [
+            "stated_reason",
+            "rule_publicized"
+          ],
+          "value": true,
+          "expected": true,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior",
+          "actual": true,
+          "present": true,
+          "ok": true
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "compensation.amount",
+          "calculator": "dismissal",
+          "depends": [
+            "start_date",
+            "dismiss_date",
+            "monthly_wage"
+          ],
+          "pay_type": "2N",
+          "expected": 110000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": 100000.0,
+          "present": true,
+          "ok": false
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "limitation.deadline",
+          "calculator": "deadline",
+          "depends": [
+            "dismiss_date"
+          ],
+          "expected": "2027-03-15",
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": "2027-03-15",
+          "present": true,
+          "ok": true
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "limitation.expired",
+          "calculator": "expired",
+          "depends": [
+            "dismiss_date"
+          ],
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": false,
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": [
+        {
+          "claim": "labor_dismissal",
+          "path": "compensation.amount",
+          "calculator": "dismissal",
+          "depends": [
+            "start_date",
+            "dismiss_date",
+            "monthly_wage"
+          ],
+          "pay_type": "2N",
+          "expected": 110000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": 100000.0,
+          "present": true,
+          "ok": false
+        }
+      ]
+    },
+    {
+      "case_id": "B02",
+      "phase": "before",
+      "checks": [
+        {
+          "claim": "labor_dismissal",
+          "path": "illegal",
+          "calculator": "literal",
+          "depends": [
+            "stated_reason",
+            "rule_publicized"
+          ],
+          "value": true,
+          "expected": true,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior",
+          "actual": true,
+          "present": true,
+          "ok": true
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "compensation.amount",
+          "calculator": "dismissal",
+          "depends": [
+            "start_date",
+            "dismiss_date",
+            "monthly_wage"
+          ],
+          "pay_type": "2N",
+          "expected": 144000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": 144000.0,
+          "present": true,
+          "ok": true
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "limitation.deadline",
+          "calculator": "deadline",
+          "depends": [
+            "dismiss_date"
+          ],
+          "expected": "2027-03-15",
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": "2027-03-15",
+          "present": true,
+          "ok": true
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "limitation.expired",
+          "calculator": "expired",
+          "depends": [
+            "dismiss_date"
+          ],
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": false,
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": []
+    },
+    {
+      "case_id": "B02",
+      "phase": "after",
+      "checks": [
+        {
+          "claim": "labor_dismissal",
+          "path": "illegal",
+          "calculator": "literal",
+          "depends": [
+            "stated_reason",
+            "rule_publicized"
+          ],
+          "value": true,
+          "expected": true,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior",
+          "actual": true,
+          "present": true,
+          "ok": true
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "compensation.amount",
+          "calculator": "dismissal",
+          "depends": [
+            "start_date",
+            "dismiss_date",
+            "monthly_wage"
+          ],
+          "pay_type": "2N",
+          "expected": 156000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": 156000.0,
+          "present": true,
+          "ok": true
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "limitation.deadline",
+          "calculator": "deadline",
+          "depends": [
+            "dismiss_date"
+          ],
+          "expected": "2027-09-15",
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": "2027-09-15",
+          "present": true,
+          "ok": true
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "limitation.expired",
+          "calculator": "expired",
+          "depends": [
+            "dismiss_date"
+          ],
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": false,
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": []
+    },
+    {
+      "case_id": "B03",
+      "phase": "before",
+      "checks": [
+        {
+          "claim": "labor_dismissal",
+          "path": "illegal",
+          "calculator": "literal",
+          "depends": [
+            "stated_reason",
+            "rule_publicized"
+          ],
+          "value": true,
+          "expected": true,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior",
+          "actual": true,
+          "present": true,
+          "ok": true
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "compensation.amount",
+          "calculator": "dismissal",
+          "depends": [
+            "start_date",
+            "dismiss_date",
+            "monthly_wage"
+          ],
+          "pay_type": "2N",
+          "expected": 10000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": null,
+          "present": false,
+          "ok": false
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "limitation.deadline",
+          "calculator": "deadline",
+          "depends": [
+            "dismiss_date"
+          ],
+          "expected": "2027-03-15",
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": "2027-03-15",
+          "present": true,
+          "ok": true
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "limitation.expired",
+          "calculator": "expired",
+          "depends": [
+            "dismiss_date"
+          ],
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": false,
+          "present": true,
+          "ok": true
+        },
+        {
+          "claim": "labor_wage",
+          "path": "finding_money:F_WAGE_AMOUNT",
+          "calculator": "fact",
+          "depends": [
+            "wage_owed"
+          ],
+          "field": "wage_owed",
+          "tolerance": 0.5,
+          "expected": 5000,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior",
+          "actual": 5000.0,
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": [
+        {
+          "claim": "labor_dismissal",
+          "path": "compensation.amount",
+          "calculator": "dismissal",
+          "depends": [
+            "start_date",
+            "dismiss_date",
+            "monthly_wage"
+          ],
+          "pay_type": "2N",
+          "expected": 10000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": null,
+          "present": false,
+          "ok": false
+        }
+      ]
+    },
+    {
+      "case_id": "B04",
+      "phase": "before",
+      "checks": [
+        {
+          "claim": "labor_wage",
+          "path": "finding_money:F_WAGE_AMOUNT",
+          "calculator": "fact",
+          "depends": [
+            "wage_owed"
+          ],
+          "field": "wage_owed",
+          "tolerance": 0.5,
+          "expected": 20000,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior",
+          "actual": 20000.0,
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": []
+    },
+    {
+      "case_id": "B05",
+      "phase": "before",
+      "checks": [
+        {
+          "claim": "labor_wage",
+          "path": "finding_money:F_WAGE_AMOUNT",
+          "calculator": "fact",
+          "depends": [
+            "wage_owed"
+          ],
+          "field": "wage_owed",
+          "tolerance": 0.5,
+          "expected": 24000,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior",
+          "actual": 24000.0,
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": []
+    },
+    {
+      "case_id": "B05",
+      "phase": "after",
+      "checks": [
+        {
+          "claim": "labor_wage",
+          "path": "finding_money:F_WAGE_AMOUNT",
+          "calculator": "fact",
+          "depends": [
+            "wage_owed"
+          ],
+          "field": "wage_owed",
+          "tolerance": 0.5,
+          "expected": 25000,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior",
+          "actual": 25000.0,
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": []
+    },
+    {
+      "case_id": "B06",
+      "phase": "before",
+      "checks": [
+        {
+          "claim": "labor_wage",
+          "path": "finding_money:F_WAGE_AMOUNT",
+          "calculator": "fact",
+          "depends": [
+            "wage_owed"
+          ],
+          "field": "wage_owed",
+          "tolerance": 0.5,
+          "expected": 20000,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior",
+          "actual": 20000.0,
+          "present": true,
+          "ok": true
+        },
+        {
+          "claim": "labor_overtime",
+          "path": "calculation.amount",
+          "calculator": "overtime",
+          "depends": [
+            "monthly_wage",
+            "overtime_hours_weekday",
+            "overtime_hours_rest",
+            "overtime_hours_holiday"
+          ],
+          "expected": 4942.53,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": 4942.53,
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": []
+    },
+    {
+      "case_id": "B07",
+      "phase": "before",
+      "checks": [
+        {
+          "claim": "labor_overtime",
+          "path": "calculation.amount",
+          "calculator": "overtime",
+          "depends": [
+            "monthly_wage",
+            "overtime_hours_weekday",
+            "overtime_hours_rest",
+            "overtime_hours_holiday"
+          ],
+          "expected": 4942.53,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": 4942.53,
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": []
+    },
+    {
+      "case_id": "B08",
+      "phase": "before",
+      "checks": [
+        {
+          "claim": "labor_overtime",
+          "path": "calculation.amount",
+          "calculator": "overtime",
+          "depends": [
+            "monthly_wage",
+            "overtime_hours_weekday",
+            "overtime_hours_rest",
+            "overtime_hours_holiday"
+          ],
+          "expected": 6344.83,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": 6344.83,
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": []
+    },
+    {
+      "case_id": "B08",
+      "phase": "after",
+      "checks": [
+        {
+          "claim": "labor_overtime",
+          "path": "calculation.amount",
+          "calculator": "overtime",
+          "depends": [
+            "monthly_wage",
+            "overtime_hours_weekday",
+            "overtime_hours_rest",
+            "overtime_hours_holiday"
+          ],
+          "expected": 6965.52,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": 6965.52,
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": []
+    },
+    {
+      "case_id": "B09",
+      "phase": "before",
+      "checks": [
+        {
+          "claim": "labor_overtime",
+          "path": "finding:F_OT_NONE",
+          "calculator": "literal",
+          "depends": [
+            "overtime_exists"
+          ],
+          "value": true,
+          "expected": true,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior",
+          "actual": false,
+          "present": true,
+          "ok": false
+        },
+        {
+          "claim": "labor_double_pay",
+          "path": "calculation.amount",
+          "calculator": "double_pay",
+          "depends": [
+            "monthly_wage",
+            "no_contract_months"
+          ],
+          "expected": 50000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": 50000.0,
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": [
+        {
+          "claim": "labor_overtime",
+          "path": "finding:F_OT_NONE",
+          "calculator": "literal",
+          "depends": [
+            "overtime_exists"
+          ],
+          "value": true,
+          "expected": true,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior",
+          "actual": false,
+          "present": true,
+          "ok": false
+        }
+      ]
+    },
+    {
+      "case_id": "B10",
+      "phase": "before",
+      "checks": [
+        {
+          "claim": "labor_double_pay",
+          "path": "calculation.amount",
+          "calculator": "double_pay",
+          "depends": [
+            "monthly_wage",
+            "no_contract_months"
+          ],
+          "expected": 50000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": 50000.0,
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": []
+    },
+    {
+      "case_id": "B11",
+      "phase": "before",
+      "checks": [
+        {
+          "claim": "labor_double_pay",
+          "path": "calculation.amount",
+          "calculator": "double_pay",
+          "depends": [
+            "monthly_wage",
+            "no_contract_months"
+          ],
+          "expected": 60000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": 60000.0,
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": []
+    },
+    {
+      "case_id": "B11",
+      "phase": "after",
+      "checks": [
+        {
+          "claim": "labor_double_pay",
+          "path": "calculation.amount",
+          "calculator": "double_pay",
+          "depends": [
+            "monthly_wage",
+            "no_contract_months"
+          ],
+          "expected": 84000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": 84000.0,
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": []
+    },
+    {
+      "case_id": "B12",
+      "phase": "before",
+      "checks": [
+        {
+          "claim": "labor_double_pay",
+          "path": "finding:F_DP_NONE",
+          "calculator": "literal",
+          "depends": [
+            "contract_signed"
+          ],
+          "value": true,
+          "expected": true,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior",
+          "actual": false,
+          "present": true,
+          "ok": false
+        },
+        {
+          "claim": "labor_work_injury",
+          "path": "calculation.amount",
+          "calculator": "work_injury",
+          "depends": [
+            "monthly_wage",
+            "disability_level"
+          ],
+          "expected": 70000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": 70000.0,
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": [
+        {
+          "claim": "labor_double_pay",
+          "path": "finding:F_DP_NONE",
+          "calculator": "literal",
+          "depends": [
+            "contract_signed"
+          ],
+          "value": true,
+          "expected": true,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior",
+          "actual": false,
+          "present": true,
+          "ok": false
+        }
+      ]
+    },
+    {
+      "case_id": "B13",
+      "phase": "before",
+      "checks": [
+        {
+          "claim": "labor_work_injury",
+          "path": "calculation.amount",
+          "calculator": "work_injury",
+          "depends": [
+            "monthly_wage",
+            "disability_level"
+          ],
+          "expected": 70000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": 70000.0,
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": []
+    },
+    {
+      "case_id": "B14",
+      "phase": "before",
+      "checks": [
+        {
+          "claim": "labor_work_injury",
+          "path": "calculation.amount",
+          "calculator": "work_injury",
+          "depends": [
+            "monthly_wage",
+            "disability_level"
+          ],
+          "expected": 84000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": 84000.0,
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": []
+    },
+    {
+      "case_id": "B14",
+      "phase": "after",
+      "checks": [
+        {
+          "claim": "labor_work_injury",
+          "path": "calculation.amount",
+          "calculator": "work_injury",
+          "depends": [
+            "monthly_wage",
+            "disability_level"
+          ],
+          "expected": 108000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": 108000.0,
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": []
+    },
+    {
+      "case_id": "B15",
+      "phase": "before",
+      "checks": [
+        {
+          "claim": "labor_work_injury",
+          "path": "calculation.amount",
+          "calculator": "work_injury",
+          "depends": [
+            "monthly_wage",
+            "disability_level"
+          ],
+          "expected": 70000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": 70000.0,
+          "present": true,
+          "ok": true
+        },
+        {
+          "claim": "labor_social_insurance",
+          "path": "finding:F_SI_FORCED",
+          "calculator": "condition",
+          "depends": [
+            "social_insurance_claim"
+          ],
+          "conditions": {
+            "social_insurance_claim": "要求被迫解除经济补偿"
+          },
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": false,
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": []
+    },
+    {
+      "case_id": "B16",
+      "phase": "before",
+      "checks": [
+        {
+          "claim": "labor_social_insurance",
+          "path": "finding:F_SI_FORCED",
+          "calculator": "condition",
+          "depends": [
+            "social_insurance_claim"
+          ],
+          "conditions": {
+            "social_insurance_claim": "要求被迫解除经济补偿"
+          },
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": false,
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": []
+    },
+    {
+      "case_id": "B17",
+      "phase": "before",
+      "checks": [
+        {
+          "claim": "labor_social_insurance",
+          "path": "finding:F_SI_FORCED",
+          "calculator": "condition",
+          "depends": [
+            "social_insurance_claim"
+          ],
+          "conditions": {
+            "social_insurance_claim": "要求被迫解除经济补偿"
+          },
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": false,
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": []
+    },
+    {
+      "case_id": "B17",
+      "phase": "after",
+      "checks": [
+        {
+          "claim": "labor_social_insurance",
+          "path": "finding:F_SI_FORCED",
+          "calculator": "condition",
+          "depends": [
+            "social_insurance_claim"
+          ],
+          "conditions": {
+            "social_insurance_claim": "要求被迫解除经济补偿"
+          },
+          "expected": true,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": true,
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": []
+    },
+    {
+      "case_id": "B18",
+      "phase": "before",
+      "checks": [
+        {
+          "claim": "labor_social_insurance",
+          "path": "finding:F_SI_FORCED",
+          "calculator": "condition",
+          "depends": [
+            "social_insurance_claim"
+          ],
+          "conditions": {
+            "social_insurance_claim": "要求被迫解除经济补偿"
+          },
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": false,
+          "present": true,
+          "ok": true
+        },
+        {
+          "claim": "labor_annual_leave",
+          "path": "calculation.amount",
+          "calculator": "annual_leave",
+          "depends": [
+            "monthly_wage",
+            "cumulative_work_years",
+            "annual_leave_taken"
+          ],
+          "expected": 2758.62,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": 2758.62,
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": []
+    },
+    {
+      "case_id": "B19",
+      "phase": "before",
+      "checks": [
+        {
+          "claim": "labor_annual_leave",
+          "path": "calculation.amount",
+          "calculator": "annual_leave",
+          "depends": [
+            "monthly_wage",
+            "cumulative_work_years",
+            "annual_leave_taken"
+          ],
+          "expected": 2758.62,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": 2758.62,
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": []
+    },
+    {
+      "case_id": "B20",
+      "phase": "before",
+      "checks": [
+        {
+          "claim": "labor_annual_leave",
+          "path": "calculation.amount",
+          "calculator": "annual_leave",
+          "depends": [
+            "monthly_wage",
+            "cumulative_work_years",
+            "annual_leave_taken"
+          ],
+          "expected": 3310.34,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": 3310.34,
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": []
+    },
+    {
+      "case_id": "B20",
+      "phase": "after",
+      "checks": [
+        {
+          "claim": "labor_annual_leave",
+          "path": "calculation.amount",
+          "calculator": "annual_leave",
+          "depends": [
+            "monthly_wage",
+            "cumulative_work_years",
+            "annual_leave_taken"
+          ],
+          "expected": 8827.59,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": 8827.59,
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": []
+    },
+    {
+      "case_id": "B21",
+      "phase": "before",
+      "checks": [
+        {
+          "claim": "labor_annual_leave",
+          "path": "calculation.amount",
+          "calculator": "annual_leave",
+          "depends": [
+            "monthly_wage",
+            "cumulative_work_years",
+            "annual_leave_taken"
+          ],
+          "expected": null,
+          "applicable": false,
+          "reference_kind": "independent_formula",
+          "actual": null,
+          "present": false,
+          "ok": null
+        },
+        {
+          "claim": "labor_noncompete",
+          "path": "calculation.amount",
+          "calculator": "noncompete",
+          "depends": [
+            "noncompete_months",
+            "noncompete_compensation"
+          ],
+          "expected": 48000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": null,
+          "present": false,
+          "ok": false
+        }
+      ],
+      "disagreements": [
+        {
+          "claim": "labor_noncompete",
+          "path": "calculation.amount",
+          "calculator": "noncompete",
+          "depends": [
+            "noncompete_months",
+            "noncompete_compensation"
+          ],
+          "expected": 48000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": null,
+          "present": false,
+          "ok": false
+        }
+      ]
+    },
+    {
+      "case_id": "B22",
+      "phase": "before",
+      "checks": [
+        {
+          "claim": "labor_noncompete",
+          "path": "calculation.amount",
+          "calculator": "noncompete",
+          "depends": [
+            "noncompete_months",
+            "noncompete_compensation"
+          ],
+          "expected": 48000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": 48000.0,
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": []
+    },
+    {
+      "case_id": "B23",
+      "phase": "before",
+      "checks": [
+        {
+          "claim": "labor_noncompete",
+          "path": "calculation.amount",
+          "calculator": "noncompete",
+          "depends": [
+            "noncompete_months",
+            "noncompete_compensation"
+          ],
+          "expected": 48000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": 48000.0,
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": []
+    },
+    {
+      "case_id": "B23",
+      "phase": "after",
+      "checks": [
+        {
+          "claim": "labor_noncompete",
+          "path": "calculation.amount",
+          "calculator": "noncompete",
+          "depends": [
+            "noncompete_months",
+            "noncompete_compensation"
+          ],
+          "expected": 72000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": 72000.0,
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": []
+    },
+    {
+      "case_id": "B24",
+      "phase": "before",
+      "checks": [
+        {
+          "claim": "labor_noncompete",
+          "path": "finding:F_NC_NONE",
+          "calculator": "literal",
+          "depends": [
+            "noncompete_signed"
+          ],
+          "value": true,
+          "expected": true,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior",
+          "actual": false,
+          "present": true,
+          "ok": false
+        },
+        {
+          "claim": "labor_maternity",
+          "path": "finding:F_MT_DISMISS",
+          "calculator": "condition",
+          "depends": [
+            "maternity_dismissal"
+          ],
+          "conditions": {
+            "maternity_dismissal": "因怀孕/生育被辞退"
+          },
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": false,
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": [
+        {
+          "claim": "labor_noncompete",
+          "path": "finding:F_NC_NONE",
+          "calculator": "literal",
+          "depends": [
+            "noncompete_signed"
+          ],
+          "value": true,
+          "expected": true,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior",
+          "actual": false,
+          "present": true,
+          "ok": false
+        }
+      ]
+    },
+    {
+      "case_id": "B25",
+      "phase": "before",
+      "checks": [
+        {
+          "claim": "labor_maternity",
+          "path": "finding:F_MT_DISMISS",
+          "calculator": "condition",
+          "depends": [
+            "maternity_dismissal"
+          ],
+          "conditions": {
+            "maternity_dismissal": "因怀孕/生育被辞退"
+          },
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": false,
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": []
+    },
+    {
+      "case_id": "B26",
+      "phase": "before",
+      "checks": [
+        {
+          "claim": "labor_maternity",
+          "path": "finding:F_MT_DISMISS",
+          "calculator": "condition",
+          "depends": [
+            "maternity_dismissal"
+          ],
+          "conditions": {
+            "maternity_dismissal": "因怀孕/生育被辞退"
+          },
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": false,
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": []
+    },
+    {
+      "case_id": "B26",
+      "phase": "after",
+      "checks": [
+        {
+          "claim": "labor_maternity",
+          "path": "finding:F_MT_DISMISS",
+          "calculator": "condition",
+          "depends": [
+            "maternity_dismissal"
+          ],
+          "conditions": {
+            "maternity_dismissal": "因怀孕/生育被辞退"
+          },
+          "expected": true,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": true,
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": []
+    },
+    {
+      "case_id": "B27",
+      "phase": "before",
+      "checks": [
+        {
+          "claim": "labor_maternity",
+          "path": "finding:F_MT_DISMISS",
+          "calculator": "condition",
+          "depends": [
+            "maternity_dismissal"
+          ],
+          "conditions": {
+            "maternity_dismissal": "因怀孕/生育被辞退"
+          },
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": false,
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": []
+    },
+    {
+      "case_id": "B28",
+      "phase": "before",
+      "checks": [
+        {
+          "claim": "labor_dispatch",
+          "path": "finding_text:F_DP_FORM",
+          "calculator": "fact",
+          "depends": [
+            "dispatch_type"
+          ],
+          "field": "dispatch_type",
+          "match": "contains",
+          "expected": "劳务派遣",
+          "applicable": true,
+          "reference_kind": "author_specified_behavior",
+          "actual": "当事人描述为劳务派遣。派遣/外包/平台用工不只看合同名称，要看谁管理、谁发工资、谁承担用工责任。",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": []
+    },
+    {
+      "case_id": "B29",
+      "phase": "before",
+      "checks": [
+        {
+          "claim": "labor_dispatch",
+          "path": "finding_text:F_DP_FORM",
+          "calculator": "fact",
+          "depends": [
+            "dispatch_type"
+          ],
+          "field": "dispatch_type",
+          "match": "contains",
+          "expected": "劳务派遣",
+          "applicable": true,
+          "reference_kind": "author_specified_behavior",
+          "actual": "当事人描述为劳务派遣。派遣/外包/平台用工不只看合同名称，要看谁管理、谁发工资、谁承担用工责任。",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": []
+    },
+    {
+      "case_id": "B29",
+      "phase": "after",
+      "checks": [
+        {
+          "claim": "labor_dispatch",
+          "path": "finding_text:F_DP_FORM",
+          "calculator": "fact",
+          "depends": [
+            "dispatch_type"
+          ],
+          "field": "dispatch_type",
+          "match": "contains",
+          "expected": "业务外包",
+          "applicable": true,
+          "reference_kind": "author_specified_behavior",
+          "actual": "当事人描述为业务外包。派遣/外包/平台用工不只看合同名称，要看谁管理、谁发工资、谁承担用工责任。",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": []
+    },
+    {
+      "case_id": "B30",
+      "phase": "before",
+      "checks": [
+        {
+          "claim": "labor_dispatch",
+          "path": "finding_text:F_DP_FORM",
+          "calculator": "fact",
+          "depends": [
+            "dispatch_type"
+          ],
+          "field": "dispatch_type",
+          "match": "contains",
+          "expected": "平台/新业态用工",
+          "applicable": true,
+          "reference_kind": "author_specified_behavior",
+          "actual": "当事人描述为平台/新业态用工。派遣/外包/平台用工不只看合同名称，要看谁管理、谁发工资、谁承担用工责任。",
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": []
+    },
+    {
+      "case_id": "B31",
+      "phase": "before",
+      "checks": [
+        {
+          "claim": "labor_contract",
+          "path": "finding:F_CT_CHANGE",
+          "calculator": "condition",
+          "depends": [
+            "contract_terms_changed"
+          ],
+          "conditions": {
+            "contract_terms_changed": "被单方变更"
+          },
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": false,
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": []
+    },
+    {
+      "case_id": "B32",
+      "phase": "before",
+      "checks": [
+        {
+          "claim": "labor_contract",
+          "path": "finding:F_CT_CHANGE",
+          "calculator": "condition",
+          "depends": [
+            "contract_terms_changed"
+          ],
+          "conditions": {
+            "contract_terms_changed": "被单方变更"
+          },
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": false,
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": []
+    },
+    {
+      "case_id": "B32",
+      "phase": "after",
+      "checks": [
+        {
+          "claim": "labor_contract",
+          "path": "finding:F_CT_CHANGE",
+          "calculator": "condition",
+          "depends": [
+            "contract_terms_changed"
+          ],
+          "conditions": {
+            "contract_terms_changed": "被单方变更"
+          },
+          "expected": true,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": true,
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": []
+    },
+    {
+      "case_id": "B33",
+      "phase": "before",
+      "checks": [
+        {
+          "claim": "labor_contract",
+          "path": "finding:F_CT_CHANGE",
+          "calculator": "condition",
+          "depends": [
+            "contract_terms_changed"
+          ],
+          "conditions": {
+            "contract_terms_changed": "被单方变更"
+          },
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": false,
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": []
+    },
+    {
+      "case_id": "B34",
+      "phase": "before",
+      "checks": [
+        {
+          "claim": "labor_procedure",
+          "path": "gap_contains:已裁决的案件需核对",
+          "calculator": "condition",
+          "depends": [
+            "arbitration_filed",
+            "arbitration_result"
+          ],
+          "conditions": {
+            "arbitration_filed": "已申请",
+            "arbitration_result": "已裁决"
+          },
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": false,
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": []
+    },
+    {
+      "case_id": "B35",
+      "phase": "before",
+      "checks": [
+        {
+          "claim": "labor_procedure",
+          "path": "gap_contains:已裁决的案件需核对",
+          "calculator": "condition",
+          "depends": [
+            "arbitration_filed",
+            "arbitration_result"
+          ],
+          "conditions": {
+            "arbitration_filed": "已申请",
+            "arbitration_result": "已裁决"
+          },
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": false,
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": []
+    },
+    {
+      "case_id": "B35",
+      "phase": "after",
+      "checks": [
+        {
+          "claim": "labor_procedure",
+          "path": "gap_contains:已裁决的案件需核对",
+          "calculator": "condition",
+          "depends": [
+            "arbitration_filed",
+            "arbitration_result"
+          ],
+          "conditions": {
+            "arbitration_filed": "已申请",
+            "arbitration_result": "已裁决"
+          },
+          "expected": true,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": true,
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": []
+    },
+    {
+      "case_id": "B36",
+      "phase": "before",
+      "checks": [
+        {
+          "claim": "labor_procedure",
+          "path": "gap_contains:已裁决的案件需核对",
+          "calculator": "condition",
+          "depends": [
+            "arbitration_filed",
+            "arbitration_result"
+          ],
+          "conditions": {
+            "arbitration_filed": "已申请",
+            "arbitration_result": "已裁决"
+          },
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": false,
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": []
+    },
+    {
+      "case_id": "B37",
+      "phase": "before",
+      "checks": [
+        {
+          "claim": "labor_dismissal",
+          "path": "illegal",
+          "calculator": "literal",
+          "depends": [
+            "who_initiated",
+            "stated_reason"
+          ],
+          "value": false,
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior",
+          "actual": false,
+          "present": true,
+          "ok": true
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "compensation.amount",
+          "calculator": "dismissal",
+          "depends": [
+            "start_date",
+            "dismiss_date",
+            "monthly_wage"
+          ],
+          "pay_type": "0",
+          "expected": 0.0,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": 0.0,
+          "present": true,
+          "ok": true
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "limitation.deadline",
+          "calculator": "deadline",
+          "depends": [
+            "dismiss_date"
+          ],
+          "expected": "2027-03-15",
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": "2027-03-15",
+          "present": true,
+          "ok": true
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "limitation.expired",
+          "calculator": "expired",
+          "depends": [
+            "dismiss_date"
+          ],
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": false,
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": []
+    },
+    {
+      "case_id": "B38",
+      "phase": "before",
+      "checks": [
+        {
+          "claim": "labor_dismissal",
+          "path": "illegal",
+          "calculator": "literal",
+          "depends": [
+            "who_initiated",
+            "stated_reason"
+          ],
+          "value": false,
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior",
+          "actual": false,
+          "present": true,
+          "ok": true
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "compensation.amount",
+          "calculator": "dismissal",
+          "depends": [
+            "start_date",
+            "dismiss_date",
+            "monthly_wage"
+          ],
+          "pay_type": "N",
+          "expected": 55000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": 50000.0,
+          "present": true,
+          "ok": false
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "limitation.deadline",
+          "calculator": "deadline",
+          "depends": [
+            "dismiss_date"
+          ],
+          "expected": "2027-03-15",
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": "2027-03-15",
+          "present": true,
+          "ok": true
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "limitation.expired",
+          "calculator": "expired",
+          "depends": [
+            "dismiss_date"
+          ],
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": false,
+          "present": true,
+          "ok": true
+        }
+      ],
+      "disagreements": [
+        {
+          "claim": "labor_dismissal",
+          "path": "compensation.amount",
+          "calculator": "dismissal",
+          "depends": [
+            "start_date",
+            "dismiss_date",
+            "monthly_wage"
+          ],
+          "pay_type": "N",
+          "expected": 55000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula",
+          "actual": 50000.0,
+          "present": true,
+          "ok": false
+        }
+      ]
+    }
+  ]
+}

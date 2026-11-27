@@ -1,0 +1,747 @@
+{
+  "summary": {
+    "UNKNOWN_SOURCE": {
+      "n": 4,
+      "detected": 4,
+      "target_removed": 4,
+      "all_defects_cleared": 0
+    },
+    "VERSION_NOT_IN_FORCE": {
+      "n": 4,
+      "detected": 4,
+      "target_removed": 0,
+      "all_defects_cleared": 0
+    },
+    "QUOTE_MISMATCH": {
+      "n": 4,
+      "detected": 4,
+      "target_removed": 4,
+      "all_defects_cleared": 4
+    },
+    "SUPERSEDED_FACT": {
+      "n": 4,
+      "detected": 4,
+      "target_removed": 0,
+      "all_defects_cleared": 0
+    },
+    "UNVERIFIED_NUMBER": {
+      "n": 4,
+      "detected": 4,
+      "target_removed": 0,
+      "all_defects_cleared": 0
+    }
+  },
+  "clean": [
+    {
+      "case_id": "B01",
+      "defects": []
+    },
+    {
+      "case_id": "B02",
+      "defects": []
+    },
+    {
+      "case_id": "B37",
+      "defects": []
+    },
+    {
+      "case_id": "B38",
+      "defects": []
+    }
+  ],
+  "runs": [
+    {
+      "case_id": "B01",
+      "code": "UNKNOWN_SOURCE",
+      "detected": true,
+      "target_removed": true,
+      "all_defects_cleared": false,
+      "before": {
+        "checked": 7,
+        "supported": 6,
+        "support_rate": 0.8571,
+        "defects": [
+          {
+            "code": "UNKNOWN_SOURCE",
+            "claim_id": "F_LIMITATION",
+            "detail": "引用的法条不在语料库中：labor_contract@2008-01-01:第999条"
+          }
+        ]
+      },
+      "after": {
+        "checked": 7,
+        "supported": 6,
+        "support_rate": 0.8571,
+        "defects": [
+          {
+            "code": "MISSING_SOURCE",
+            "claim_id": "F_LIMITATION",
+            "detail": "结论没有任何法条依据"
+          }
+        ]
+      },
+      "repair_actions": [
+        "dropped-unknown-source:F_LIMITATION"
+      ]
+    },
+    {
+      "case_id": "B01",
+      "code": "VERSION_NOT_IN_FORCE",
+      "detected": true,
+      "target_removed": false,
+      "all_defects_cleared": false,
+      "before": {
+        "checked": 7,
+        "supported": 3,
+        "support_rate": 0.4286,
+        "defects": [
+          {
+            "code": "VERSION_NOT_IN_FORCE",
+            "claim_id": "F_LIMITATION",
+            "detail": "《人身损害赔偿解释（2022）》第12条 在 2019-06-01 未生效（有效期 2022-05-01 ~ 2099-12-31）"
+          },
+          {
+            "code": "VERSION_NOT_IN_FORCE",
+            "claim_id": "F_RULE_PUBLICITY",
+            "detail": "《劳动争议司法解释（一）》第50条 在 2019-06-01 未生效（有效期 2021-01-01 ~ 2099-12-31）"
+          },
+          {
+            "code": "VERSION_NOT_IN_FORCE",
+            "claim_id": "F_MISCONDUCT_PROOF",
+            "detail": "《劳动争议司法解释（一）》第44条 在 2019-06-01 未生效（有效期 2021-01-01 ~ 2099-12-31）"
+          },
+          {
+            "code": "VERSION_NOT_IN_FORCE",
+            "claim_id": "F_UNION",
+            "detail": "《劳动争议司法解释（一）》第47条 在 2019-06-01 未生效（有效期 2021-01-01 ~ 2099-12-31）"
+          }
+        ]
+      },
+      "after": {
+        "checked": 7,
+        "supported": 3,
+        "support_rate": 0.4286,
+        "defects": [
+          {
+            "code": "VERSION_NOT_IN_FORCE",
+            "claim_id": "F_LIMITATION",
+            "detail": "《人身损害赔偿解释（2022）》第12条 在 2019-06-01 未生效（有效期 2022-05-01 ~ 2099-12-31）"
+          },
+          {
+            "code": "VERSION_NOT_IN_FORCE",
+            "claim_id": "F_RULE_PUBLICITY",
+            "detail": "《劳动争议司法解释（一）》第50条 在 2019-06-01 未生效（有效期 2021-01-01 ~ 2099-12-31）"
+          },
+          {
+            "code": "VERSION_NOT_IN_FORCE",
+            "claim_id": "F_MISCONDUCT_PROOF",
+            "detail": "《劳动争议司法解释（一）》第44条 在 2019-06-01 未生效（有效期 2021-01-01 ~ 2099-12-31）"
+          },
+          {
+            "code": "VERSION_NOT_IN_FORCE",
+            "claim_id": "F_UNION",
+            "detail": "《劳动争议司法解释（一）》第47条 在 2019-06-01 未生效（有效期 2021-01-01 ~ 2099-12-31）"
+          }
+        ]
+      },
+      "repair_actions": []
+    },
+    {
+      "case_id": "B01",
+      "code": "QUOTE_MISMATCH",
+      "detected": true,
+      "target_removed": true,
+      "all_defects_cleared": true,
+      "before": {
+        "checked": 7,
+        "supported": 6,
+        "support_rate": 0.8571,
+        "defects": [
+          {
+            "code": "QUOTE_MISMATCH",
+            "claim_id": "F_LIMITATION",
+            "detail": "引文未在 《劳动争议调解仲裁法》第27条 原文中找到：这是一段原文中不存在的引文"
+          }
+        ]
+      },
+      "after": {
+        "checked": 7,
+        "supported": 7,
+        "support_rate": 1.0,
+        "defects": []
+      },
+      "repair_actions": [
+        "dropped-quote:F_LIMITATION"
+      ]
+    },
+    {
+      "case_id": "B01",
+      "code": "SUPERSEDED_FACT",
+      "detected": true,
+      "target_removed": false,
+      "all_defects_cleared": false,
+      "before": {
+        "checked": 7,
+        "supported": 6,
+        "support_rate": 0.8571,
+        "defects": [
+          {
+            "code": "SUPERSEDED_FACT",
+            "claim_id": "F_COMPENSATION",
+            "detail": "结论所依据的 monthly_wage 在分析之后被更正（v21 → v22），需重新计算"
+          }
+        ]
+      },
+      "after": {
+        "checked": 7,
+        "supported": 6,
+        "support_rate": 0.8571,
+        "defects": [
+          {
+            "code": "SUPERSEDED_FACT",
+            "claim_id": "F_COMPENSATION",
+            "detail": "结论所依据的 monthly_wage 在分析之后被更正（v21 → v22），需重新计算"
+          }
+        ]
+      },
+      "repair_actions": []
+    },
+    {
+      "case_id": "B01",
+      "code": "UNVERIFIED_NUMBER",
+      "detected": true,
+      "target_removed": false,
+      "all_defects_cleared": false,
+      "before": {
+        "checked": 7,
+        "supported": 6,
+        "support_rate": 0.8571,
+        "defects": [
+          {
+            "code": "UNVERIFIED_NUMBER",
+            "claim_id": "F_COMPENSATION",
+            "detail": "结论中的金额与计算结果 110000 不一致"
+          }
+        ]
+      },
+      "after": {
+        "checked": 7,
+        "supported": 6,
+        "support_rate": 0.8571,
+        "defects": [
+          {
+            "code": "UNVERIFIED_NUMBER",
+            "claim_id": "F_COMPENSATION",
+            "detail": "结论中的金额与计算结果 110000 不一致"
+          }
+        ]
+      },
+      "repair_actions": []
+    },
+    {
+      "case_id": "B02",
+      "code": "UNKNOWN_SOURCE",
+      "detected": true,
+      "target_removed": true,
+      "all_defects_cleared": false,
+      "before": {
+        "checked": 7,
+        "supported": 6,
+        "support_rate": 0.8571,
+        "defects": [
+          {
+            "code": "UNKNOWN_SOURCE",
+            "claim_id": "F_LIMITATION",
+            "detail": "引用的法条不在语料库中：labor_contract@2008-01-01:第999条"
+          }
+        ]
+      },
+      "after": {
+        "checked": 7,
+        "supported": 6,
+        "support_rate": 0.8571,
+        "defects": [
+          {
+            "code": "MISSING_SOURCE",
+            "claim_id": "F_LIMITATION",
+            "detail": "结论没有任何法条依据"
+          }
+        ]
+      },
+      "repair_actions": [
+        "dropped-unknown-source:F_LIMITATION"
+      ]
+    },
+    {
+      "case_id": "B02",
+      "code": "VERSION_NOT_IN_FORCE",
+      "detected": true,
+      "target_removed": false,
+      "all_defects_cleared": false,
+      "before": {
+        "checked": 7,
+        "supported": 3,
+        "support_rate": 0.4286,
+        "defects": [
+          {
+            "code": "VERSION_NOT_IN_FORCE",
+            "claim_id": "F_LIMITATION",
+            "detail": "《人身损害赔偿解释（2022）》第12条 在 2019-06-01 未生效（有效期 2022-05-01 ~ 2099-12-31）"
+          },
+          {
+            "code": "VERSION_NOT_IN_FORCE",
+            "claim_id": "F_RULE_PUBLICITY",
+            "detail": "《劳动争议司法解释（一）》第50条 在 2019-06-01 未生效（有效期 2021-01-01 ~ 2099-12-31）"
+          },
+          {
+            "code": "VERSION_NOT_IN_FORCE",
+            "claim_id": "F_MISCONDUCT_PROOF",
+            "detail": "《劳动争议司法解释（一）》第44条 在 2019-06-01 未生效（有效期 2021-01-01 ~ 2099-12-31）"
+          },
+          {
+            "code": "VERSION_NOT_IN_FORCE",
+            "claim_id": "F_UNION",
+            "detail": "《劳动争议司法解释（一）》第47条 在 2019-06-01 未生效（有效期 2021-01-01 ~ 2099-12-31）"
+          }
+        ]
+      },
+      "after": {
+        "checked": 7,
+        "supported": 3,
+        "support_rate": 0.4286,
+        "defects": [
+          {
+            "code": "VERSION_NOT_IN_FORCE",
+            "claim_id": "F_LIMITATION",
+            "detail": "《人身损害赔偿解释（2022）》第12条 在 2019-06-01 未生效（有效期 2022-05-01 ~ 2099-12-31）"
+          },
+          {
+            "code": "VERSION_NOT_IN_FORCE",
+            "claim_id": "F_RULE_PUBLICITY",
+            "detail": "《劳动争议司法解释（一）》第50条 在 2019-06-01 未生效（有效期 2021-01-01 ~ 2099-12-31）"
+          },
+          {
+            "code": "VERSION_NOT_IN_FORCE",
+            "claim_id": "F_MISCONDUCT_PROOF",
+            "detail": "《劳动争议司法解释（一）》第44条 在 2019-06-01 未生效（有效期 2021-01-01 ~ 2099-12-31）"
+          },
+          {
+            "code": "VERSION_NOT_IN_FORCE",
+            "claim_id": "F_UNION",
+            "detail": "《劳动争议司法解释（一）》第47条 在 2019-06-01 未生效（有效期 2021-01-01 ~ 2099-12-31）"
+          }
+        ]
+      },
+      "repair_actions": []
+    },
+    {
+      "case_id": "B02",
+      "code": "QUOTE_MISMATCH",
+      "detected": true,
+      "target_removed": true,
+      "all_defects_cleared": true,
+      "before": {
+        "checked": 7,
+        "supported": 6,
+        "support_rate": 0.8571,
+        "defects": [
+          {
+            "code": "QUOTE_MISMATCH",
+            "claim_id": "F_LIMITATION",
+            "detail": "引文未在 《劳动争议调解仲裁法》第27条 原文中找到：这是一段原文中不存在的引文"
+          }
+        ]
+      },
+      "after": {
+        "checked": 7,
+        "supported": 7,
+        "support_rate": 1.0,
+        "defects": []
+      },
+      "repair_actions": [
+        "dropped-quote:F_LIMITATION"
+      ]
+    },
+    {
+      "case_id": "B02",
+      "code": "SUPERSEDED_FACT",
+      "detected": true,
+      "target_removed": false,
+      "all_defects_cleared": false,
+      "before": {
+        "checked": 7,
+        "supported": 6,
+        "support_rate": 0.8571,
+        "defects": [
+          {
+            "code": "SUPERSEDED_FACT",
+            "claim_id": "F_COMPENSATION",
+            "detail": "结论所依据的 monthly_wage 在分析之后被更正（v21 → v22），需重新计算"
+          }
+        ]
+      },
+      "after": {
+        "checked": 7,
+        "supported": 6,
+        "support_rate": 0.8571,
+        "defects": [
+          {
+            "code": "SUPERSEDED_FACT",
+            "claim_id": "F_COMPENSATION",
+            "detail": "结论所依据的 monthly_wage 在分析之后被更正（v21 → v22），需重新计算"
+          }
+        ]
+      },
+      "repair_actions": []
+    },
+    {
+      "case_id": "B02",
+      "code": "UNVERIFIED_NUMBER",
+      "detected": true,
+      "target_removed": false,
+      "all_defects_cleared": false,
+      "before": {
+        "checked": 7,
+        "supported": 6,
+        "support_rate": 0.8571,
+        "defects": [
+          {
+            "code": "UNVERIFIED_NUMBER",
+            "claim_id": "F_COMPENSATION",
+            "detail": "结论中的金额与计算结果 144000 不一致"
+          }
+        ]
+      },
+      "after": {
+        "checked": 7,
+        "supported": 6,
+        "support_rate": 0.8571,
+        "defects": [
+          {
+            "code": "UNVERIFIED_NUMBER",
+            "claim_id": "F_COMPENSATION",
+            "detail": "结论中的金额与计算结果 144000 不一致"
+          }
+        ]
+      },
+      "repair_actions": []
+    },
+    {
+      "case_id": "B37",
+      "code": "UNKNOWN_SOURCE",
+      "detected": true,
+      "target_removed": true,
+      "all_defects_cleared": false,
+      "before": {
+        "checked": 4,
+        "supported": 3,
+        "support_rate": 0.75,
+        "defects": [
+          {
+            "code": "UNKNOWN_SOURCE",
+            "claim_id": "F_LIMITATION",
+            "detail": "引用的法条不在语料库中：labor_contract@2008-01-01:第999条"
+          }
+        ]
+      },
+      "after": {
+        "checked": 4,
+        "supported": 3,
+        "support_rate": 0.75,
+        "defects": [
+          {
+            "code": "MISSING_SOURCE",
+            "claim_id": "F_LIMITATION",
+            "detail": "结论没有任何法条依据"
+          }
+        ]
+      },
+      "repair_actions": [
+        "dropped-unknown-source:F_LIMITATION"
+      ]
+    },
+    {
+      "case_id": "B37",
+      "code": "VERSION_NOT_IN_FORCE",
+      "detected": true,
+      "target_removed": false,
+      "all_defects_cleared": false,
+      "before": {
+        "checked": 4,
+        "supported": 3,
+        "support_rate": 0.75,
+        "defects": [
+          {
+            "code": "VERSION_NOT_IN_FORCE",
+            "claim_id": "F_LIMITATION",
+            "detail": "《人身损害赔偿解释（2022）》第12条 在 2019-06-01 未生效（有效期 2022-05-01 ~ 2099-12-31）"
+          }
+        ]
+      },
+      "after": {
+        "checked": 4,
+        "supported": 3,
+        "support_rate": 0.75,
+        "defects": [
+          {
+            "code": "VERSION_NOT_IN_FORCE",
+            "claim_id": "F_LIMITATION",
+            "detail": "《人身损害赔偿解释（2022）》第12条 在 2019-06-01 未生效（有效期 2022-05-01 ~ 2099-12-31）"
+          }
+        ]
+      },
+      "repair_actions": []
+    },
+    {
+      "case_id": "B37",
+      "code": "QUOTE_MISMATCH",
+      "detected": true,
+      "target_removed": true,
+      "all_defects_cleared": true,
+      "before": {
+        "checked": 4,
+        "supported": 3,
+        "support_rate": 0.75,
+        "defects": [
+          {
+            "code": "QUOTE_MISMATCH",
+            "claim_id": "F_LIMITATION",
+            "detail": "引文未在 《劳动争议调解仲裁法》第27条 原文中找到：这是一段原文中不存在的引文"
+          }
+        ]
+      },
+      "after": {
+        "checked": 4,
+        "supported": 4,
+        "support_rate": 1.0,
+        "defects": []
+      },
+      "repair_actions": [
+        "dropped-quote:F_LIMITATION"
+      ]
+    },
+    {
+      "case_id": "B37",
+      "code": "SUPERSEDED_FACT",
+      "detected": true,
+      "target_removed": false,
+      "all_defects_cleared": false,
+      "before": {
+        "checked": 4,
+        "supported": 3,
+        "support_rate": 0.75,
+        "defects": [
+          {
+            "code": "SUPERSEDED_FACT",
+            "claim_id": "F_COMPENSATION",
+            "detail": "结论所依据的 monthly_wage 在分析之后被更正（v21 → v22），需重新计算"
+          }
+        ]
+      },
+      "after": {
+        "checked": 4,
+        "supported": 3,
+        "support_rate": 0.75,
+        "defects": [
+          {
+            "code": "SUPERSEDED_FACT",
+            "claim_id": "F_COMPENSATION",
+            "detail": "结论所依据的 monthly_wage 在分析之后被更正（v21 → v22），需重新计算"
+          }
+        ]
+      },
+      "repair_actions": []
+    },
+    {
+      "case_id": "B37",
+      "code": "UNVERIFIED_NUMBER",
+      "detected": true,
+      "target_removed": false,
+      "all_defects_cleared": false,
+      "before": {
+        "checked": 4,
+        "supported": 3,
+        "support_rate": 0.75,
+        "defects": [
+          {
+            "code": "UNVERIFIED_NUMBER",
+            "claim_id": "F_COMPENSATION",
+            "detail": "结论中的金额与计算结果 0 不一致"
+          }
+        ]
+      },
+      "after": {
+        "checked": 4,
+        "supported": 3,
+        "support_rate": 0.75,
+        "defects": [
+          {
+            "code": "UNVERIFIED_NUMBER",
+            "claim_id": "F_COMPENSATION",
+            "detail": "结论中的金额与计算结果 0 不一致"
+          }
+        ]
+      },
+      "repair_actions": []
+    },
+    {
+      "case_id": "B38",
+      "code": "UNKNOWN_SOURCE",
+      "detected": true,
+      "target_removed": true,
+      "all_defects_cleared": false,
+      "before": {
+        "checked": 3,
+        "supported": 2,
+        "support_rate": 0.6667,
+        "defects": [
+          {
+            "code": "UNKNOWN_SOURCE",
+            "claim_id": "F_LIMITATION",
+            "detail": "引用的法条不在语料库中：labor_contract@2008-01-01:第999条"
+          }
+        ]
+      },
+      "after": {
+        "checked": 3,
+        "supported": 2,
+        "support_rate": 0.6667,
+        "defects": [
+          {
+            "code": "MISSING_SOURCE",
+            "claim_id": "F_LIMITATION",
+            "detail": "结论没有任何法条依据"
+          }
+        ]
+      },
+      "repair_actions": [
+        "dropped-unknown-source:F_LIMITATION"
+      ]
+    },
+    {
+      "case_id": "B38",
+      "code": "VERSION_NOT_IN_FORCE",
+      "detected": true,
+      "target_removed": false,
+      "all_defects_cleared": false,
+      "before": {
+        "checked": 3,
+        "supported": 2,
+        "support_rate": 0.6667,
+        "defects": [
+          {
+            "code": "VERSION_NOT_IN_FORCE",
+            "claim_id": "F_LIMITATION",
+            "detail": "《人身损害赔偿解释（2022）》第12条 在 2019-06-01 未生效（有效期 2022-05-01 ~ 2099-12-31）"
+          }
+        ]
+      },
+      "after": {
+        "checked": 3,
+        "supported": 2,
+        "support_rate": 0.6667,
+        "defects": [
+          {
+            "code": "VERSION_NOT_IN_FORCE",
+            "claim_id": "F_LIMITATION",
+            "detail": "《人身损害赔偿解释（2022）》第12条 在 2019-06-01 未生效（有效期 2022-05-01 ~ 2099-12-31）"
+          }
+        ]
+      },
+      "repair_actions": []
+    },
+    {
+      "case_id": "B38",
+      "code": "QUOTE_MISMATCH",
+      "detected": true,
+      "target_removed": true,
+      "all_defects_cleared": true,
+      "before": {
+        "checked": 3,
+        "supported": 2,
+        "support_rate": 0.6667,
+        "defects": [
+          {
+            "code": "QUOTE_MISMATCH",
+            "claim_id": "F_LIMITATION",
+            "detail": "引文未在 《劳动争议调解仲裁法》第27条 原文中找到：这是一段原文中不存在的引文"
+          }
+        ]
+      },
+      "after": {
+        "checked": 3,
+        "supported": 3,
+        "support_rate": 1.0,
+        "defects": []
+      },
+      "repair_actions": [
+        "dropped-quote:F_LIMITATION"
+      ]
+    },
+    {
+      "case_id": "B38",
+      "code": "SUPERSEDED_FACT",
+      "detected": true,
+      "target_removed": false,
+      "all_defects_cleared": false,
+      "before": {
+        "checked": 3,
+        "supported": 2,
+        "support_rate": 0.6667,
+        "defects": [
+          {
+            "code": "SUPERSEDED_FACT",
+            "claim_id": "F_COMPENSATION",
+            "detail": "结论所依据的 monthly_wage 在分析之后被更正（v21 → v22），需重新计算"
+          }
+        ]
+      },
+      "after": {
+        "checked": 3,
+        "supported": 2,
+        "support_rate": 0.6667,
+        "defects": [
+          {
+            "code": "SUPERSEDED_FACT",
+            "claim_id": "F_COMPENSATION",
+            "detail": "结论所依据的 monthly_wage 在分析之后被更正（v21 → v22），需重新计算"
+          }
+        ]
+      },
+      "repair_actions": []
+    },
+    {
+      "case_id": "B38",
+      "code": "UNVERIFIED_NUMBER",
+      "detected": true,
+      "target_removed": false,
+      "all_defects_cleared": false,
+      "before": {
+        "checked": 3,
+        "supported": 2,
+        "support_rate": 0.6667,
+        "defects": [
+          {
+            "code": "UNVERIFIED_NUMBER",
+            "claim_id": "F_COMPENSATION",
+            "detail": "结论中的金额与计算结果 55000 不一致"
+          }
+        ]
+      },
+      "after": {
+        "checked": 3,
+        "supported": 2,
+        "support_rate": 0.6667,
+        "defects": [
+          {
+            "code": "UNVERIFIED_NUMBER",
+            "claim_id": "F_COMPENSATION",
+            "detail": "结论中的金额与计算结果 55000 不一致"
+          }
+        ]
+      },
+      "repair_actions": []
+    }
+  ],
+  "note": "移除错误引用后若变成无引用，不能算修复成功；本实验只检查机械缺陷。"
+}

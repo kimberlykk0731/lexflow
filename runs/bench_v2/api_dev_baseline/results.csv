@@ -1,0 +1,13 @@
+﻿case_id,condition,variant,status,primary_claim,completed,claim_f1,correct_coverage,extraction_f1,inquiry_recall,outcome_agreement,formula_agreement,behavior_agreement,outcome_all_correct,citation_mechanical_support,premature_unqualified_memo_proxy,unknown_handling_proxy,correction_protocol_complete,revision_success,unaffected_preserved,questions,repeat_rate,fallback_extraction_rate,elapsed_ms,turns,failures,trajectory_file
+B01,full,0,answered,labor_dismissal,True,1.0,0.9230769230769231,0.9600000000000001,0.9090909090909091,1.0,1.0,1.0,True,1.0,False,,,,,10,0.0,0.0,20864.16,6,missing_or_wrong_critical_facts,trajectories/B01_full_v0.json
+B04,full,0,answered,labor_wage,True,1.0,0.8333333333333334,1.0,0.8333333333333334,1.0,,1.0,True,0.5,False,,,,,5,0.0,0.0,11796.18,4,missing_or_wrong_critical_facts,trajectories/B04_full_v0.json
+B07,full,0,answered,labor_overtime,True,1.0,0.9,0.9,1.0,1.0,1.0,,True,1.0,False,,,,,9,0.0,0.0,16907.17,6,missing_or_wrong_critical_facts,trajectories/B07_full_v0.json
+B10,full,0,answered,labor_double_pay,True,1.0,1.0,1.0,1.0,1.0,1.0,,True,1.0,False,,,,,4,0.0,0.0,7737.22,3,,trajectories/B10_full_v0.json
+B13,full,0,answered,labor_work_injury,True,1.0,1.0,1.0,1.0,1.0,1.0,,True,1.0,False,,,,,8,0.0,0.0,18117.09,5,,trajectories/B13_full_v0.json
+B16,full,0,answered,labor_social_insurance,True,1.0,1.0,1.0,1.0,1.0,,1.0,True,1.0,False,,,,,3,0.0,0.0,9630.46,3,,trajectories/B16_full_v0.json
+B19,full,0,answered,labor_annual_leave,True,1.0,1.0,1.0,1.0,1.0,1.0,,True,1.0,False,,,,,6,0.0,0.0,10429.99,4,,trajectories/B19_full_v0.json
+B22,full,0,answered,labor_noncompete,True,1.0,0.875,1.0,0.8333333333333334,1.0,1.0,,True,1.0,False,,,,,5,0.0,0.0,9602.9,4,missing_or_wrong_critical_facts,trajectories/B22_full_v0.json
+B25,full,0,clarify,labor_maternity,False,0.0,0.0,0.0,0.0,0.0,,0.0,False,,False,,,,,0,,,2567.58,1,route_clarify;initial_claim_mismatch;missing_or_wrong_critical_facts;reference_disagreement,trajectories/B25_full_v0.json
+B28,full,0,answered,labor_dispatch,True,1.0,1.0,1.0,1.0,1.0,,1.0,True,1.0,False,,,,,6,0.0,0.0,10665.81,4,,trajectories/B28_full_v0.json
+B31,full,0,answered,labor_contract,True,1.0,0.8,1.0,0.8,1.0,,1.0,True,1.0,False,,,,,8,0.0,0.0,13554.31,5,missing_or_wrong_critical_facts,trajectories/B31_full_v0.json
+B34,full,0,answered,labor_procedure,True,1.0,1.0,1.0,1.0,1.0,,1.0,True,0.8,False,,,,,14,0.21428571428571427,0.0,26678.76,8,,trajectories/B34_full_v0.json

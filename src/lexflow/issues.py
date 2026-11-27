@@ -67,10 +67,20 @@ class IssueTree:
     def __init__(self, schema: ElementSchema):
         self.schema = schema
 
+    def _elements(self, claim: str) -> list[dict]:
+        elements = self.schema.elements(claim)
+        listed = {key for el in elements for key in el.get("facts", [])}
+        missing = [f.key for f in self.schema.fields(claim)
+                   if f.key not in listed and (f.critical or f.critical_if)]
+        if missing:
+            elements = elements + [{"id": "additional_facts", "label": "补充事实",
+                                    "facts": missing, "essential": True}]
+        return elements
+
     # ------------------------------------------------------------ traversal
     def active_elements(self, claim: str, facts: dict) -> list[tuple[dict, bool | None]]:
         out = []
-        for el in self.schema.elements(claim):
+        for el in self._elements(claim):
             status = _cond_status(facts, el.get("requires"))
             if status is False:
                 out.append((el, False))
@@ -114,7 +124,7 @@ class IssueTree:
         out = []
         for claim in claims:
             elements = [self.element_state(claim, el, facts)
-                        for el in self.schema.elements(claim)]
+                        for el in self._elements(claim)]
             out.append({
                 "claim": claim,
                 "label": self.schema.label(claim),
@@ -139,7 +149,7 @@ class IssueTree:
         seen: dict[str, Question] = {}
         for claim in claims:
             for el, active in self.active_elements(claim, facts):
-                if active is False or not el.get("essential", True):
+                if active is False:
                     continue
                 for key in el.get("facts", []):
                     f = self.schema.field(claim, key)

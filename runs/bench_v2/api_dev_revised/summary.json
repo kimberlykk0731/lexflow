@@ -1,0 +1,166 @@
+{
+  "config": {
+    "llm_mode": "api",
+    "model": "deepseek-flash",
+    "api_host": "api.deepseek.com",
+    "today": "2026-11-27",
+    "dataset_sha256": "85a0af410c697b54cfe09c4f97f59da4cac436b1312c2dd1560b33e2f9263296",
+    "corpus_version": "945c2b0291e4d6bc",
+    "split": "dev",
+    "repeats": 1,
+    "conditions": [
+      "full"
+    ],
+    "max_turns_per_phase": 12,
+    "max_questions_total": 14,
+    "bootstrap_seed": 20261127,
+    "bootstrap_samples": 2000,
+    "human_reviewed": 0,
+    "workers": 4,
+    "llm_parameters": {
+      "temperature": 0.0,
+      "max_tokens": 1600,
+      "thinking": "disabled",
+      "timeout": 60.0
+    },
+    "source_tree_sha256": "2fa0136385ec3dd55cd8923d494a9891f11a40cd32153cdd9205d7e0880d0252",
+    "source_commit": "unavailable"
+  },
+  "aggregate": {
+    "full": {
+      "sessions": 12,
+      "cases": 12,
+      "metrics": {
+        "completed": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 12
+        },
+        "claim_f1": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 12
+        },
+        "correct_coverage": {
+          "mean": 0.9935897435897436,
+          "lo": 0.9807692307692308,
+          "hi": 1.0,
+          "n_cases": 12
+        },
+        "extraction_f1": {
+          "mean": 0.9966666666666667,
+          "lo": 0.99,
+          "hi": 1.0,
+          "n_cases": 12
+        },
+        "inquiry_recall": {
+          "mean": 0.9924242424242424,
+          "lo": 0.9772727272727273,
+          "hi": 1.0,
+          "n_cases": 12
+        },
+        "outcome_agreement": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 12
+        },
+        "formula_agreement": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 6
+        },
+        "behavior_agreement": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 7
+        },
+        "outcome_all_correct": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 12
+        },
+        "citation_mechanical_support": {
+          "mean": 0.9791666666666666,
+          "lo": 0.9375,
+          "hi": 1.0,
+          "n_cases": 12
+        },
+        "premature_unqualified_memo_proxy": {
+          "mean": 0.08333333333333333,
+          "lo": 0.0,
+          "hi": 0.25,
+          "n_cases": 12
+        },
+        "unknown_handling_proxy": {
+          "mean": null,
+          "lo": null,
+          "hi": null,
+          "n_cases": 0
+        },
+        "correction_protocol_complete": {
+          "mean": null,
+          "lo": null,
+          "hi": null,
+          "n_cases": 0
+        },
+        "revision_success": {
+          "mean": null,
+          "lo": null,
+          "hi": null,
+          "n_cases": 0
+        },
+        "unaffected_preserved": {
+          "mean": null,
+          "lo": null,
+          "hi": null,
+          "n_cases": 0
+        },
+        "questions": {
+          "mean": 6.583333333333333,
+          "lo": 5.416666666666667,
+          "hi": 7.833333333333333,
+          "n_cases": 12
+        },
+        "repeat_rate": {
+          "mean": 0.0,
+          "lo": 0.0,
+          "hi": 0.0,
+          "n_cases": 12
+        },
+        "fallback_extraction_rate": {
+          "mean": 0.0,
+          "lo": 0.0,
+          "hi": 0.0,
+          "n_cases": 12
+        },
+        "elapsed_ms": {
+          "mean": 7666.830833333333,
+          "lo": 6573.485833333333,
+          "hi": 8841.366666666667,
+          "n_cases": 12
+        },
+        "turns": {
+          "mean": 4.416666666666667,
+          "lo": 3.8333333333333335,
+          "hi": 5.083333333333333,
+          "n_cases": 12
+        }
+      },
+      "usage": {
+        "logical_calls": 144,
+        "successful_calls": 144,
+        "failed_calls": 0,
+        "http_attempts": 144,
+        "prompt_tokens": 63063,
+        "completion_tokens": 4409
+      }
+    }
+  },
+  "paired": {}
+}

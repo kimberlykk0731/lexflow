@@ -1,0 +1,27 @@
+{
+  "llm_mode": "api",
+  "model": "deepseek-flash",
+  "api_host": "api.deepseek.com",
+  "today": "2026-11-27",
+  "dataset_sha256": "85a0af410c697b54cfe09c4f97f59da4cac436b1312c2dd1560b33e2f9263296",
+  "corpus_version": "945c2b0291e4d6bc",
+  "split": "dev",
+  "repeats": 1,
+  "conditions": [
+    "full"
+  ],
+  "max_turns_per_phase": 12,
+  "max_questions_total": 14,
+  "bootstrap_seed": 20261127,
+  "bootstrap_samples": 2000,
+  "human_reviewed": 0,
+  "workers": 4,
+  "llm_parameters": {
+    "temperature": 0.0,
+    "max_tokens": 1600,
+    "thinking": "disabled",
+    "timeout": 60.0
+  },
+  "source_tree_sha256": "2fa0136385ec3dd55cd8923d494a9891f11a40cd32153cdd9205d7e0880d0252",
+  "source_commit": "unavailable"
+}

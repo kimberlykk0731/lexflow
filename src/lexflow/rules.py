@@ -168,7 +168,7 @@ def work_years(start: str, end: str) -> dict:
     if e.day < anniversary.day:
         months -= 1
     months = max(months, 0)
-    if months == 0:
+    if e == anniversary:
         n = float(years)
         rule = "每满一年支付一个月工资"
     elif months < 6:
@@ -790,7 +790,7 @@ def assess_overtime(facts: dict, today: str | None = None, revision: int = 0) ->
     assumptions: list[str] = []
     exists = facts.get("overtime_exists")
     if exists == "没有":
-        return Analysis(case_type="labor_overtime", as_of="", findings=[Finding(
+        return Analysis(case_type="labor_overtime", as_of="", headline="当事人表示没有加班，暂不产生加班费请求。", findings=[Finding(
             id="F_OT_NONE", issue="加班事实", conclusion="当事人表示没有加班，暂不产生加班费请求。",
             reasoning="没有加班事实，无需进入加班费计算。", cites=[], risk="低")],
             gaps=[], assumptions=[], metadata={"state_revision": revision})
@@ -860,7 +860,7 @@ def assess_double_pay(facts: dict, today: str | None = None, revision: int = 0) 
     gaps: list[str] = []
     signed = facts.get("contract_signed")
     if signed in ("已签书面合同", "签了但没给我"):
-        return Analysis(case_type="labor_double_pay", as_of="", findings=[Finding(
+        return Analysis(case_type="labor_double_pay", as_of="", headline="已签订书面劳动合同，需区分未订立与未交付文本。", findings=[Finding(
             id="F_DP_NONE", issue="书面合同",
             conclusion="已签订书面劳动合同，原则上不支持未签合同二倍工资；"
                        "但未将文本交付劳动者的，可另行主张。",
@@ -916,7 +916,7 @@ def assess_work_injury(facts: dict, today: str | None = None, revision: int = 0)
     assumptions: list[str] = []
     at_work = facts.get("injury_at_work")
     if at_work == "不属于工伤":
-        return Analysis(case_type="labor_work_injury", as_of="", findings=[Finding(
+        return Analysis(case_type="labor_work_injury", as_of="", headline="目前描述不属于工伤，认定及救济路径需另行核实。", findings=[Finding(
             id="F_WI_NONE", issue="工伤认定",
             conclusion="目前事实更像不属于工伤；若对认定不服，可在法定期限内申请行政复议或诉讼。",
             reasoning="工伤认定以工作原因、工作场所、工作时间为核心。", cites=[], risk="中")],
@@ -1079,7 +1079,7 @@ def assess_noncompete(facts: dict, today: str | None = None,
     gaps: list[str] = []
     signed = facts.get("noncompete_signed")
     if signed == "没有签":
-        return Analysis(case_type="labor_noncompete", as_of="", findings=[Finding(
+        return Analysis(case_type="labor_noncompete", as_of="", headline="没有签订竞业限制协议，原则上不受竞业限制约束。", findings=[Finding(
             id="F_NC_NONE", issue="竞业限制协议",
             conclusion="没有签订竞业限制协议，原则上不受竞业限制约束。",
             reasoning="竞业限制以书面约定为前提。", cites=[], risk="低")],
@@ -1097,8 +1097,11 @@ def assess_noncompete(facts: dict, today: str | None = None,
     wage = facts.get("monthly_wage")
     agreed = facts.get("noncompete_compensation")
     calc = None
-    if isinstance(months, (int, float)) and months > 0 and isinstance(wage, (int, float)) and wage > 0:
-        calc = calculate_noncompete(wage, months, agreed if isinstance(agreed, (int, float)) else None)
+    if (isinstance(months, (int, float)) and months > 0
+            and ((isinstance(wage, (int, float)) and wage > 0)
+                 or (isinstance(agreed, (int, float)) and agreed > 0))):
+        calc = calculate_noncompete(wage if isinstance(wage, (int, float)) else 0, months,
+                                    agreed if isinstance(agreed, (int, float)) else None)
         findings.append(Finding(
             id="F_NC_COMP", issue="竞业限制补偿",
             conclusion=f"按目前约定/法定标准估算，补偿约为 {calc['monthly']:,.0f} 元/月，"

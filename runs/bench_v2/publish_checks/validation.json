@@ -1,0 +1,369 @@
+{
+  "ok": true,
+  "errors": [],
+  "n_cases": 38,
+  "splits": {
+    "dev": 12,
+    "test": 26
+  },
+  "primary_claims": {
+    "labor_dismissal": 5,
+    "labor_wage": 3,
+    "labor_overtime": 3,
+    "labor_double_pay": 3,
+    "labor_work_injury": 3,
+    "labor_social_insurance": 3,
+    "labor_annual_leave": 3,
+    "labor_noncompete": 3,
+    "labor_maternity": 3,
+    "labor_dispatch": 3,
+    "labor_contract": 3,
+    "labor_procedure": 3
+  },
+  "tags": {
+    "ordinary": 24,
+    "correction": 12,
+    "challenge": 14,
+    "multi_claim": 8,
+    "unavailable_fact": 6,
+    "branch_boundary": 2
+  },
+  "conditional_fields": 25,
+  "both_sides_covered": 25,
+  "branch_details": [
+    {
+      "claim": "labor_dismissal",
+      "field": "rule_publicized",
+      "true_cases": [
+        "B01",
+        "B02"
+      ],
+      "false_cases": [
+        "B03",
+        "B37",
+        "B38"
+      ],
+      "both_sides": true
+    },
+    {
+      "claim": "labor_dismissal",
+      "field": "rule_exists",
+      "true_cases": [
+        "B01",
+        "B02"
+      ],
+      "false_cases": [
+        "B03",
+        "B37",
+        "B38"
+      ],
+      "both_sides": true
+    },
+    {
+      "claim": "labor_dismissal",
+      "field": "misconduct_proof",
+      "true_cases": [
+        "B01",
+        "B02"
+      ],
+      "false_cases": [
+        "B03",
+        "B37",
+        "B38"
+      ],
+      "both_sides": true
+    },
+    {
+      "claim": "labor_dismissal",
+      "field": "rule_democratic",
+      "true_cases": [
+        "B01",
+        "B02"
+      ],
+      "false_cases": [
+        "B03",
+        "B37",
+        "B38"
+      ],
+      "both_sides": true
+    },
+    {
+      "claim": "labor_dismissal",
+      "field": "training_or_transfer",
+      "true_cases": [
+        "B03"
+      ],
+      "false_cases": [
+        "B01",
+        "B02",
+        "B37",
+        "B38"
+      ],
+      "both_sides": true
+    },
+    {
+      "claim": "labor_dismissal",
+      "field": "notice_30d",
+      "true_cases": [
+        "B03"
+      ],
+      "false_cases": [
+        "B01",
+        "B02",
+        "B37",
+        "B38"
+      ],
+      "both_sides": true
+    },
+    {
+      "claim": "labor_dismissal",
+      "field": "union_notified",
+      "true_cases": [
+        "B01",
+        "B02",
+        "B03",
+        "B38"
+      ],
+      "false_cases": [
+        "B37"
+      ],
+      "both_sides": true
+    },
+    {
+      "claim": "labor_dismissal",
+      "field": "forced_resignation_reason",
+      "true_cases": [
+        "B37"
+      ],
+      "false_cases": [
+        "B01",
+        "B02",
+        "B03",
+        "B38"
+      ],
+      "both_sides": true
+    },
+    {
+      "claim": "labor_dismissal",
+      "field": "contract_expired",
+      "true_cases": [
+        "B38"
+      ],
+      "false_cases": [
+        "B01",
+        "B02",
+        "B03",
+        "B37"
+      ],
+      "both_sides": true
+    },
+    {
+      "claim": "labor_overtime",
+      "field": "overtime_hours_weekday",
+      "true_cases": [
+        "B06",
+        "B07",
+        "B08"
+      ],
+      "false_cases": [
+        "B09"
+      ],
+      "both_sides": true
+    },
+    {
+      "claim": "labor_overtime",
+      "field": "overtime_hours_rest",
+      "true_cases": [
+        "B06",
+        "B07",
+        "B08"
+      ],
+      "false_cases": [
+        "B09"
+      ],
+      "both_sides": true
+    },
+    {
+      "claim": "labor_overtime",
+      "field": "overtime_hours_holiday",
+      "true_cases": [
+        "B06",
+        "B07",
+        "B08"
+      ],
+      "false_cases": [
+        "B09"
+      ],
+      "both_sides": true
+    },
+    {
+      "claim": "labor_overtime",
+      "field": "overtime_evidence",
+      "true_cases": [
+        "B06",
+        "B07",
+        "B08"
+      ],
+      "false_cases": [
+        "B09"
+      ],
+      "both_sides": true
+    },
+    {
+      "claim": "labor_overtime",
+      "field": "overtime_paid",
+      "true_cases": [
+        "B06",
+        "B07",
+        "B08"
+      ],
+      "false_cases": [
+        "B09"
+      ],
+      "both_sides": true
+    },
+    {
+      "claim": "labor_double_pay",
+      "field": "no_contract_months",
+      "true_cases": [
+        "B09",
+        "B10",
+        "B11"
+      ],
+      "false_cases": [
+        "B12"
+      ],
+      "both_sides": true
+    },
+    {
+      "claim": "labor_double_pay",
+      "field": "demand_contract",
+      "true_cases": [
+        "B09",
+        "B10",
+        "B11"
+      ],
+      "false_cases": [
+        "B12"
+      ],
+      "both_sides": true
+    },
+    {
+      "claim": "labor_social_insurance",
+      "field": "social_insurance_gap",
+      "true_cases": [
+        "B15",
+        "B16",
+        "B17"
+      ],
+      "false_cases": [
+        "B18"
+      ],
+      "both_sides": true
+    },
+    {
+      "claim": "labor_noncompete",
+      "field": "noncompete_months",
+      "true_cases": [
+        "B21",
+        "B22",
+        "B23"
+      ],
+      "false_cases": [
+        "B24"
+      ],
+      "both_sides": true
+    },
+    {
+      "claim": "labor_noncompete",
+      "field": "noncompete_compensation",
+      "true_cases": [
+        "B21",
+        "B22",
+        "B23"
+      ],
+      "false_cases": [
+        "B24"
+      ],
+      "both_sides": true
+    },
+    {
+      "claim": "labor_noncompete",
+      "field": "noncompete_paid",
+      "true_cases": [
+        "B21",
+        "B22",
+        "B23"
+      ],
+      "false_cases": [
+        "B24"
+      ],
+      "both_sides": true
+    },
+    {
+      "claim": "labor_noncompete",
+      "field": "new_employer_competitor",
+      "true_cases": [
+        "B21",
+        "B22",
+        "B23"
+      ],
+      "false_cases": [
+        "B24"
+      ],
+      "both_sides": true
+    },
+    {
+      "claim": "labor_noncompete",
+      "field": "noncompete_claim",
+      "true_cases": [
+        "B21",
+        "B22",
+        "B23"
+      ],
+      "false_cases": [
+        "B24"
+      ],
+      "both_sides": true
+    },
+    {
+      "claim": "labor_contract",
+      "field": "probation_length",
+      "true_cases": [
+        "B31",
+        "B32"
+      ],
+      "false_cases": [
+        "B33"
+      ],
+      "both_sides": true
+    },
+    {
+      "claim": "labor_contract",
+      "field": "probation_wage",
+      "true_cases": [
+        "B31",
+        "B32"
+      ],
+      "false_cases": [
+        "B33"
+      ],
+      "both_sides": true
+    },
+    {
+      "claim": "labor_contract",
+      "field": "illegal_probation",
+      "true_cases": [
+        "B31",
+        "B32"
+      ],
+      "false_cases": [
+        "B33"
+      ],
+      "both_sides": true
+    }
+  ],
+  "human_reviewed": 0,
+  "coverage_scope": "critical_if predicates only; element.requires and temporal boundaries not fully covered",
+  "dataset_sha256": "85a0af410c697b54cfe09c4f97f59da4cac436b1312c2dd1560b33e2f9263296"
+}

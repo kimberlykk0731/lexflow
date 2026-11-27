@@ -1,0 +1,620 @@
+{
+  "config": {
+    "llm_mode": "mock",
+    "model": "mock",
+    "api_host": null,
+    "today": "2026-11-27",
+    "dataset_sha256": "85a0af410c697b54cfe09c4f97f59da4cac436b1312c2dd1560b33e2f9263296",
+    "corpus_version": "945c2b0291e4d6bc",
+    "split": "test",
+    "repeats": 3,
+    "conditions": [
+      "answer_first",
+      "gate_only",
+      "full",
+      "full_no_voi"
+    ],
+    "max_turns_per_phase": 12,
+    "max_questions_total": 14,
+    "bootstrap_seed": 20261127,
+    "bootstrap_samples": 2000,
+    "human_reviewed": 0,
+    "source_tree_sha256": "f82519db53b8a0fb7504f3bf983e73b4dd0cfcf498f9602ed272c76db5143c6f",
+    "source_commit": "f8db186b0bc597b1c7eab64b3094cd70103190fc",
+    "source_dirty": true
+  },
+  "aggregate": {
+    "answer_first": {
+      "sessions": 78,
+      "cases": 26,
+      "metrics": {
+        "completed": {
+          "mean": 0.9615384615384616,
+          "lo": 0.8846153846153846,
+          "hi": 1.0,
+          "n_cases": 26
+        },
+        "claim_f1": {
+          "mean": 0.9358974358974359,
+          "lo": 0.8461538461538461,
+          "hi": 1.0,
+          "n_cases": 26
+        },
+        "correct_coverage": {
+          "mean": 0.10069503146426223,
+          "lo": 0.05196886446886447,
+          "hi": 0.1533824081901005,
+          "n_cases": 26
+        },
+        "extraction_f1": {
+          "mean": 0.3672161172161172,
+          "lo": 0.20695970695970695,
+          "hi": 0.5155677655677655,
+          "n_cases": 26
+        },
+        "inquiry_recall": {
+          "mean": 0.0,
+          "lo": 0.0,
+          "hi": 0.0,
+          "n_cases": 26
+        },
+        "outcome_agreement": {
+          "mean": 0.3269230769230769,
+          "lo": 0.17307692307692307,
+          "hi": 0.4807692307692308,
+          "n_cases": 26
+        },
+        "formula_agreement": {
+          "mean": 0.04444444444444444,
+          "lo": 0.0,
+          "hi": 0.13333333333333333,
+          "n_cases": 15
+        },
+        "behavior_agreement": {
+          "mean": 0.525,
+          "lo": 0.3,
+          "hi": 0.725,
+          "n_cases": 20
+        },
+        "outcome_all_correct": {
+          "mean": 0.23076923076923078,
+          "lo": 0.07692307692307693,
+          "hi": 0.38461538461538464,
+          "n_cases": 26
+        },
+        "citation_mechanical_support": {
+          "mean": 0.6666708333333333,
+          "lo": 0.5069458333333333,
+          "hi": 0.8125041666666667,
+          "n_cases": 24
+        },
+        "premature_unqualified_memo_proxy": {
+          "mean": 0.0,
+          "lo": 0.0,
+          "hi": 0.0,
+          "n_cases": 26
+        },
+        "unknown_handling_proxy": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 6
+        },
+        "correction_protocol_complete": {
+          "mean": 0.9166666666666666,
+          "lo": 0.75,
+          "hi": 1.0,
+          "n_cases": 12
+        },
+        "revision_success": {
+          "mean": 0.36363636363636365,
+          "lo": 0.09090909090909091,
+          "hi": 0.6363636363636364,
+          "n_cases": 11
+        },
+        "unaffected_preserved": {
+          "mean": null,
+          "lo": null,
+          "hi": null,
+          "n_cases": 0
+        },
+        "questions": {
+          "mean": 0.0,
+          "lo": 0.0,
+          "hi": 0.0,
+          "n_cases": 26
+        },
+        "repeat_rate": {
+          "mean": null,
+          "lo": null,
+          "hi": null,
+          "n_cases": 0
+        },
+        "fallback_extraction_rate": {
+          "mean": null,
+          "lo": null,
+          "hi": null,
+          "n_cases": 0
+        },
+        "elapsed_ms": {
+          "mean": 8.283333333333333,
+          "lo": 7.019871794871795,
+          "hi": 9.560256410256411,
+          "n_cases": 26
+        },
+        "turns": {
+          "mean": 1.4230769230769231,
+          "lo": 1.2307692307692308,
+          "hi": 1.6153846153846154,
+          "n_cases": 26
+        }
+      },
+      "usage": {
+        "logical_calls": 0,
+        "successful_calls": 0,
+        "failed_calls": 0,
+        "http_attempts": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0
+      }
+    },
+    "gate_only": {
+      "sessions": 78,
+      "cases": 26,
+      "metrics": {
+        "completed": {
+          "mean": 0.9615384615384616,
+          "lo": 0.8846153846153846,
+          "hi": 1.0,
+          "n_cases": 26
+        },
+        "claim_f1": {
+          "mean": 0.9358974358974359,
+          "lo": 0.8461538461538461,
+          "hi": 1.0,
+          "n_cases": 26
+        },
+        "correct_coverage": {
+          "mean": 0.5757530930607854,
+          "lo": 0.48774697524697525,
+          "hi": 0.6593253968253968,
+          "n_cases": 26
+        },
+        "extraction_f1": {
+          "mean": 0.6678905284734054,
+          "lo": 0.5739984500165496,
+          "hi": 0.7533490595826866,
+          "n_cases": 26
+        },
+        "inquiry_recall": {
+          "mean": 0.7945694263001956,
+          "lo": 0.70255994005994,
+          "hi": 0.8732170607170607,
+          "n_cases": 26
+        },
+        "outcome_agreement": {
+          "mean": 0.5788461538461539,
+          "lo": 0.4076923076923077,
+          "hi": 0.7307692307692307,
+          "n_cases": 26
+        },
+        "formula_agreement": {
+          "mean": 0.6444444444444445,
+          "lo": 0.37777777777777777,
+          "hi": 0.8666666666666667,
+          "n_cases": 15
+        },
+        "behavior_agreement": {
+          "mean": 0.6,
+          "lo": 0.4,
+          "hi": 0.8,
+          "n_cases": 20
+        },
+        "outcome_all_correct": {
+          "mean": 0.4230769230769231,
+          "lo": 0.23076923076923078,
+          "hi": 0.6153846153846154,
+          "n_cases": 26
+        },
+        "citation_mechanical_support": {
+          "mean": 0.879572,
+          "lo": 0.816524,
+          "hi": 0.93862,
+          "n_cases": 25
+        },
+        "premature_unqualified_memo_proxy": {
+          "mean": 0.0,
+          "lo": 0.0,
+          "hi": 0.0,
+          "n_cases": 26
+        },
+        "unknown_handling_proxy": {
+          "mean": 0.6666666666666666,
+          "lo": 0.3333333333333333,
+          "hi": 1.0,
+          "n_cases": 6
+        },
+        "correction_protocol_complete": {
+          "mean": 0.9166666666666666,
+          "lo": 0.75,
+          "hi": 1.0,
+          "n_cases": 12
+        },
+        "revision_success": {
+          "mean": 0.6363636363636364,
+          "lo": 0.36363636363636365,
+          "hi": 0.9090909090909091,
+          "n_cases": 11
+        },
+        "unaffected_preserved": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 1
+        },
+        "questions": {
+          "mean": 10.653846153846153,
+          "lo": 9.153846153846153,
+          "hi": 11.961538461538462,
+          "n_cases": 26
+        },
+        "repeat_rate": {
+          "mean": 0.19336507936507935,
+          "lo": 0.15149206349206348,
+          "hi": 0.2342857142857143,
+          "n_cases": 25
+        },
+        "fallback_extraction_rate": {
+          "mean": null,
+          "lo": null,
+          "hi": null,
+          "n_cases": 0
+        },
+        "elapsed_ms": {
+          "mean": 18.163846153846155,
+          "lo": 14.359102564102564,
+          "hi": 22.567948717948717,
+          "n_cases": 26
+        },
+        "turns": {
+          "mean": 6.884615384615385,
+          "lo": 6.153846153846154,
+          "hi": 7.538461538461538,
+          "n_cases": 26
+        }
+      },
+      "usage": {
+        "logical_calls": 0,
+        "successful_calls": 0,
+        "failed_calls": 0,
+        "http_attempts": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0
+      }
+    },
+    "full": {
+      "sessions": 78,
+      "cases": 26,
+      "metrics": {
+        "completed": {
+          "mean": 0.9615384615384616,
+          "lo": 0.8846153846153846,
+          "hi": 1.0,
+          "n_cases": 26
+        },
+        "claim_f1": {
+          "mean": 0.9358974358974359,
+          "lo": 0.8461538461538461,
+          "hi": 1.0,
+          "n_cases": 26
+        },
+        "correct_coverage": {
+          "mean": 0.5757530930607854,
+          "lo": 0.48774697524697525,
+          "hi": 0.6593253968253968,
+          "n_cases": 26
+        },
+        "extraction_f1": {
+          "mean": 0.6678905284734054,
+          "lo": 0.5739984500165496,
+          "hi": 0.7533490595826866,
+          "n_cases": 26
+        },
+        "inquiry_recall": {
+          "mean": 0.7945694263001956,
+          "lo": 0.70255994005994,
+          "hi": 0.8732170607170607,
+          "n_cases": 26
+        },
+        "outcome_agreement": {
+          "mean": 0.5788461538461539,
+          "lo": 0.4076923076923077,
+          "hi": 0.7307692307692307,
+          "n_cases": 26
+        },
+        "formula_agreement": {
+          "mean": 0.6444444444444445,
+          "lo": 0.37777777777777777,
+          "hi": 0.8666666666666667,
+          "n_cases": 15
+        },
+        "behavior_agreement": {
+          "mean": 0.6,
+          "lo": 0.4,
+          "hi": 0.8,
+          "n_cases": 20
+        },
+        "outcome_all_correct": {
+          "mean": 0.4230769230769231,
+          "lo": 0.23076923076923078,
+          "hi": 0.6153846153846154,
+          "n_cases": 26
+        },
+        "citation_mechanical_support": {
+          "mean": 0.879572,
+          "lo": 0.816524,
+          "hi": 0.93862,
+          "n_cases": 25
+        },
+        "premature_unqualified_memo_proxy": {
+          "mean": 0.0,
+          "lo": 0.0,
+          "hi": 0.0,
+          "n_cases": 26
+        },
+        "unknown_handling_proxy": {
+          "mean": 0.6666666666666666,
+          "lo": 0.3333333333333333,
+          "hi": 1.0,
+          "n_cases": 6
+        },
+        "correction_protocol_complete": {
+          "mean": 0.9166666666666666,
+          "lo": 0.75,
+          "hi": 1.0,
+          "n_cases": 12
+        },
+        "revision_success": {
+          "mean": 0.6363636363636364,
+          "lo": 0.36363636363636365,
+          "hi": 0.9090909090909091,
+          "n_cases": 11
+        },
+        "unaffected_preserved": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 1
+        },
+        "questions": {
+          "mean": 10.653846153846153,
+          "lo": 9.153846153846153,
+          "hi": 11.961538461538462,
+          "n_cases": 26
+        },
+        "repeat_rate": {
+          "mean": 0.19336507936507935,
+          "lo": 0.15149206349206348,
+          "hi": 0.2342857142857143,
+          "n_cases": 25
+        },
+        "fallback_extraction_rate": {
+          "mean": null,
+          "lo": null,
+          "hi": null,
+          "n_cases": 0
+        },
+        "elapsed_ms": {
+          "mean": 16.18346153846154,
+          "lo": 13.225897435897435,
+          "hi": 19.632948717948718,
+          "n_cases": 26
+        },
+        "turns": {
+          "mean": 6.884615384615385,
+          "lo": 6.153846153846154,
+          "hi": 7.538461538461538,
+          "n_cases": 26
+        }
+      },
+      "usage": {
+        "logical_calls": 0,
+        "successful_calls": 0,
+        "failed_calls": 0,
+        "http_attempts": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0
+      }
+    },
+    "full_no_voi": {
+      "sessions": 78,
+      "cases": 26,
+      "metrics": {
+        "completed": {
+          "mean": 0.9615384615384616,
+          "lo": 0.8846153846153846,
+          "hi": 1.0,
+          "n_cases": 26
+        },
+        "claim_f1": {
+          "mean": 0.9358974358974359,
+          "lo": 0.8461538461538461,
+          "hi": 1.0,
+          "n_cases": 26
+        },
+        "correct_coverage": {
+          "mean": 0.558901888709581,
+          "lo": 0.4762533406764176,
+          "hi": 0.6383949383949384,
+          "n_cases": 26
+        },
+        "extraction_f1": {
+          "mean": 0.6503828727304555,
+          "lo": 0.557547109752992,
+          "hi": 0.7333908338492764,
+          "n_cases": 26
+        },
+        "inquiry_recall": {
+          "mean": 0.7928600245907939,
+          "lo": 0.7029832347140039,
+          "hi": 0.8708749583749583,
+          "n_cases": 26
+        },
+        "outcome_agreement": {
+          "mean": 0.5403846153846154,
+          "lo": 0.36923076923076925,
+          "hi": 0.6903846153846154,
+          "n_cases": 26
+        },
+        "formula_agreement": {
+          "mean": 0.5111111111111111,
+          "lo": 0.26666666666666666,
+          "hi": 0.7555555555555555,
+          "n_cases": 15
+        },
+        "behavior_agreement": {
+          "mean": 0.6,
+          "lo": 0.4,
+          "hi": 0.8,
+          "n_cases": 20
+        },
+        "outcome_all_correct": {
+          "mean": 0.38461538461538464,
+          "lo": 0.19230769230769232,
+          "hi": 0.5769230769230769,
+          "n_cases": 26
+        },
+        "citation_mechanical_support": {
+          "mean": 0.879572,
+          "lo": 0.816524,
+          "hi": 0.93862,
+          "n_cases": 25
+        },
+        "premature_unqualified_memo_proxy": {
+          "mean": 0.038461538461538464,
+          "lo": 0.0,
+          "hi": 0.11538461538461539,
+          "n_cases": 26
+        },
+        "unknown_handling_proxy": {
+          "mean": 0.6666666666666666,
+          "lo": 0.3333333333333333,
+          "hi": 1.0,
+          "n_cases": 6
+        },
+        "correction_protocol_complete": {
+          "mean": 0.9166666666666666,
+          "lo": 0.75,
+          "hi": 1.0,
+          "n_cases": 12
+        },
+        "revision_success": {
+          "mean": 0.6363636363636364,
+          "lo": 0.36363636363636365,
+          "hi": 0.9090909090909091,
+          "n_cases": 11
+        },
+        "unaffected_preserved": {
+          "mean": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "n_cases": 1
+        },
+        "questions": {
+          "mean": 11.0,
+          "lo": 9.576923076923077,
+          "hi": 12.346153846153847,
+          "n_cases": 26
+        },
+        "repeat_rate": {
+          "mean": 0.21259451659451659,
+          "lo": 0.17323809523809522,
+          "hi": 0.2511890331890332,
+          "n_cases": 25
+        },
+        "fallback_extraction_rate": {
+          "mean": null,
+          "lo": null,
+          "hi": null,
+          "n_cases": 0
+        },
+        "elapsed_ms": {
+          "mean": 13.88525641025641,
+          "lo": 11.456410256410257,
+          "hi": 16.663589743589743,
+          "n_cases": 26
+        },
+        "turns": {
+          "mean": 7.115384615384615,
+          "lo": 6.423076923076923,
+          "hi": 7.730769230769231,
+          "n_cases": 26
+        }
+      },
+      "usage": {
+        "logical_calls": 0,
+        "successful_calls": 0,
+        "failed_calls": 0,
+        "http_attempts": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0
+      }
+    }
+  },
+  "paired": {
+    "full-minus-answer_first:correct_coverage": {
+      "mean": 0.47505806159652314,
+      "lo": 0.4017094017094017,
+      "hi": 0.5545634920634921,
+      "n_cases": 26
+    },
+    "full-minus-answer_first:formula_agreement": {
+      "mean": 0.6,
+      "lo": 0.35555555555555557,
+      "hi": 0.8222222222222222,
+      "n_cases": 15
+    },
+    "full-minus-answer_first:questions": {
+      "mean": 10.653846153846153,
+      "lo": 9.153846153846153,
+      "hi": 11.961538461538462,
+      "n_cases": 26
+    },
+    "full-minus-gate_only:correct_coverage": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.0,
+      "n_cases": 26
+    },
+    "full-minus-gate_only:formula_agreement": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.0,
+      "n_cases": 15
+    },
+    "full-minus-gate_only:questions": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.0,
+      "n_cases": 26
+    },
+    "full-minus-full_no_voi:correct_coverage": {
+      "mean": 0.016851204351204352,
+      "lo": 0.0,
+      "hi": 0.04006410256410256,
+      "n_cases": 26
+    },
+    "full-minus-full_no_voi:formula_agreement": {
+      "mean": 0.13333333333333333,
+      "lo": 0.0,
+      "hi": 0.3333333333333333,
+      "n_cases": 15
+    },
+    "full-minus-full_no_voi:questions": {
+      "mean": -0.34615384615384615,
+      "lo": -0.8846153846153846,
+      "hi": -0.038461538461538464,
+      "n_cases": 26
+    }
+  }
+}

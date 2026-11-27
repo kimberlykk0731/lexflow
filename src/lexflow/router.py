@@ -22,7 +22,7 @@ import re
 from dataclasses import dataclass, field
 
 from .elements import ElementSchema
-from .llm import BaseLLM
+from .llm import BaseLLM, extract_json
 
 
 @dataclass
@@ -55,7 +55,8 @@ LABOR_WEAK = ["公司", "老板", "上班", "员工", "同事", "工位", "打�
 REGEX_ALIASES = {
     "labor_wage": [r"欠.{0,8}工资", r"拖.{0,8}工资", r"工资.{0,6}(没发|不发|未发|少发)"],
     "labor_overtime": [r"天天加班", r"经常加班", r"周末.{0,4}上班"],
-    "labor_dismissal": [r"被.{0,6}(辞退|开除|裁)", r"让.{0,6}(走人|离职)"],
+    "labor_dismissal": [r"被.{0,6}(辞退|开除|裁)", r"让.{0,6}(走人|离职)", r"(?:我|自己|主动)辞职"],
+    "labor_maternity": [r"孕期", r"生育保护"],
     "labor_work_injury": [r"上班.{0,6}(受伤|摔|伤)", r"干活.{0,6}(受伤|摔)"],
     "labor_double_pay": [r"(没|未).{0,4}签.{0,4}合同"],
     "labor_social_insurance": [r"(没|未).{0,4}(缴|交).{0,4}社保"],
@@ -100,6 +101,21 @@ class MatterRouter:
                 alternatives=[(top_oos, top_oos_score)],
                 reply=self._out_of_scope_reply(label),
             )
+
+        # A labelled answer or correction remains in its consultation. A generic
+        # word such as "伤残" or "劳动合同" must not start a different claim.
+        if state is not None and getattr(state, "claims", None):
+            new_topic = any(marker in text for marker in ["不是劳动", "换个问题", "另外一件事", "不是这个", "重新说",
+                "另外", "还有个", "还涉及", "还想", "还要", "顺便", "新问题", "我想咨询"])
+            labels = [f.label for f in self.schema.fields(state.claims)]
+            labelled = any(len(label) >= 3 and label in text for label in labels)
+            labelled = labelled or ("contract_signed" in
+                {f.key for f in self.schema.fields(state.claims)} and
+                bool(re.search(r"书面劳动合同方面|合同签了但没给我", text)))
+            if labelled and not new_topic:
+                return Route(matter=state.matter, claims=list(state.claims),
+                             confidence=0.8, action="proceed", source="context",
+                             note="按当前咨询记录回答或更正事实")
 
         # 2) explicit correction / topic switch
         switch = any(m in text for m in SWITCH_MARKERS)
@@ -170,6 +186,10 @@ class MatterRouter:
                     hits.append(pattern)
             if score:
                 scores[cid] = score
+        if ("labor_dismissal" in scores and "labor_contract" in scores
+                and re.search(r"不续签|合同.{0,4}到期|解除劳动合同|辞职", text)
+                and not re.search(r"试用期|调岗|降薪|单方变更|无固定期限", text)):
+            scores.pop("labor_contract")
         return scores, list(dict.fromkeys(hits))
 
     def _score_out_of_scope(self, text: str) -> dict[str, float]:
@@ -254,13 +274,13 @@ class MatterRouter:
         ], temperature=0, max_tokens=300)
         if not res.ok:
             return None
-        try:
-            data = json.loads(re.search(r"\{.*\}", res.text, re.S).group(0))
-        except Exception:
+        data = extract_json(res.text)
+        if not isinstance(data, dict):
             return None
         matter = data.get("matter", "unknown")
-        claims = [c for c in data.get("claims", []) if c in self.schema.claims]
-        if matter == "unknown" or (not claims and matter != "other"):
+        raw_claims = data.get("claims", [])
+        claims = [c for c in raw_claims if isinstance(c, str) and c in self.schema.claims] if isinstance(raw_claims, list) else []
+        if matter not in {"labor", "tort", "other"} or (not claims and matter != "other"):
             return Route(action="clarify", reply=self._clarify_reply(), source="llm")
         if matter == "other":
             oos_key = data.get("out_of_scope", "")
@@ -269,7 +289,11 @@ class MatterRouter:
                          reply=self._out_of_scope_reply(label), source="llm")
         claims = [c for c in claims if self.schema.claims[c].get("matter") == matter]
         if not claims:
-            claims = self.schema.claims_for_matter(matter)[:1]
+            return Route(action="clarify", reply=self._clarify_reply(), source="llm")
+        try:
+            confidence = max(0.0, min(1.0, float(data.get("confidence", 0.5))))
+        except (TypeError, ValueError):
+            confidence = 0.5
         return Route(matter=matter, claims=claims[:4],
-                     confidence=float(data.get("confidence", 0.5)),
+                     confidence=confidence,
                      action="proceed", source="llm")

@@ -1,0 +1,8 @@
+﻿case_id,claim,tags,plausible,facts_consistent,assumptions_clear,gold_supported,decision,notes,reviewer
+B03,labor_dismissal,challenge;multi_claim,,,,,pending,,
+B18,labor_social_insurance,challenge;multi_claim,,,,,pending,,
+B14,labor_work_injury,ordinary;correction,,,,,pending,,
+B17,labor_social_insurance,ordinary;correction,,,,,pending,,
+B33,labor_contract,challenge;unavailable_fact,,,,,pending,,
+B24,labor_noncompete,challenge;multi_claim;unavailable_fact,,,,,pending,,
+B32,labor_contract,ordinary;correction,,,,,pending,,

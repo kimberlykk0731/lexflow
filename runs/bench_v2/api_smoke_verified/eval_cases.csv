@@ -1,0 +1,4 @@
+case_id,condition,status,coverage,inquiry_recall,questions,premature,support_rate,illegal_ok,amount_ok,limitation_ok,version_ok,stale_after_correction
+L01,full,answered,1.0,1.0,12,False,1.0,True,True,True,,
+L02,full,answered,1.0,1.0,12,False,1.0,True,True,True,,
+L03,full,answered,1.0,1.0,10,False,1.0,True,True,True,,

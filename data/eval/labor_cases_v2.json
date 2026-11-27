@@ -1,0 +1,5641 @@
+{
+  "version": "2.0.1",
+  "today": "2026-11-27",
+  "generation_mode": "curated_template",
+  "revision_note": "B36开场补明劳动领域，避免把其他领域仲裁也合理需要的分诊澄清误算作错误；未改变隐藏事实和断言值。",
+  "gold_notice": "独立公式+作者指定行为标签；未经律师/人工审定，不称法律能力基准。",
+  "cases": [
+    {
+      "id": "B01",
+      "split": "dev",
+      "primary_claim": "labor_dismissal",
+      "claims_gold": [
+        "labor_dismissal"
+      ],
+      "opening": "公司把我辞退了，说我严重违纪，我想问赔偿。",
+      "opening_variants": [
+        "公司把我辞退了，说我严重违纪，我想问赔偿。",
+        "麻烦帮我看看：公司把我辞退了，说我严重违纪，我想问赔偿。",
+        "我有点着急，公司把我辞退了，说我严重违纪，我想问赔偿。"
+      ],
+      "opening_facts": {
+        "who_initiated": "单位单方解除",
+        "stated_reason": "严重违纪"
+      },
+      "hidden": {
+        "arbitration_filed": "已申请",
+        "claim_type": "要求赔偿金",
+        "compensation_paid": "未支付任何补偿",
+        "contract_expired": "合同期内解除",
+        "contract_signed": "已签书面合同",
+        "deadline_aware": "知道，还没过",
+        "dismiss_date": "2026-03-15",
+        "employer": "青禾技术有限公司",
+        "forced_resignation_reason": "不适用",
+        "misconduct_proof": "只有口头指认",
+        "monthly_wage": 10000,
+        "notice_30d": "都没有",
+        "pregnancy_status": "孕期",
+        "rule_democratic": "没有经过",
+        "rule_exists": "有成文制度",
+        "rule_publicized": "没有公示告知",
+        "start_date": "2021-03-01",
+        "stated_reason": "严重违纪",
+        "training_or_transfer": "没有",
+        "union_notified": "没有通知",
+        "who_initiated": "单位单方解除"
+      },
+      "critical": [
+        "claim_type",
+        "contract_signed",
+        "dismiss_date",
+        "employer",
+        "misconduct_proof",
+        "monthly_wage",
+        "rule_democratic",
+        "rule_exists",
+        "rule_publicized",
+        "start_date",
+        "stated_reason",
+        "union_notified",
+        "who_initiated"
+      ],
+      "answers": {
+        "arbitration_filed": "关于是否已申请仲裁，已申请。",
+        "claim_type": "我的诉求是要求赔偿金。",
+        "compensation_paid": "关于已支付补偿情况，未支付任何补偿。",
+        "contract_expired": "关于是否合同到期，合同期内解除。",
+        "contract_signed": "书面劳动合同方面，已签书面合同。",
+        "deadline_aware": "关于是否知道仲裁时效，知道，还没过。",
+        "dismiss_date": "离职解除日期是2026-03-15。",
+        "employer": "公司全称是青禾技术有限公司。",
+        "forced_resignation_reason": "关于被迫解除的理由，不适用。",
+        "misconduct_proof": "违纪证据方面，只有口头指认。",
+        "monthly_wage": "月平均工资是10000元。",
+        "notice_30d": "提前通知和代通知金方面，都没有。",
+        "pregnancy_status": "关于是否处于三期，孕期。",
+        "rule_democratic": "民主程序方面，没有经过。",
+        "rule_exists": "公司有成文制度。",
+        "rule_publicized": "员工手册没有公示告知。",
+        "start_date": "我是2021-03-01入职的。",
+        "stated_reason": "公司的解除理由是严重违纪。",
+        "training_or_transfer": "培训或调岗方面，没有。",
+        "union_notified": "工会方面，没有通知。",
+        "who_initiated": "解除主体是单位单方解除。"
+      },
+      "tags": [
+        "ordinary"
+      ],
+      "reference_specs": [
+        {
+          "claim": "labor_dismissal",
+          "path": "illegal",
+          "calculator": "literal",
+          "depends": [
+            "stated_reason",
+            "rule_publicized"
+          ],
+          "value": true
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "compensation.amount",
+          "calculator": "dismissal",
+          "depends": [
+            "start_date",
+            "dismiss_date",
+            "monthly_wage"
+          ],
+          "pay_type": "2N"
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "limitation.deadline",
+          "calculator": "deadline",
+          "depends": [
+            "dismiss_date"
+          ]
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "limitation.expired",
+          "calculator": "expired",
+          "depends": [
+            "dismiss_date"
+          ]
+        }
+      ],
+      "sources": [
+        "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/bgt/art/2023/art_0abfdd261c03417b949df19d869add8d.html-0",
+        "https://www.court.gov.cn/zixun/xiangqing/282121.html",
+        "https://xzfg.moj.gov.cn/front/law/detail?LawID=208",
+        "https://www.mohrss.gov.cn/xxgk2020/gzk/gz/202112/P020211229590352867273.pdf",
+        "https://xzfg.moj.gov.cn/mobile/law/detail?LawID=610",
+        "https://flk.npc.gov.cn/"
+      ],
+      "assumptions": [
+        "合成咨询，不对应真实裁判；金标准仅在列明假设下有效。",
+        "日期为公历精确日期；未建模时效中止、中断和地区口径。",
+        "工资基数视为已经核实且不触发地方封顶；不验证地方最低工资。",
+        "年假为完整年度、无不享受情形、正常工资已付；工伤仅算七至十级一次性伤残补助金。",
+        "竞业补偿按明确约定且已履行期间计算；未作裁判结果预测。"
+      ],
+      "review": {
+        "human_status": "pending",
+        "model_status": "not_run",
+        "gold_status": "provisional"
+      },
+      "gold_before": [
+        {
+          "claim": "labor_dismissal",
+          "path": "illegal",
+          "calculator": "literal",
+          "depends": [
+            "stated_reason",
+            "rule_publicized"
+          ],
+          "value": true,
+          "expected": true,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "compensation.amount",
+          "calculator": "dismissal",
+          "depends": [
+            "start_date",
+            "dismiss_date",
+            "monthly_wage"
+          ],
+          "pay_type": "2N",
+          "expected": 110000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "limitation.deadline",
+          "calculator": "deadline",
+          "depends": [
+            "dismiss_date"
+          ],
+          "expected": "2027-03-15",
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "limitation.expired",
+          "calculator": "expired",
+          "depends": [
+            "dismiss_date"
+          ],
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        }
+      ],
+      "gold_after": [
+        {
+          "claim": "labor_dismissal",
+          "path": "illegal",
+          "calculator": "literal",
+          "depends": [
+            "stated_reason",
+            "rule_publicized"
+          ],
+          "value": true,
+          "expected": true,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "compensation.amount",
+          "calculator": "dismissal",
+          "depends": [
+            "start_date",
+            "dismiss_date",
+            "monthly_wage"
+          ],
+          "pay_type": "2N",
+          "expected": 110000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "limitation.deadline",
+          "calculator": "deadline",
+          "depends": [
+            "dismiss_date"
+          ],
+          "expected": "2027-03-15",
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "limitation.expired",
+          "calculator": "expired",
+          "depends": [
+            "dismiss_date"
+          ],
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        }
+      ]
+    },
+    {
+      "id": "B02",
+      "split": "test",
+      "primary_claim": "labor_dismissal",
+      "claims_gold": [
+        "labor_dismissal"
+      ],
+      "opening": "公司把我辞退了，说我严重违纪，我想问赔偿。",
+      "opening_variants": [
+        "公司把我辞退了，说我严重违纪，我想问赔偿。",
+        "麻烦帮我看看：公司把我辞退了，说我严重违纪，我想问赔偿。",
+        "我有点着急，公司把我辞退了，说我严重违纪，我想问赔偿。"
+      ],
+      "opening_facts": {
+        "who_initiated": "单位单方解除",
+        "stated_reason": "严重违纪"
+      },
+      "hidden": {
+        "arbitration_filed": "已申请",
+        "claim_type": "要求赔偿金",
+        "compensation_paid": "未支付任何补偿",
+        "contract_expired": "合同期内解除",
+        "contract_signed": "已签书面合同",
+        "deadline_aware": "知道，还没过",
+        "dismiss_date": "2026-03-15",
+        "employer": "青禾技术有限公司",
+        "forced_resignation_reason": "不适用",
+        "misconduct_proof": "只有口头指认",
+        "monthly_wage": 12000,
+        "notice_30d": "都没有",
+        "pregnancy_status": "孕期",
+        "rule_democratic": "没有经过",
+        "rule_exists": "有成文制度",
+        "rule_publicized": "没有公示告知",
+        "start_date": "2020-04-01",
+        "stated_reason": "严重违纪",
+        "training_or_transfer": "没有",
+        "union_notified": "没有通知",
+        "who_initiated": "单位单方解除"
+      },
+      "critical": [
+        "claim_type",
+        "contract_signed",
+        "dismiss_date",
+        "employer",
+        "misconduct_proof",
+        "monthly_wage",
+        "rule_democratic",
+        "rule_exists",
+        "rule_publicized",
+        "start_date",
+        "stated_reason",
+        "union_notified",
+        "who_initiated"
+      ],
+      "answers": {
+        "arbitration_filed": "关于是否已申请仲裁，已申请。",
+        "claim_type": "我的诉求是要求赔偿金。",
+        "compensation_paid": "关于已支付补偿情况，未支付任何补偿。",
+        "contract_expired": "关于是否合同到期，合同期内解除。",
+        "contract_signed": "书面劳动合同方面，已签书面合同。",
+        "deadline_aware": "关于是否知道仲裁时效，知道，还没过。",
+        "dismiss_date": "离职解除日期是2026-03-15。",
+        "employer": "公司全称是青禾技术有限公司。",
+        "forced_resignation_reason": "关于被迫解除的理由，不适用。",
+        "misconduct_proof": "违纪证据方面，只有口头指认。",
+        "monthly_wage": "月平均工资是12000元。",
+        "notice_30d": "提前通知和代通知金方面，都没有。",
+        "pregnancy_status": "关于是否处于三期，孕期。",
+        "rule_democratic": "民主程序方面，没有经过。",
+        "rule_exists": "公司有成文制度。",
+        "rule_publicized": "员工手册没有公示告知。",
+        "start_date": "我是2020-04-01入职的。",
+        "stated_reason": "公司的解除理由是严重违纪。",
+        "training_or_transfer": "培训或调岗方面，没有。",
+        "union_notified": "工会方面，没有通知。",
+        "who_initiated": "解除主体是单位单方解除。"
+      },
+      "tags": [
+        "ordinary",
+        "correction"
+      ],
+      "reference_specs": [
+        {
+          "claim": "labor_dismissal",
+          "path": "illegal",
+          "calculator": "literal",
+          "depends": [
+            "stated_reason",
+            "rule_publicized"
+          ],
+          "value": true
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "compensation.amount",
+          "calculator": "dismissal",
+          "depends": [
+            "start_date",
+            "dismiss_date",
+            "monthly_wage"
+          ],
+          "pay_type": "2N"
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "limitation.deadline",
+          "calculator": "deadline",
+          "depends": [
+            "dismiss_date"
+          ]
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "limitation.expired",
+          "calculator": "expired",
+          "depends": [
+            "dismiss_date"
+          ]
+        }
+      ],
+      "sources": [
+        "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/bgt/art/2023/art_0abfdd261c03417b949df19d869add8d.html-0",
+        "https://www.court.gov.cn/zixun/xiangqing/282121.html",
+        "https://xzfg.moj.gov.cn/front/law/detail?LawID=208",
+        "https://www.mohrss.gov.cn/xxgk2020/gzk/gz/202112/P020211229590352867273.pdf",
+        "https://xzfg.moj.gov.cn/mobile/law/detail?LawID=610",
+        "https://flk.npc.gov.cn/"
+      ],
+      "assumptions": [
+        "合成咨询，不对应真实裁判；金标准仅在列明假设下有效。",
+        "日期为公历精确日期；未建模时效中止、中断和地区口径。",
+        "工资基数视为已经核实且不触发地方封顶；不验证地方最低工资。",
+        "年假为完整年度、无不享受情形、正常工资已付；工伤仅算七至十级一次性伤残补助金。",
+        "竞业补偿按明确约定且已履行期间计算；未作裁判结果预测。"
+      ],
+      "review": {
+        "human_status": "pending",
+        "model_status": "not_run",
+        "gold_status": "provisional"
+      },
+      "gold_before": [
+        {
+          "claim": "labor_dismissal",
+          "path": "illegal",
+          "calculator": "literal",
+          "depends": [
+            "stated_reason",
+            "rule_publicized"
+          ],
+          "value": true,
+          "expected": true,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "compensation.amount",
+          "calculator": "dismissal",
+          "depends": [
+            "start_date",
+            "dismiss_date",
+            "monthly_wage"
+          ],
+          "pay_type": "2N",
+          "expected": 144000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "limitation.deadline",
+          "calculator": "deadline",
+          "depends": [
+            "dismiss_date"
+          ],
+          "expected": "2027-03-15",
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "limitation.expired",
+          "calculator": "expired",
+          "depends": [
+            "dismiss_date"
+          ],
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        }
+      ],
+      "correction": {
+        "after": "first_memo",
+        "key": "dismiss_date",
+        "old": "2026-03-15",
+        "new": "2026-09-15",
+        "text": "更正一下，我之前说错了。离职解除日期是2026-09-15。"
+      },
+      "gold_after": [
+        {
+          "claim": "labor_dismissal",
+          "path": "illegal",
+          "calculator": "literal",
+          "depends": [
+            "stated_reason",
+            "rule_publicized"
+          ],
+          "value": true,
+          "expected": true,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "compensation.amount",
+          "calculator": "dismissal",
+          "depends": [
+            "start_date",
+            "dismiss_date",
+            "monthly_wage"
+          ],
+          "pay_type": "2N",
+          "expected": 156000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "limitation.deadline",
+          "calculator": "deadline",
+          "depends": [
+            "dismiss_date"
+          ],
+          "expected": "2027-09-15",
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "limitation.expired",
+          "calculator": "expired",
+          "depends": [
+            "dismiss_date"
+          ],
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        }
+      ],
+      "critical_after": [
+        "claim_type",
+        "contract_signed",
+        "dismiss_date",
+        "employer",
+        "misconduct_proof",
+        "monthly_wage",
+        "rule_democratic",
+        "rule_exists",
+        "rule_publicized",
+        "start_date",
+        "stated_reason",
+        "union_notified",
+        "who_initiated"
+      ]
+    },
+    {
+      "id": "B03",
+      "split": "test",
+      "primary_claim": "labor_dismissal",
+      "claims_gold": [
+        "labor_dismissal",
+        "labor_wage"
+      ],
+      "opening": "我想咨询解除/辞退，情况需要核实，能先帮我梳理吗？另外还涉及工资/欠薪。",
+      "opening_variants": [
+        "我想咨询解除/辞退，情况需要核实，能先帮我梳理吗？另外还涉及工资/欠薪。",
+        "麻烦帮我看看：我想咨询解除/辞退，情况需要核实，能先帮我梳理吗？另外还涉及工资/欠薪。",
+        "我有点着急，我想咨询解除/辞退，情况需要核实，能先帮我梳理吗？另外还涉及工资/欠薪。"
+      ],
+      "opening_facts": {},
+      "hidden": {
+        "arbitration_filed": "已申请",
+        "claim_type": "要求支付欠薪",
+        "compensation_paid": "未支付任何补偿",
+        "contract_expired": "合同期内解除",
+        "contract_signed": "已签书面合同",
+        "deadline_aware": "知道，还没过",
+        "dismiss_date": "2026-03-15",
+        "employer": "青禾技术有限公司",
+        "forced_resignation_reason": "不适用",
+        "misconduct_proof": "只有口头指认",
+        "monthly_wage": 10000,
+        "notice_30d": "都没有",
+        "pregnancy_status": "孕期",
+        "reduced_salary": "没有被降薪",
+        "rule_democratic": "没有经过",
+        "rule_exists": "有成文制度",
+        "rule_publicized": "没有公示告知",
+        "start_date": "2026-03-01",
+        "stated_reason": "不胜任工作",
+        "training_or_transfer": "没有",
+        "union_notified": "没有通知",
+        "wage_evidence": "银行流水",
+        "wage_owed": 5000,
+        "wage_period": "2026年3月",
+        "wage_reason": "无故拖欠",
+        "wage_type": "基本工资",
+        "who_initiated": "单位单方解除"
+      },
+      "critical": [
+        "claim_type",
+        "contract_signed",
+        "dismiss_date",
+        "employer",
+        "monthly_wage",
+        "notice_30d",
+        "start_date",
+        "stated_reason",
+        "training_or_transfer",
+        "union_notified",
+        "wage_evidence",
+        "wage_owed",
+        "wage_period",
+        "wage_type",
+        "who_initiated"
+      ],
+      "answers": {
+        "arbitration_filed": "关于是否已申请仲裁，已申请。",
+        "claim_type": "我的诉求是要求支付欠薪。",
+        "compensation_paid": "关于已支付补偿情况，未支付任何补偿。",
+        "contract_expired": "关于是否合同到期，合同期内解除。",
+        "contract_signed": "书面劳动合同方面，已签书面合同。",
+        "deadline_aware": "关于是否知道仲裁时效，知道，还没过。",
+        "dismiss_date": "离职解除日期是2026-03-15。",
+        "employer": "公司全称是青禾技术有限公司。",
+        "forced_resignation_reason": "关于被迫解除的理由，不适用。",
+        "misconduct_proof": "违纪证据方面，只有口头指认。",
+        "monthly_wage": "月平均工资是10000元。",
+        "notice_30d": "提前通知和代通知金方面，都没有。",
+        "pregnancy_status": "关于是否处于三期，孕期。",
+        "reduced_salary": "关于是否被降薪，没有被降薪。",
+        "rule_democratic": "民主程序方面，没有经过。",
+        "rule_exists": "公司有成文制度。",
+        "rule_publicized": "员工手册没有公示告知。",
+        "start_date": "我是2026-03-01入职的。",
+        "stated_reason": "公司的解除理由是不胜任工作。",
+        "training_or_transfer": "培训或调岗方面，没有。",
+        "union_notified": "工会方面，没有通知。",
+        "wage_evidence": "关于工资证据，银行流水。",
+        "wage_owed": "公司欠我工资5000元。",
+        "wage_period": "欠薪期间是2026年3月。",
+        "wage_reason": "关于欠薪原因，无故拖欠。",
+        "wage_type": "关于欠薪类型，基本工资。",
+        "who_initiated": "解除主体是单位单方解除。"
+      },
+      "tags": [
+        "challenge",
+        "multi_claim"
+      ],
+      "reference_specs": [
+        {
+          "claim": "labor_dismissal",
+          "path": "illegal",
+          "calculator": "literal",
+          "depends": [
+            "stated_reason",
+            "rule_publicized"
+          ],
+          "value": true
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "compensation.amount",
+          "calculator": "dismissal",
+          "depends": [
+            "start_date",
+            "dismiss_date",
+            "monthly_wage"
+          ],
+          "pay_type": "2N"
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "limitation.deadline",
+          "calculator": "deadline",
+          "depends": [
+            "dismiss_date"
+          ]
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "limitation.expired",
+          "calculator": "expired",
+          "depends": [
+            "dismiss_date"
+          ]
+        },
+        {
+          "claim": "labor_wage",
+          "path": "finding_money:F_WAGE_AMOUNT",
+          "calculator": "fact",
+          "depends": [
+            "wage_owed"
+          ],
+          "field": "wage_owed",
+          "tolerance": 0.5
+        }
+      ],
+      "sources": [
+        "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/bgt/art/2023/art_0abfdd261c03417b949df19d869add8d.html-0",
+        "https://www.court.gov.cn/zixun/xiangqing/282121.html",
+        "https://xzfg.moj.gov.cn/front/law/detail?LawID=208",
+        "https://www.mohrss.gov.cn/xxgk2020/gzk/gz/202112/P020211229590352867273.pdf",
+        "https://xzfg.moj.gov.cn/mobile/law/detail?LawID=610",
+        "https://flk.npc.gov.cn/"
+      ],
+      "assumptions": [
+        "合成咨询，不对应真实裁判；金标准仅在列明假设下有效。",
+        "日期为公历精确日期；未建模时效中止、中断和地区口径。",
+        "工资基数视为已经核实且不触发地方封顶；不验证地方最低工资。",
+        "年假为完整年度、无不享受情形、正常工资已付；工伤仅算七至十级一次性伤残补助金。",
+        "竞业补偿按明确约定且已履行期间计算；未作裁判结果预测。"
+      ],
+      "review": {
+        "human_status": "pending",
+        "model_status": "not_run",
+        "gold_status": "provisional"
+      },
+      "gold_before": [
+        {
+          "claim": "labor_dismissal",
+          "path": "illegal",
+          "calculator": "literal",
+          "depends": [
+            "stated_reason",
+            "rule_publicized"
+          ],
+          "value": true,
+          "expected": true,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "compensation.amount",
+          "calculator": "dismissal",
+          "depends": [
+            "start_date",
+            "dismiss_date",
+            "monthly_wage"
+          ],
+          "pay_type": "2N",
+          "expected": 10000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "limitation.deadline",
+          "calculator": "deadline",
+          "depends": [
+            "dismiss_date"
+          ],
+          "expected": "2027-03-15",
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "limitation.expired",
+          "calculator": "expired",
+          "depends": [
+            "dismiss_date"
+          ],
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        },
+        {
+          "claim": "labor_wage",
+          "path": "finding_money:F_WAGE_AMOUNT",
+          "calculator": "fact",
+          "depends": [
+            "wage_owed"
+          ],
+          "field": "wage_owed",
+          "tolerance": 0.5,
+          "expected": 5000,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        }
+      ],
+      "gold_after": [
+        {
+          "claim": "labor_dismissal",
+          "path": "illegal",
+          "calculator": "literal",
+          "depends": [
+            "stated_reason",
+            "rule_publicized"
+          ],
+          "value": true,
+          "expected": true,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "compensation.amount",
+          "calculator": "dismissal",
+          "depends": [
+            "start_date",
+            "dismiss_date",
+            "monthly_wage"
+          ],
+          "pay_type": "2N",
+          "expected": 10000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "limitation.deadline",
+          "calculator": "deadline",
+          "depends": [
+            "dismiss_date"
+          ],
+          "expected": "2027-03-15",
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "limitation.expired",
+          "calculator": "expired",
+          "depends": [
+            "dismiss_date"
+          ],
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        },
+        {
+          "claim": "labor_wage",
+          "path": "finding_money:F_WAGE_AMOUNT",
+          "calculator": "fact",
+          "depends": [
+            "wage_owed"
+          ],
+          "field": "wage_owed",
+          "tolerance": 0.5,
+          "expected": 5000,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        }
+      ]
+    },
+    {
+      "id": "B04",
+      "split": "dev",
+      "primary_claim": "labor_wage",
+      "claims_gold": [
+        "labor_wage"
+      ],
+      "opening": "公司拖欠工资，我想追回欠薪。",
+      "opening_variants": [
+        "公司拖欠工资，我想追回欠薪。",
+        "麻烦帮我看看：公司拖欠工资，我想追回欠薪。",
+        "我有点着急，公司拖欠工资，我想追回欠薪。"
+      ],
+      "opening_facts": {},
+      "hidden": {
+        "arbitration_filed": "已申请",
+        "employer": "青禾技术有限公司",
+        "monthly_wage": 10000,
+        "reduced_salary": "没有被降薪",
+        "start_date": "2021-03-01",
+        "wage_evidence": "银行流水",
+        "wage_owed": 20000,
+        "wage_period": "2026年1月至2月",
+        "wage_reason": "无故拖欠",
+        "wage_type": "基本工资"
+      },
+      "critical": [
+        "monthly_wage",
+        "start_date",
+        "wage_evidence",
+        "wage_owed",
+        "wage_period",
+        "wage_type"
+      ],
+      "answers": {
+        "arbitration_filed": "关于是否已申请仲裁，已申请。",
+        "employer": "公司全称是青禾技术有限公司。",
+        "monthly_wage": "月平均工资是10000元。",
+        "reduced_salary": "关于是否被降薪，没有被降薪。",
+        "start_date": "我是2021-03-01入职的。",
+        "wage_evidence": "关于工资证据，银行流水。",
+        "wage_owed": "公司欠我工资20000元。",
+        "wage_period": "欠薪期间是2026年1月至2月。",
+        "wage_reason": "关于欠薪原因，无故拖欠。",
+        "wage_type": "关于欠薪类型，基本工资。"
+      },
+      "tags": [
+        "ordinary"
+      ],
+      "reference_specs": [
+        {
+          "claim": "labor_wage",
+          "path": "finding_money:F_WAGE_AMOUNT",
+          "calculator": "fact",
+          "depends": [
+            "wage_owed"
+          ],
+          "field": "wage_owed",
+          "tolerance": 0.5
+        }
+      ],
+      "sources": [
+        "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/bgt/art/2023/art_0abfdd261c03417b949df19d869add8d.html-0",
+        "https://www.court.gov.cn/zixun/xiangqing/282121.html",
+        "https://xzfg.moj.gov.cn/front/law/detail?LawID=208",
+        "https://www.mohrss.gov.cn/xxgk2020/gzk/gz/202112/P020211229590352867273.pdf",
+        "https://xzfg.moj.gov.cn/mobile/law/detail?LawID=610",
+        "https://flk.npc.gov.cn/"
+      ],
+      "assumptions": [
+        "合成咨询，不对应真实裁判；金标准仅在列明假设下有效。",
+        "日期为公历精确日期；未建模时效中止、中断和地区口径。",
+        "工资基数视为已经核实且不触发地方封顶；不验证地方最低工资。",
+        "年假为完整年度、无不享受情形、正常工资已付；工伤仅算七至十级一次性伤残补助金。",
+        "竞业补偿按明确约定且已履行期间计算；未作裁判结果预测。"
+      ],
+      "review": {
+        "human_status": "pending",
+        "model_status": "not_run",
+        "gold_status": "provisional"
+      },
+      "gold_before": [
+        {
+          "claim": "labor_wage",
+          "path": "finding_money:F_WAGE_AMOUNT",
+          "calculator": "fact",
+          "depends": [
+            "wage_owed"
+          ],
+          "field": "wage_owed",
+          "tolerance": 0.5,
+          "expected": 20000,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        }
+      ],
+      "gold_after": [
+        {
+          "claim": "labor_wage",
+          "path": "finding_money:F_WAGE_AMOUNT",
+          "calculator": "fact",
+          "depends": [
+            "wage_owed"
+          ],
+          "field": "wage_owed",
+          "tolerance": 0.5,
+          "expected": 20000,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        }
+      ]
+    },
+    {
+      "id": "B05",
+      "split": "test",
+      "primary_claim": "labor_wage",
+      "claims_gold": [
+        "labor_wage"
+      ],
+      "opening": "公司拖欠工资，我想追回欠薪。",
+      "opening_variants": [
+        "公司拖欠工资，我想追回欠薪。",
+        "麻烦帮我看看：公司拖欠工资，我想追回欠薪。",
+        "我有点着急，公司拖欠工资，我想追回欠薪。"
+      ],
+      "opening_facts": {},
+      "hidden": {
+        "arbitration_filed": "已申请",
+        "employer": "青禾技术有限公司",
+        "monthly_wage": 12000,
+        "reduced_salary": "没有被降薪",
+        "start_date": "2020-04-01",
+        "wage_evidence": "银行流水",
+        "wage_owed": 24000,
+        "wage_period": "2026年1月至2月",
+        "wage_reason": "无故拖欠",
+        "wage_type": "基本工资"
+      },
+      "critical": [
+        "monthly_wage",
+        "start_date",
+        "wage_evidence",
+        "wage_owed",
+        "wage_period",
+        "wage_type"
+      ],
+      "answers": {
+        "arbitration_filed": "关于是否已申请仲裁，已申请。",
+        "employer": "公司全称是青禾技术有限公司。",
+        "monthly_wage": "月平均工资是12000元。",
+        "reduced_salary": "关于是否被降薪，没有被降薪。",
+        "start_date": "我是2020-04-01入职的。",
+        "wage_evidence": "关于工资证据，银行流水。",
+        "wage_owed": "公司欠我工资24000元。",
+        "wage_period": "欠薪期间是2026年1月至2月。",
+        "wage_reason": "关于欠薪原因，无故拖欠。",
+        "wage_type": "关于欠薪类型，基本工资。"
+      },
+      "tags": [
+        "ordinary",
+        "correction"
+      ],
+      "reference_specs": [
+        {
+          "claim": "labor_wage",
+          "path": "finding_money:F_WAGE_AMOUNT",
+          "calculator": "fact",
+          "depends": [
+            "wage_owed"
+          ],
+          "field": "wage_owed",
+          "tolerance": 0.5
+        }
+      ],
+      "sources": [
+        "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/bgt/art/2023/art_0abfdd261c03417b949df19d869add8d.html-0",
+        "https://www.court.gov.cn/zixun/xiangqing/282121.html",
+        "https://xzfg.moj.gov.cn/front/law/detail?LawID=208",
+        "https://www.mohrss.gov.cn/xxgk2020/gzk/gz/202112/P020211229590352867273.pdf",
+        "https://xzfg.moj.gov.cn/mobile/law/detail?LawID=610",
+        "https://flk.npc.gov.cn/"
+      ],
+      "assumptions": [
+        "合成咨询，不对应真实裁判；金标准仅在列明假设下有效。",
+        "日期为公历精确日期；未建模时效中止、中断和地区口径。",
+        "工资基数视为已经核实且不触发地方封顶；不验证地方最低工资。",
+        "年假为完整年度、无不享受情形、正常工资已付；工伤仅算七至十级一次性伤残补助金。",
+        "竞业补偿按明确约定且已履行期间计算；未作裁判结果预测。"
+      ],
+      "review": {
+        "human_status": "pending",
+        "model_status": "not_run",
+        "gold_status": "provisional"
+      },
+      "gold_before": [
+        {
+          "claim": "labor_wage",
+          "path": "finding_money:F_WAGE_AMOUNT",
+          "calculator": "fact",
+          "depends": [
+            "wage_owed"
+          ],
+          "field": "wage_owed",
+          "tolerance": 0.5,
+          "expected": 24000,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        }
+      ],
+      "correction": {
+        "after": "first_memo",
+        "key": "wage_owed",
+        "old": 24000,
+        "new": 25000,
+        "text": "更正一下，我之前说错了。公司欠我工资25000元。"
+      },
+      "gold_after": [
+        {
+          "claim": "labor_wage",
+          "path": "finding_money:F_WAGE_AMOUNT",
+          "calculator": "fact",
+          "depends": [
+            "wage_owed"
+          ],
+          "field": "wage_owed",
+          "tolerance": 0.5,
+          "expected": 25000,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        }
+      ],
+      "critical_after": [
+        "monthly_wage",
+        "start_date",
+        "wage_evidence",
+        "wage_owed",
+        "wage_period",
+        "wage_type"
+      ]
+    },
+    {
+      "id": "B06",
+      "split": "test",
+      "primary_claim": "labor_wage",
+      "claims_gold": [
+        "labor_wage",
+        "labor_overtime"
+      ],
+      "opening": "我想咨询工资/欠薪，情况需要核实，能先帮我梳理吗？另外还涉及加班费。",
+      "opening_variants": [
+        "我想咨询工资/欠薪，情况需要核实，能先帮我梳理吗？另外还涉及加班费。",
+        "麻烦帮我看看：我想咨询工资/欠薪，情况需要核实，能先帮我梳理吗？另外还涉及加班费。",
+        "我有点着急，我想咨询工资/欠薪，情况需要核实，能先帮我梳理吗？另外还涉及加班费。"
+      ],
+      "opening_facts": {},
+      "hidden": {
+        "arbitration_filed": "已申请",
+        "employer": "青禾技术有限公司",
+        "monthly_wage": 10000,
+        "overtime_evidence": "考勤打卡",
+        "overtime_exists": "有",
+        "overtime_hours_holiday": 8,
+        "overtime_hours_rest": 16,
+        "overtime_hours_weekday": 20,
+        "overtime_paid": "没有支付",
+        "overtime_period": "2026年2月",
+        "reduced_salary": "没有被降薪",
+        "start_date": "2021-03-01",
+        "wage_evidence": "银行流水",
+        "wage_owed": 20000,
+        "wage_period": "2026年1月至2月",
+        "wage_reason": "以绩效为由扣发",
+        "wage_type": "提成/奖金",
+        "work_schedule": "标准工时"
+      },
+      "critical": [
+        "monthly_wage",
+        "overtime_evidence",
+        "overtime_exists",
+        "overtime_hours_holiday",
+        "overtime_hours_rest",
+        "overtime_hours_weekday",
+        "overtime_paid",
+        "overtime_period",
+        "start_date",
+        "wage_evidence",
+        "wage_owed",
+        "wage_period",
+        "wage_type",
+        "work_schedule"
+      ],
+      "answers": {
+        "arbitration_filed": "关于是否已申请仲裁，已申请。",
+        "employer": "公司全称是青禾技术有限公司。",
+        "monthly_wage": "月平均工资是10000元。",
+        "overtime_evidence": "关于加班证据，考勤打卡。",
+        "overtime_exists": "有加班。",
+        "overtime_hours_holiday": "法定节假日每月加班8小时。",
+        "overtime_hours_rest": "休息日每月加班16小时。",
+        "overtime_hours_weekday": "工作日每月加班20小时。",
+        "overtime_paid": "公司没有支付加班费。",
+        "overtime_period": "加班期间是2026年2月。",
+        "reduced_salary": "关于是否被降薪，没有被降薪。",
+        "start_date": "我是2021-03-01入职的。",
+        "wage_evidence": "关于工资证据，银行流水。",
+        "wage_owed": "公司欠我工资20000元。",
+        "wage_period": "欠薪期间是2026年1月至2月。",
+        "wage_reason": "关于欠薪原因，以绩效为由扣发。",
+        "wage_type": "关于欠薪类型，提成/奖金。",
+        "work_schedule": "关于工时制度，标准工时。"
+      },
+      "tags": [
+        "challenge",
+        "multi_claim"
+      ],
+      "reference_specs": [
+        {
+          "claim": "labor_wage",
+          "path": "finding_money:F_WAGE_AMOUNT",
+          "calculator": "fact",
+          "depends": [
+            "wage_owed"
+          ],
+          "field": "wage_owed",
+          "tolerance": 0.5
+        },
+        {
+          "claim": "labor_overtime",
+          "path": "calculation.amount",
+          "calculator": "overtime",
+          "depends": [
+            "monthly_wage",
+            "overtime_hours_weekday",
+            "overtime_hours_rest",
+            "overtime_hours_holiday"
+          ]
+        }
+      ],
+      "sources": [
+        "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/bgt/art/2023/art_0abfdd261c03417b949df19d869add8d.html-0",
+        "https://www.court.gov.cn/zixun/xiangqing/282121.html",
+        "https://xzfg.moj.gov.cn/front/law/detail?LawID=208",
+        "https://www.mohrss.gov.cn/xxgk2020/gzk/gz/202112/P020211229590352867273.pdf",
+        "https://xzfg.moj.gov.cn/mobile/law/detail?LawID=610",
+        "https://flk.npc.gov.cn/"
+      ],
+      "assumptions": [
+        "合成咨询，不对应真实裁判；金标准仅在列明假设下有效。",
+        "日期为公历精确日期；未建模时效中止、中断和地区口径。",
+        "工资基数视为已经核实且不触发地方封顶；不验证地方最低工资。",
+        "年假为完整年度、无不享受情形、正常工资已付；工伤仅算七至十级一次性伤残补助金。",
+        "竞业补偿按明确约定且已履行期间计算；未作裁判结果预测。"
+      ],
+      "review": {
+        "human_status": "pending",
+        "model_status": "not_run",
+        "gold_status": "provisional"
+      },
+      "gold_before": [
+        {
+          "claim": "labor_wage",
+          "path": "finding_money:F_WAGE_AMOUNT",
+          "calculator": "fact",
+          "depends": [
+            "wage_owed"
+          ],
+          "field": "wage_owed",
+          "tolerance": 0.5,
+          "expected": 20000,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        },
+        {
+          "claim": "labor_overtime",
+          "path": "calculation.amount",
+          "calculator": "overtime",
+          "depends": [
+            "monthly_wage",
+            "overtime_hours_weekday",
+            "overtime_hours_rest",
+            "overtime_hours_holiday"
+          ],
+          "expected": 4942.53,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        }
+      ],
+      "gold_after": [
+        {
+          "claim": "labor_wage",
+          "path": "finding_money:F_WAGE_AMOUNT",
+          "calculator": "fact",
+          "depends": [
+            "wage_owed"
+          ],
+          "field": "wage_owed",
+          "tolerance": 0.5,
+          "expected": 20000,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        },
+        {
+          "claim": "labor_overtime",
+          "path": "calculation.amount",
+          "calculator": "overtime",
+          "depends": [
+            "monthly_wage",
+            "overtime_hours_weekday",
+            "overtime_hours_rest",
+            "overtime_hours_holiday"
+          ],
+          "expected": 4942.53,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        }
+      ]
+    },
+    {
+      "id": "B07",
+      "split": "dev",
+      "primary_claim": "labor_overtime",
+      "claims_gold": [
+        "labor_overtime"
+      ],
+      "opening": "公司一直没有支付加班费，我想算一下。",
+      "opening_variants": [
+        "公司一直没有支付加班费，我想算一下。",
+        "麻烦帮我看看：公司一直没有支付加班费，我想算一下。",
+        "我有点着急，公司一直没有支付加班费，我想算一下。"
+      ],
+      "opening_facts": {
+        "overtime_exists": "有",
+        "overtime_paid": "没有支付"
+      },
+      "hidden": {
+        "arbitration_filed": "已申请",
+        "monthly_wage": 10000,
+        "overtime_evidence": "考勤打卡",
+        "overtime_exists": "有",
+        "overtime_hours_holiday": 8,
+        "overtime_hours_rest": 16,
+        "overtime_hours_weekday": 20,
+        "overtime_paid": "没有支付",
+        "overtime_period": "2026年2月",
+        "start_date": "2021-03-01",
+        "work_schedule": "标准工时"
+      },
+      "critical": [
+        "monthly_wage",
+        "overtime_evidence",
+        "overtime_exists",
+        "overtime_hours_holiday",
+        "overtime_hours_rest",
+        "overtime_hours_weekday",
+        "overtime_paid",
+        "overtime_period",
+        "start_date",
+        "work_schedule"
+      ],
+      "answers": {
+        "arbitration_filed": "关于是否已申请仲裁，已申请。",
+        "monthly_wage": "月平均工资是10000元。",
+        "overtime_evidence": "关于加班证据，考勤打卡。",
+        "overtime_exists": "有加班。",
+        "overtime_hours_holiday": "法定节假日每月加班8小时。",
+        "overtime_hours_rest": "休息日每月加班16小时。",
+        "overtime_hours_weekday": "工作日每月加班20小时。",
+        "overtime_paid": "公司没有支付加班费。",
+        "overtime_period": "加班期间是2026年2月。",
+        "start_date": "我是2021-03-01入职的。",
+        "work_schedule": "关于工时制度，标准工时。"
+      },
+      "tags": [
+        "ordinary"
+      ],
+      "reference_specs": [
+        {
+          "claim": "labor_overtime",
+          "path": "calculation.amount",
+          "calculator": "overtime",
+          "depends": [
+            "monthly_wage",
+            "overtime_hours_weekday",
+            "overtime_hours_rest",
+            "overtime_hours_holiday"
+          ]
+        }
+      ],
+      "sources": [
+        "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/bgt/art/2023/art_0abfdd261c03417b949df19d869add8d.html-0",
+        "https://www.court.gov.cn/zixun/xiangqing/282121.html",
+        "https://xzfg.moj.gov.cn/front/law/detail?LawID=208",
+        "https://www.mohrss.gov.cn/xxgk2020/gzk/gz/202112/P020211229590352867273.pdf",
+        "https://xzfg.moj.gov.cn/mobile/law/detail?LawID=610",
+        "https://flk.npc.gov.cn/"
+      ],
+      "assumptions": [
+        "合成咨询，不对应真实裁判；金标准仅在列明假设下有效。",
+        "日期为公历精确日期；未建模时效中止、中断和地区口径。",
+        "工资基数视为已经核实且不触发地方封顶；不验证地方最低工资。",
+        "年假为完整年度、无不享受情形、正常工资已付；工伤仅算七至十级一次性伤残补助金。",
+        "竞业补偿按明确约定且已履行期间计算；未作裁判结果预测。"
+      ],
+      "review": {
+        "human_status": "pending",
+        "model_status": "not_run",
+        "gold_status": "provisional"
+      },
+      "gold_before": [
+        {
+          "claim": "labor_overtime",
+          "path": "calculation.amount",
+          "calculator": "overtime",
+          "depends": [
+            "monthly_wage",
+            "overtime_hours_weekday",
+            "overtime_hours_rest",
+            "overtime_hours_holiday"
+          ],
+          "expected": 4942.53,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        }
+      ],
+      "gold_after": [
+        {
+          "claim": "labor_overtime",
+          "path": "calculation.amount",
+          "calculator": "overtime",
+          "depends": [
+            "monthly_wage",
+            "overtime_hours_weekday",
+            "overtime_hours_rest",
+            "overtime_hours_holiday"
+          ],
+          "expected": 4942.53,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        }
+      ]
+    },
+    {
+      "id": "B08",
+      "split": "test",
+      "primary_claim": "labor_overtime",
+      "claims_gold": [
+        "labor_overtime"
+      ],
+      "opening": "公司一直没有支付加班费，我想算一下。",
+      "opening_variants": [
+        "公司一直没有支付加班费，我想算一下。",
+        "麻烦帮我看看：公司一直没有支付加班费，我想算一下。",
+        "我有点着急，公司一直没有支付加班费，我想算一下。"
+      ],
+      "opening_facts": {
+        "overtime_exists": "有",
+        "overtime_paid": "没有支付"
+      },
+      "hidden": {
+        "arbitration_filed": "已申请",
+        "monthly_wage": 12000,
+        "overtime_evidence": "考勤打卡",
+        "overtime_exists": "有",
+        "overtime_hours_holiday": 8,
+        "overtime_hours_rest": 16,
+        "overtime_hours_weekday": 24,
+        "overtime_paid": "没有支付",
+        "overtime_period": "2026年2月",
+        "start_date": "2020-04-01",
+        "work_schedule": "标准工时"
+      },
+      "critical": [
+        "monthly_wage",
+        "overtime_evidence",
+        "overtime_exists",
+        "overtime_hours_holiday",
+        "overtime_hours_rest",
+        "overtime_hours_weekday",
+        "overtime_paid",
+        "overtime_period",
+        "start_date",
+        "work_schedule"
+      ],
+      "answers": {
+        "arbitration_filed": "关于是否已申请仲裁，已申请。",
+        "monthly_wage": "月平均工资是12000元。",
+        "overtime_evidence": "关于加班证据，考勤打卡。",
+        "overtime_exists": "有加班。",
+        "overtime_hours_holiday": "法定节假日每月加班8小时。",
+        "overtime_hours_rest": "休息日每月加班16小时。",
+        "overtime_hours_weekday": "工作日每月加班24小时。",
+        "overtime_paid": "公司没有支付加班费。",
+        "overtime_period": "加班期间是2026年2月。",
+        "start_date": "我是2020-04-01入职的。",
+        "work_schedule": "关于工时制度，标准工时。"
+      },
+      "tags": [
+        "ordinary",
+        "correction"
+      ],
+      "reference_specs": [
+        {
+          "claim": "labor_overtime",
+          "path": "calculation.amount",
+          "calculator": "overtime",
+          "depends": [
+            "monthly_wage",
+            "overtime_hours_weekday",
+            "overtime_hours_rest",
+            "overtime_hours_holiday"
+          ]
+        }
+      ],
+      "sources": [
+        "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/bgt/art/2023/art_0abfdd261c03417b949df19d869add8d.html-0",
+        "https://www.court.gov.cn/zixun/xiangqing/282121.html",
+        "https://xzfg.moj.gov.cn/front/law/detail?LawID=208",
+        "https://www.mohrss.gov.cn/xxgk2020/gzk/gz/202112/P020211229590352867273.pdf",
+        "https://xzfg.moj.gov.cn/mobile/law/detail?LawID=610",
+        "https://flk.npc.gov.cn/"
+      ],
+      "assumptions": [
+        "合成咨询，不对应真实裁判；金标准仅在列明假设下有效。",
+        "日期为公历精确日期；未建模时效中止、中断和地区口径。",
+        "工资基数视为已经核实且不触发地方封顶；不验证地方最低工资。",
+        "年假为完整年度、无不享受情形、正常工资已付；工伤仅算七至十级一次性伤残补助金。",
+        "竞业补偿按明确约定且已履行期间计算；未作裁判结果预测。"
+      ],
+      "review": {
+        "human_status": "pending",
+        "model_status": "not_run",
+        "gold_status": "provisional"
+      },
+      "gold_before": [
+        {
+          "claim": "labor_overtime",
+          "path": "calculation.amount",
+          "calculator": "overtime",
+          "depends": [
+            "monthly_wage",
+            "overtime_hours_weekday",
+            "overtime_hours_rest",
+            "overtime_hours_holiday"
+          ],
+          "expected": 6344.83,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        }
+      ],
+      "correction": {
+        "after": "first_memo",
+        "key": "overtime_hours_weekday",
+        "old": 24,
+        "new": 30,
+        "text": "更正一下，我之前说错了。工作日每月加班30小时。"
+      },
+      "gold_after": [
+        {
+          "claim": "labor_overtime",
+          "path": "calculation.amount",
+          "calculator": "overtime",
+          "depends": [
+            "monthly_wage",
+            "overtime_hours_weekday",
+            "overtime_hours_rest",
+            "overtime_hours_holiday"
+          ],
+          "expected": 6965.52,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        }
+      ],
+      "critical_after": [
+        "monthly_wage",
+        "overtime_evidence",
+        "overtime_exists",
+        "overtime_hours_holiday",
+        "overtime_hours_rest",
+        "overtime_hours_weekday",
+        "overtime_paid",
+        "overtime_period",
+        "start_date",
+        "work_schedule"
+      ]
+    },
+    {
+      "id": "B09",
+      "split": "test",
+      "primary_claim": "labor_overtime",
+      "claims_gold": [
+        "labor_overtime",
+        "labor_double_pay"
+      ],
+      "opening": "我想咨询加班费，情况需要核实，能先帮我梳理吗？另外还涉及未签合同二倍工资。",
+      "opening_variants": [
+        "我想咨询加班费，情况需要核实，能先帮我梳理吗？另外还涉及未签合同二倍工资。",
+        "麻烦帮我看看：我想咨询加班费，情况需要核实，能先帮我梳理吗？另外还涉及未签合同二倍工资。",
+        "我有点着急，我想咨询加班费，情况需要核实，能先帮我梳理吗？另外还涉及未签合同二倍工资。"
+      ],
+      "opening_facts": {},
+      "hidden": {
+        "arbitration_filed": "已申请",
+        "contract_signed": "未签书面合同",
+        "demand_contract": "提出过",
+        "employer": "青禾技术有限公司",
+        "monthly_wage": 10000,
+        "no_contract_months": 5,
+        "overtime_evidence": "考勤打卡",
+        "overtime_exists": "没有",
+        "overtime_hours_holiday": 0,
+        "overtime_hours_rest": 0,
+        "overtime_hours_weekday": 0,
+        "overtime_paid": "没有支付",
+        "overtime_period": "2026年2月",
+        "start_date": "2021-03-01",
+        "work_schedule": "标准工时"
+      },
+      "critical": [
+        "contract_signed",
+        "demand_contract",
+        "monthly_wage",
+        "no_contract_months",
+        "overtime_exists",
+        "overtime_period",
+        "start_date",
+        "work_schedule"
+      ],
+      "answers": {
+        "arbitration_filed": "关于是否已申请仲裁，已申请。",
+        "contract_signed": "书面劳动合同方面，未签书面合同。",
+        "demand_contract": "关于是否要求过签合同，提出过。",
+        "employer": "公司全称是青禾技术有限公司。",
+        "monthly_wage": "月平均工资是10000元。",
+        "no_contract_months": "没签合同5个月。",
+        "overtime_evidence": "关于加班证据，考勤打卡。",
+        "overtime_exists": "没有加班。",
+        "overtime_hours_holiday": "法定节假日每月加班0小时。",
+        "overtime_hours_rest": "休息日每月加班0小时。",
+        "overtime_hours_weekday": "工作日每月加班0小时。",
+        "overtime_paid": "公司没有支付加班费。",
+        "overtime_period": "加班期间是2026年2月。",
+        "start_date": "我是2021-03-01入职的。",
+        "work_schedule": "关于工时制度，标准工时。"
+      },
+      "tags": [
+        "challenge",
+        "multi_claim"
+      ],
+      "reference_specs": [
+        {
+          "claim": "labor_overtime",
+          "path": "finding:F_OT_NONE",
+          "calculator": "literal",
+          "depends": [
+            "overtime_exists"
+          ],
+          "value": true
+        },
+        {
+          "claim": "labor_double_pay",
+          "path": "calculation.amount",
+          "calculator": "double_pay",
+          "depends": [
+            "monthly_wage",
+            "no_contract_months"
+          ]
+        }
+      ],
+      "sources": [
+        "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/bgt/art/2023/art_0abfdd261c03417b949df19d869add8d.html-0",
+        "https://www.court.gov.cn/zixun/xiangqing/282121.html",
+        "https://xzfg.moj.gov.cn/front/law/detail?LawID=208",
+        "https://www.mohrss.gov.cn/xxgk2020/gzk/gz/202112/P020211229590352867273.pdf",
+        "https://xzfg.moj.gov.cn/mobile/law/detail?LawID=610",
+        "https://flk.npc.gov.cn/"
+      ],
+      "assumptions": [
+        "合成咨询，不对应真实裁判；金标准仅在列明假设下有效。",
+        "日期为公历精确日期；未建模时效中止、中断和地区口径。",
+        "工资基数视为已经核实且不触发地方封顶；不验证地方最低工资。",
+        "年假为完整年度、无不享受情形、正常工资已付；工伤仅算七至十级一次性伤残补助金。",
+        "竞业补偿按明确约定且已履行期间计算；未作裁判结果预测。"
+      ],
+      "review": {
+        "human_status": "pending",
+        "model_status": "not_run",
+        "gold_status": "provisional"
+      },
+      "gold_before": [
+        {
+          "claim": "labor_overtime",
+          "path": "finding:F_OT_NONE",
+          "calculator": "literal",
+          "depends": [
+            "overtime_exists"
+          ],
+          "value": true,
+          "expected": true,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        },
+        {
+          "claim": "labor_double_pay",
+          "path": "calculation.amount",
+          "calculator": "double_pay",
+          "depends": [
+            "monthly_wage",
+            "no_contract_months"
+          ],
+          "expected": 50000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        }
+      ],
+      "gold_after": [
+        {
+          "claim": "labor_overtime",
+          "path": "finding:F_OT_NONE",
+          "calculator": "literal",
+          "depends": [
+            "overtime_exists"
+          ],
+          "value": true,
+          "expected": true,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        },
+        {
+          "claim": "labor_double_pay",
+          "path": "calculation.amount",
+          "calculator": "double_pay",
+          "depends": [
+            "monthly_wage",
+            "no_contract_months"
+          ],
+          "expected": 50000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        }
+      ]
+    },
+    {
+      "id": "B10",
+      "split": "dev",
+      "primary_claim": "labor_double_pay",
+      "claims_gold": [
+        "labor_double_pay"
+      ],
+      "opening": "入职后一直没签书面合同，我想问二倍工资。",
+      "opening_variants": [
+        "入职后一直没签书面合同，我想问二倍工资。",
+        "麻烦帮我看看：入职后一直没签书面合同，我想问二倍工资。",
+        "我有点着急，入职后一直没签书面合同，我想问二倍工资。"
+      ],
+      "opening_facts": {
+        "contract_signed": "未签书面合同"
+      },
+      "hidden": {
+        "arbitration_filed": "已申请",
+        "contract_signed": "未签书面合同",
+        "demand_contract": "提出过",
+        "employer": "青禾技术有限公司",
+        "monthly_wage": 10000,
+        "no_contract_months": 5,
+        "start_date": "2021-03-01"
+      },
+      "critical": [
+        "contract_signed",
+        "demand_contract",
+        "monthly_wage",
+        "no_contract_months",
+        "start_date"
+      ],
+      "answers": {
+        "arbitration_filed": "关于是否已申请仲裁，已申请。",
+        "contract_signed": "书面劳动合同方面，未签书面合同。",
+        "demand_contract": "关于是否要求过签合同，提出过。",
+        "employer": "公司全称是青禾技术有限公司。",
+        "monthly_wage": "月平均工资是10000元。",
+        "no_contract_months": "没签合同5个月。",
+        "start_date": "我是2021-03-01入职的。"
+      },
+      "tags": [
+        "ordinary"
+      ],
+      "reference_specs": [
+        {
+          "claim": "labor_double_pay",
+          "path": "calculation.amount",
+          "calculator": "double_pay",
+          "depends": [
+            "monthly_wage",
+            "no_contract_months"
+          ]
+        }
+      ],
+      "sources": [
+        "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/bgt/art/2023/art_0abfdd261c03417b949df19d869add8d.html-0",
+        "https://www.court.gov.cn/zixun/xiangqing/282121.html",
+        "https://xzfg.moj.gov.cn/front/law/detail?LawID=208",
+        "https://www.mohrss.gov.cn/xxgk2020/gzk/gz/202112/P020211229590352867273.pdf",
+        "https://xzfg.moj.gov.cn/mobile/law/detail?LawID=610",
+        "https://flk.npc.gov.cn/"
+      ],
+      "assumptions": [
+        "合成咨询，不对应真实裁判；金标准仅在列明假设下有效。",
+        "日期为公历精确日期；未建模时效中止、中断和地区口径。",
+        "工资基数视为已经核实且不触发地方封顶；不验证地方最低工资。",
+        "年假为完整年度、无不享受情形、正常工资已付；工伤仅算七至十级一次性伤残补助金。",
+        "竞业补偿按明确约定且已履行期间计算；未作裁判结果预测。"
+      ],
+      "review": {
+        "human_status": "pending",
+        "model_status": "not_run",
+        "gold_status": "provisional"
+      },
+      "gold_before": [
+        {
+          "claim": "labor_double_pay",
+          "path": "calculation.amount",
+          "calculator": "double_pay",
+          "depends": [
+            "monthly_wage",
+            "no_contract_months"
+          ],
+          "expected": 50000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        }
+      ],
+      "gold_after": [
+        {
+          "claim": "labor_double_pay",
+          "path": "calculation.amount",
+          "calculator": "double_pay",
+          "depends": [
+            "monthly_wage",
+            "no_contract_months"
+          ],
+          "expected": 50000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        }
+      ]
+    },
+    {
+      "id": "B11",
+      "split": "test",
+      "primary_claim": "labor_double_pay",
+      "claims_gold": [
+        "labor_double_pay"
+      ],
+      "opening": "入职后一直没签书面合同，我想问二倍工资。",
+      "opening_variants": [
+        "入职后一直没签书面合同，我想问二倍工资。",
+        "麻烦帮我看看：入职后一直没签书面合同，我想问二倍工资。",
+        "我有点着急，入职后一直没签书面合同，我想问二倍工资。"
+      ],
+      "opening_facts": {
+        "contract_signed": "未签书面合同"
+      },
+      "hidden": {
+        "arbitration_filed": "已申请",
+        "contract_signed": "未签书面合同",
+        "demand_contract": "提出过",
+        "employer": "青禾技术有限公司",
+        "monthly_wage": 12000,
+        "no_contract_months": 5,
+        "start_date": "2020-04-01"
+      },
+      "critical": [
+        "contract_signed",
+        "demand_contract",
+        "monthly_wage",
+        "no_contract_months",
+        "start_date"
+      ],
+      "answers": {
+        "arbitration_filed": "关于是否已申请仲裁，已申请。",
+        "contract_signed": "书面劳动合同方面，未签书面合同。",
+        "demand_contract": "关于是否要求过签合同，提出过。",
+        "employer": "公司全称是青禾技术有限公司。",
+        "monthly_wage": "月平均工资是12000元。",
+        "no_contract_months": "没签合同5个月。",
+        "start_date": "我是2020-04-01入职的。"
+      },
+      "tags": [
+        "ordinary",
+        "correction"
+      ],
+      "reference_specs": [
+        {
+          "claim": "labor_double_pay",
+          "path": "calculation.amount",
+          "calculator": "double_pay",
+          "depends": [
+            "monthly_wage",
+            "no_contract_months"
+          ]
+        }
+      ],
+      "sources": [
+        "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/bgt/art/2023/art_0abfdd261c03417b949df19d869add8d.html-0",
+        "https://www.court.gov.cn/zixun/xiangqing/282121.html",
+        "https://xzfg.moj.gov.cn/front/law/detail?LawID=208",
+        "https://www.mohrss.gov.cn/xxgk2020/gzk/gz/202112/P020211229590352867273.pdf",
+        "https://xzfg.moj.gov.cn/mobile/law/detail?LawID=610",
+        "https://flk.npc.gov.cn/"
+      ],
+      "assumptions": [
+        "合成咨询，不对应真实裁判；金标准仅在列明假设下有效。",
+        "日期为公历精确日期；未建模时效中止、中断和地区口径。",
+        "工资基数视为已经核实且不触发地方封顶；不验证地方最低工资。",
+        "年假为完整年度、无不享受情形、正常工资已付；工伤仅算七至十级一次性伤残补助金。",
+        "竞业补偿按明确约定且已履行期间计算；未作裁判结果预测。"
+      ],
+      "review": {
+        "human_status": "pending",
+        "model_status": "not_run",
+        "gold_status": "provisional"
+      },
+      "gold_before": [
+        {
+          "claim": "labor_double_pay",
+          "path": "calculation.amount",
+          "calculator": "double_pay",
+          "depends": [
+            "monthly_wage",
+            "no_contract_months"
+          ],
+          "expected": 60000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        }
+      ],
+      "correction": {
+        "after": "first_memo",
+        "key": "no_contract_months",
+        "old": 5,
+        "new": 7,
+        "text": "更正一下，我之前说错了。没签合同7个月。"
+      },
+      "gold_after": [
+        {
+          "claim": "labor_double_pay",
+          "path": "calculation.amount",
+          "calculator": "double_pay",
+          "depends": [
+            "monthly_wage",
+            "no_contract_months"
+          ],
+          "expected": 84000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        }
+      ],
+      "critical_after": [
+        "contract_signed",
+        "demand_contract",
+        "monthly_wage",
+        "no_contract_months",
+        "start_date"
+      ]
+    },
+    {
+      "id": "B12",
+      "split": "test",
+      "primary_claim": "labor_double_pay",
+      "claims_gold": [
+        "labor_double_pay",
+        "labor_work_injury"
+      ],
+      "opening": "我想咨询未签合同二倍工资，情况需要核实，能先帮我梳理吗？另外还涉及工伤。",
+      "opening_variants": [
+        "我想咨询未签合同二倍工资，情况需要核实，能先帮我梳理吗？另外还涉及工伤。",
+        "麻烦帮我看看：我想咨询未签合同二倍工资，情况需要核实，能先帮我梳理吗？另外还涉及工伤。",
+        "我有点着急，我想咨询未签合同二倍工资，情况需要核实，能先帮我梳理吗？另外还涉及工伤。"
+      ],
+      "opening_facts": {},
+      "hidden": {
+        "arbitration_filed": "已申请",
+        "claim_type": "要求支付二倍工资",
+        "contract_signed": "已签书面合同",
+        "demand_contract": "提出过",
+        "disability_level": "十级",
+        "employer": "青禾技术有限公司",
+        "injury_at_work": "工作时间和场所内",
+        "injury_date": "2026-02-01",
+        "injury_evidence": "医院病历",
+        "injury_recognized": "已认定工伤",
+        "injury_reported": "单位30日内申请",
+        "medical_cost": 12000,
+        "monthly_wage": 10000,
+        "no_contract_months": 5,
+        "start_date": "2021-03-01",
+        "work_injury_insurance": "参加了工伤保险"
+      },
+      "critical": [
+        "contract_signed",
+        "disability_level",
+        "injury_at_work",
+        "injury_date",
+        "injury_recognized",
+        "injury_reported",
+        "monthly_wage",
+        "start_date",
+        "work_injury_insurance"
+      ],
+      "answers": {
+        "arbitration_filed": "关于是否已申请仲裁，已申请。",
+        "claim_type": "我的诉求是要求支付二倍工资。",
+        "contract_signed": "书面劳动合同方面，已签书面合同。",
+        "demand_contract": "关于是否要求过签合同，提出过。",
+        "disability_level": "关于伤残等级，十级。",
+        "employer": "公司全称是青禾技术有限公司。",
+        "injury_at_work": "关于受伤情形，工作时间和场所内。",
+        "injury_date": "受伤日期是2026-02-01。",
+        "injury_evidence": "关于工伤证据，医院病历。",
+        "injury_recognized": "关于工伤认定结果，已认定工伤。",
+        "injury_reported": "关于工伤认定申请，单位30日内申请。",
+        "medical_cost": "医疗费12000元。",
+        "monthly_wage": "月平均工资是10000元。",
+        "no_contract_months": "没签合同5个月。",
+        "start_date": "我是2021-03-01入职的。",
+        "work_injury_insurance": "关于是否参加工伤保险，参加了工伤保险。"
+      },
+      "tags": [
+        "challenge",
+        "multi_claim"
+      ],
+      "reference_specs": [
+        {
+          "claim": "labor_double_pay",
+          "path": "finding:F_DP_NONE",
+          "calculator": "literal",
+          "depends": [
+            "contract_signed"
+          ],
+          "value": true
+        },
+        {
+          "claim": "labor_work_injury",
+          "path": "calculation.amount",
+          "calculator": "work_injury",
+          "depends": [
+            "monthly_wage",
+            "disability_level"
+          ]
+        }
+      ],
+      "sources": [
+        "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/bgt/art/2023/art_0abfdd261c03417b949df19d869add8d.html-0",
+        "https://www.court.gov.cn/zixun/xiangqing/282121.html",
+        "https://xzfg.moj.gov.cn/front/law/detail?LawID=208",
+        "https://www.mohrss.gov.cn/xxgk2020/gzk/gz/202112/P020211229590352867273.pdf",
+        "https://xzfg.moj.gov.cn/mobile/law/detail?LawID=610",
+        "https://flk.npc.gov.cn/"
+      ],
+      "assumptions": [
+        "合成咨询，不对应真实裁判；金标准仅在列明假设下有效。",
+        "日期为公历精确日期；未建模时效中止、中断和地区口径。",
+        "工资基数视为已经核实且不触发地方封顶；不验证地方最低工资。",
+        "年假为完整年度、无不享受情形、正常工资已付；工伤仅算七至十级一次性伤残补助金。",
+        "竞业补偿按明确约定且已履行期间计算；未作裁判结果预测。"
+      ],
+      "review": {
+        "human_status": "pending",
+        "model_status": "not_run",
+        "gold_status": "provisional"
+      },
+      "gold_before": [
+        {
+          "claim": "labor_double_pay",
+          "path": "finding:F_DP_NONE",
+          "calculator": "literal",
+          "depends": [
+            "contract_signed"
+          ],
+          "value": true,
+          "expected": true,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        },
+        {
+          "claim": "labor_work_injury",
+          "path": "calculation.amount",
+          "calculator": "work_injury",
+          "depends": [
+            "monthly_wage",
+            "disability_level"
+          ],
+          "expected": 70000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        }
+      ],
+      "gold_after": [
+        {
+          "claim": "labor_double_pay",
+          "path": "finding:F_DP_NONE",
+          "calculator": "literal",
+          "depends": [
+            "contract_signed"
+          ],
+          "value": true,
+          "expected": true,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        },
+        {
+          "claim": "labor_work_injury",
+          "path": "calculation.amount",
+          "calculator": "work_injury",
+          "depends": [
+            "monthly_wage",
+            "disability_level"
+          ],
+          "expected": 70000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        }
+      ]
+    },
+    {
+      "id": "B13",
+      "split": "dev",
+      "primary_claim": "labor_work_injury",
+      "claims_gold": [
+        "labor_work_injury"
+      ],
+      "opening": "我想咨询工伤认定和伤残待遇，要先准备什么？",
+      "opening_variants": [
+        "我想咨询工伤认定和伤残待遇，要先准备什么？",
+        "麻烦帮我看看：我想咨询工伤认定和伤残待遇，要先准备什么？",
+        "我有点着急，我想咨询工伤认定和伤残待遇，要先准备什么？"
+      ],
+      "opening_facts": {},
+      "hidden": {
+        "arbitration_filed": "已申请",
+        "claim_type": "要求工伤待遇",
+        "disability_level": "十级",
+        "employer": "青禾技术有限公司",
+        "injury_at_work": "工作时间和场所内",
+        "injury_date": "2026-02-01",
+        "injury_evidence": "医院病历",
+        "injury_recognized": "已认定工伤",
+        "injury_reported": "单位30日内申请",
+        "medical_cost": 12000,
+        "monthly_wage": 10000,
+        "start_date": "2021-03-01",
+        "work_injury_insurance": "参加了工伤保险"
+      },
+      "critical": [
+        "disability_level",
+        "injury_at_work",
+        "injury_date",
+        "injury_recognized",
+        "injury_reported",
+        "monthly_wage",
+        "start_date",
+        "work_injury_insurance"
+      ],
+      "answers": {
+        "arbitration_filed": "关于是否已申请仲裁，已申请。",
+        "claim_type": "我的诉求是要求工伤待遇。",
+        "disability_level": "关于伤残等级，十级。",
+        "employer": "公司全称是青禾技术有限公司。",
+        "injury_at_work": "关于受伤情形，工作时间和场所内。",
+        "injury_date": "受伤日期是2026-02-01。",
+        "injury_evidence": "关于工伤证据，医院病历。",
+        "injury_recognized": "关于工伤认定结果，已认定工伤。",
+        "injury_reported": "关于工伤认定申请，单位30日内申请。",
+        "medical_cost": "医疗费12000元。",
+        "monthly_wage": "月平均工资是10000元。",
+        "start_date": "我是2021-03-01入职的。",
+        "work_injury_insurance": "关于是否参加工伤保险，参加了工伤保险。"
+      },
+      "tags": [
+        "ordinary"
+      ],
+      "reference_specs": [
+        {
+          "claim": "labor_work_injury",
+          "path": "calculation.amount",
+          "calculator": "work_injury",
+          "depends": [
+            "monthly_wage",
+            "disability_level"
+          ]
+        }
+      ],
+      "sources": [
+        "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/bgt/art/2023/art_0abfdd261c03417b949df19d869add8d.html-0",
+        "https://www.court.gov.cn/zixun/xiangqing/282121.html",
+        "https://xzfg.moj.gov.cn/front/law/detail?LawID=208",
+        "https://www.mohrss.gov.cn/xxgk2020/gzk/gz/202112/P020211229590352867273.pdf",
+        "https://xzfg.moj.gov.cn/mobile/law/detail?LawID=610",
+        "https://flk.npc.gov.cn/"
+      ],
+      "assumptions": [
+        "合成咨询，不对应真实裁判；金标准仅在列明假设下有效。",
+        "日期为公历精确日期；未建模时效中止、中断和地区口径。",
+        "工资基数视为已经核实且不触发地方封顶；不验证地方最低工资。",
+        "年假为完整年度、无不享受情形、正常工资已付；工伤仅算七至十级一次性伤残补助金。",
+        "竞业补偿按明确约定且已履行期间计算；未作裁判结果预测。"
+      ],
+      "review": {
+        "human_status": "pending",
+        "model_status": "not_run",
+        "gold_status": "provisional"
+      },
+      "gold_before": [
+        {
+          "claim": "labor_work_injury",
+          "path": "calculation.amount",
+          "calculator": "work_injury",
+          "depends": [
+            "monthly_wage",
+            "disability_level"
+          ],
+          "expected": 70000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        }
+      ],
+      "gold_after": [
+        {
+          "claim": "labor_work_injury",
+          "path": "calculation.amount",
+          "calculator": "work_injury",
+          "depends": [
+            "monthly_wage",
+            "disability_level"
+          ],
+          "expected": 70000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        }
+      ]
+    },
+    {
+      "id": "B14",
+      "split": "test",
+      "primary_claim": "labor_work_injury",
+      "claims_gold": [
+        "labor_work_injury"
+      ],
+      "opening": "我想咨询工伤认定和伤残待遇，要先准备什么？",
+      "opening_variants": [
+        "我想咨询工伤认定和伤残待遇，要先准备什么？",
+        "麻烦帮我看看：我想咨询工伤认定和伤残待遇，要先准备什么？",
+        "我有点着急，我想咨询工伤认定和伤残待遇，要先准备什么？"
+      ],
+      "opening_facts": {},
+      "hidden": {
+        "arbitration_filed": "已申请",
+        "claim_type": "要求工伤待遇",
+        "disability_level": "十级",
+        "employer": "青禾技术有限公司",
+        "injury_at_work": "工作时间和场所内",
+        "injury_date": "2026-02-01",
+        "injury_evidence": "医院病历",
+        "injury_recognized": "已认定工伤",
+        "injury_reported": "单位30日内申请",
+        "medical_cost": 12000,
+        "monthly_wage": 12000,
+        "start_date": "2020-04-01",
+        "work_injury_insurance": "参加了工伤保险"
+      },
+      "critical": [
+        "disability_level",
+        "injury_at_work",
+        "injury_date",
+        "injury_recognized",
+        "injury_reported",
+        "monthly_wage",
+        "start_date",
+        "work_injury_insurance"
+      ],
+      "answers": {
+        "arbitration_filed": "关于是否已申请仲裁，已申请。",
+        "claim_type": "我的诉求是要求工伤待遇。",
+        "disability_level": "关于伤残等级，十级。",
+        "employer": "公司全称是青禾技术有限公司。",
+        "injury_at_work": "关于受伤情形，工作时间和场所内。",
+        "injury_date": "受伤日期是2026-02-01。",
+        "injury_evidence": "关于工伤证据，医院病历。",
+        "injury_recognized": "关于工伤认定结果，已认定工伤。",
+        "injury_reported": "关于工伤认定申请，单位30日内申请。",
+        "medical_cost": "医疗费12000元。",
+        "monthly_wage": "月平均工资是12000元。",
+        "start_date": "我是2020-04-01入职的。",
+        "work_injury_insurance": "关于是否参加工伤保险，参加了工伤保险。"
+      },
+      "tags": [
+        "ordinary",
+        "correction"
+      ],
+      "reference_specs": [
+        {
+          "claim": "labor_work_injury",
+          "path": "calculation.amount",
+          "calculator": "work_injury",
+          "depends": [
+            "monthly_wage",
+            "disability_level"
+          ]
+        }
+      ],
+      "sources": [
+        "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/bgt/art/2023/art_0abfdd261c03417b949df19d869add8d.html-0",
+        "https://www.court.gov.cn/zixun/xiangqing/282121.html",
+        "https://xzfg.moj.gov.cn/front/law/detail?LawID=208",
+        "https://www.mohrss.gov.cn/xxgk2020/gzk/gz/202112/P020211229590352867273.pdf",
+        "https://xzfg.moj.gov.cn/mobile/law/detail?LawID=610",
+        "https://flk.npc.gov.cn/"
+      ],
+      "assumptions": [
+        "合成咨询，不对应真实裁判；金标准仅在列明假设下有效。",
+        "日期为公历精确日期；未建模时效中止、中断和地区口径。",
+        "工资基数视为已经核实且不触发地方封顶；不验证地方最低工资。",
+        "年假为完整年度、无不享受情形、正常工资已付；工伤仅算七至十级一次性伤残补助金。",
+        "竞业补偿按明确约定且已履行期间计算；未作裁判结果预测。"
+      ],
+      "review": {
+        "human_status": "pending",
+        "model_status": "not_run",
+        "gold_status": "provisional"
+      },
+      "gold_before": [
+        {
+          "claim": "labor_work_injury",
+          "path": "calculation.amount",
+          "calculator": "work_injury",
+          "depends": [
+            "monthly_wage",
+            "disability_level"
+          ],
+          "expected": 84000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        }
+      ],
+      "correction": {
+        "after": "first_memo",
+        "key": "disability_level",
+        "old": "十级",
+        "new": "九级",
+        "text": "更正一下，我之前说错了。关于伤残等级，九级。"
+      },
+      "gold_after": [
+        {
+          "claim": "labor_work_injury",
+          "path": "calculation.amount",
+          "calculator": "work_injury",
+          "depends": [
+            "monthly_wage",
+            "disability_level"
+          ],
+          "expected": 108000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        }
+      ],
+      "critical_after": [
+        "disability_level",
+        "injury_at_work",
+        "injury_date",
+        "injury_recognized",
+        "injury_reported",
+        "monthly_wage",
+        "start_date",
+        "work_injury_insurance"
+      ]
+    },
+    {
+      "id": "B15",
+      "split": "test",
+      "primary_claim": "labor_work_injury",
+      "claims_gold": [
+        "labor_work_injury",
+        "labor_social_insurance"
+      ],
+      "opening": "我想咨询工伤，情况需要核实，能先帮我梳理吗？另外还涉及社保/公积金。",
+      "opening_variants": [
+        "我想咨询工伤，情况需要核实，能先帮我梳理吗？另外还涉及社保/公积金。",
+        "麻烦帮我看看：我想咨询工伤，情况需要核实，能先帮我梳理吗？另外还涉及社保/公积金。",
+        "我有点着急，我想咨询工伤，情况需要核实，能先帮我梳理吗？另外还涉及社保/公积金。"
+      ],
+      "opening_facts": {},
+      "hidden": {
+        "arbitration_filed": "已申请",
+        "claim_type": "要求工伤待遇",
+        "disability_level": "十级",
+        "employer": "青禾技术有限公司",
+        "forced_resignation_reason": "不适用",
+        "housing_fund": "正常缴纳",
+        "injury_at_work": "因工外出",
+        "injury_date": "2026-02-01",
+        "injury_evidence": "医院病历",
+        "injury_recognized": "已认定工伤",
+        "injury_reported": "单位30日内申请",
+        "medical_cost": 12000,
+        "monthly_wage": 10000,
+        "social_insurance": "未缴纳",
+        "social_insurance_claim": "要求补缴",
+        "social_insurance_gap": "2026年1月至2月",
+        "social_insurance_years": 5,
+        "start_date": "2021-03-01",
+        "work_injury_insurance": "没有参加"
+      },
+      "critical": [
+        "disability_level",
+        "injury_at_work",
+        "injury_date",
+        "injury_recognized",
+        "injury_reported",
+        "monthly_wage",
+        "social_insurance",
+        "social_insurance_claim",
+        "social_insurance_gap",
+        "start_date",
+        "work_injury_insurance"
+      ],
+      "answers": {
+        "arbitration_filed": "关于是否已申请仲裁，已申请。",
+        "claim_type": "我的诉求是要求工伤待遇。",
+        "disability_level": "关于伤残等级，十级。",
+        "employer": "公司全称是青禾技术有限公司。",
+        "forced_resignation_reason": "关于被迫解除的理由，不适用。",
+        "housing_fund": "关于住房公积金，正常缴纳。",
+        "injury_at_work": "关于受伤情形，因工外出。",
+        "injury_date": "受伤日期是2026-02-01。",
+        "injury_evidence": "关于工伤证据，医院病历。",
+        "injury_recognized": "关于工伤认定结果，已认定工伤。",
+        "injury_reported": "关于工伤认定申请，单位30日内申请。",
+        "medical_cost": "医疗费12000元。",
+        "monthly_wage": "月平均工资是10000元。",
+        "social_insurance": "社保缴纳情况是未缴纳。",
+        "social_insurance_claim": "关于社保诉求，要求补缴。",
+        "social_insurance_gap": "关于社保断缴期间，2026年1月至2月。",
+        "social_insurance_years": "关于累计社保缴费年限，5。",
+        "start_date": "我是2021-03-01入职的。",
+        "work_injury_insurance": "关于是否参加工伤保险，没有参加。"
+      },
+      "tags": [
+        "challenge",
+        "multi_claim"
+      ],
+      "reference_specs": [
+        {
+          "claim": "labor_work_injury",
+          "path": "calculation.amount",
+          "calculator": "work_injury",
+          "depends": [
+            "monthly_wage",
+            "disability_level"
+          ]
+        },
+        {
+          "claim": "labor_social_insurance",
+          "path": "finding:F_SI_FORCED",
+          "calculator": "condition",
+          "depends": [
+            "social_insurance_claim"
+          ],
+          "conditions": {
+            "social_insurance_claim": "要求被迫解除经济补偿"
+          }
+        }
+      ],
+      "sources": [
+        "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/bgt/art/2023/art_0abfdd261c03417b949df19d869add8d.html-0",
+        "https://www.court.gov.cn/zixun/xiangqing/282121.html",
+        "https://xzfg.moj.gov.cn/front/law/detail?LawID=208",
+        "https://www.mohrss.gov.cn/xxgk2020/gzk/gz/202112/P020211229590352867273.pdf",
+        "https://xzfg.moj.gov.cn/mobile/law/detail?LawID=610",
+        "https://flk.npc.gov.cn/"
+      ],
+      "assumptions": [
+        "合成咨询，不对应真实裁判；金标准仅在列明假设下有效。",
+        "日期为公历精确日期；未建模时效中止、中断和地区口径。",
+        "工资基数视为已经核实且不触发地方封顶；不验证地方最低工资。",
+        "年假为完整年度、无不享受情形、正常工资已付；工伤仅算七至十级一次性伤残补助金。",
+        "竞业补偿按明确约定且已履行期间计算；未作裁判结果预测。"
+      ],
+      "review": {
+        "human_status": "pending",
+        "model_status": "not_run",
+        "gold_status": "provisional"
+      },
+      "gold_before": [
+        {
+          "claim": "labor_work_injury",
+          "path": "calculation.amount",
+          "calculator": "work_injury",
+          "depends": [
+            "monthly_wage",
+            "disability_level"
+          ],
+          "expected": 70000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        },
+        {
+          "claim": "labor_social_insurance",
+          "path": "finding:F_SI_FORCED",
+          "calculator": "condition",
+          "depends": [
+            "social_insurance_claim"
+          ],
+          "conditions": {
+            "social_insurance_claim": "要求被迫解除经济补偿"
+          },
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        }
+      ],
+      "gold_after": [
+        {
+          "claim": "labor_work_injury",
+          "path": "calculation.amount",
+          "calculator": "work_injury",
+          "depends": [
+            "monthly_wage",
+            "disability_level"
+          ],
+          "expected": 70000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        },
+        {
+          "claim": "labor_social_insurance",
+          "path": "finding:F_SI_FORCED",
+          "calculator": "condition",
+          "depends": [
+            "social_insurance_claim"
+          ],
+          "conditions": {
+            "social_insurance_claim": "要求被迫解除经济补偿"
+          },
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        }
+      ]
+    },
+    {
+      "id": "B16",
+      "split": "dev",
+      "primary_claim": "labor_social_insurance",
+      "claims_gold": [
+        "labor_social_insurance"
+      ],
+      "opening": "公司没交社保，我想问补缴的事情。",
+      "opening_variants": [
+        "公司没交社保，我想问补缴的事情。",
+        "麻烦帮我看看：公司没交社保，我想问补缴的事情。",
+        "我有点着急，公司没交社保，我想问补缴的事情。"
+      ],
+      "opening_facts": {
+        "social_insurance": "未缴纳",
+        "social_insurance_claim": "要求补缴"
+      },
+      "hidden": {
+        "arbitration_filed": "已申请",
+        "employer": "青禾技术有限公司",
+        "forced_resignation_reason": "不适用",
+        "housing_fund": "正常缴纳",
+        "monthly_wage": 10000,
+        "social_insurance": "未缴纳",
+        "social_insurance_claim": "要求补缴",
+        "social_insurance_gap": "2026年1月至2月",
+        "social_insurance_years": 5,
+        "start_date": "2021-03-01"
+      },
+      "critical": [
+        "monthly_wage",
+        "social_insurance",
+        "social_insurance_claim",
+        "social_insurance_gap",
+        "start_date"
+      ],
+      "answers": {
+        "arbitration_filed": "关于是否已申请仲裁，已申请。",
+        "employer": "公司全称是青禾技术有限公司。",
+        "forced_resignation_reason": "关于被迫解除的理由，不适用。",
+        "housing_fund": "关于住房公积金，正常缴纳。",
+        "monthly_wage": "月平均工资是10000元。",
+        "social_insurance": "社保缴纳情况是未缴纳。",
+        "social_insurance_claim": "关于社保诉求，要求补缴。",
+        "social_insurance_gap": "关于社保断缴期间，2026年1月至2月。",
+        "social_insurance_years": "关于累计社保缴费年限，5。",
+        "start_date": "我是2021-03-01入职的。"
+      },
+      "tags": [
+        "ordinary"
+      ],
+      "reference_specs": [
+        {
+          "claim": "labor_social_insurance",
+          "path": "finding:F_SI_FORCED",
+          "calculator": "condition",
+          "depends": [
+            "social_insurance_claim"
+          ],
+          "conditions": {
+            "social_insurance_claim": "要求被迫解除经济补偿"
+          }
+        }
+      ],
+      "sources": [
+        "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/bgt/art/2023/art_0abfdd261c03417b949df19d869add8d.html-0",
+        "https://www.court.gov.cn/zixun/xiangqing/282121.html",
+        "https://xzfg.moj.gov.cn/front/law/detail?LawID=208",
+        "https://www.mohrss.gov.cn/xxgk2020/gzk/gz/202112/P020211229590352867273.pdf",
+        "https://xzfg.moj.gov.cn/mobile/law/detail?LawID=610",
+        "https://flk.npc.gov.cn/"
+      ],
+      "assumptions": [
+        "合成咨询，不对应真实裁判；金标准仅在列明假设下有效。",
+        "日期为公历精确日期；未建模时效中止、中断和地区口径。",
+        "工资基数视为已经核实且不触发地方封顶；不验证地方最低工资。",
+        "年假为完整年度、无不享受情形、正常工资已付；工伤仅算七至十级一次性伤残补助金。",
+        "竞业补偿按明确约定且已履行期间计算；未作裁判结果预测。"
+      ],
+      "review": {
+        "human_status": "pending",
+        "model_status": "not_run",
+        "gold_status": "provisional"
+      },
+      "gold_before": [
+        {
+          "claim": "labor_social_insurance",
+          "path": "finding:F_SI_FORCED",
+          "calculator": "condition",
+          "depends": [
+            "social_insurance_claim"
+          ],
+          "conditions": {
+            "social_insurance_claim": "要求被迫解除经济补偿"
+          },
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        }
+      ],
+      "gold_after": [
+        {
+          "claim": "labor_social_insurance",
+          "path": "finding:F_SI_FORCED",
+          "calculator": "condition",
+          "depends": [
+            "social_insurance_claim"
+          ],
+          "conditions": {
+            "social_insurance_claim": "要求被迫解除经济补偿"
+          },
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        }
+      ]
+    },
+    {
+      "id": "B17",
+      "split": "test",
+      "primary_claim": "labor_social_insurance",
+      "claims_gold": [
+        "labor_social_insurance"
+      ],
+      "opening": "公司没交社保，我想问补缴的事情。",
+      "opening_variants": [
+        "公司没交社保，我想问补缴的事情。",
+        "麻烦帮我看看：公司没交社保，我想问补缴的事情。",
+        "我有点着急，公司没交社保，我想问补缴的事情。"
+      ],
+      "opening_facts": {
+        "social_insurance": "未缴纳",
+        "social_insurance_claim": "要求补缴"
+      },
+      "hidden": {
+        "arbitration_filed": "已申请",
+        "employer": "青禾技术有限公司",
+        "forced_resignation_reason": "不适用",
+        "housing_fund": "正常缴纳",
+        "monthly_wage": 12000,
+        "social_insurance": "未缴纳",
+        "social_insurance_claim": "要求补缴",
+        "social_insurance_gap": "2026年1月至2月",
+        "social_insurance_years": 5,
+        "start_date": "2020-04-01"
+      },
+      "critical": [
+        "monthly_wage",
+        "social_insurance",
+        "social_insurance_claim",
+        "social_insurance_gap",
+        "start_date"
+      ],
+      "answers": {
+        "arbitration_filed": "关于是否已申请仲裁，已申请。",
+        "employer": "公司全称是青禾技术有限公司。",
+        "forced_resignation_reason": "关于被迫解除的理由，不适用。",
+        "housing_fund": "关于住房公积金，正常缴纳。",
+        "monthly_wage": "月平均工资是12000元。",
+        "social_insurance": "社保缴纳情况是未缴纳。",
+        "social_insurance_claim": "关于社保诉求，要求补缴。",
+        "social_insurance_gap": "关于社保断缴期间，2026年1月至2月。",
+        "social_insurance_years": "关于累计社保缴费年限，5。",
+        "start_date": "我是2020-04-01入职的。"
+      },
+      "tags": [
+        "ordinary",
+        "correction"
+      ],
+      "reference_specs": [
+        {
+          "claim": "labor_social_insurance",
+          "path": "finding:F_SI_FORCED",
+          "calculator": "condition",
+          "depends": [
+            "social_insurance_claim"
+          ],
+          "conditions": {
+            "social_insurance_claim": "要求被迫解除经济补偿"
+          }
+        }
+      ],
+      "sources": [
+        "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/bgt/art/2023/art_0abfdd261c03417b949df19d869add8d.html-0",
+        "https://www.court.gov.cn/zixun/xiangqing/282121.html",
+        "https://xzfg.moj.gov.cn/front/law/detail?LawID=208",
+        "https://www.mohrss.gov.cn/xxgk2020/gzk/gz/202112/P020211229590352867273.pdf",
+        "https://xzfg.moj.gov.cn/mobile/law/detail?LawID=610",
+        "https://flk.npc.gov.cn/"
+      ],
+      "assumptions": [
+        "合成咨询，不对应真实裁判；金标准仅在列明假设下有效。",
+        "日期为公历精确日期；未建模时效中止、中断和地区口径。",
+        "工资基数视为已经核实且不触发地方封顶；不验证地方最低工资。",
+        "年假为完整年度、无不享受情形、正常工资已付；工伤仅算七至十级一次性伤残补助金。",
+        "竞业补偿按明确约定且已履行期间计算；未作裁判结果预测。"
+      ],
+      "review": {
+        "human_status": "pending",
+        "model_status": "not_run",
+        "gold_status": "provisional"
+      },
+      "gold_before": [
+        {
+          "claim": "labor_social_insurance",
+          "path": "finding:F_SI_FORCED",
+          "calculator": "condition",
+          "depends": [
+            "social_insurance_claim"
+          ],
+          "conditions": {
+            "social_insurance_claim": "要求被迫解除经济补偿"
+          },
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        }
+      ],
+      "correction": {
+        "after": "first_memo",
+        "key": "social_insurance_claim",
+        "old": "要求补缴",
+        "new": "要求被迫解除经济补偿",
+        "text": "更正一下，我之前说错了。关于社保诉求，要求被迫解除经济补偿。"
+      },
+      "gold_after": [
+        {
+          "claim": "labor_social_insurance",
+          "path": "finding:F_SI_FORCED",
+          "calculator": "condition",
+          "depends": [
+            "social_insurance_claim"
+          ],
+          "conditions": {
+            "social_insurance_claim": "要求被迫解除经济补偿"
+          },
+          "expected": true,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        }
+      ],
+      "critical_after": [
+        "monthly_wage",
+        "social_insurance",
+        "social_insurance_claim",
+        "social_insurance_gap",
+        "start_date"
+      ]
+    },
+    {
+      "id": "B18",
+      "split": "test",
+      "primary_claim": "labor_social_insurance",
+      "claims_gold": [
+        "labor_social_insurance",
+        "labor_annual_leave"
+      ],
+      "opening": "我想咨询社保/公积金，情况需要核实，能先帮我梳理吗？另外还涉及年休假。",
+      "opening_variants": [
+        "我想咨询社保/公积金，情况需要核实，能先帮我梳理吗？另外还涉及年休假。",
+        "麻烦帮我看看：我想咨询社保/公积金，情况需要核实，能先帮我梳理吗？另外还涉及年休假。",
+        "我有点着急，我想咨询社保/公积金，情况需要核实，能先帮我梳理吗？另外还涉及年休假。"
+      ],
+      "opening_facts": {},
+      "hidden": {
+        "annual_leave_paid": "没有支付",
+        "annual_leave_taken": 2,
+        "annual_leave_year": "2025",
+        "arbitration_filed": "已申请",
+        "cumulative_work_years": 9,
+        "employer": "青禾技术有限公司",
+        "forced_resignation_reason": "不适用",
+        "housing_fund": "正常缴纳",
+        "monthly_wage": 10000,
+        "social_insurance": "正常缴纳",
+        "social_insurance_claim": "要求补缴",
+        "social_insurance_gap": "2026年1月至2月",
+        "social_insurance_years": 5,
+        "start_date": "2021-03-01"
+      },
+      "critical": [
+        "annual_leave_paid",
+        "annual_leave_taken",
+        "annual_leave_year",
+        "cumulative_work_years",
+        "monthly_wage",
+        "social_insurance",
+        "social_insurance_claim",
+        "start_date"
+      ],
+      "answers": {
+        "annual_leave_paid": "关于年假工资支付，没有支付。",
+        "annual_leave_taken": "已经休了2天年假。",
+        "annual_leave_year": "关于未休年假年度，2025。",
+        "arbitration_filed": "关于是否已申请仲裁，已申请。",
+        "cumulative_work_years": "累计工作9年。",
+        "employer": "公司全称是青禾技术有限公司。",
+        "forced_resignation_reason": "关于被迫解除的理由，不适用。",
+        "housing_fund": "关于住房公积金，正常缴纳。",
+        "monthly_wage": "月平均工资是10000元。",
+        "social_insurance": "社保缴纳情况是正常缴纳。",
+        "social_insurance_claim": "关于社保诉求，要求补缴。",
+        "social_insurance_gap": "关于社保断缴期间，2026年1月至2月。",
+        "social_insurance_years": "关于累计社保缴费年限，5。",
+        "start_date": "我是2021-03-01入职的。"
+      },
+      "tags": [
+        "challenge",
+        "multi_claim"
+      ],
+      "reference_specs": [
+        {
+          "claim": "labor_social_insurance",
+          "path": "finding:F_SI_FORCED",
+          "calculator": "condition",
+          "depends": [
+            "social_insurance_claim"
+          ],
+          "conditions": {
+            "social_insurance_claim": "要求被迫解除经济补偿"
+          }
+        },
+        {
+          "claim": "labor_annual_leave",
+          "path": "calculation.amount",
+          "calculator": "annual_leave",
+          "depends": [
+            "monthly_wage",
+            "cumulative_work_years",
+            "annual_leave_taken"
+          ]
+        }
+      ],
+      "sources": [
+        "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/bgt/art/2023/art_0abfdd261c03417b949df19d869add8d.html-0",
+        "https://www.court.gov.cn/zixun/xiangqing/282121.html",
+        "https://xzfg.moj.gov.cn/front/law/detail?LawID=208",
+        "https://www.mohrss.gov.cn/xxgk2020/gzk/gz/202112/P020211229590352867273.pdf",
+        "https://xzfg.moj.gov.cn/mobile/law/detail?LawID=610",
+        "https://flk.npc.gov.cn/"
+      ],
+      "assumptions": [
+        "合成咨询，不对应真实裁判；金标准仅在列明假设下有效。",
+        "日期为公历精确日期；未建模时效中止、中断和地区口径。",
+        "工资基数视为已经核实且不触发地方封顶；不验证地方最低工资。",
+        "年假为完整年度、无不享受情形、正常工资已付；工伤仅算七至十级一次性伤残补助金。",
+        "竞业补偿按明确约定且已履行期间计算；未作裁判结果预测。"
+      ],
+      "review": {
+        "human_status": "pending",
+        "model_status": "not_run",
+        "gold_status": "provisional"
+      },
+      "gold_before": [
+        {
+          "claim": "labor_social_insurance",
+          "path": "finding:F_SI_FORCED",
+          "calculator": "condition",
+          "depends": [
+            "social_insurance_claim"
+          ],
+          "conditions": {
+            "social_insurance_claim": "要求被迫解除经济补偿"
+          },
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        },
+        {
+          "claim": "labor_annual_leave",
+          "path": "calculation.amount",
+          "calculator": "annual_leave",
+          "depends": [
+            "monthly_wage",
+            "cumulative_work_years",
+            "annual_leave_taken"
+          ],
+          "expected": 2758.62,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        }
+      ],
+      "gold_after": [
+        {
+          "claim": "labor_social_insurance",
+          "path": "finding:F_SI_FORCED",
+          "calculator": "condition",
+          "depends": [
+            "social_insurance_claim"
+          ],
+          "conditions": {
+            "social_insurance_claim": "要求被迫解除经济补偿"
+          },
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        },
+        {
+          "claim": "labor_annual_leave",
+          "path": "calculation.amount",
+          "calculator": "annual_leave",
+          "depends": [
+            "monthly_wage",
+            "cumulative_work_years",
+            "annual_leave_taken"
+          ],
+          "expected": 2758.62,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        }
+      ]
+    },
+    {
+      "id": "B19",
+      "split": "dev",
+      "primary_claim": "labor_annual_leave",
+      "claims_gold": [
+        "labor_annual_leave"
+      ],
+      "opening": "我有未休年假，想问年假工资怎么计算。",
+      "opening_variants": [
+        "我有未休年假，想问年假工资怎么计算。",
+        "麻烦帮我看看：我有未休年假，想问年假工资怎么计算。",
+        "我有点着急，我有未休年假，想问年假工资怎么计算。"
+      ],
+      "opening_facts": {},
+      "hidden": {
+        "annual_leave_paid": "没有支付",
+        "annual_leave_taken": 2,
+        "annual_leave_year": "2025",
+        "arbitration_filed": "已申请",
+        "cumulative_work_years": 9,
+        "monthly_wage": 10000,
+        "start_date": "2021-03-01"
+      },
+      "critical": [
+        "annual_leave_paid",
+        "annual_leave_taken",
+        "annual_leave_year",
+        "cumulative_work_years",
+        "monthly_wage",
+        "start_date"
+      ],
+      "answers": {
+        "annual_leave_paid": "关于年假工资支付，没有支付。",
+        "annual_leave_taken": "已经休了2天年假。",
+        "annual_leave_year": "关于未休年假年度，2025。",
+        "arbitration_filed": "关于是否已申请仲裁，已申请。",
+        "cumulative_work_years": "累计工作9年。",
+        "monthly_wage": "月平均工资是10000元。",
+        "start_date": "我是2021-03-01入职的。"
+      },
+      "tags": [
+        "ordinary"
+      ],
+      "reference_specs": [
+        {
+          "claim": "labor_annual_leave",
+          "path": "calculation.amount",
+          "calculator": "annual_leave",
+          "depends": [
+            "monthly_wage",
+            "cumulative_work_years",
+            "annual_leave_taken"
+          ]
+        }
+      ],
+      "sources": [
+        "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/bgt/art/2023/art_0abfdd261c03417b949df19d869add8d.html-0",
+        "https://www.court.gov.cn/zixun/xiangqing/282121.html",
+        "https://xzfg.moj.gov.cn/front/law/detail?LawID=208",
+        "https://www.mohrss.gov.cn/xxgk2020/gzk/gz/202112/P020211229590352867273.pdf",
+        "https://xzfg.moj.gov.cn/mobile/law/detail?LawID=610",
+        "https://flk.npc.gov.cn/"
+      ],
+      "assumptions": [
+        "合成咨询，不对应真实裁判；金标准仅在列明假设下有效。",
+        "日期为公历精确日期；未建模时效中止、中断和地区口径。",
+        "工资基数视为已经核实且不触发地方封顶；不验证地方最低工资。",
+        "年假为完整年度、无不享受情形、正常工资已付；工伤仅算七至十级一次性伤残补助金。",
+        "竞业补偿按明确约定且已履行期间计算；未作裁判结果预测。"
+      ],
+      "review": {
+        "human_status": "pending",
+        "model_status": "not_run",
+        "gold_status": "provisional"
+      },
+      "gold_before": [
+        {
+          "claim": "labor_annual_leave",
+          "path": "calculation.amount",
+          "calculator": "annual_leave",
+          "depends": [
+            "monthly_wage",
+            "cumulative_work_years",
+            "annual_leave_taken"
+          ],
+          "expected": 2758.62,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        }
+      ],
+      "gold_after": [
+        {
+          "claim": "labor_annual_leave",
+          "path": "calculation.amount",
+          "calculator": "annual_leave",
+          "depends": [
+            "monthly_wage",
+            "cumulative_work_years",
+            "annual_leave_taken"
+          ],
+          "expected": 2758.62,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        }
+      ]
+    },
+    {
+      "id": "B20",
+      "split": "test",
+      "primary_claim": "labor_annual_leave",
+      "claims_gold": [
+        "labor_annual_leave"
+      ],
+      "opening": "我有未休年假，想问年假工资怎么计算。",
+      "opening_variants": [
+        "我有未休年假，想问年假工资怎么计算。",
+        "麻烦帮我看看：我有未休年假，想问年假工资怎么计算。",
+        "我有点着急，我有未休年假，想问年假工资怎么计算。"
+      ],
+      "opening_facts": {},
+      "hidden": {
+        "annual_leave_paid": "没有支付",
+        "annual_leave_taken": 2,
+        "annual_leave_year": "2025",
+        "arbitration_filed": "已申请",
+        "cumulative_work_years": 9,
+        "monthly_wage": 12000,
+        "start_date": "2020-04-01"
+      },
+      "critical": [
+        "annual_leave_paid",
+        "annual_leave_taken",
+        "annual_leave_year",
+        "cumulative_work_years",
+        "monthly_wage",
+        "start_date"
+      ],
+      "answers": {
+        "annual_leave_paid": "关于年假工资支付，没有支付。",
+        "annual_leave_taken": "已经休了2天年假。",
+        "annual_leave_year": "关于未休年假年度，2025。",
+        "arbitration_filed": "关于是否已申请仲裁，已申请。",
+        "cumulative_work_years": "累计工作9年。",
+        "monthly_wage": "月平均工资是12000元。",
+        "start_date": "我是2020-04-01入职的。"
+      },
+      "tags": [
+        "ordinary",
+        "correction"
+      ],
+      "reference_specs": [
+        {
+          "claim": "labor_annual_leave",
+          "path": "calculation.amount",
+          "calculator": "annual_leave",
+          "depends": [
+            "monthly_wage",
+            "cumulative_work_years",
+            "annual_leave_taken"
+          ]
+        }
+      ],
+      "sources": [
+        "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/bgt/art/2023/art_0abfdd261c03417b949df19d869add8d.html-0",
+        "https://www.court.gov.cn/zixun/xiangqing/282121.html",
+        "https://xzfg.moj.gov.cn/front/law/detail?LawID=208",
+        "https://www.mohrss.gov.cn/xxgk2020/gzk/gz/202112/P020211229590352867273.pdf",
+        "https://xzfg.moj.gov.cn/mobile/law/detail?LawID=610",
+        "https://flk.npc.gov.cn/"
+      ],
+      "assumptions": [
+        "合成咨询，不对应真实裁判；金标准仅在列明假设下有效。",
+        "日期为公历精确日期；未建模时效中止、中断和地区口径。",
+        "工资基数视为已经核实且不触发地方封顶；不验证地方最低工资。",
+        "年假为完整年度、无不享受情形、正常工资已付；工伤仅算七至十级一次性伤残补助金。",
+        "竞业补偿按明确约定且已履行期间计算；未作裁判结果预测。"
+      ],
+      "review": {
+        "human_status": "pending",
+        "model_status": "not_run",
+        "gold_status": "provisional"
+      },
+      "gold_before": [
+        {
+          "claim": "labor_annual_leave",
+          "path": "calculation.amount",
+          "calculator": "annual_leave",
+          "depends": [
+            "monthly_wage",
+            "cumulative_work_years",
+            "annual_leave_taken"
+          ],
+          "expected": 3310.34,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        }
+      ],
+      "correction": {
+        "after": "first_memo",
+        "key": "cumulative_work_years",
+        "old": 9,
+        "new": 10,
+        "text": "更正一下，我之前说错了。累计工作10年。"
+      },
+      "gold_after": [
+        {
+          "claim": "labor_annual_leave",
+          "path": "calculation.amount",
+          "calculator": "annual_leave",
+          "depends": [
+            "monthly_wage",
+            "cumulative_work_years",
+            "annual_leave_taken"
+          ],
+          "expected": 8827.59,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        }
+      ],
+      "critical_after": [
+        "annual_leave_paid",
+        "annual_leave_taken",
+        "annual_leave_year",
+        "cumulative_work_years",
+        "monthly_wage",
+        "start_date"
+      ]
+    },
+    {
+      "id": "B21",
+      "split": "test",
+      "primary_claim": "labor_annual_leave",
+      "claims_gold": [
+        "labor_annual_leave",
+        "labor_noncompete"
+      ],
+      "opening": "我想咨询年休假，情况需要核实，能先帮我梳理吗？另外还涉及竞业限制。",
+      "opening_variants": [
+        "我想咨询年休假，情况需要核实，能先帮我梳理吗？另外还涉及竞业限制。",
+        "麻烦帮我看看：我想咨询年休假，情况需要核实，能先帮我梳理吗？另外还涉及竞业限制。",
+        "我有点着急，我想咨询年休假，情况需要核实，能先帮我梳理吗？另外还涉及竞业限制。"
+      ],
+      "opening_facts": {},
+      "hidden": {
+        "annual_leave_paid": "没有支付",
+        "annual_leave_taken": 2,
+        "annual_leave_year": "2025",
+        "arbitration_filed": "已申请",
+        "cumulative_work_years": 20,
+        "dismiss_date": "2026-03-15",
+        "monthly_wage": null,
+        "new_employer_competitor": "没有去",
+        "noncompete_claim": "要求支付补偿",
+        "noncompete_compensation": 4000,
+        "noncompete_months": 12,
+        "noncompete_paid": "没有支付",
+        "noncompete_signed": "签了竞业限制协议",
+        "start_date": "2021-03-01"
+      },
+      "critical": [
+        "annual_leave_paid",
+        "annual_leave_taken",
+        "annual_leave_year",
+        "cumulative_work_years",
+        "dismiss_date",
+        "monthly_wage",
+        "new_employer_competitor",
+        "noncompete_claim",
+        "noncompete_compensation",
+        "noncompete_months",
+        "noncompete_paid",
+        "noncompete_signed",
+        "start_date"
+      ],
+      "answers": {
+        "annual_leave_paid": "关于年假工资支付，没有支付。",
+        "annual_leave_taken": "已经休了2天年假。",
+        "annual_leave_year": "关于未休年假年度，2025。",
+        "arbitration_filed": "关于是否已申请仲裁，已申请。",
+        "cumulative_work_years": "累计工作20年。",
+        "dismiss_date": "离职解除日期是2026-03-15。",
+        "monthly_wage": "关于月平均工资，这个我确实不清楚，没有材料确认。",
+        "new_employer_competitor": "关于是否入职竞争单位，没有去。",
+        "noncompete_claim": "关于竞业限制诉求，要求支付补偿。",
+        "noncompete_compensation": "竞业补偿约定每月4000元。",
+        "noncompete_months": "竞业限制期限是12个月。",
+        "noncompete_paid": "关于竞业限制补偿支付，没有支付。",
+        "noncompete_signed": "签了竞业限制协议。",
+        "start_date": "我是2021-03-01入职的。"
+      },
+      "tags": [
+        "challenge",
+        "multi_claim",
+        "unavailable_fact"
+      ],
+      "reference_specs": [
+        {
+          "claim": "labor_annual_leave",
+          "path": "calculation.amount",
+          "calculator": "annual_leave",
+          "depends": [
+            "monthly_wage",
+            "cumulative_work_years",
+            "annual_leave_taken"
+          ]
+        },
+        {
+          "claim": "labor_noncompete",
+          "path": "calculation.amount",
+          "calculator": "noncompete",
+          "depends": [
+            "noncompete_months",
+            "noncompete_compensation"
+          ]
+        }
+      ],
+      "sources": [
+        "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/bgt/art/2023/art_0abfdd261c03417b949df19d869add8d.html-0",
+        "https://www.court.gov.cn/zixun/xiangqing/282121.html",
+        "https://xzfg.moj.gov.cn/front/law/detail?LawID=208",
+        "https://www.mohrss.gov.cn/xxgk2020/gzk/gz/202112/P020211229590352867273.pdf",
+        "https://xzfg.moj.gov.cn/mobile/law/detail?LawID=610",
+        "https://flk.npc.gov.cn/"
+      ],
+      "assumptions": [
+        "合成咨询，不对应真实裁判；金标准仅在列明假设下有效。",
+        "日期为公历精确日期；未建模时效中止、中断和地区口径。",
+        "工资基数视为已经核实且不触发地方封顶；不验证地方最低工资。",
+        "年假为完整年度、无不享受情形、正常工资已付；工伤仅算七至十级一次性伤残补助金。",
+        "竞业补偿按明确约定且已履行期间计算；未作裁判结果预测。"
+      ],
+      "review": {
+        "human_status": "pending",
+        "model_status": "not_run",
+        "gold_status": "provisional"
+      },
+      "gold_before": [
+        {
+          "claim": "labor_annual_leave",
+          "path": "calculation.amount",
+          "calculator": "annual_leave",
+          "depends": [
+            "monthly_wage",
+            "cumulative_work_years",
+            "annual_leave_taken"
+          ],
+          "expected": null,
+          "applicable": false,
+          "reference_kind": "independent_formula"
+        },
+        {
+          "claim": "labor_noncompete",
+          "path": "calculation.amount",
+          "calculator": "noncompete",
+          "depends": [
+            "noncompete_months",
+            "noncompete_compensation"
+          ],
+          "expected": 48000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        }
+      ],
+      "gold_after": [
+        {
+          "claim": "labor_annual_leave",
+          "path": "calculation.amount",
+          "calculator": "annual_leave",
+          "depends": [
+            "monthly_wage",
+            "cumulative_work_years",
+            "annual_leave_taken"
+          ],
+          "expected": null,
+          "applicable": false,
+          "reference_kind": "independent_formula"
+        },
+        {
+          "claim": "labor_noncompete",
+          "path": "calculation.amount",
+          "calculator": "noncompete",
+          "depends": [
+            "noncompete_months",
+            "noncompete_compensation"
+          ],
+          "expected": 48000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        }
+      ]
+    },
+    {
+      "id": "B22",
+      "split": "dev",
+      "primary_claim": "labor_noncompete",
+      "claims_gold": [
+        "labor_noncompete"
+      ],
+      "opening": "签了竞业限制协议，公司没有支付竞业补偿。",
+      "opening_variants": [
+        "签了竞业限制协议，公司没有支付竞业补偿。",
+        "麻烦帮我看看：签了竞业限制协议，公司没有支付竞业补偿。",
+        "我有点着急，签了竞业限制协议，公司没有支付竞业补偿。"
+      ],
+      "opening_facts": {
+        "noncompete_signed": "签了竞业限制协议",
+        "noncompete_paid": "没有支付"
+      },
+      "hidden": {
+        "arbitration_filed": "已申请",
+        "dismiss_date": "2026-03-15",
+        "monthly_wage": 10000,
+        "new_employer_competitor": "没有去",
+        "noncompete_claim": "要求支付补偿",
+        "noncompete_compensation": 4000,
+        "noncompete_months": 12,
+        "noncompete_paid": "没有支付",
+        "noncompete_signed": "签了竞业限制协议"
+      },
+      "critical": [
+        "dismiss_date",
+        "monthly_wage",
+        "new_employer_competitor",
+        "noncompete_claim",
+        "noncompete_compensation",
+        "noncompete_months",
+        "noncompete_paid",
+        "noncompete_signed"
+      ],
+      "answers": {
+        "arbitration_filed": "关于是否已申请仲裁，已申请。",
+        "dismiss_date": "离职解除日期是2026-03-15。",
+        "monthly_wage": "月平均工资是10000元。",
+        "new_employer_competitor": "关于是否入职竞争单位，没有去。",
+        "noncompete_claim": "关于竞业限制诉求，要求支付补偿。",
+        "noncompete_compensation": "竞业补偿约定每月4000元。",
+        "noncompete_months": "竞业限制期限是12个月。",
+        "noncompete_paid": "关于竞业限制补偿支付，没有支付。",
+        "noncompete_signed": "签了竞业限制协议。"
+      },
+      "tags": [
+        "ordinary"
+      ],
+      "reference_specs": [
+        {
+          "claim": "labor_noncompete",
+          "path": "calculation.amount",
+          "calculator": "noncompete",
+          "depends": [
+            "noncompete_months",
+            "noncompete_compensation"
+          ]
+        }
+      ],
+      "sources": [
+        "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/bgt/art/2023/art_0abfdd261c03417b949df19d869add8d.html-0",
+        "https://www.court.gov.cn/zixun/xiangqing/282121.html",
+        "https://xzfg.moj.gov.cn/front/law/detail?LawID=208",
+        "https://www.mohrss.gov.cn/xxgk2020/gzk/gz/202112/P020211229590352867273.pdf",
+        "https://xzfg.moj.gov.cn/mobile/law/detail?LawID=610",
+        "https://flk.npc.gov.cn/"
+      ],
+      "assumptions": [
+        "合成咨询，不对应真实裁判；金标准仅在列明假设下有效。",
+        "日期为公历精确日期；未建模时效中止、中断和地区口径。",
+        "工资基数视为已经核实且不触发地方封顶；不验证地方最低工资。",
+        "年假为完整年度、无不享受情形、正常工资已付；工伤仅算七至十级一次性伤残补助金。",
+        "竞业补偿按明确约定且已履行期间计算；未作裁判结果预测。"
+      ],
+      "review": {
+        "human_status": "pending",
+        "model_status": "not_run",
+        "gold_status": "provisional"
+      },
+      "gold_before": [
+        {
+          "claim": "labor_noncompete",
+          "path": "calculation.amount",
+          "calculator": "noncompete",
+          "depends": [
+            "noncompete_months",
+            "noncompete_compensation"
+          ],
+          "expected": 48000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        }
+      ],
+      "gold_after": [
+        {
+          "claim": "labor_noncompete",
+          "path": "calculation.amount",
+          "calculator": "noncompete",
+          "depends": [
+            "noncompete_months",
+            "noncompete_compensation"
+          ],
+          "expected": 48000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        }
+      ]
+    },
+    {
+      "id": "B23",
+      "split": "test",
+      "primary_claim": "labor_noncompete",
+      "claims_gold": [
+        "labor_noncompete"
+      ],
+      "opening": "签了竞业限制协议，公司没有支付竞业补偿。",
+      "opening_variants": [
+        "签了竞业限制协议，公司没有支付竞业补偿。",
+        "麻烦帮我看看：签了竞业限制协议，公司没有支付竞业补偿。",
+        "我有点着急，签了竞业限制协议，公司没有支付竞业补偿。"
+      ],
+      "opening_facts": {
+        "noncompete_signed": "签了竞业限制协议",
+        "noncompete_paid": "没有支付"
+      },
+      "hidden": {
+        "arbitration_filed": "已申请",
+        "dismiss_date": "2026-03-15",
+        "monthly_wage": 12000,
+        "new_employer_competitor": "没有去",
+        "noncompete_claim": "要求支付补偿",
+        "noncompete_compensation": 4000,
+        "noncompete_months": 12,
+        "noncompete_paid": "没有支付",
+        "noncompete_signed": "签了竞业限制协议"
+      },
+      "critical": [
+        "dismiss_date",
+        "monthly_wage",
+        "new_employer_competitor",
+        "noncompete_claim",
+        "noncompete_compensation",
+        "noncompete_months",
+        "noncompete_paid",
+        "noncompete_signed"
+      ],
+      "answers": {
+        "arbitration_filed": "关于是否已申请仲裁，已申请。",
+        "dismiss_date": "离职解除日期是2026-03-15。",
+        "monthly_wage": "月平均工资是12000元。",
+        "new_employer_competitor": "关于是否入职竞争单位，没有去。",
+        "noncompete_claim": "关于竞业限制诉求，要求支付补偿。",
+        "noncompete_compensation": "竞业补偿约定每月4000元。",
+        "noncompete_months": "竞业限制期限是12个月。",
+        "noncompete_paid": "关于竞业限制补偿支付，没有支付。",
+        "noncompete_signed": "签了竞业限制协议。"
+      },
+      "tags": [
+        "ordinary",
+        "correction"
+      ],
+      "reference_specs": [
+        {
+          "claim": "labor_noncompete",
+          "path": "calculation.amount",
+          "calculator": "noncompete",
+          "depends": [
+            "noncompete_months",
+            "noncompete_compensation"
+          ]
+        }
+      ],
+      "sources": [
+        "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/bgt/art/2023/art_0abfdd261c03417b949df19d869add8d.html-0",
+        "https://www.court.gov.cn/zixun/xiangqing/282121.html",
+        "https://xzfg.moj.gov.cn/front/law/detail?LawID=208",
+        "https://www.mohrss.gov.cn/xxgk2020/gzk/gz/202112/P020211229590352867273.pdf",
+        "https://xzfg.moj.gov.cn/mobile/law/detail?LawID=610",
+        "https://flk.npc.gov.cn/"
+      ],
+      "assumptions": [
+        "合成咨询，不对应真实裁判；金标准仅在列明假设下有效。",
+        "日期为公历精确日期；未建模时效中止、中断和地区口径。",
+        "工资基数视为已经核实且不触发地方封顶；不验证地方最低工资。",
+        "年假为完整年度、无不享受情形、正常工资已付；工伤仅算七至十级一次性伤残补助金。",
+        "竞业补偿按明确约定且已履行期间计算；未作裁判结果预测。"
+      ],
+      "review": {
+        "human_status": "pending",
+        "model_status": "not_run",
+        "gold_status": "provisional"
+      },
+      "gold_before": [
+        {
+          "claim": "labor_noncompete",
+          "path": "calculation.amount",
+          "calculator": "noncompete",
+          "depends": [
+            "noncompete_months",
+            "noncompete_compensation"
+          ],
+          "expected": 48000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        }
+      ],
+      "correction": {
+        "after": "first_memo",
+        "key": "noncompete_months",
+        "old": 12,
+        "new": 18,
+        "text": "更正一下，我之前说错了。竞业限制期限是18个月。"
+      },
+      "gold_after": [
+        {
+          "claim": "labor_noncompete",
+          "path": "calculation.amount",
+          "calculator": "noncompete",
+          "depends": [
+            "noncompete_months",
+            "noncompete_compensation"
+          ],
+          "expected": 72000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        }
+      ],
+      "critical_after": [
+        "dismiss_date",
+        "monthly_wage",
+        "new_employer_competitor",
+        "noncompete_claim",
+        "noncompete_compensation",
+        "noncompete_months",
+        "noncompete_paid",
+        "noncompete_signed"
+      ]
+    },
+    {
+      "id": "B24",
+      "split": "test",
+      "primary_claim": "labor_noncompete",
+      "claims_gold": [
+        "labor_noncompete",
+        "labor_maternity"
+      ],
+      "opening": "我想咨询竞业限制，情况需要核实，能先帮我梳理吗？另外还涉及三期/生育。",
+      "opening_variants": [
+        "我想咨询竞业限制，情况需要核实，能先帮我梳理吗？另外还涉及三期/生育。",
+        "麻烦帮我看看：我想咨询竞业限制，情况需要核实，能先帮我梳理吗？另外还涉及三期/生育。",
+        "我有点着急，我想咨询竞业限制，情况需要核实，能先帮我梳理吗？另外还涉及三期/生育。"
+      ],
+      "opening_facts": {},
+      "hidden": {
+        "arbitration_filed": "已申请",
+        "dismiss_date": "2026-03-15",
+        "maternity_allowance": "单位发工资",
+        "maternity_dismissal": "被降薪或调岗",
+        "maternity_leave_taken": "还没休",
+        "monthly_wage": null,
+        "new_employer_competitor": "没有去",
+        "noncompete_claim": "要求支付补偿",
+        "noncompete_compensation": 0,
+        "noncompete_months": 0,
+        "noncompete_paid": "没有支付",
+        "noncompete_signed": "没有签",
+        "pregnancy_status": "孕期",
+        "social_insurance": "未缴纳"
+      },
+      "critical": [
+        "dismiss_date",
+        "maternity_allowance",
+        "maternity_dismissal",
+        "maternity_leave_taken",
+        "monthly_wage",
+        "noncompete_signed",
+        "pregnancy_status"
+      ],
+      "answers": {
+        "arbitration_filed": "关于是否已申请仲裁，已申请。",
+        "dismiss_date": "离职解除日期是2026-03-15。",
+        "maternity_allowance": "关于生育津贴/产假工资，单位发工资。",
+        "maternity_dismissal": "关于是否因三期被辞退，被降薪或调岗。",
+        "maternity_leave_taken": "关于产假情况，还没休。",
+        "monthly_wage": "关于月平均工资，这个我确实不清楚，没有材料确认。",
+        "new_employer_competitor": "关于是否入职竞争单位，没有去。",
+        "noncompete_claim": "关于竞业限制诉求，要求支付补偿。",
+        "noncompete_compensation": "竞业补偿约定每月0元。",
+        "noncompete_months": "竞业限制期限是0个月。",
+        "noncompete_paid": "关于竞业限制补偿支付，没有支付。",
+        "noncompete_signed": "没签竞业限制协议。",
+        "pregnancy_status": "关于是否处于三期，孕期。",
+        "social_insurance": "社保缴纳情况是未缴纳。"
+      },
+      "tags": [
+        "challenge",
+        "multi_claim",
+        "unavailable_fact"
+      ],
+      "reference_specs": [
+        {
+          "claim": "labor_noncompete",
+          "path": "finding:F_NC_NONE",
+          "calculator": "literal",
+          "depends": [
+            "noncompete_signed"
+          ],
+          "value": true
+        },
+        {
+          "claim": "labor_maternity",
+          "path": "finding:F_MT_DISMISS",
+          "calculator": "condition",
+          "depends": [
+            "maternity_dismissal"
+          ],
+          "conditions": {
+            "maternity_dismissal": "因怀孕/生育被辞退"
+          }
+        }
+      ],
+      "sources": [
+        "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/bgt/art/2023/art_0abfdd261c03417b949df19d869add8d.html-0",
+        "https://www.court.gov.cn/zixun/xiangqing/282121.html",
+        "https://xzfg.moj.gov.cn/front/law/detail?LawID=208",
+        "https://www.mohrss.gov.cn/xxgk2020/gzk/gz/202112/P020211229590352867273.pdf",
+        "https://xzfg.moj.gov.cn/mobile/law/detail?LawID=610",
+        "https://flk.npc.gov.cn/"
+      ],
+      "assumptions": [
+        "合成咨询，不对应真实裁判；金标准仅在列明假设下有效。",
+        "日期为公历精确日期；未建模时效中止、中断和地区口径。",
+        "工资基数视为已经核实且不触发地方封顶；不验证地方最低工资。",
+        "年假为完整年度、无不享受情形、正常工资已付；工伤仅算七至十级一次性伤残补助金。",
+        "竞业补偿按明确约定且已履行期间计算；未作裁判结果预测。"
+      ],
+      "review": {
+        "human_status": "pending",
+        "model_status": "not_run",
+        "gold_status": "provisional"
+      },
+      "gold_before": [
+        {
+          "claim": "labor_noncompete",
+          "path": "finding:F_NC_NONE",
+          "calculator": "literal",
+          "depends": [
+            "noncompete_signed"
+          ],
+          "value": true,
+          "expected": true,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        },
+        {
+          "claim": "labor_maternity",
+          "path": "finding:F_MT_DISMISS",
+          "calculator": "condition",
+          "depends": [
+            "maternity_dismissal"
+          ],
+          "conditions": {
+            "maternity_dismissal": "因怀孕/生育被辞退"
+          },
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        }
+      ],
+      "gold_after": [
+        {
+          "claim": "labor_noncompete",
+          "path": "finding:F_NC_NONE",
+          "calculator": "literal",
+          "depends": [
+            "noncompete_signed"
+          ],
+          "value": true,
+          "expected": true,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        },
+        {
+          "claim": "labor_maternity",
+          "path": "finding:F_MT_DISMISS",
+          "calculator": "condition",
+          "depends": [
+            "maternity_dismissal"
+          ],
+          "conditions": {
+            "maternity_dismissal": "因怀孕/生育被辞退"
+          },
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        }
+      ]
+    },
+    {
+      "id": "B25",
+      "split": "dev",
+      "primary_claim": "labor_maternity",
+      "claims_gold": [
+        "labor_maternity"
+      ],
+      "opening": "我在孕期，公司降低了工资待遇，想了解生育保护。",
+      "opening_variants": [
+        "我在孕期，公司降低了工资待遇，想了解生育保护。",
+        "麻烦帮我看看：我在孕期，公司降低了工资待遇，想了解生育保护。",
+        "我有点着急，我在孕期，公司降低了工资待遇，想了解生育保护。"
+      ],
+      "opening_facts": {
+        "pregnancy_status": "孕期",
+        "maternity_dismissal": "被降薪或调岗"
+      },
+      "hidden": {
+        "arbitration_filed": "已申请",
+        "dismiss_date": "2026-03-15",
+        "maternity_allowance": "单位发工资",
+        "maternity_dismissal": "被降薪或调岗",
+        "maternity_leave_taken": "还没休",
+        "monthly_wage": 10000,
+        "pregnancy_status": "孕期",
+        "social_insurance": "未缴纳"
+      },
+      "critical": [
+        "dismiss_date",
+        "maternity_allowance",
+        "maternity_dismissal",
+        "maternity_leave_taken",
+        "monthly_wage",
+        "pregnancy_status"
+      ],
+      "answers": {
+        "arbitration_filed": "关于是否已申请仲裁，已申请。",
+        "dismiss_date": "离职解除日期是2026-03-15。",
+        "maternity_allowance": "关于生育津贴/产假工资，单位发工资。",
+        "maternity_dismissal": "关于是否因三期被辞退，被降薪或调岗。",
+        "maternity_leave_taken": "关于产假情况，还没休。",
+        "monthly_wage": "月平均工资是10000元。",
+        "pregnancy_status": "关于是否处于三期，孕期。",
+        "social_insurance": "社保缴纳情况是未缴纳。"
+      },
+      "tags": [
+        "ordinary"
+      ],
+      "reference_specs": [
+        {
+          "claim": "labor_maternity",
+          "path": "finding:F_MT_DISMISS",
+          "calculator": "condition",
+          "depends": [
+            "maternity_dismissal"
+          ],
+          "conditions": {
+            "maternity_dismissal": "因怀孕/生育被辞退"
+          }
+        }
+      ],
+      "sources": [
+        "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/bgt/art/2023/art_0abfdd261c03417b949df19d869add8d.html-0",
+        "https://www.court.gov.cn/zixun/xiangqing/282121.html",
+        "https://xzfg.moj.gov.cn/front/law/detail?LawID=208",
+        "https://www.mohrss.gov.cn/xxgk2020/gzk/gz/202112/P020211229590352867273.pdf",
+        "https://xzfg.moj.gov.cn/mobile/law/detail?LawID=610",
+        "https://flk.npc.gov.cn/"
+      ],
+      "assumptions": [
+        "合成咨询，不对应真实裁判；金标准仅在列明假设下有效。",
+        "日期为公历精确日期；未建模时效中止、中断和地区口径。",
+        "工资基数视为已经核实且不触发地方封顶；不验证地方最低工资。",
+        "年假为完整年度、无不享受情形、正常工资已付；工伤仅算七至十级一次性伤残补助金。",
+        "竞业补偿按明确约定且已履行期间计算；未作裁判结果预测。"
+      ],
+      "review": {
+        "human_status": "pending",
+        "model_status": "not_run",
+        "gold_status": "provisional"
+      },
+      "gold_before": [
+        {
+          "claim": "labor_maternity",
+          "path": "finding:F_MT_DISMISS",
+          "calculator": "condition",
+          "depends": [
+            "maternity_dismissal"
+          ],
+          "conditions": {
+            "maternity_dismissal": "因怀孕/生育被辞退"
+          },
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        }
+      ],
+      "gold_after": [
+        {
+          "claim": "labor_maternity",
+          "path": "finding:F_MT_DISMISS",
+          "calculator": "condition",
+          "depends": [
+            "maternity_dismissal"
+          ],
+          "conditions": {
+            "maternity_dismissal": "因怀孕/生育被辞退"
+          },
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        }
+      ]
+    },
+    {
+      "id": "B26",
+      "split": "test",
+      "primary_claim": "labor_maternity",
+      "claims_gold": [
+        "labor_maternity"
+      ],
+      "opening": "我在孕期，公司降低了工资待遇，想了解生育保护。",
+      "opening_variants": [
+        "我在孕期，公司降低了工资待遇，想了解生育保护。",
+        "麻烦帮我看看：我在孕期，公司降低了工资待遇，想了解生育保护。",
+        "我有点着急，我在孕期，公司降低了工资待遇，想了解生育保护。"
+      ],
+      "opening_facts": {
+        "pregnancy_status": "孕期",
+        "maternity_dismissal": "被降薪或调岗"
+      },
+      "hidden": {
+        "arbitration_filed": "已申请",
+        "dismiss_date": "2026-03-15",
+        "maternity_allowance": "单位发工资",
+        "maternity_dismissal": "被降薪或调岗",
+        "maternity_leave_taken": "还没休",
+        "monthly_wage": 12000,
+        "pregnancy_status": "孕期",
+        "social_insurance": "未缴纳"
+      },
+      "critical": [
+        "dismiss_date",
+        "maternity_allowance",
+        "maternity_dismissal",
+        "maternity_leave_taken",
+        "monthly_wage",
+        "pregnancy_status"
+      ],
+      "answers": {
+        "arbitration_filed": "关于是否已申请仲裁，已申请。",
+        "dismiss_date": "离职解除日期是2026-03-15。",
+        "maternity_allowance": "关于生育津贴/产假工资，单位发工资。",
+        "maternity_dismissal": "关于是否因三期被辞退，被降薪或调岗。",
+        "maternity_leave_taken": "关于产假情况，还没休。",
+        "monthly_wage": "月平均工资是12000元。",
+        "pregnancy_status": "关于是否处于三期，孕期。",
+        "social_insurance": "社保缴纳情况是未缴纳。"
+      },
+      "tags": [
+        "ordinary",
+        "correction"
+      ],
+      "reference_specs": [
+        {
+          "claim": "labor_maternity",
+          "path": "finding:F_MT_DISMISS",
+          "calculator": "condition",
+          "depends": [
+            "maternity_dismissal"
+          ],
+          "conditions": {
+            "maternity_dismissal": "因怀孕/生育被辞退"
+          }
+        }
+      ],
+      "sources": [
+        "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/bgt/art/2023/art_0abfdd261c03417b949df19d869add8d.html-0",
+        "https://www.court.gov.cn/zixun/xiangqing/282121.html",
+        "https://xzfg.moj.gov.cn/front/law/detail?LawID=208",
+        "https://www.mohrss.gov.cn/xxgk2020/gzk/gz/202112/P020211229590352867273.pdf",
+        "https://xzfg.moj.gov.cn/mobile/law/detail?LawID=610",
+        "https://flk.npc.gov.cn/"
+      ],
+      "assumptions": [
+        "合成咨询，不对应真实裁判；金标准仅在列明假设下有效。",
+        "日期为公历精确日期；未建模时效中止、中断和地区口径。",
+        "工资基数视为已经核实且不触发地方封顶；不验证地方最低工资。",
+        "年假为完整年度、无不享受情形、正常工资已付；工伤仅算七至十级一次性伤残补助金。",
+        "竞业补偿按明确约定且已履行期间计算；未作裁判结果预测。"
+      ],
+      "review": {
+        "human_status": "pending",
+        "model_status": "not_run",
+        "gold_status": "provisional"
+      },
+      "gold_before": [
+        {
+          "claim": "labor_maternity",
+          "path": "finding:F_MT_DISMISS",
+          "calculator": "condition",
+          "depends": [
+            "maternity_dismissal"
+          ],
+          "conditions": {
+            "maternity_dismissal": "因怀孕/生育被辞退"
+          },
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        }
+      ],
+      "correction": {
+        "after": "first_memo",
+        "key": "maternity_dismissal",
+        "old": "被降薪或调岗",
+        "new": "因怀孕/生育被辞退",
+        "text": "更正一下，我之前说错了。关于是否因三期被辞退，因怀孕/生育被辞退。"
+      },
+      "gold_after": [
+        {
+          "claim": "labor_maternity",
+          "path": "finding:F_MT_DISMISS",
+          "calculator": "condition",
+          "depends": [
+            "maternity_dismissal"
+          ],
+          "conditions": {
+            "maternity_dismissal": "因怀孕/生育被辞退"
+          },
+          "expected": true,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        }
+      ],
+      "critical_after": [
+        "dismiss_date",
+        "maternity_allowance",
+        "maternity_dismissal",
+        "maternity_leave_taken",
+        "monthly_wage",
+        "pregnancy_status"
+      ]
+    },
+    {
+      "id": "B27",
+      "split": "test",
+      "primary_claim": "labor_maternity",
+      "claims_gold": [
+        "labor_maternity"
+      ],
+      "opening": "我想咨询三期/生育，情况需要核实，能先帮我梳理吗？",
+      "opening_variants": [
+        "我想咨询三期/生育，情况需要核实，能先帮我梳理吗？",
+        "麻烦帮我看看：我想咨询三期/生育，情况需要核实，能先帮我梳理吗？",
+        "我有点着急，我想咨询三期/生育，情况需要核实，能先帮我梳理吗？"
+      ],
+      "opening_facts": {},
+      "hidden": {
+        "arbitration_filed": "已申请",
+        "dismiss_date": "2026-03-15",
+        "maternity_allowance": null,
+        "maternity_dismissal": "被降薪或调岗",
+        "maternity_leave_taken": "还没休",
+        "monthly_wage": 10000,
+        "pregnancy_status": "哺乳期",
+        "social_insurance": "未缴纳"
+      },
+      "critical": [
+        "dismiss_date",
+        "maternity_allowance",
+        "maternity_dismissal",
+        "maternity_leave_taken",
+        "monthly_wage",
+        "pregnancy_status"
+      ],
+      "answers": {
+        "arbitration_filed": "关于是否已申请仲裁，已申请。",
+        "dismiss_date": "离职解除日期是2026-03-15。",
+        "maternity_allowance": "关于生育津贴/产假工资，这个我确实不清楚，没有材料确认。",
+        "maternity_dismissal": "关于是否因三期被辞退，被降薪或调岗。",
+        "maternity_leave_taken": "关于产假情况，还没休。",
+        "monthly_wage": "月平均工资是10000元。",
+        "pregnancy_status": "关于是否处于三期，哺乳期。",
+        "social_insurance": "社保缴纳情况是未缴纳。"
+      },
+      "tags": [
+        "challenge",
+        "unavailable_fact"
+      ],
+      "reference_specs": [
+        {
+          "claim": "labor_maternity",
+          "path": "finding:F_MT_DISMISS",
+          "calculator": "condition",
+          "depends": [
+            "maternity_dismissal"
+          ],
+          "conditions": {
+            "maternity_dismissal": "因怀孕/生育被辞退"
+          }
+        }
+      ],
+      "sources": [
+        "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/bgt/art/2023/art_0abfdd261c03417b949df19d869add8d.html-0",
+        "https://www.court.gov.cn/zixun/xiangqing/282121.html",
+        "https://xzfg.moj.gov.cn/front/law/detail?LawID=208",
+        "https://www.mohrss.gov.cn/xxgk2020/gzk/gz/202112/P020211229590352867273.pdf",
+        "https://xzfg.moj.gov.cn/mobile/law/detail?LawID=610",
+        "https://flk.npc.gov.cn/"
+      ],
+      "assumptions": [
+        "合成咨询，不对应真实裁判；金标准仅在列明假设下有效。",
+        "日期为公历精确日期；未建模时效中止、中断和地区口径。",
+        "工资基数视为已经核实且不触发地方封顶；不验证地方最低工资。",
+        "年假为完整年度、无不享受情形、正常工资已付；工伤仅算七至十级一次性伤残补助金。",
+        "竞业补偿按明确约定且已履行期间计算；未作裁判结果预测。"
+      ],
+      "review": {
+        "human_status": "pending",
+        "model_status": "not_run",
+        "gold_status": "provisional"
+      },
+      "gold_before": [
+        {
+          "claim": "labor_maternity",
+          "path": "finding:F_MT_DISMISS",
+          "calculator": "condition",
+          "depends": [
+            "maternity_dismissal"
+          ],
+          "conditions": {
+            "maternity_dismissal": "因怀孕/生育被辞退"
+          },
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        }
+      ],
+      "gold_after": [
+        {
+          "claim": "labor_maternity",
+          "path": "finding:F_MT_DISMISS",
+          "calculator": "condition",
+          "depends": [
+            "maternity_dismissal"
+          ],
+          "conditions": {
+            "maternity_dismissal": "因怀孕/生育被辞退"
+          },
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        }
+      ]
+    },
+    {
+      "id": "B28",
+      "split": "dev",
+      "primary_claim": "labor_dispatch",
+      "claims_gold": [
+        "labor_dispatch"
+      ],
+      "opening": "我是劳务派遣员工，想确认劳动关系和责任单位。",
+      "opening_variants": [
+        "我是劳务派遣员工，想确认劳动关系和责任单位。",
+        "麻烦帮我看看：我是劳务派遣员工，想确认劳动关系和责任单位。",
+        "我有点着急，我是劳务派遣员工，想确认劳动关系和责任单位。"
+      ],
+      "opening_facts": {
+        "dispatch_type": "劳务派遣",
+        "claim_type": "要求确认劳动关系"
+      },
+      "hidden": {
+        "actual_employer": "远帆制造有限公司",
+        "arbitration_filed": "已申请",
+        "claim_type": "要求确认劳动关系",
+        "dispatch_type": "劳务派遣",
+        "employer": "青禾技术有限公司",
+        "monthly_wage": 10000,
+        "pay_by": "青禾技术有限公司",
+        "platform_worker": "不是",
+        "social_insurance": "未缴纳",
+        "start_date": "2021-03-01",
+        "uniform_tools": "穿工服/用公司工具",
+        "work_management": "打卡考勤"
+      },
+      "critical": [
+        "actual_employer",
+        "claim_type",
+        "dispatch_type",
+        "employer",
+        "monthly_wage",
+        "pay_by",
+        "start_date",
+        "work_management"
+      ],
+      "answers": {
+        "actual_employer": "实际用工单位是远帆制造有限公司。",
+        "arbitration_filed": "关于是否已申请仲裁，已申请。",
+        "claim_type": "我的诉求是要求确认劳动关系。",
+        "dispatch_type": "关于用工形式，劳务派遣。",
+        "employer": "公司全称是青禾技术有限公司。",
+        "monthly_wage": "月平均工资是10000元。",
+        "pay_by": "关于工资发放主体，青禾技术有限公司。",
+        "platform_worker": "关于平台用工类型，不是。",
+        "social_insurance": "社保缴纳情况是未缴纳。",
+        "start_date": "我是2021-03-01入职的。",
+        "uniform_tools": "关于是否使用单位工具/标识，穿工服/用公司工具。",
+        "work_management": "关于用工管理程度，打卡考勤。"
+      },
+      "tags": [
+        "ordinary"
+      ],
+      "reference_specs": [
+        {
+          "claim": "labor_dispatch",
+          "path": "finding_text:F_DP_FORM",
+          "calculator": "fact",
+          "depends": [
+            "dispatch_type"
+          ],
+          "field": "dispatch_type",
+          "match": "contains"
+        }
+      ],
+      "sources": [
+        "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/bgt/art/2023/art_0abfdd261c03417b949df19d869add8d.html-0",
+        "https://www.court.gov.cn/zixun/xiangqing/282121.html",
+        "https://xzfg.moj.gov.cn/front/law/detail?LawID=208",
+        "https://www.mohrss.gov.cn/xxgk2020/gzk/gz/202112/P020211229590352867273.pdf",
+        "https://xzfg.moj.gov.cn/mobile/law/detail?LawID=610",
+        "https://flk.npc.gov.cn/"
+      ],
+      "assumptions": [
+        "合成咨询，不对应真实裁判；金标准仅在列明假设下有效。",
+        "日期为公历精确日期；未建模时效中止、中断和地区口径。",
+        "工资基数视为已经核实且不触发地方封顶；不验证地方最低工资。",
+        "年假为完整年度、无不享受情形、正常工资已付；工伤仅算七至十级一次性伤残补助金。",
+        "竞业补偿按明确约定且已履行期间计算；未作裁判结果预测。"
+      ],
+      "review": {
+        "human_status": "pending",
+        "model_status": "not_run",
+        "gold_status": "provisional"
+      },
+      "gold_before": [
+        {
+          "claim": "labor_dispatch",
+          "path": "finding_text:F_DP_FORM",
+          "calculator": "fact",
+          "depends": [
+            "dispatch_type"
+          ],
+          "field": "dispatch_type",
+          "match": "contains",
+          "expected": "劳务派遣",
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        }
+      ],
+      "gold_after": [
+        {
+          "claim": "labor_dispatch",
+          "path": "finding_text:F_DP_FORM",
+          "calculator": "fact",
+          "depends": [
+            "dispatch_type"
+          ],
+          "field": "dispatch_type",
+          "match": "contains",
+          "expected": "劳务派遣",
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        }
+      ]
+    },
+    {
+      "id": "B29",
+      "split": "test",
+      "primary_claim": "labor_dispatch",
+      "claims_gold": [
+        "labor_dispatch"
+      ],
+      "opening": "我是劳务派遣员工，想确认劳动关系和责任单位。",
+      "opening_variants": [
+        "我是劳务派遣员工，想确认劳动关系和责任单位。",
+        "麻烦帮我看看：我是劳务派遣员工，想确认劳动关系和责任单位。",
+        "我有点着急，我是劳务派遣员工，想确认劳动关系和责任单位。"
+      ],
+      "opening_facts": {
+        "dispatch_type": "劳务派遣",
+        "claim_type": "要求确认劳动关系"
+      },
+      "hidden": {
+        "actual_employer": "远帆制造有限公司",
+        "arbitration_filed": "已申请",
+        "claim_type": "要求确认劳动关系",
+        "dispatch_type": "劳务派遣",
+        "employer": "青禾技术有限公司",
+        "monthly_wage": 12000,
+        "pay_by": "青禾技术有限公司",
+        "platform_worker": "不是",
+        "social_insurance": "未缴纳",
+        "start_date": "2020-04-01",
+        "uniform_tools": "穿工服/用公司工具",
+        "work_management": "打卡考勤"
+      },
+      "critical": [
+        "actual_employer",
+        "claim_type",
+        "dispatch_type",
+        "employer",
+        "monthly_wage",
+        "pay_by",
+        "start_date",
+        "work_management"
+      ],
+      "answers": {
+        "actual_employer": "实际用工单位是远帆制造有限公司。",
+        "arbitration_filed": "关于是否已申请仲裁，已申请。",
+        "claim_type": "我的诉求是要求确认劳动关系。",
+        "dispatch_type": "关于用工形式，劳务派遣。",
+        "employer": "公司全称是青禾技术有限公司。",
+        "monthly_wage": "月平均工资是12000元。",
+        "pay_by": "关于工资发放主体，青禾技术有限公司。",
+        "platform_worker": "关于平台用工类型，不是。",
+        "social_insurance": "社保缴纳情况是未缴纳。",
+        "start_date": "我是2020-04-01入职的。",
+        "uniform_tools": "关于是否使用单位工具/标识，穿工服/用公司工具。",
+        "work_management": "关于用工管理程度，打卡考勤。"
+      },
+      "tags": [
+        "ordinary",
+        "correction"
+      ],
+      "reference_specs": [
+        {
+          "claim": "labor_dispatch",
+          "path": "finding_text:F_DP_FORM",
+          "calculator": "fact",
+          "depends": [
+            "dispatch_type"
+          ],
+          "field": "dispatch_type",
+          "match": "contains"
+        }
+      ],
+      "sources": [
+        "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/bgt/art/2023/art_0abfdd261c03417b949df19d869add8d.html-0",
+        "https://www.court.gov.cn/zixun/xiangqing/282121.html",
+        "https://xzfg.moj.gov.cn/front/law/detail?LawID=208",
+        "https://www.mohrss.gov.cn/xxgk2020/gzk/gz/202112/P020211229590352867273.pdf",
+        "https://xzfg.moj.gov.cn/mobile/law/detail?LawID=610",
+        "https://flk.npc.gov.cn/"
+      ],
+      "assumptions": [
+        "合成咨询，不对应真实裁判；金标准仅在列明假设下有效。",
+        "日期为公历精确日期；未建模时效中止、中断和地区口径。",
+        "工资基数视为已经核实且不触发地方封顶；不验证地方最低工资。",
+        "年假为完整年度、无不享受情形、正常工资已付；工伤仅算七至十级一次性伤残补助金。",
+        "竞业补偿按明确约定且已履行期间计算；未作裁判结果预测。"
+      ],
+      "review": {
+        "human_status": "pending",
+        "model_status": "not_run",
+        "gold_status": "provisional"
+      },
+      "gold_before": [
+        {
+          "claim": "labor_dispatch",
+          "path": "finding_text:F_DP_FORM",
+          "calculator": "fact",
+          "depends": [
+            "dispatch_type"
+          ],
+          "field": "dispatch_type",
+          "match": "contains",
+          "expected": "劳务派遣",
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        }
+      ],
+      "correction": {
+        "after": "first_memo",
+        "key": "dispatch_type",
+        "old": "劳务派遣",
+        "new": "业务外包",
+        "text": "更正一下，我之前说错了。关于用工形式，业务外包。"
+      },
+      "gold_after": [
+        {
+          "claim": "labor_dispatch",
+          "path": "finding_text:F_DP_FORM",
+          "calculator": "fact",
+          "depends": [
+            "dispatch_type"
+          ],
+          "field": "dispatch_type",
+          "match": "contains",
+          "expected": "业务外包",
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        }
+      ],
+      "critical_after": [
+        "actual_employer",
+        "claim_type",
+        "dispatch_type",
+        "employer",
+        "monthly_wage",
+        "pay_by",
+        "start_date",
+        "work_management"
+      ]
+    },
+    {
+      "id": "B30",
+      "split": "test",
+      "primary_claim": "labor_dispatch",
+      "claims_gold": [
+        "labor_dispatch"
+      ],
+      "opening": "我想咨询派遣/外包/新业态，情况需要核实，能先帮我梳理吗？",
+      "opening_variants": [
+        "我想咨询派遣/外包/新业态，情况需要核实，能先帮我梳理吗？",
+        "麻烦帮我看看：我想咨询派遣/外包/新业态，情况需要核实，能先帮我梳理吗？",
+        "我有点着急，我想咨询派遣/外包/新业态，情况需要核实，能先帮我梳理吗？"
+      ],
+      "opening_facts": {},
+      "hidden": {
+        "actual_employer": null,
+        "arbitration_filed": "已申请",
+        "claim_type": "要求确认劳动关系",
+        "dispatch_type": "平台/新业态用工",
+        "employer": "青禾技术有限公司",
+        "monthly_wage": 10000,
+        "pay_by": "青禾技术有限公司",
+        "platform_worker": "外卖骑手",
+        "social_insurance": "未缴纳",
+        "start_date": "2021-03-01",
+        "uniform_tools": "穿工服/用公司工具",
+        "work_management": "打卡考勤"
+      },
+      "critical": [
+        "actual_employer",
+        "claim_type",
+        "dispatch_type",
+        "employer",
+        "monthly_wage",
+        "pay_by",
+        "start_date",
+        "work_management"
+      ],
+      "answers": {
+        "actual_employer": "关于实际用工单位，这个我确实不清楚，没有材料确认。",
+        "arbitration_filed": "关于是否已申请仲裁，已申请。",
+        "claim_type": "我的诉求是要求确认劳动关系。",
+        "dispatch_type": "关于用工形式，平台/新业态用工。",
+        "employer": "公司全称是青禾技术有限公司。",
+        "monthly_wage": "月平均工资是10000元。",
+        "pay_by": "关于工资发放主体，青禾技术有限公司。",
+        "platform_worker": "关于平台用工类型，外卖骑手。",
+        "social_insurance": "社保缴纳情况是未缴纳。",
+        "start_date": "我是2021-03-01入职的。",
+        "uniform_tools": "关于是否使用单位工具/标识，穿工服/用公司工具。",
+        "work_management": "关于用工管理程度，打卡考勤。"
+      },
+      "tags": [
+        "challenge",
+        "unavailable_fact"
+      ],
+      "reference_specs": [
+        {
+          "claim": "labor_dispatch",
+          "path": "finding_text:F_DP_FORM",
+          "calculator": "fact",
+          "depends": [
+            "dispatch_type"
+          ],
+          "field": "dispatch_type",
+          "match": "contains"
+        }
+      ],
+      "sources": [
+        "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/bgt/art/2023/art_0abfdd261c03417b949df19d869add8d.html-0",
+        "https://www.court.gov.cn/zixun/xiangqing/282121.html",
+        "https://xzfg.moj.gov.cn/front/law/detail?LawID=208",
+        "https://www.mohrss.gov.cn/xxgk2020/gzk/gz/202112/P020211229590352867273.pdf",
+        "https://xzfg.moj.gov.cn/mobile/law/detail?LawID=610",
+        "https://flk.npc.gov.cn/"
+      ],
+      "assumptions": [
+        "合成咨询，不对应真实裁判；金标准仅在列明假设下有效。",
+        "日期为公历精确日期；未建模时效中止、中断和地区口径。",
+        "工资基数视为已经核实且不触发地方封顶；不验证地方最低工资。",
+        "年假为完整年度、无不享受情形、正常工资已付；工伤仅算七至十级一次性伤残补助金。",
+        "竞业补偿按明确约定且已履行期间计算；未作裁判结果预测。"
+      ],
+      "review": {
+        "human_status": "pending",
+        "model_status": "not_run",
+        "gold_status": "provisional"
+      },
+      "gold_before": [
+        {
+          "claim": "labor_dispatch",
+          "path": "finding_text:F_DP_FORM",
+          "calculator": "fact",
+          "depends": [
+            "dispatch_type"
+          ],
+          "field": "dispatch_type",
+          "match": "contains",
+          "expected": "平台/新业态用工",
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        }
+      ],
+      "gold_after": [
+        {
+          "claim": "labor_dispatch",
+          "path": "finding_text:F_DP_FORM",
+          "calculator": "fact",
+          "depends": [
+            "dispatch_type"
+          ],
+          "field": "dispatch_type",
+          "match": "contains",
+          "expected": "平台/新业态用工",
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        }
+      ]
+    },
+    {
+      "id": "B31",
+      "split": "dev",
+      "primary_claim": "labor_contract",
+      "claims_gold": [
+        "labor_contract"
+      ],
+      "opening": "我想咨询试用期和劳动合同变更。",
+      "opening_variants": [
+        "我想咨询试用期和劳动合同变更。",
+        "麻烦帮我看看：我想咨询试用期和劳动合同变更。",
+        "我有点着急，我想咨询试用期和劳动合同变更。"
+      ],
+      "opening_facts": {},
+      "hidden": {
+        "claim_type": "还没想好",
+        "contract_copies": "我有一份",
+        "contract_signed": "已签书面合同",
+        "contract_terms_changed": "没有",
+        "contract_type": "固定期限",
+        "illegal_probation": "没有",
+        "monthly_wage": 10000,
+        "probation": "有试用期",
+        "probation_length": 2,
+        "probation_wage": 8500,
+        "start_date": "2021-03-01"
+      },
+      "critical": [
+        "claim_type",
+        "contract_signed",
+        "contract_terms_changed",
+        "contract_type",
+        "illegal_probation",
+        "monthly_wage",
+        "probation",
+        "probation_length",
+        "probation_wage",
+        "start_date"
+      ],
+      "answers": {
+        "claim_type": "我的诉求是还没想好。",
+        "contract_copies": "关于合同文本持有，我有一份。",
+        "contract_signed": "书面劳动合同方面，已签书面合同。",
+        "contract_terms_changed": "关于合同是否被单方变更，没有。",
+        "contract_type": "关于合同期限类型，固定期限。",
+        "illegal_probation": "关于试用期违法情形，没有。",
+        "monthly_wage": "月平均工资是10000元。",
+        "probation": "关于是否约定试用期，有试用期。",
+        "probation_length": "试用期是2个月。",
+        "probation_wage": "试用期工资是8500元。",
+        "start_date": "我是2021-03-01入职的。"
+      },
+      "tags": [
+        "ordinary"
+      ],
+      "reference_specs": [
+        {
+          "claim": "labor_contract",
+          "path": "finding:F_CT_CHANGE",
+          "calculator": "condition",
+          "depends": [
+            "contract_terms_changed"
+          ],
+          "conditions": {
+            "contract_terms_changed": "被单方变更"
+          }
+        }
+      ],
+      "sources": [
+        "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/bgt/art/2023/art_0abfdd261c03417b949df19d869add8d.html-0",
+        "https://www.court.gov.cn/zixun/xiangqing/282121.html",
+        "https://xzfg.moj.gov.cn/front/law/detail?LawID=208",
+        "https://www.mohrss.gov.cn/xxgk2020/gzk/gz/202112/P020211229590352867273.pdf",
+        "https://xzfg.moj.gov.cn/mobile/law/detail?LawID=610",
+        "https://flk.npc.gov.cn/"
+      ],
+      "assumptions": [
+        "合成咨询，不对应真实裁判；金标准仅在列明假设下有效。",
+        "日期为公历精确日期；未建模时效中止、中断和地区口径。",
+        "工资基数视为已经核实且不触发地方封顶；不验证地方最低工资。",
+        "年假为完整年度、无不享受情形、正常工资已付；工伤仅算七至十级一次性伤残补助金。",
+        "竞业补偿按明确约定且已履行期间计算；未作裁判结果预测。"
+      ],
+      "review": {
+        "human_status": "pending",
+        "model_status": "not_run",
+        "gold_status": "provisional"
+      },
+      "gold_before": [
+        {
+          "claim": "labor_contract",
+          "path": "finding:F_CT_CHANGE",
+          "calculator": "condition",
+          "depends": [
+            "contract_terms_changed"
+          ],
+          "conditions": {
+            "contract_terms_changed": "被单方变更"
+          },
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        }
+      ],
+      "gold_after": [
+        {
+          "claim": "labor_contract",
+          "path": "finding:F_CT_CHANGE",
+          "calculator": "condition",
+          "depends": [
+            "contract_terms_changed"
+          ],
+          "conditions": {
+            "contract_terms_changed": "被单方变更"
+          },
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        }
+      ]
+    },
+    {
+      "id": "B32",
+      "split": "test",
+      "primary_claim": "labor_contract",
+      "claims_gold": [
+        "labor_contract"
+      ],
+      "opening": "我想咨询试用期和劳动合同变更。",
+      "opening_variants": [
+        "我想咨询试用期和劳动合同变更。",
+        "麻烦帮我看看：我想咨询试用期和劳动合同变更。",
+        "我有点着急，我想咨询试用期和劳动合同变更。"
+      ],
+      "opening_facts": {},
+      "hidden": {
+        "claim_type": "还没想好",
+        "contract_copies": "我有一份",
+        "contract_signed": "已签书面合同",
+        "contract_terms_changed": "没有",
+        "contract_type": "固定期限",
+        "illegal_probation": "没有",
+        "monthly_wage": 12000,
+        "probation": "有试用期",
+        "probation_length": 2,
+        "probation_wage": 8500,
+        "start_date": "2020-04-01"
+      },
+      "critical": [
+        "claim_type",
+        "contract_signed",
+        "contract_terms_changed",
+        "contract_type",
+        "illegal_probation",
+        "monthly_wage",
+        "probation",
+        "probation_length",
+        "probation_wage",
+        "start_date"
+      ],
+      "answers": {
+        "claim_type": "我的诉求是还没想好。",
+        "contract_copies": "关于合同文本持有，我有一份。",
+        "contract_signed": "书面劳动合同方面，已签书面合同。",
+        "contract_terms_changed": "关于合同是否被单方变更，没有。",
+        "contract_type": "关于合同期限类型，固定期限。",
+        "illegal_probation": "关于试用期违法情形，没有。",
+        "monthly_wage": "月平均工资是12000元。",
+        "probation": "关于是否约定试用期，有试用期。",
+        "probation_length": "试用期是2个月。",
+        "probation_wage": "试用期工资是8500元。",
+        "start_date": "我是2020-04-01入职的。"
+      },
+      "tags": [
+        "ordinary",
+        "correction"
+      ],
+      "reference_specs": [
+        {
+          "claim": "labor_contract",
+          "path": "finding:F_CT_CHANGE",
+          "calculator": "condition",
+          "depends": [
+            "contract_terms_changed"
+          ],
+          "conditions": {
+            "contract_terms_changed": "被单方变更"
+          }
+        }
+      ],
+      "sources": [
+        "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/bgt/art/2023/art_0abfdd261c03417b949df19d869add8d.html-0",
+        "https://www.court.gov.cn/zixun/xiangqing/282121.html",
+        "https://xzfg.moj.gov.cn/front/law/detail?LawID=208",
+        "https://www.mohrss.gov.cn/xxgk2020/gzk/gz/202112/P020211229590352867273.pdf",
+        "https://xzfg.moj.gov.cn/mobile/law/detail?LawID=610",
+        "https://flk.npc.gov.cn/"
+      ],
+      "assumptions": [
+        "合成咨询，不对应真实裁判；金标准仅在列明假设下有效。",
+        "日期为公历精确日期；未建模时效中止、中断和地区口径。",
+        "工资基数视为已经核实且不触发地方封顶；不验证地方最低工资。",
+        "年假为完整年度、无不享受情形、正常工资已付；工伤仅算七至十级一次性伤残补助金。",
+        "竞业补偿按明确约定且已履行期间计算；未作裁判结果预测。"
+      ],
+      "review": {
+        "human_status": "pending",
+        "model_status": "not_run",
+        "gold_status": "provisional"
+      },
+      "gold_before": [
+        {
+          "claim": "labor_contract",
+          "path": "finding:F_CT_CHANGE",
+          "calculator": "condition",
+          "depends": [
+            "contract_terms_changed"
+          ],
+          "conditions": {
+            "contract_terms_changed": "被单方变更"
+          },
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        }
+      ],
+      "correction": {
+        "after": "first_memo",
+        "key": "contract_terms_changed",
+        "old": "没有",
+        "new": "被单方变更",
+        "text": "更正一下，我之前说错了。关于合同是否被单方变更，被单方变更。"
+      },
+      "gold_after": [
+        {
+          "claim": "labor_contract",
+          "path": "finding:F_CT_CHANGE",
+          "calculator": "condition",
+          "depends": [
+            "contract_terms_changed"
+          ],
+          "conditions": {
+            "contract_terms_changed": "被单方变更"
+          },
+          "expected": true,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        }
+      ],
+      "critical_after": [
+        "claim_type",
+        "contract_signed",
+        "contract_terms_changed",
+        "contract_type",
+        "illegal_probation",
+        "monthly_wage",
+        "probation",
+        "probation_length",
+        "probation_wage",
+        "start_date"
+      ]
+    },
+    {
+      "id": "B33",
+      "split": "test",
+      "primary_claim": "labor_contract",
+      "claims_gold": [
+        "labor_contract"
+      ],
+      "opening": "我想咨询合同订立/试用期/变更，情况需要核实，能先帮我梳理吗？",
+      "opening_variants": [
+        "我想咨询合同订立/试用期/变更，情况需要核实，能先帮我梳理吗？",
+        "麻烦帮我看看：我想咨询合同订立/试用期/变更，情况需要核实，能先帮我梳理吗？",
+        "我有点着急，我想咨询合同订立/试用期/变更，情况需要核实，能先帮我梳理吗？"
+      ],
+      "opening_facts": {},
+      "hidden": {
+        "claim_type": "还没想好",
+        "contract_copies": "我有一份",
+        "contract_signed": "已签书面合同",
+        "contract_terms_changed": "没有",
+        "contract_type": null,
+        "illegal_probation": "没有",
+        "monthly_wage": 10000,
+        "probation": "没有试用期",
+        "probation_length": 0,
+        "probation_wage": 0,
+        "start_date": "2021-03-01"
+      },
+      "critical": [
+        "claim_type",
+        "contract_signed",
+        "contract_terms_changed",
+        "contract_type",
+        "monthly_wage",
+        "probation",
+        "start_date"
+      ],
+      "answers": {
+        "claim_type": "我的诉求是还没想好。",
+        "contract_copies": "关于合同文本持有，我有一份。",
+        "contract_signed": "书面劳动合同方面，已签书面合同。",
+        "contract_terms_changed": "关于合同是否被单方变更，没有。",
+        "contract_type": "关于合同期限类型，这个我确实不清楚，没有材料确认。",
+        "illegal_probation": "关于试用期违法情形，没有。",
+        "monthly_wage": "月平均工资是10000元。",
+        "probation": "关于是否约定试用期，没有试用期。",
+        "probation_length": "试用期是0个月。",
+        "probation_wage": "试用期工资是0元。",
+        "start_date": "我是2021-03-01入职的。"
+      },
+      "tags": [
+        "challenge",
+        "unavailable_fact"
+      ],
+      "reference_specs": [
+        {
+          "claim": "labor_contract",
+          "path": "finding:F_CT_CHANGE",
+          "calculator": "condition",
+          "depends": [
+            "contract_terms_changed"
+          ],
+          "conditions": {
+            "contract_terms_changed": "被单方变更"
+          }
+        }
+      ],
+      "sources": [
+        "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/bgt/art/2023/art_0abfdd261c03417b949df19d869add8d.html-0",
+        "https://www.court.gov.cn/zixun/xiangqing/282121.html",
+        "https://xzfg.moj.gov.cn/front/law/detail?LawID=208",
+        "https://www.mohrss.gov.cn/xxgk2020/gzk/gz/202112/P020211229590352867273.pdf",
+        "https://xzfg.moj.gov.cn/mobile/law/detail?LawID=610",
+        "https://flk.npc.gov.cn/"
+      ],
+      "assumptions": [
+        "合成咨询，不对应真实裁判；金标准仅在列明假设下有效。",
+        "日期为公历精确日期；未建模时效中止、中断和地区口径。",
+        "工资基数视为已经核实且不触发地方封顶；不验证地方最低工资。",
+        "年假为完整年度、无不享受情形、正常工资已付；工伤仅算七至十级一次性伤残补助金。",
+        "竞业补偿按明确约定且已履行期间计算；未作裁判结果预测。"
+      ],
+      "review": {
+        "human_status": "pending",
+        "model_status": "not_run",
+        "gold_status": "provisional"
+      },
+      "gold_before": [
+        {
+          "claim": "labor_contract",
+          "path": "finding:F_CT_CHANGE",
+          "calculator": "condition",
+          "depends": [
+            "contract_terms_changed"
+          ],
+          "conditions": {
+            "contract_terms_changed": "被单方变更"
+          },
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        }
+      ],
+      "gold_after": [
+        {
+          "claim": "labor_contract",
+          "path": "finding:F_CT_CHANGE",
+          "calculator": "condition",
+          "depends": [
+            "contract_terms_changed"
+          ],
+          "conditions": {
+            "contract_terms_changed": "被单方变更"
+          },
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        }
+      ]
+    },
+    {
+      "id": "B34",
+      "split": "dev",
+      "primary_claim": "labor_procedure",
+      "claims_gold": [
+        "labor_procedure"
+      ],
+      "opening": "我已经申请劳动仲裁，想了解后续程序。",
+      "opening_variants": [
+        "我已经申请劳动仲裁，想了解后续程序。",
+        "麻烦帮我看看：我已经申请劳动仲裁，想了解后续程序。",
+        "我有点着急，我已经申请劳动仲裁，想了解后续程序。"
+      ],
+      "opening_facts": {
+        "arbitration_filed": "已申请"
+      },
+      "hidden": {
+        "amount_in_dispute": 20000,
+        "arbitration_date": "2026-04-10",
+        "arbitration_filed": "已申请",
+        "arbitration_result": "已受理",
+        "claim_type": "要求赔偿金",
+        "court_filed": "没有起诉",
+        "deadline_aware": "知道，还没过",
+        "employer": "青禾技术有限公司",
+        "work_location": "上海"
+      },
+      "critical": [
+        "amount_in_dispute",
+        "arbitration_date",
+        "arbitration_filed",
+        "arbitration_result",
+        "claim_type",
+        "court_filed",
+        "deadline_aware"
+      ],
+      "answers": {
+        "amount_in_dispute": "争议金额是20000元。",
+        "arbitration_date": "申请仲裁日期是2026-04-10。",
+        "arbitration_filed": "关于是否已申请仲裁，已申请。",
+        "arbitration_result": "关于仲裁进展，已受理。",
+        "claim_type": "我的诉求是要求赔偿金。",
+        "court_filed": "关于是否已向法院起诉，没有起诉。",
+        "deadline_aware": "关于是否知道仲裁时效，知道，还没过。",
+        "employer": "公司全称是青禾技术有限公司。",
+        "work_location": "关于工作地点，上海。"
+      },
+      "tags": [
+        "ordinary"
+      ],
+      "reference_specs": [
+        {
+          "claim": "labor_procedure",
+          "path": "gap_contains:已裁决的案件需核对",
+          "calculator": "condition",
+          "depends": [
+            "arbitration_filed",
+            "arbitration_result"
+          ],
+          "conditions": {
+            "arbitration_filed": "已申请",
+            "arbitration_result": "已裁决"
+          }
+        }
+      ],
+      "sources": [
+        "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/bgt/art/2023/art_0abfdd261c03417b949df19d869add8d.html-0",
+        "https://www.court.gov.cn/zixun/xiangqing/282121.html",
+        "https://xzfg.moj.gov.cn/front/law/detail?LawID=208",
+        "https://www.mohrss.gov.cn/xxgk2020/gzk/gz/202112/P020211229590352867273.pdf",
+        "https://xzfg.moj.gov.cn/mobile/law/detail?LawID=610",
+        "https://flk.npc.gov.cn/"
+      ],
+      "assumptions": [
+        "合成咨询，不对应真实裁判；金标准仅在列明假设下有效。",
+        "日期为公历精确日期；未建模时效中止、中断和地区口径。",
+        "工资基数视为已经核实且不触发地方封顶；不验证地方最低工资。",
+        "年假为完整年度、无不享受情形、正常工资已付；工伤仅算七至十级一次性伤残补助金。",
+        "竞业补偿按明确约定且已履行期间计算；未作裁判结果预测。"
+      ],
+      "review": {
+        "human_status": "pending",
+        "model_status": "not_run",
+        "gold_status": "provisional"
+      },
+      "gold_before": [
+        {
+          "claim": "labor_procedure",
+          "path": "gap_contains:已裁决的案件需核对",
+          "calculator": "condition",
+          "depends": [
+            "arbitration_filed",
+            "arbitration_result"
+          ],
+          "conditions": {
+            "arbitration_filed": "已申请",
+            "arbitration_result": "已裁决"
+          },
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        }
+      ],
+      "gold_after": [
+        {
+          "claim": "labor_procedure",
+          "path": "gap_contains:已裁决的案件需核对",
+          "calculator": "condition",
+          "depends": [
+            "arbitration_filed",
+            "arbitration_result"
+          ],
+          "conditions": {
+            "arbitration_filed": "已申请",
+            "arbitration_result": "已裁决"
+          },
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        }
+      ]
+    },
+    {
+      "id": "B35",
+      "split": "test",
+      "primary_claim": "labor_procedure",
+      "claims_gold": [
+        "labor_procedure"
+      ],
+      "opening": "我已经申请劳动仲裁，想了解后续程序。",
+      "opening_variants": [
+        "我已经申请劳动仲裁，想了解后续程序。",
+        "麻烦帮我看看：我已经申请劳动仲裁，想了解后续程序。",
+        "我有点着急，我已经申请劳动仲裁，想了解后续程序。"
+      ],
+      "opening_facts": {
+        "arbitration_filed": "已申请"
+      },
+      "hidden": {
+        "amount_in_dispute": 24000,
+        "arbitration_date": "2026-05-10",
+        "arbitration_filed": "已申请",
+        "arbitration_result": "已受理",
+        "claim_type": "要求赔偿金",
+        "court_filed": "没有起诉",
+        "deadline_aware": "知道，还没过",
+        "employer": "青禾技术有限公司",
+        "work_location": "上海"
+      },
+      "critical": [
+        "amount_in_dispute",
+        "arbitration_date",
+        "arbitration_filed",
+        "arbitration_result",
+        "claim_type",
+        "court_filed",
+        "deadline_aware"
+      ],
+      "answers": {
+        "amount_in_dispute": "争议金额是24000元。",
+        "arbitration_date": "申请仲裁日期是2026-05-10。",
+        "arbitration_filed": "关于是否已申请仲裁，已申请。",
+        "arbitration_result": "关于仲裁进展，已受理。",
+        "claim_type": "我的诉求是要求赔偿金。",
+        "court_filed": "关于是否已向法院起诉，没有起诉。",
+        "deadline_aware": "关于是否知道仲裁时效，知道，还没过。",
+        "employer": "公司全称是青禾技术有限公司。",
+        "work_location": "关于工作地点，上海。"
+      },
+      "tags": [
+        "ordinary",
+        "correction"
+      ],
+      "reference_specs": [
+        {
+          "claim": "labor_procedure",
+          "path": "gap_contains:已裁决的案件需核对",
+          "calculator": "condition",
+          "depends": [
+            "arbitration_filed",
+            "arbitration_result"
+          ],
+          "conditions": {
+            "arbitration_filed": "已申请",
+            "arbitration_result": "已裁决"
+          }
+        }
+      ],
+      "sources": [
+        "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/bgt/art/2023/art_0abfdd261c03417b949df19d869add8d.html-0",
+        "https://www.court.gov.cn/zixun/xiangqing/282121.html",
+        "https://xzfg.moj.gov.cn/front/law/detail?LawID=208",
+        "https://www.mohrss.gov.cn/xxgk2020/gzk/gz/202112/P020211229590352867273.pdf",
+        "https://xzfg.moj.gov.cn/mobile/law/detail?LawID=610",
+        "https://flk.npc.gov.cn/"
+      ],
+      "assumptions": [
+        "合成咨询，不对应真实裁判；金标准仅在列明假设下有效。",
+        "日期为公历精确日期；未建模时效中止、中断和地区口径。",
+        "工资基数视为已经核实且不触发地方封顶；不验证地方最低工资。",
+        "年假为完整年度、无不享受情形、正常工资已付；工伤仅算七至十级一次性伤残补助金。",
+        "竞业补偿按明确约定且已履行期间计算；未作裁判结果预测。"
+      ],
+      "review": {
+        "human_status": "pending",
+        "model_status": "not_run",
+        "gold_status": "provisional"
+      },
+      "gold_before": [
+        {
+          "claim": "labor_procedure",
+          "path": "gap_contains:已裁决的案件需核对",
+          "calculator": "condition",
+          "depends": [
+            "arbitration_filed",
+            "arbitration_result"
+          ],
+          "conditions": {
+            "arbitration_filed": "已申请",
+            "arbitration_result": "已裁决"
+          },
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        }
+      ],
+      "correction": {
+        "after": "first_memo",
+        "key": "arbitration_result",
+        "old": "已受理",
+        "new": "已裁决",
+        "text": "更正一下，我之前说错了。关于仲裁进展，已裁决。"
+      },
+      "gold_after": [
+        {
+          "claim": "labor_procedure",
+          "path": "gap_contains:已裁决的案件需核对",
+          "calculator": "condition",
+          "depends": [
+            "arbitration_filed",
+            "arbitration_result"
+          ],
+          "conditions": {
+            "arbitration_filed": "已申请",
+            "arbitration_result": "已裁决"
+          },
+          "expected": true,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        }
+      ],
+      "critical_after": [
+        "amount_in_dispute",
+        "arbitration_date",
+        "arbitration_filed",
+        "arbitration_result",
+        "claim_type",
+        "court_filed",
+        "deadline_aware"
+      ]
+    },
+    {
+      "id": "B36",
+      "split": "test",
+      "primary_claim": "labor_procedure",
+      "claims_gold": [
+        "labor_procedure"
+      ],
+      "opening": "我想咨询劳动仲裁和后续劳动诉讼的程序，情况需要核实，能先帮我梳理吗？",
+      "opening_variants": [
+        "我想咨询劳动仲裁和后续劳动诉讼的程序，情况需要核实，能先帮我梳理吗？",
+        "麻烦帮我看看：我想咨询劳动仲裁和后续劳动诉讼的程序，情况需要核实，能先帮我梳理吗？",
+        "我有点着急，我想咨询劳动仲裁和后续劳动诉讼的程序，情况需要核实，能先帮我梳理吗？"
+      ],
+      "opening_facts": {},
+      "hidden": {
+        "amount_in_dispute": 20000,
+        "arbitration_date": null,
+        "arbitration_filed": "已申请",
+        "arbitration_result": "已受理",
+        "claim_type": "要求赔偿金",
+        "court_filed": "没有起诉",
+        "deadline_aware": "知道，还没过",
+        "employer": "青禾技术有限公司",
+        "work_location": "上海"
+      },
+      "critical": [
+        "amount_in_dispute",
+        "arbitration_date",
+        "arbitration_filed",
+        "arbitration_result",
+        "claim_type",
+        "court_filed",
+        "deadline_aware"
+      ],
+      "answers": {
+        "amount_in_dispute": "争议金额是20000元。",
+        "arbitration_date": "关于申请仲裁日期，这个我确实不清楚，没有材料确认。",
+        "arbitration_filed": "关于是否已申请仲裁，已申请。",
+        "arbitration_result": "关于仲裁进展，已受理。",
+        "claim_type": "我的诉求是要求赔偿金。",
+        "court_filed": "关于是否已向法院起诉，没有起诉。",
+        "deadline_aware": "关于是否知道仲裁时效，知道，还没过。",
+        "employer": "公司全称是青禾技术有限公司。",
+        "work_location": "关于工作地点，上海。"
+      },
+      "tags": [
+        "challenge",
+        "unavailable_fact"
+      ],
+      "reference_specs": [
+        {
+          "claim": "labor_procedure",
+          "path": "gap_contains:已裁决的案件需核对",
+          "calculator": "condition",
+          "depends": [
+            "arbitration_filed",
+            "arbitration_result"
+          ],
+          "conditions": {
+            "arbitration_filed": "已申请",
+            "arbitration_result": "已裁决"
+          }
+        }
+      ],
+      "sources": [
+        "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/bgt/art/2023/art_0abfdd261c03417b949df19d869add8d.html-0",
+        "https://www.court.gov.cn/zixun/xiangqing/282121.html",
+        "https://xzfg.moj.gov.cn/front/law/detail?LawID=208",
+        "https://www.mohrss.gov.cn/xxgk2020/gzk/gz/202112/P020211229590352867273.pdf",
+        "https://xzfg.moj.gov.cn/mobile/law/detail?LawID=610",
+        "https://flk.npc.gov.cn/"
+      ],
+      "assumptions": [
+        "合成咨询，不对应真实裁判；金标准仅在列明假设下有效。",
+        "日期为公历精确日期；未建模时效中止、中断和地区口径。",
+        "工资基数视为已经核实且不触发地方封顶；不验证地方最低工资。",
+        "年假为完整年度、无不享受情形、正常工资已付；工伤仅算七至十级一次性伤残补助金。",
+        "竞业补偿按明确约定且已履行期间计算；未作裁判结果预测。"
+      ],
+      "review": {
+        "human_status": "pending",
+        "model_status": "not_run",
+        "gold_status": "provisional"
+      },
+      "gold_before": [
+        {
+          "claim": "labor_procedure",
+          "path": "gap_contains:已裁决的案件需核对",
+          "calculator": "condition",
+          "depends": [
+            "arbitration_filed",
+            "arbitration_result"
+          ],
+          "conditions": {
+            "arbitration_filed": "已申请",
+            "arbitration_result": "已裁决"
+          },
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        }
+      ],
+      "gold_after": [
+        {
+          "claim": "labor_procedure",
+          "path": "gap_contains:已裁决的案件需核对",
+          "calculator": "condition",
+          "depends": [
+            "arbitration_filed",
+            "arbitration_result"
+          ],
+          "conditions": {
+            "arbitration_filed": "已申请",
+            "arbitration_result": "已裁决"
+          },
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        }
+      ]
+    },
+    {
+      "id": "B37",
+      "split": "test",
+      "primary_claim": "labor_dismissal",
+      "claims_gold": [
+        "labor_dismissal"
+      ],
+      "opening": "我自己辞职，想问解除劳动合同后还有经济补偿吗？",
+      "opening_variants": [
+        "我自己辞职，想问解除劳动合同后还有经济补偿吗？",
+        "麻烦帮我看看：我自己辞职，想问解除劳动合同后还有经济补偿吗？",
+        "我有点着急，我自己辞职，想问解除劳动合同后还有经济补偿吗？"
+      ],
+      "opening_facts": {
+        "who_initiated": "劳动者辞职"
+      },
+      "hidden": {
+        "arbitration_filed": "已申请",
+        "claim_type": "要求赔偿金",
+        "compensation_paid": "未支付任何补偿",
+        "contract_expired": "合同期内解除",
+        "contract_signed": "已签书面合同",
+        "deadline_aware": "知道，还没过",
+        "dismiss_date": "2026-03-15",
+        "employer": "青禾技术有限公司",
+        "forced_resignation_reason": "不适用",
+        "misconduct_proof": "只有口头指认",
+        "monthly_wage": 10000,
+        "notice_30d": "都没有",
+        "pregnancy_status": "不是",
+        "rule_democratic": "没有经过",
+        "rule_exists": "有成文制度",
+        "rule_publicized": "没有公示告知",
+        "start_date": "2021-03-01",
+        "stated_reason": "其他或说不清",
+        "training_or_transfer": "没有",
+        "union_notified": "没有通知",
+        "who_initiated": "劳动者辞职"
+      },
+      "critical": [
+        "claim_type",
+        "contract_signed",
+        "dismiss_date",
+        "employer",
+        "forced_resignation_reason",
+        "monthly_wage",
+        "start_date",
+        "stated_reason",
+        "who_initiated"
+      ],
+      "answers": {
+        "arbitration_filed": "关于是否已申请仲裁，已申请。",
+        "claim_type": "我的诉求是要求赔偿金。",
+        "compensation_paid": "关于已支付补偿情况，未支付任何补偿。",
+        "contract_expired": "关于是否合同到期，合同期内解除。",
+        "contract_signed": "书面劳动合同方面，已签书面合同。",
+        "deadline_aware": "关于是否知道仲裁时效，知道，还没过。",
+        "dismiss_date": "离职解除日期是2026-03-15。",
+        "employer": "公司全称是青禾技术有限公司。",
+        "forced_resignation_reason": "关于被迫解除的理由，不适用。",
+        "misconduct_proof": "违纪证据方面，只有口头指认。",
+        "monthly_wage": "月平均工资是10000元。",
+        "notice_30d": "提前通知和代通知金方面，都没有。",
+        "pregnancy_status": "关于是否处于三期，不是。",
+        "rule_democratic": "民主程序方面，没有经过。",
+        "rule_exists": "公司有成文制度。",
+        "rule_publicized": "员工手册没有公示告知。",
+        "start_date": "我是2021-03-01入职的。",
+        "stated_reason": "公司的解除理由是其他或说不清。",
+        "training_or_transfer": "培训或调岗方面，没有。",
+        "union_notified": "工会方面，没有通知。",
+        "who_initiated": "解除主体是劳动者辞职。"
+      },
+      "tags": [
+        "challenge",
+        "branch_boundary"
+      ],
+      "reference_specs": [
+        {
+          "claim": "labor_dismissal",
+          "path": "illegal",
+          "calculator": "literal",
+          "depends": [
+            "who_initiated",
+            "stated_reason"
+          ],
+          "value": false
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "compensation.amount",
+          "calculator": "dismissal",
+          "depends": [
+            "start_date",
+            "dismiss_date",
+            "monthly_wage"
+          ],
+          "pay_type": "0"
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "limitation.deadline",
+          "calculator": "deadline",
+          "depends": [
+            "dismiss_date"
+          ]
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "limitation.expired",
+          "calculator": "expired",
+          "depends": [
+            "dismiss_date"
+          ]
+        }
+      ],
+      "sources": [
+        "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/bgt/art/2023/art_0abfdd261c03417b949df19d869add8d.html-0",
+        "https://www.court.gov.cn/zixun/xiangqing/282121.html",
+        "https://xzfg.moj.gov.cn/front/law/detail?LawID=208",
+        "https://www.mohrss.gov.cn/xxgk2020/gzk/gz/202112/P020211229590352867273.pdf",
+        "https://xzfg.moj.gov.cn/mobile/law/detail?LawID=610",
+        "https://flk.npc.gov.cn/"
+      ],
+      "assumptions": [
+        "合成咨询，不对应真实裁判；金标准仅在列明假设下有效。",
+        "日期为公历精确日期；未建模时效中止、中断和地区口径。",
+        "工资基数视为已经核实且不触发地方封顶；不验证地方最低工资。",
+        "年假为完整年度、无不享受情形、正常工资已付；工伤仅算七至十级一次性伤残补助金。",
+        "竞业补偿按明确约定且已履行期间计算；未作裁判结果预测。"
+      ],
+      "review": {
+        "human_status": "pending",
+        "model_status": "not_run",
+        "gold_status": "provisional"
+      },
+      "gold_before": [
+        {
+          "claim": "labor_dismissal",
+          "path": "illegal",
+          "calculator": "literal",
+          "depends": [
+            "who_initiated",
+            "stated_reason"
+          ],
+          "value": false,
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "compensation.amount",
+          "calculator": "dismissal",
+          "depends": [
+            "start_date",
+            "dismiss_date",
+            "monthly_wage"
+          ],
+          "pay_type": "0",
+          "expected": 0.0,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "limitation.deadline",
+          "calculator": "deadline",
+          "depends": [
+            "dismiss_date"
+          ],
+          "expected": "2027-03-15",
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "limitation.expired",
+          "calculator": "expired",
+          "depends": [
+            "dismiss_date"
+          ],
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        }
+      ],
+      "gold_after": [
+        {
+          "claim": "labor_dismissal",
+          "path": "illegal",
+          "calculator": "literal",
+          "depends": [
+            "who_initiated",
+            "stated_reason"
+          ],
+          "value": false,
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "compensation.amount",
+          "calculator": "dismissal",
+          "depends": [
+            "start_date",
+            "dismiss_date",
+            "monthly_wage"
+          ],
+          "pay_type": "0",
+          "expected": 0.0,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "limitation.deadline",
+          "calculator": "deadline",
+          "depends": [
+            "dismiss_date"
+          ],
+          "expected": "2027-03-15",
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "limitation.expired",
+          "calculator": "expired",
+          "depends": [
+            "dismiss_date"
+          ],
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        }
+      ]
+    },
+    {
+      "id": "B38",
+      "split": "test",
+      "primary_claim": "labor_dismissal",
+      "claims_gold": [
+        "labor_dismissal"
+      ],
+      "opening": "劳动合同到期，公司不续签，经济补偿应该怎么算？",
+      "opening_variants": [
+        "劳动合同到期，公司不续签，经济补偿应该怎么算？",
+        "麻烦帮我看看：劳动合同到期，公司不续签，经济补偿应该怎么算？",
+        "我有点着急，劳动合同到期，公司不续签，经济补偿应该怎么算？"
+      ],
+      "opening_facts": {
+        "stated_reason": "合同期满不续签",
+        "contract_expired": "合同到期不续签"
+      },
+      "hidden": {
+        "arbitration_filed": "已申请",
+        "claim_type": "要求赔偿金",
+        "compensation_paid": "未支付任何补偿",
+        "contract_expired": "合同到期不续签",
+        "contract_signed": "已签书面合同",
+        "deadline_aware": "知道，还没过",
+        "dismiss_date": "2026-03-15",
+        "employer": "青禾技术有限公司",
+        "forced_resignation_reason": "不适用",
+        "misconduct_proof": "只有口头指认",
+        "monthly_wage": 10000,
+        "notice_30d": "都没有",
+        "pregnancy_status": "不是",
+        "rule_democratic": "没有经过",
+        "rule_exists": "有成文制度",
+        "rule_publicized": "没有公示告知",
+        "start_date": "2021-03-01",
+        "stated_reason": "合同期满不续签",
+        "training_or_transfer": "没有",
+        "union_notified": "没有通知",
+        "who_initiated": "单位单方解除"
+      },
+      "critical": [
+        "claim_type",
+        "contract_expired",
+        "contract_signed",
+        "dismiss_date",
+        "employer",
+        "monthly_wage",
+        "start_date",
+        "stated_reason",
+        "union_notified",
+        "who_initiated"
+      ],
+      "answers": {
+        "arbitration_filed": "关于是否已申请仲裁，已申请。",
+        "claim_type": "我的诉求是要求赔偿金。",
+        "compensation_paid": "关于已支付补偿情况，未支付任何补偿。",
+        "contract_expired": "关于是否合同到期，合同到期不续签。",
+        "contract_signed": "书面劳动合同方面，已签书面合同。",
+        "deadline_aware": "关于是否知道仲裁时效，知道，还没过。",
+        "dismiss_date": "离职解除日期是2026-03-15。",
+        "employer": "公司全称是青禾技术有限公司。",
+        "forced_resignation_reason": "关于被迫解除的理由，不适用。",
+        "misconduct_proof": "违纪证据方面，只有口头指认。",
+        "monthly_wage": "月平均工资是10000元。",
+        "notice_30d": "提前通知和代通知金方面，都没有。",
+        "pregnancy_status": "关于是否处于三期，不是。",
+        "rule_democratic": "民主程序方面，没有经过。",
+        "rule_exists": "公司有成文制度。",
+        "rule_publicized": "员工手册没有公示告知。",
+        "start_date": "我是2021-03-01入职的。",
+        "stated_reason": "公司的解除理由是合同期满不续签。",
+        "training_or_transfer": "培训或调岗方面，没有。",
+        "union_notified": "工会方面，没有通知。",
+        "who_initiated": "解除主体是单位单方解除。"
+      },
+      "tags": [
+        "challenge",
+        "branch_boundary"
+      ],
+      "reference_specs": [
+        {
+          "claim": "labor_dismissal",
+          "path": "illegal",
+          "calculator": "literal",
+          "depends": [
+            "who_initiated",
+            "stated_reason"
+          ],
+          "value": false
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "compensation.amount",
+          "calculator": "dismissal",
+          "depends": [
+            "start_date",
+            "dismiss_date",
+            "monthly_wage"
+          ],
+          "pay_type": "N"
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "limitation.deadline",
+          "calculator": "deadline",
+          "depends": [
+            "dismiss_date"
+          ]
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "limitation.expired",
+          "calculator": "expired",
+          "depends": [
+            "dismiss_date"
+          ]
+        }
+      ],
+      "sources": [
+        "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/bgt/art/2023/art_0abfdd261c03417b949df19d869add8d.html-0",
+        "https://www.court.gov.cn/zixun/xiangqing/282121.html",
+        "https://xzfg.moj.gov.cn/front/law/detail?LawID=208",
+        "https://www.mohrss.gov.cn/xxgk2020/gzk/gz/202112/P020211229590352867273.pdf",
+        "https://xzfg.moj.gov.cn/mobile/law/detail?LawID=610",
+        "https://flk.npc.gov.cn/"
+      ],
+      "assumptions": [
+        "合成咨询，不对应真实裁判；金标准仅在列明假设下有效。",
+        "日期为公历精确日期；未建模时效中止、中断和地区口径。",
+        "工资基数视为已经核实且不触发地方封顶；不验证地方最低工资。",
+        "年假为完整年度、无不享受情形、正常工资已付；工伤仅算七至十级一次性伤残补助金。",
+        "竞业补偿按明确约定且已履行期间计算；未作裁判结果预测。"
+      ],
+      "review": {
+        "human_status": "pending",
+        "model_status": "not_run",
+        "gold_status": "provisional"
+      },
+      "gold_before": [
+        {
+          "claim": "labor_dismissal",
+          "path": "illegal",
+          "calculator": "literal",
+          "depends": [
+            "who_initiated",
+            "stated_reason"
+          ],
+          "value": false,
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "compensation.amount",
+          "calculator": "dismissal",
+          "depends": [
+            "start_date",
+            "dismiss_date",
+            "monthly_wage"
+          ],
+          "pay_type": "N",
+          "expected": 55000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "limitation.deadline",
+          "calculator": "deadline",
+          "depends": [
+            "dismiss_date"
+          ],
+          "expected": "2027-03-15",
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "limitation.expired",
+          "calculator": "expired",
+          "depends": [
+            "dismiss_date"
+          ],
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        }
+      ],
+      "gold_after": [
+        {
+          "claim": "labor_dismissal",
+          "path": "illegal",
+          "calculator": "literal",
+          "depends": [
+            "who_initiated",
+            "stated_reason"
+          ],
+          "value": false,
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "author_specified_behavior"
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "compensation.amount",
+          "calculator": "dismissal",
+          "depends": [
+            "start_date",
+            "dismiss_date",
+            "monthly_wage"
+          ],
+          "pay_type": "N",
+          "expected": 55000.0,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "limitation.deadline",
+          "calculator": "deadline",
+          "depends": [
+            "dismiss_date"
+          ],
+          "expected": "2027-03-15",
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        },
+        {
+          "claim": "labor_dismissal",
+          "path": "limitation.expired",
+          "calculator": "expired",
+          "depends": [
+            "dismiss_date"
+          ],
+          "expected": false,
+          "applicable": true,
+          "reference_kind": "independent_formula"
+        }
+      ]
+    }
+  ]
+}

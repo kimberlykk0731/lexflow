@@ -64,6 +64,7 @@ class LLMConfig:
     temperature: float = field(default_factory=lambda: float(os.getenv("LLM_TEMPERATURE", "0")))
     max_tokens: int = field(default_factory=lambda: int(os.getenv("LLM_MAX_TOKENS", "1600")))
     timeout: float = field(default_factory=lambda: float(os.getenv("LLM_TIMEOUT", "60")))
+    thinking: str = field(default_factory=lambda: os.getenv("LLM_THINKING", ""))
 
     @property
     def enabled(self) -> bool:

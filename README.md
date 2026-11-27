@@ -39,7 +39,7 @@ NLP 课程项目。一个面向**劳动争议咨询**（不是法律检索）的
 ```bash
 # 在仓库根目录执行
 PYTHONPATH=src python3 -m lexflow.cli demo          # 劳动争议演示 + 备忘录
-PYTHONPATH=src python3 eval/run_evals.py            # 12 个脚本案例 × 4 配置消融
+PYTHONPATH=src python3 eval/run_evals.py            # 12 个回归案例 × 5 配置；新版评测见第 6 节
 PYTHONPATH=src python3 eval/verify_probe.py         # 给核验器注入 5 类错误
 PYTHONPATH=src python3 eval/cache_bench.py          # 缓存命中与失效
 PYTHONPATH=src python3 -m unittest discover -s tests -v
@@ -51,9 +51,10 @@ PYTHONPATH=src python3 -m unittest discover -s tests -v
 
 ```bash
 export LEXFLOW_LLM=api
-export LLM_BASE_URL=https://api.deepseek.com/v1   # 或任意 OpenAI-compatible 端点
+export LLM_BASE_URL=https://api.deepseek.com   # 或任意 OpenAI-compatible 端点
 export LLM_API_KEY=sk-...
-export LLM_MODEL=deepseek-chat
+export LLM_MODEL=deepseek-flash
+export LLM_THINKING=disabled
 PYTHONPATH=src python3 -m lexflow.cli chat
 ```
 
@@ -203,6 +204,28 @@ PYTHONPATH=src streamlit run app/streamlit_app.py
 ---
 
 ## 6. 评测
+
+### Bench v2（2026-11-27）
+
+新增 **38 个劳动争议案例（12 开发 + 26 测试）和 12 个分诊案例**，覆盖全部 12 类劳动请求权；包含 8 个多请求权、12 个事实更正、6 个信息不足案例。
+25 个 `critical_if` 条件字段均有触发与不触发样例，这不等于所有程序分支或时间效力边界都已覆盖。
+
+```bash
+python3 eval/validate_cases.py
+PYTHONPATH=src python3 eval/run_evals_v2.py --split test --llm mock --repeats 3 --out runs/bench_v2/my_mock
+python3 eval/oracle.py
+python3 eval/verify_bench_v2.py
+```
+
+已完成 312 次主表 mock 会话：`full` 的正确事实覆盖率 **57.6%**，独立公式一致率 **64.4%**（适用 15 个案例，按案例宏平均）。
+这些分数采用新案例、新分母和事实值正确性检查，与下面旧表不直接比较。完整事实输入时，50 个更正前/后分析阶段与独立参考断言一致。
+案例当前为设计种子＋模板生成，独立人工法律审定尚未完成。真实 DeepSeek API 的修复前后测试已在本地完成：修复后 `full` 正确事实覆盖率为 **99.3%**，公式一致率为 **100.0%**（适用15个案例）。这是同一数据集上的回归复测，详见 [本地API运行记录](docs/LOCAL_API_REPORT_20261127.md)及 [修复后结果](runs/bench_v2/api_test_revised/SUMMARY.md)。
+
+使用方法见 [BENCH_V2_GUIDE.md](docs/BENCH_V2_GUIDE.md)，运行分析见 [BENCH_REPORT_V2.md](docs/BENCH_REPORT_V2.md)。
+
+### 原有 12 案协议（历史主表，现作回归）
+
+以下表格是 v1 历史运行记录；当前回归结果及新旧口径差异见 [运行索引](runs/SUMMARY.md)。
 
 主实验是**受控咨询协议**：12 个案例（7 劳动 + 5 侵权），每个案例有隐藏事实表；脚本化当事人只回答被问到的问题，其余回答“不清楚”；其中 2 个案例在第一次备忘录之后给出更正。金标准结论由作者依据法条手工计算，不由系统生成。
 

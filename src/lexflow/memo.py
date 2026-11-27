@@ -253,7 +253,7 @@ class MemoBuilder:
                          f"{excerpt}… | [源]({art.source}) |")
         lines.append("")
 
-        if verification:
+        if verification and not verification.get("skipped"):
             lines.append("## 附：自动核验")
             lines.append("")
             lines.append(f"- 结论条目：{verification['checked']}，通过核验："

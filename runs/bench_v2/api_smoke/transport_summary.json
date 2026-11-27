@@ -1,0 +1,11 @@
+{
+  "model": "deepseek-flash",
+  "logical_calls": 3,
+  "successful_calls": 0,
+  "failed_calls": 3,
+  "nonempty_successful_calls": 0,
+  "prompt_tokens": 0,
+  "completion_tokens": 0,
+  "elapsed_seconds": 29.51,
+  "runner_exit": 1
+}

@@ -73,14 +73,14 @@ class ConsultationAgent:
         self.store = store
         self.llm = llm or build_llm(LLMConfig())
         self.budget = budget or Budget()
-        self.extractor = Extractor(schema, self.llm)
+        self.today = today or date.today().isoformat()
+        self.extractor = Extractor(schema, self.llm, today=date.fromisoformat(self.today))
         self.memo_builder = MemoBuilder(corpus, schema)
         self.verifier = Verifier(corpus)
         self.router = MatterRouter(schema, self.llm)
         self.issues = IssueTree(schema)
         self.composer = QuestionComposer(self.llm)
         self.knowledge = knowledge or KnowledgeBase()
-        self.today = today or date.today().isoformat()
         self.voi = ScenarioVOI(self.today)
         self.use_gate = use_gate
         self.use_verify = use_verify
@@ -144,6 +144,7 @@ class ConsultationAgent:
 
         # 1) intake -------------------------------------------------------
         extracted = self.extractor.extract(text, state.values(), state.claims)
+        trace.append({"node": "fact_extraction", "source": self.extractor.last_source})
         changed: list[str] = []
         conflicts: list[dict] = []
         for key, value in extracted["facts"].items():
@@ -205,13 +206,17 @@ class ConsultationAgent:
                     trace.append({"node": "voi", "scores": {
                         k: v.to_dict() for k, v in voi_scores.items()}})
                 asked_now = self.issues.next_questions(
-                    state.claims, facts, n=2, ask_counts=state.ask_counts,
+                    state.claims, facts, n=min(2, self.budget.max_questions - len(state.asked)), ask_counts=state.ask_counts,
                     precisions=precisions, voi=voi_scores)
                 # If every remaining critical question is outcome-neutral and
                 # no "must ask" fact is left, stop and answer with gaps.
                 must_ask = {"claim_type", "start_date", "monthly_wage",
                             "dismiss_date", "injury_date", "wage_owed",
-                            "wage_period", "no_contract_months", "overtime_exists"}
+                            "wage_period", "no_contract_months", "overtime_exists",
+                            # Procedural facts change available steps and deadlines,
+                            # even when the monetary scenario signature is unchanged.
+                            "arbitration_date", "arbitration_result", "court_filed",
+                            "deadline_aware"}
                 remaining_keys = {q.key for q in frontier}
                 if (self.use_voi and voi_scores
                         and len(voi_scores) >= len(frontier)
@@ -351,7 +356,9 @@ class ConsultationAgent:
                                 + "），可能影响时效与年限计算。")
 
         # 4) verify + bounded repair -------------------------------------
-        verification = self.verifier.verify(analysis, state)
+        verification = (self.verifier.verify(analysis, state) if self.use_verify else
+                        {"checked": 0, "supported": 0, "support_rate": 0.0,
+                         "defects": [], "skipped": True})
         if self.use_verify and verification["defects"] and self.use_repair:
             repaired = self._repair(analysis, verification, state)
             if repaired:
@@ -359,7 +366,8 @@ class ConsultationAgent:
                 trace.append({"node": "repair", "applied": repaired,
                               "defects_left": len(verification["defects"])})
         trace.append({"node": "verify", "support_rate": verification["support_rate"],
-                      "defects": verification["defects"]})
+                      "defects": verification["defects"],
+                      "skipped": not self.use_verify})
 
         # 5) memo ---------------------------------------------------------
         llm_note = self._llm_note(analysis) if self.llm.enabled else None

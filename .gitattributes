@@ -1,0 +1,2 @@
+# Python's CSV dialect emits CRLF; allow the carriage return at line endings.
+*.csv whitespace=cr-at-eol

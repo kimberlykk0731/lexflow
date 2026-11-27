@@ -35,3 +35,10 @@ _report.html
 # 演示用的完整 run（可由 demo 脚本重跑）
 runs/demo/topic_baseline/
 runs/demo/topic_extended/
+
+# Bench v2 full transcripts are delivered separately; keep code reviews small.
+runs/bench_v2/**/trajectories/
+
+# Local delivery copies and interrupted evaluation iterations
+LexFlow_Bench_v2_*/
+runs/bench_v2/*_iteration*/

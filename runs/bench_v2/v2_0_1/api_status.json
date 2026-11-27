@@ -1,0 +1,7 @@
+{
+  "configured_api_key": false,
+  "authenticated_model_evaluation": "not_run",
+  "default_endpoint_http_without_credentials": 401,
+  "mock_sessions_main": 312,
+  "human_review_status": "pending"
+}

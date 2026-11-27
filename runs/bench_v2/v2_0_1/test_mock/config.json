@@ -1,0 +1,24 @@
+{
+  "llm_mode": "mock",
+  "model": "mock",
+  "api_host": null,
+  "today": "2026-11-27",
+  "dataset_sha256": "85a0af410c697b54cfe09c4f97f59da4cac436b1312c2dd1560b33e2f9263296",
+  "corpus_version": "945c2b0291e4d6bc",
+  "split": "test",
+  "repeats": 3,
+  "conditions": [
+    "answer_first",
+    "gate_only",
+    "full",
+    "full_no_voi"
+  ],
+  "max_turns_per_phase": 12,
+  "max_questions_total": 14,
+  "bootstrap_seed": 20261127,
+  "bootstrap_samples": 2000,
+  "human_reviewed": 0,
+  "source_tree_sha256": "f82519db53b8a0fb7504f3bf983e73b4dd0cfcf498f9602ed272c76db5143c6f",
+  "source_commit": "f8db186b0bc597b1c7eab64b3094cd70103190fc",
+  "source_dirty": true
+}
